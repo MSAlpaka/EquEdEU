@@ -1,0 +1,23 @@
+{
+  "project": "EquEdEU",
+  "type": "monorepo",
+  "languages": ["php", "yaml", "json", "markdown"],
+  "frameworks": ["typo3"],
+  "description": "Central monorepo for the EquEd platform including all extensions and services.",
+  "modules": [
+    "equed-core",
+    "equed-lms",
+    "equed-cert",
+    "equed-qms",
+    "equed-app",
+    "equed-center",
+    "equed-instructor",
+    "equed-admin"
+  ],
+  "goals": [
+    "Ensure consistency across all extensions",
+    "Respect all project decisions and the project plan",
+    "Maintain full compatibility with Codex and TYPO3 13",
+    "Enable future SSO, App & API integration"
+  ]
+}
