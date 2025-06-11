@@ -1,0 +1,57 @@
+# Doctrine schema for DocumentUpload domain model
+
+tx_equedcore_domain_model_documentupload:
+  columns:
+    uid:
+      type: integer
+      unsigned: true
+      notnull: true
+      autoincrement: true
+    pid:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    tstamp:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    crdate:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    deleted:
+      type: boolean
+      notnull: true
+      default: false
+    hidden:
+      type: boolean
+      notnull: true
+      default: false
+    file_reference:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    uploaded_by:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    upload_date:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    is_certified:
+      type: boolean
+      notnull: true
+      default: false
+  primaryKey:
+    - uid
+  indexes:
+    uploaded_by:
+      columns:
+        - uploaded_by

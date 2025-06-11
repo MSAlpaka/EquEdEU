@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages">
+    <body>
+      <trans-unit id="tx_equedcore_domain_model_country">
+        <source>Country</source>
+        <target>Nchi</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.country_iso">
+        <source>Country ISO</source>
+        <target>Msimbo wa nchi (ISO)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.name_en">
+        <source>Name (English)</source>
+        <target>Jina (Kiingereza)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.name_de">
+        <source>Name (German)</source>
+        <target>Jina (Kijerumani)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload">
+        <source>Document Upload</source>
+        <target>Upakiaji wa hati</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.file_reference">
+        <source>File</source>
+        <target>Faili</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.uploaded_by">
+        <source>Uploaded by</source>
+        <target>Ameweka nani</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.upload_date">
+        <source>Upload date</source>
+        <target>Tarehe ya kupakia</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.is_certified">
+        <source>Certified</source>
+        <target>Imethibitishwa</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate">
+        <source>External Certificate</source>
+        <target>Cheti cha nje</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.certificate_number">
+        <source>Certificate number</source>
+        <target>Nambari ya cheti</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.issued_by">
+        <source>Issued by</source>
+        <target>Kimetoa nani</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.issue_date">
+        <source>Issue date</source>
+        <target>Tarehe ya kutolewa</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.related_document">
+        <source>Related document</source>
+        <target>Hati husika</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.is_valid">
+        <source>Valid</source>
+        <target>Halali</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language">
+        <source>Language</source>
+        <target>Lugha</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.language_iso">
+        <source>Language ISO</source>
+        <target>Sprachcode (ISO)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.label_en">
+        <source>Label (English)</source>
+        <target>Lebo (Kiingereza)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.label_de">
+        <source>Label (German)</source>
+        <target>Lebo (Kijerumani)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta">
+        <source>User meta</source>
+        <target>Meta ya mtumiaji</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.user_id">
+        <source>User</source>
+        <target>Mtumiaji</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.meta_key">
+        <source>Meta key</source>
+        <target>Ufunguo wa meta</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.meta_value">
+        <source>Meta value</source>
+        <target>Thamani ya meta</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.last_updated_date">
+        <source>Last updated</source>
+        <target>Mara ya mwisho kusasishwa</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog">
+        <source>Audit log</source>
+        <target>Rekodi ya ukaguzi</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.action">
+        <source>Action</source>
+        <target>Hatua</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.user_id">
+        <source>User</source>
+        <target>Mtumiaji</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.ip_address">
+        <source>IP address</source>
+        <target>Anwani ya IP</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.uuid">
+        <source>UUID</source>
+        <target>UUID</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.user_hash">
+        <source>User hash</source>
+        <target>Hash ya mtumiaji</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.details">
+        <source>Details</source>
+        <target>Maelezo</target>
+      </trans-unit>
+      <trans-unit id="fe_users.instructor_level">
+        <source>Instructor Level</source>
+        <target>Instructor Level</target>
+      </trans-unit>
+      <trans-unit id="dsgvo_notice">
+        <source>This document contains no sensitive data. Verifiable via QR.</source>
+        <target>Hati hii haina data nyeti. Inaweza kuthibitishwa kwa QR.</target>
+      </trans-unit>
+      <trans-unit id="documentupload.list">
+        <source>Document Uploads</source>
+        <target>Upakiaji wa nyaraka</target>
+      </trans-unit>
+      <trans-unit id="documentupload.show.title">
+        <source>Document Upload</source>
+        <target>Upakiaji wa nyaraka</target>
+      </trans-unit>
+      <trans-unit id="documentupload.edit.title">
+        <source>Edit Document Upload</source>
+        <target>Hariri upakiaji wa nyaraka</target>
+      </trans-unit>
+      <trans-unit id="documentupload.new.title">
+        <source>New Document Upload</source>
+        <target>Upakiaji mpya wa nyaraka</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.update">
+        <source>Update</source>
+        <target>Sasisha</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.create">
+        <source>Create</source>
+        <target>Unda</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.edit">
+        <source>Edit</source>
+        <target>Hariri</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.delete">
+        <source>Delete</source>
+        <target>Futa</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.new">
+        <source>New</source>
+        <target>Mpya</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.backToList">
+        <source>Back to list</source>
+        <target>Rudi kwenye orodha</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.file_reference">
+        <source>File</source>
+        <target>Faili</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.uploaded_by">
+        <source>Uploaded by</source>
+        <target>Imewekwa na</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.upload_date">
+        <source>Upload date</source>
+        <target>Tarehe ya kupakia</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified">
+        <source>Certified</source>
+        <target>Imethibitishwa</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified.yes">
+        <source>Yes</source>
+        <target>Ndiyo</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified.no">
+        <source>No</source>
+        <target>Hapana</target>
+      </trans-unit>
+      <trans-unit id="documentupload.confirm.delete">
+        <source>Are you sure you want to delete this entry?</source>
+        <target>Una uhakika unataka kufuta kipengee hiki?</target>
+      </trans-unit>
+      <trans-unit id="documentupload.created">
+        <source>Created the document.</source>
+        <target>Nyaraka zimeundwa.</target>
+      </trans-unit>
+      <trans-unit id="documentupload.updated">
+        <source>Updated the document.</source>
+        <target>Nyaraka zimesasishwa.</target>
+      </trans-unit>
+      <trans-unit id="documentupload.deleted">
+        <source>Deleted the document.</source>
+        <target>Nyaraka zimefutwa.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

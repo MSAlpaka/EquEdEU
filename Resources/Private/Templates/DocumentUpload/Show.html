@@ -1,0 +1,24 @@
+<f:layout name="Default" />
+<f:section name="main">
+  <h1><f:translate key="documentupload.show.title" /></h1>
+  <dl>
+    <dt><f:translate key="documentupload.field.file_reference" /></dt>
+    <dd>{documentUpload.fileReference.uid}</dd>
+    <dt><f:translate key="documentupload.field.uploaded_by" /></dt>
+    <dd>{documentUpload.uploadedBy.username}</dd>
+    <dt><f:translate key="documentupload.field.upload_date" /></dt>
+    <dd>{documentUpload.uploadDate -> f:format.date(format: 'd.m.Y H:i')}</dd>
+    <dt><f:translate key="documentupload.field.is_certified" /></dt>
+    <dd>
+      <f:if condition="{documentUpload.isCertified}">
+        <f:translate key="documentupload.field.is_certified.yes" />
+      <f:else>
+        <f:translate key="documentupload.field.is_certified.no" />
+      </f:else>
+      </f:if>
+    </dd>
+  </dl>
+  <f:link.action action="list" class="btn btn-secondary">
+    <f:translate key="documentupload.action.backToList" />
+  </f:link.action>
+</f:section>

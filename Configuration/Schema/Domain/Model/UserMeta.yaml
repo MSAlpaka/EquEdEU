@@ -1,0 +1,56 @@
+# Doctrine schema for UserMeta domain model
+
+tx_equedcore_domain_model_usermeta:
+  columns:
+    uid:
+      type: integer
+      unsigned: true
+      notnull: true
+      autoincrement: true
+    pid:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    tstamp:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    crdate:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    deleted:
+      type: boolean
+      notnull: true
+      default: false
+    hidden:
+      type: boolean
+      notnull: true
+      default: false
+    user_id:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    meta_key:
+      type: string
+      length: 255
+      notnull: true
+      default: ''
+    meta_value:
+      type: text
+      notnull: false
+    last_updated_date:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+  primaryKey:
+    - uid
+  indexes:
+    user_id:
+      columns:
+        - user_id

@@ -1,0 +1,62 @@
+# Doctrine schema for ExternalCertificate domain model
+
+tx_equedcore_domain_model_externalcertificate:
+  columns:
+    uid:
+      type: integer
+      unsigned: true
+      notnull: true
+      autoincrement: true
+    pid:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    tstamp:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    crdate:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    deleted:
+      type: boolean
+      notnull: true
+      default: false
+    hidden:
+      type: boolean
+      notnull: true
+      default: false
+    certificate_number:
+      type: string
+      length: 64
+      notnull: true
+      default: ''
+    issued_by:
+      type: string
+      length: 255
+      notnull: true
+      default: ''
+    issue_date:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    related_document:
+      type: integer
+      unsigned: true
+      notnull: false
+      default: 0
+    is_valid:
+      type: boolean
+      notnull: true
+      default: false
+  primaryKey:
+    - uid
+  indexes:
+    certificate_number:
+      columns:
+        - certificate_number
