@@ -1,0 +1,18 @@
+# Standard Ignoriertes
+*.log
+*.tmp
+.DS_Store
+.env
+.env.*
+vendor/
+node_modules/
+
+# IDEs & Editoren
+.idea/
+.vscode/
+*.swp
+
+# PHPUnit / Infection
+.phpunit.result.cache
+infection.log
+coverage/
