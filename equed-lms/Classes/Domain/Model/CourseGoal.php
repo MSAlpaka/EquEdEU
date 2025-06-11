@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
+use DateTimeImmutable;
+use Equed\Core\Service\ClockInterface;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -13,6 +16,9 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class CourseGoal extends AbstractEntity
 {
+    #[Inject]
+    protected ClockInterface $clock;
+
     protected string $title = '';
 
     protected string $description = '';
@@ -47,9 +53,22 @@ final class CourseGoal extends AbstractEntity
 
     protected string $uuid = '';
 
-    protected string $createdAt = '';
+    protected DateTimeImmutable $createdAt;
 
-    protected string $updatedAt = '';
+    protected DateTimeImmutable $updatedAt;
+
+    public function initializeObject(): void
+    {
+        $now = $this->clock->now();
+
+        if (!isset($this->createdAt)) {
+            $this->createdAt = $now;
+        }
+
+        if (!isset($this->updatedAt)) {
+            $this->updatedAt = $now;
+        }
+    }
 
     public function getTitle(): string
     {
@@ -221,22 +240,22 @@ final class CourseGoal extends AbstractEntity
         $this->uuid = $uuid;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(string $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(string $updatedAt): void
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

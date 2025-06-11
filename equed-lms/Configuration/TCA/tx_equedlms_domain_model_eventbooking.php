@@ -54,7 +54,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventbooking.confirmation_datetime',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ],
         'cancelled_reason' => [
@@ -85,7 +85,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventbooking.created_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ],
         'updated_at' => [
@@ -93,7 +93,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventbooking.updated_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ]
     ],

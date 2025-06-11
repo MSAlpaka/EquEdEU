@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
+use DateTimeImmutable;
+use Equed\Core\Service\ClockInterface;
+use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -13,6 +16,9 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class EventBooking extends AbstractEntity
 {
+    #[Inject]
+    protected ClockInterface $clock;
+
     protected int $user = 0;
 
     protected int $eventSchedule = 0;
@@ -23,7 +29,7 @@ final class EventBooking extends AbstractEntity
 
     protected bool $confirmedByInstructor = false;
 
-    protected string $confirmationDatetime = '';
+    protected ?DateTimeImmutable $confirmationDatetime = null;
 
     protected string $cancelledReason = '';
 
@@ -31,9 +37,22 @@ final class EventBooking extends AbstractEntity
 
     protected string $uuid = '';
 
-    protected string $createdAt = '';
+    protected DateTimeImmutable $createdAt;
 
-    protected string $updatedAt = '';
+    protected DateTimeImmutable $updatedAt;
+
+    public function initializeObject(): void
+    {
+        $now = $this->clock->now();
+
+        if (!isset($this->createdAt)) {
+            $this->createdAt = $now;
+        }
+
+        if (!isset($this->updatedAt)) {
+            $this->updatedAt = $now;
+        }
+    }
 
     public function getUser(): int
     {
@@ -85,12 +104,12 @@ final class EventBooking extends AbstractEntity
         $this->confirmedByInstructor = $confirmedByInstructor;
     }
 
-    public function getConfirmationDatetime(): string
+    public function getConfirmationDatetime(): ?DateTimeImmutable
     {
         return $this->confirmationDatetime;
     }
 
-    public function setConfirmationDatetime(string $confirmationDatetime): void
+    public function setConfirmationDatetime(?DateTimeImmutable $confirmationDatetime): void
     {
         $this->confirmationDatetime = $confirmationDatetime;
     }
@@ -125,22 +144,22 @@ final class EventBooking extends AbstractEntity
         $this->uuid = $uuid;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(string $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(string $updatedAt): void
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
