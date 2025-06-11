@@ -1,0 +1,16 @@
+table: tx_equedlms_domain_model_auditlog
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  action_type:
+    type: integer
+  target_table:
+    type: string
+  target_uid:
+    type: integer
+  context_data:
+    type: text
+  fe_user:
+    type: integer

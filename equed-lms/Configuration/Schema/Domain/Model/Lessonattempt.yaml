@@ -1,0 +1,36 @@
+table: tx_equedlms_domain_model_lessonattempt
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  lesson_quiz:
+    type: integer
+  frontend_user:
+    type: integer
+  attempt_number:
+    type: string
+  score_percent:
+    type: string
+  score_raw:
+    type: string
+  max_points:
+    type: string
+  passed:
+    type: boolean
+  start_time:
+    type: string
+  end_time:
+    type: string
+  duration_sec:
+    type: string
+  attempt_status:
+    type: integer
+  graded_by:
+    type: integer
+  feedback:
+    type: text
+  qms_flagged:
+    type: boolean
+  answers:
+    type: string

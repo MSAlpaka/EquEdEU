@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+         verbose="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         failOnRisky="true">
+
+    <testsuites>
+        <testsuite name="unit">
+            <directory>./Tests/Unit/Domain/Model</directory>
+            <directory>./Tests/Unit/Domain/Enum</directory>
+            <file>./Tests/Unit/Service/LogServiceTest.php</file>
+            <file>./Tests/Unit/Service/GptTranslationServiceTest.php</file>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>./Tests/Functional/</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="display_errors" value="1"/>
+        <server name="TYPO3_TEST_WEBSERVER_REQUESTS" value="1"/>
+        <server name="TYPO3_PATH_ROOT" value="."/>
+        <server name="TYPO3_PATH_APP" value="."/>
+        <server name="TYPO3_CONTEXT" value="Testing"/>
+    </php>
+
+    <listeners>
+        <listener class="TYPO3\CMS\Core\Test\EventListener\TestEnvironmentActivationListener"/>
+    </listeners>
+
+</phpunit>

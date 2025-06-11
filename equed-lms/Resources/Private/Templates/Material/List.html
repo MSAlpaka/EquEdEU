@@ -1,0 +1,55 @@
+<f:section name="Content">
+  <section class="material-overview" role="region" aria-labelledby="materialsTitle">
+    <h2 id="materialsTitle"><f:translate key="material.title" default="Materials" /></h2>
+
+    <form class="material-filter" role="search" aria-label="{f:translate(key: 'material.filter.label')}">
+      <label for="material-type"><f:translate key="material.filter.select" default="Select Material Type" /></label>
+      <select id="material-type" onchange="filterMaterials()" aria-describedby="material-type-help">
+        <option value="pdf">PDF</option>
+        <option value="video">Video</option>
+      </select>
+      <span id="material-type-help" class="sr-only">
+        <f:translate key="material.filter.help" default="Select the type of material you want to see." />
+      </span>
+    </form>
+
+    <div id="materials-list" role="list">
+      <f:for each="{materials}" as="material">
+        <article class="material-item" role="listitem">
+          <h3>{material.title}</h3>
+          <p>{material.description}</p>
+          <a href="{material.file_url}" download
+             aria-label="{f:translate(key: 'material.download')} {material.title}">
+            <f:translate key="material.download" default="Download" />
+          </a>
+        </article>
+      </f:for>
+    </div>
+
+    <script>
+      function filterMaterials() {
+        const type = document.getElementById('material-type').value;
+        fetch('/api/app/materials?type=' + type)
+          .then(response => response.json())
+          .then(data => {
+            const materialsList = document.getElementById('materials-list');
+            materialsList.innerHTML = '';
+            data.materials.forEach(material => {
+              const materialItem = document.createElement('article');
+              materialItem.classList.add('material-item');
+              materialItem.setAttribute('role', 'listitem');
+              materialItem.innerHTML = `
+                <h3>${material.title}</h3>
+                <p>${material.description}</p>
+                <a href="${material.file_url}" download aria-label="Download ${material.title}">
+                  Download
+                </a>`;
+              materialsList.appendChild(materialItem);
+            });
+          });
+      }
+
+      filterMaterials(); // Initial load
+    </script>
+  </section>
+</f:section>

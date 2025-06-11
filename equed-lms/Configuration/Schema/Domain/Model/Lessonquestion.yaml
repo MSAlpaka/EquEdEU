@@ -1,0 +1,22 @@
+table: tx_equedlms_domain_model_lessonquestion
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  lesson_quiz:
+    type: integer
+  question_text:
+    type: text
+  question_type:
+    type: string
+  points:
+    type: string
+  order_number:
+    type: integer
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
+  uuid:
+    type: string

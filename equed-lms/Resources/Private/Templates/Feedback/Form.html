@@ -1,0 +1,61 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+
+  <h2 id="feedbackFormHeading"><f:translate key="feedback.form.title" /></h2>
+
+  <f:form action="create" name="feedbackEntry" object="{feedbackEntry}" aria-labelledby="feedbackFormHeading">
+
+    <f:form.hidden name="courseInstance" value="{feedbackEntry.courseInstance}" />
+
+    <fieldset>
+      <legend><f:translate key="feedback.form.general" /></legend>
+
+      <div class="form-group">
+        <f:form.checkbox property="instructorFeedback" id="instructorFeedback" />
+        <label for="instructorFeedback"><f:translate key="feedback.form.instructorFeedback" /></label>
+      </div>
+
+      <div class="form-group">
+        <f:form.checkbox property="courseStandardMet" id="courseStandardMet" />
+        <label for="courseStandardMet"><f:translate key="feedback.form.courseStandardMet" /></label>
+      </div>
+
+      <div class="form-group">
+        <f:form.checkbox property="wantsMoreCourses" id="wantsMoreCourses" />
+        <label for="wantsMoreCourses"><f:translate key="feedback.form.wantsMoreCourses" /></label>
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <label for="requestedTopics"><f:translate key="feedback.form.requestedTopics" /></label>
+      <f:form.textarea property="requestedTopics" id="requestedTopics" rows="3" cols="40" aria-describedby="requestedTopicsHelp" />
+      <small id="requestedTopicsHelp"><f:translate key="feedback.form.requestedTopics.help" /></small>
+    </div>
+
+    <div class="form-group">
+      <label for="openFeedback"><f:translate key="feedback.form.openFeedback" /></label>
+      <f:form.textarea property="openFeedback" id="openFeedback" rows="5" cols="60" aria-describedby="openFeedbackHelp" />
+      <small id="openFeedbackHelp"><f:translate key="feedback.form.openFeedback.help" /></small>
+    </div>
+
+    <div class="form-group">
+      <label for="instructorRating"><f:translate key="feedback.form.instructorRating" /></label>
+      <f:form.textfield property="instructorRating" id="instructorRating" type="number" step="0.1" min="1" max="5" />
+    </div>
+
+    <div class="form-group">
+      <label for="locationRating"><f:translate key="feedback.form.locationRating" /></label>
+      <f:form.textfield property="locationRating" id="locationRating" type="number" step="0.1" min="1" max="5" />
+    </div>
+
+    <div class="form-group">
+      <label for="eligibleFutureCourses"><f:translate key="feedback.form.eligibleFutureCourses" /></label>
+      <f:form.textarea property="eligibleFutureCourses" id="eligibleFutureCourses" rows="2" cols="60" />
+    </div>
+
+    <f:form.submit value="{f:translate(key: 'feedback.form.submit')}" aria-label="{f:translate(key: 'feedback.form.submit')}" />
+
+  </f:form>
+
+</f:section>

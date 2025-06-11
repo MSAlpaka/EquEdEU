@@ -1,0 +1,22 @@
+table: tx_equedlms_domain_model_submissionreview
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  submission:
+    type: integer
+  reviewed_by:
+    type: integer
+  status:
+    type: integer
+  comment:
+    type: text
+  evaluation_document:
+    type: integer
+  visible_for_user:
+    type: boolean
+  was_generated_by_gpt:
+    type: boolean
+  lang:
+    type: string

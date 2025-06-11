@@ -1,0 +1,28 @@
+table: tx_equedlms_domain_model_courseexamslot
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  course_instance:
+    type: integer
+  examiner:
+    type: integer
+  start_date_time:
+    type: integer
+  end_date_time:
+    type: integer
+  location:
+    type: string
+  capacity:
+    type: integer
+  registered_count:
+    type: integer
+  is_cancelled:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

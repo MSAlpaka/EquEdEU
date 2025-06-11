@@ -1,0 +1,54 @@
+table: tx_equedlms_domain_model_qmscase
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  origin:
+    type: integer
+  linked_submission:
+    type: integer
+  linked_feedback:
+    type: integer
+  linked_certificate:
+    type: integer
+  related_user:
+    type: integer
+  reported_by:
+    type: integer
+  assigned_to:
+    type: integer
+  linked_course_instance:
+    type: integer
+  status:
+    type: integer
+  priority:
+    type: integer
+  created_at:
+    type: string
+  updated_at:
+    type: string
+  resolved_at:
+    type: string
+  resolution_comment:
+    type: text
+  resolution_upload:
+    type: integer
+  escalated:
+    type: boolean
+  escalated_to:
+    type: integer
+  visibility:
+    type: integer
+  tags:
+    type: string
+  notes_json:
+    type: text
+  related_qmscase:
+    type: integer
+  uuid:
+    type: string

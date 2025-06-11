@@ -1,0 +1,32 @@
+table: tx_equedlms_domain_model_recognitionaward
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  badge_image:
+    type: integer
+  requirements_json:
+    type: text
+  min_specialties_required:
+    type: string
+  min_practical_hours:
+    type: string
+  user_relation:
+    type: string
+  is_active:
+    type: boolean
+  is_auto_granted:
+    type: boolean
+  language:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

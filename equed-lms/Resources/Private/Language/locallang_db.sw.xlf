@@ -1,0 +1,475 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xliff version="1.2">
+  <file source-language="en" datatype="plaintext" original="messages" product-name="equed_lms">
+    <body>
+
+      
+      <trans-unit id="tx_equedlms_domain_model_course.title">
+        <source>Course title</source><target>Kichwa cha kozi</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.description">
+        <source>Course description</source><target>Maelezo ya kozi</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.startdate">
+        <source>Start date</source><target>Tarehe ya kuanza</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.enddate">
+        <source>End date</source><target>Tarehe ya mwisho</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.duration">
+        <source>Duration (hours)</source><target>Muda (kwa saa)</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.price">
+        <source>Price</source><target>Bei</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.course_type">
+        <source>Course type</source><target>Aina ya kozi</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.course_type.standard">
+        <source>Standard</source><target>Ya kawaida</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.course_type.specialty">
+        <source>Specialty</source><target>Maalum</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_course.course_type.instructor">
+        <source>Instructor</source><target>Mwalimu</target></trans-unit>
+
+      
+      <trans-unit id="tx_equedlms_domain_model_lesson.title">
+        <source>Lesson title</source><target>Kichwa cha somo</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lesson.description">
+        <source>Lesson description</source><target>Maelezo ya somo</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lesson.duration">
+        <source>Estimated duration</source><target>Muda unaokadiriwa</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lesson.material">
+        <source>Associated materials</source><target>Nyenzo zinazohusiana</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lesson.course">
+        <source>Parent course</source><target>Kozi inayohusiana</target></trans-unit>
+
+      
+      <trans-unit id="tx_equedlms_domain_model_submission.title">
+        <source>Submission title</source><target>Kichwa cha kazi iliyowasilishwa</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.description">
+        <source>Submission notes</source><target>Maelezo ya kazi</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.file">
+        <source>Upload file</source><target>Pakia faili</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.user">
+        <source>Submitted by</source><target>Imewasilishwa na</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.lesson">
+        <source>Associated lesson</source><target>Somo linalohusiana</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.created_at">
+        <source>Submission date</source><target>Tarehe ya kuwasilisha</target></trans-unit>
+
+      
+      <trans-unit id="tx_equedlms_domain_model_material.title">
+        <source>Material title</source><target>Kichwa cha nyenzo</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_material.file">
+        <source>File</source><target>Faili</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_material.type">
+        <source>Type of material</source><target>Aina ya nyenzo</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_learningpath.title">
+        <source>Learning path title</source><target>Kichwa cha njia ya kujifunza</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_learningpath.description">
+        <source>Learning path description</source><target>Maelezo ya njia ya kujifunza</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_learningpath.level">
+        <source>EQF level</source><target>Kiwango cha EQF</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_learningpath.courses">
+        <source>Courses</source><target>Kozi</target></trans-unit>
+
+      
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.term">
+        <source>Term</source><target>Neno</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.definition_simple">
+        <source>Simple definition</source><target>Maelezo rahisi</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.definition_expert">
+        <source>Expert definition</source><target>Maelezo ya kitaalamu</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.category">
+        <source>Category</source><target>Kundi</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.category.general">
+        <source>General</source><target>Kwa jumla</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.category.anatomy">
+        <source>Anatomy</source><target>Anatomia</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.category.trimming">
+        <source>Trimming</source><target>Upunguzaji</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.category.ethics">
+        <source>Ethics</source><target>Maadili</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.icon_svg">
+        <source>Symbol (SVG)</source><target>Aikoni (SVG)</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.courses">
+        <source>Related courses</source><target>Kozi zinazohusiana</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_glossaryentry.visible_in_glossary">
+        <source>Visible in glossary</source><target>Onyesha kwenye kamusi</target></trans-unit>
+
+      
+<trans-unit id="plugin.equed_glossary.title">
+  <source>Glossary Viewer (EquEd)</source><target>Onyesho ya kamusi (EquEd)</target></trans-unit>
+<trans-unit id="plugin.equed_glossary.description">
+  <source>Displays the full glossary with filter and definitions</source><target>Inaonyesha kamusi nzima kwa vichujio na maelezo</target></trans-unit>
+<trans-unit id="glossary.title">
+  <source>Glossary</source><target>Kamusi</target></trans-unit>
+<trans-unit id="glossary.search">
+  <source>Search</source><target>Tafuta</target></trans-unit>
+<trans-unit id="glossary.category">
+  <source>Category</source><target>Kategoria</target></trans-unit>
+<trans-unit id="glossary.viewmode">
+  <source>View mode</source><target>Mtazamo</target></trans-unit>
+<trans-unit id="glossary.filter">
+  <source>Filter</source><target>Chuja</target></trans-unit>
+<trans-unit id="glossary.noresults">
+  <source>No entries found</source><target>Hakuna matokeo</target></trans-unit>
+<trans-unit id="glossary.related_courses">
+  <source>Related Courses</source><target>Kozi zinazohusiana</target></trans-unit>
+<trans-unit id="plugin.equed_course.title">
+  <source>Course Viewer (EquEd)</source><target>Onyesho ya kozi (EquEd)</target></trans-unit>
+<trans-unit id="plugin.equed_course.description">
+  <source>Displays a selected course with lessons and progress</source><target>Inaonyesha kozi teuliwa na maendeleo</target></trans-unit>
+<trans-unit id="course.lessons">
+  <source>Lessons</source><target>Somo</target></trans-unit>
+<trans-unit id="course.progress">
+  <source>Your Progress</source><target>Maendeleo yako</target></trans-unit>
+<trans-unit id="course.notfound">
+  <source>Course not found</source><target>Kozi haikupatikana</target></trans-unit>
+<trans-unit id="course.level">
+  <source>Level</source><target>Kiwango</target></trans-unit>
+<trans-unit id="course.duration">
+  <source>Duration</source><target>Muda</target></trans-unit>
+<trans-unit id="course.completed">
+  <source>Course completed – well done!</source><target>Kozi imekamilika – kazi nzuri!</target></trans-unit>
+<trans-unit id="flexform.course">
+  <source>Select course</source><target>Chagua kozi</target></trans-unit>
+<trans-unit id="feedback.form.title">
+  <source>Course Feedback</source><target>Maoni kuhusu kozi</target></trans-unit>
+<trans-unit id="feedback.form.instructorFeedback">
+  <source>My feedback may be viewed by the instructor.</source><target>Maoni yangu yanaweza kuonekana na mkufunzi.</target></trans-unit>
+<trans-unit id="feedback.form.courseStandardMet">
+  <source>The course standards were met.</source><target>Viwango vya kozi vilitimizwa.</target></trans-unit>
+<trans-unit id="feedback.form.wantsMoreCourses">
+  <source>I would like to attend further courses.</source><target>Ningependa kuchukua kozi zaidi.</target></trans-unit>
+<trans-unit id="feedback.form.requestedTopics">
+  <source>Requested topics</source><target>Mada unazopendelea</target></trans-unit>
+<trans-unit id="feedback.form.openFeedback">
+  <source>Open feedback</source><target>Maoni ya wazi</target></trans-unit>
+<trans-unit id="feedback.form.instructorRating">
+  <source>Instructor rating (1–5)</source><target>Ukadiriaji wa mkufunzi (1–5)</target></trans-unit>
+<trans-unit id="feedback.form.locationRating">
+  <source>Training location rating (1–5)</source><target>Ukadiriaji wa eneo (1–5)</target></trans-unit>
+<trans-unit id="feedback.form.eligibleFutureCourses">
+  <source>Potential future courses</source><target>Kozi zinazowezekana baadaye</target></trans-unit>
+<trans-unit id="feedback.form.submit">
+  <source>Submit</source><target>Tuma</target></trans-unit>
+<trans-unit id="feedback.thankyou.title">
+  <source>Thank you!</source><target>Asante!</target></trans-unit>
+<trans-unit id="feedback.thankyou.text">
+  <source>Your feedback has been submitted successfully.</source><target>Maoni yako yamehifadhiwa kikamilifu.</target></trans-unit>
+<trans-unit id="feedback.show.title">
+  <source>Individual Feedback</source><target>Maoni binafsi</target></trans-unit>
+<trans-unit id="feedback.field.instructorFeedback">
+  <source>Visible to instructor</source><target>Inaweza kuonekana na mkufunzi</target></trans-unit>
+<trans-unit id="feedback.field.courseStandardMet">
+  <source>Standards met</source><target>Viwango vilitimia</target></trans-unit>
+<trans-unit id="feedback.field.wantsMoreCourses">
+  <source>Wants more courses</source><target>Anataka kozi zaidi</target></trans-unit>
+<trans-unit id="feedback.field.requestedTopics">
+  <source>Requested topics</source><target>Mada zilizopendekezwa</target></trans-unit>
+<trans-unit id="feedback.field.openFeedback">
+  <source>Feedback</source><target>Maoni</target></trans-unit>
+<trans-unit id="feedback.field.instructorRating">
+  <source>Instructor rating</source><target>Ukadiriaji wa mkufunzi</target></trans-unit>
+<trans-unit id="feedback.field.locationRating">
+  <source>Location rating</source><target>Ukadiriaji wa eneo</target></trans-unit>
+<trans-unit id="feedback.field.eligibleFutureCourses">
+  <source>Future courses</source><target>Kozi za baadaye</target></trans-unit>
+<trans-unit id="feedback.field.createdAt">
+  <source>Submitted on</source><target>Imewasilishwa tarehe</target></trans-unit>
+<trans-unit id="feedback.list.title">
+  <source>All feedback for this course</source><target>Maoni yote ya kozi</target></trans-unit>
+<trans-unit id="feedback.list.showlink">
+  <source>View entry</source><target>Angalia binafsi</target></trans-unit>
+
+<trans-unit id="quiz.start.heading">
+  <source>Start Quiz</source><target>Anza Jaribio</target></trans-unit>
+<trans-unit id="quiz.run.heading">
+  <source>Quiz In Progress</source><target>Jaribio linaendelea</target></trans-unit>
+<trans-unit id="quiz.result.heading">
+  <source>Quiz Result</source><target>Matokeo ya jaribio</target></trans-unit>
+
+      <trans-unit id="badge.alt">
+        <source>Badge</source><target>Badge</target></trans-unit>
+      <trans-unit id="badge.awardedOn">
+        <source>Awarded on</source><target>Awarded on</target></trans-unit>
+      <trans-unit id="badge.description">
+        <source>Description</source><target>Description</target></trans-unit>
+      <trans-unit id="badge.image">
+        <source>Badge image</source><target>Badge image</target></trans-unit>
+      <trans-unit id="badge.level">
+        <source>Level</source><target>Level</target></trans-unit>
+      <trans-unit id="badge.title">
+        <source>Badge: {0}</source><target>Badge: {0}</target></trans-unit>
+      <trans-unit id="badge.validUntil">
+        <source>Valid until</source><target>Valid until</target></trans-unit>
+      <trans-unit id="certificate.course">
+        <source>Course</source><target>Course</target></trans-unit>
+      <trans-unit id="certificate.date">
+        <source>Date</source><target>Date</target></trans-unit>
+      <trans-unit id="certificate.details">
+        <source>Certificate Details</source><target>Certificate Details</target></trans-unit>
+      <trans-unit id="certificate.download">
+        <source>Download</source><target>Download</target></trans-unit>
+      <trans-unit id="certificate.footer">
+        <source>Certificate Footer</source><target>Certificate Footer</target></trans-unit>
+      <trans-unit id="certificate.history.title">
+        <source>Certificate History</source><target>Certificate History</target></trans-unit>
+      <trans-unit id="certificate.id">
+        <source>Certificate ID</source><target>Certificate ID</target></trans-unit>
+      <trans-unit id="certificate.index.title">
+        <source>Certificates</source><target>Certificates</target></trans-unit>
+      <trans-unit id="certificate.issued.to">
+        <source>Issued to</source><target>Issued to</target></trans-unit>
+      <trans-unit id="certificate.issuedTo">
+        <source>Issued to</source><target>Issued to</target></trans-unit>
+      <trans-unit id="certificate.number">
+        <source>Certificate Number</source><target>Certificate Number</target></trans-unit>
+      <trans-unit id="certificate.status">
+        <source>Status</source><target>Status</target></trans-unit>
+      <trans-unit id="certificate.title">
+        <source>Certificate</source><target>Certificate</target></trans-unit>
+      <trans-unit id="certificate.verify">
+        <source>Verify</source><target>Verify</target></trans-unit>
+      <trans-unit id="certificate.verify.alt">
+        <source>Verification QR code</source><target>Verification QR code</target></trans-unit>
+      <trans-unit id="certificate.verify.instructions">
+        <source>Scan to verify this certificate</source><target>Scan to verify this certificate</target></trans-unit>
+      <trans-unit id="certificate.verify.link">
+        <source>Verification link</source><target>Verification link</target></trans-unit>
+      <trans-unit id="course.action.start">
+        <source>Start Course</source><target>Start Course</target></trans-unit>
+      <trans-unit id="course.description">
+        <source>Description</source><target>Description</target></trans-unit>
+      <trans-unit id="course.overview.title">
+        <source>Course Overview</source><target>Course Overview</target></trans-unit>
+      <trans-unit id="dashboard.notifications">
+        <source>Notifications</source><target>Notifications</target></trans-unit>
+      <trans-unit id="dashboard.title.participant">
+        <source>Dashboard</source><target>Dashboard</target></trans-unit>
+      <trans-unit id="feedback.comment.label">
+        <source>Comment</source><target>Comment</target></trans-unit>
+      <trans-unit id="feedback.detail.title">
+        <source>Feedback Detail</source><target>Feedback Detail</target></trans-unit>
+      <trans-unit id="feedback.form.general">
+        <source>General Feedback</source><target>General Feedback</target></trans-unit>
+      <trans-unit id="feedback.form.openFeedback.help">
+        <source>Provide any additional feedback</source><target>Provide any additional feedback</target></trans-unit>
+      <trans-unit id="feedback.form.requestedTopics.help">
+        <source>Topics you would like to see</source><target>Topics you would like to see</target></trans-unit>
+      <trans-unit id="feedback.rating.label">
+        <source>Rating</source><target>Rating</target></trans-unit>
+      <trans-unit id="feedback.summary.title">
+        <source>Feedback Summary</source><target>Feedback Summary</target></trans-unit>
+      <trans-unit id="feedback.user.label">
+        <source>User</source><target>User</target></trans-unit>
+      <trans-unit id="glossary.examples">
+        <source>Examples</source><target>Examples</target></trans-unit>
+      <trans-unit id="glossary.filter.submit">
+        <source>Filter</source><target>Filter</target></trans-unit>
+      <trans-unit id="glossary.filter.title">
+        <source>Filter Terms</source><target>Filter Terms</target></trans-unit>
+      <trans-unit id="glossary.mode.expert">
+        <source>Expert</source><target>Expert</target></trans-unit>
+      <trans-unit id="glossary.mode.label">
+        <source>Mode</source><target>Mode</target></trans-unit>
+      <trans-unit id="glossary.mode.simple">
+        <source>Simple</source><target>Simple</target></trans-unit>
+      <trans-unit id="glossary.noneAvailable">
+        <source>No terms available</source><target>No terms available</target></trans-unit>
+      <trans-unit id="glossary.overview.title">
+        <source>Glossary Overview</source><target>Glossary Overview</target></trans-unit>
+      <trans-unit id="glossary.search.label">
+        <source>Search</source><target>Search</target></trans-unit>
+      <trans-unit id="language.code">
+        <source>en</source><target>sw</target></trans-unit>
+      <trans-unit id="lesson.content">
+        <source>Lesson Content</source><target>Lesson Content</target></trans-unit>
+      <trans-unit id="lesson.duration">
+        <source>Duration</source><target>Duration</target></trans-unit>
+      <trans-unit id="lesson.media">
+        <source>Media</source><target>Media</target></trans-unit>
+      <trans-unit id="lesson.navigation">
+        <source>Lesson Navigation</source><target>Lesson Navigation</target></trans-unit>
+      <trans-unit id="lesson.next">
+        <source>Next Lesson</source><target>Next Lesson</target></trans-unit>
+      <trans-unit id="lesson.previous">
+        <source>Previous Lesson</source><target>Previous Lesson</target></trans-unit>
+      <trans-unit id="lesson.type">
+        <source>Type</source><target>Type</target></trans-unit>
+      <trans-unit id="lesson.video.unsupported">
+        <source>Video not supported by your browser</source><target>Video not supported by your browser</target></trans-unit>
+      <trans-unit id="material.download">
+        <source>Download</source><target>Download</target></trans-unit>
+      <trans-unit id="material.filter.help">
+        <source>Choose type of material</source><target>Choose type of material</target></trans-unit>
+      <trans-unit id="material.filter.label">
+        <source>Material Filter</source><target>Material Filter</target></trans-unit>
+      <trans-unit id="material.filter.select">
+        <source>Select type</source><target>Select type</target></trans-unit>
+      <trans-unit id="material.title">
+        <source>Materials</source><target>Materials</target></trans-unit>
+      <trans-unit id="notification.index.title">
+        <source>Notifications</source><target>Notifications</target></trans-unit>
+      <trans-unit id="profile.badges">
+        <source>Your Badges</source><target>Your Badges</target></trans-unit>
+      <trans-unit id="profile.certificates">
+        <source>Your Certificates</source><target>Your Certificates</target></trans-unit>
+      <trans-unit id="profile.heading">
+        <source>Profile</source><target>Profile</target></trans-unit>
+      <trans-unit id="qms.case.date">
+        <source>Date</source><target>Date</target></trans-unit>
+      <trans-unit id="qms.case.description">
+        <source>Description</source><target>Description</target></trans-unit>
+      <trans-unit id="qms.case.responsible">
+        <source>Responsible</source><target>Responsible</target></trans-unit>
+      <trans-unit id="qms.case.status">
+        <source>Status</source><target>Status</target></trans-unit>
+      <trans-unit id="qms.cases.title">
+        <source>QMS Cases</source><target>QMS Cases</target></trans-unit>
+      <trans-unit id="qms.status.open">
+        <source>Open</source><target>Open</target></trans-unit>
+      <trans-unit id="qms.status.in_review">
+        <source>In Review</source><target>In Review</target></trans-unit>
+      <trans-unit id="qms.status.resolved">
+        <source>Resolved</source><target>Resolved</target></trans-unit>
+      <trans-unit id="qms.status.escalated">
+        <source>Escalated</source><target>Escalated</target></trans-unit>
+      <trans-unit id="qms.status.closed">
+        <source>Closed</source><target>Closed</target></trans-unit>
+      <trans-unit id="shared.empty">
+        <source>No content available</source><target>No content available</target></trans-unit>
+      <trans-unit id="shared.error.title">
+        <source>Error</source><target>Error</target></trans-unit>
+      <trans-unit id="shared.message.heading">
+        <source>Message</source><target>Message</target></trans-unit>
+      <trans-unit id="submission.comment">
+        <source>Comment</source><target>Comment</target></trans-unit>
+      <trans-unit id="submission.comment.help">
+        <source>Enter your comment</source><target>Enter your comment</target></trans-unit>
+      <trans-unit id="submission.course">
+        <source>Course</source><target>Course</target></trans-unit>
+      <trans-unit id="submission.date">
+        <source>Date</source><target>Date</target></trans-unit>
+      <trans-unit id="submission.file">
+        <source>File</source><target>File</target></trans-unit>
+      <trans-unit id="submission.file.open">
+        <source>Open File</source><target>Open File</target></trans-unit>
+      <trans-unit id="submission.index.title">
+        <source>Submissions</source><target>Submissions</target></trans-unit>
+      <trans-unit id="submission.review">
+        <source>Review</source><target>Review</target></trans-unit>
+      <trans-unit id="submission.review.title">
+        <source>Submission Review</source><target>Submission Review</target></trans-unit>
+      <trans-unit id="submission.save">
+        <source>Save</source><target>Save</target></trans-unit>
+      <trans-unit id="submission.save.label">
+        <source>Save Submission</source><target>Save Submission</target></trans-unit>
+      <trans-unit id="submission.score">
+        <source>Score</source><target>Score</target></trans-unit>
+      <trans-unit id="submission.score.help">
+        <source>Enter score</source><target>Enter score</target></trans-unit>
+      <trans-unit id="submission.status">
+        <source>Status</source><target>Status</target></trans-unit>
+      <trans-unit id="submission.user">
+        <source>User</source><target>User</target></trans-unit>
+      <trans-unit id="dashboard.courses.label">
+        <source>Courses</source><target>Courses</target></trans-unit>
+      <trans-unit id="dashboard.certificates.label">
+        <source>Certificates</source><target>Certificates</target></trans-unit>
+      <trans-unit id="dashboard.notifications.label">
+        <source>Notifications</source><target>Notifications</target></trans-unit>
+
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.lesson">
+        <source>Lesson</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.user">
+        <source>User</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.progress">
+        <source>Progress</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.completed">
+        <source>Completed</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.status">
+        <source>Status</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.uuid">
+        <source>UUID</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.created_at">
+        <source>Created At</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.updated_at">
+        <source>Updated At</source><target></target></trans-unit>
+
+      <trans-unit id="tx_equedlms_domain_model_standardcheckitem.question_text">
+        <source>Question text</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_standardcheckitem.answers">
+        <source>Answers</source><target></target></trans-unit>
+
+      <trans-unit id="tx_equedlms_domain_model_standardcheckanswer.answer_text">
+        <source>Answer text</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_standardcheckanswer.correct">
+        <source>Correct</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_standardcheckanswer.question">
+        <source>Question</source><target></target></trans-unit>
+
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.fe_user">
+        <source>User</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.course_instance">
+        <source>Course instance</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.enrolled_at">
+        <source>Enrolled at</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.status">
+        <source>Status</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.progress_percent">
+        <source>Progress (%)</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.last_activity">
+        <source>Last activity</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.certifier">
+        <source>Certifier</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.instructor">
+        <source>Instructor</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.certified_at">
+        <source>Certified at</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.certificate_file">
+        <source>Certificate file</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.certificate_code">
+        <source>Certificate code</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.requires_external_examiner">
+        <source>Requires external examiner</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.external_examiner">
+        <source>External examiner</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.validation_required">
+        <source>Validation required</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.validated_by">
+        <source>Validated by</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.validated_at">
+        <source>Validated at</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.qms_flagged">
+        <source>QMS flagged</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.qms_case">
+        <source>QMS case</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.note_internal">
+        <source>Internal note</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.attempts_total">
+        <source>Attempts total</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.recognition_awarded">
+        <source>Recognition awarded</source><target></target></trans-unit>
+
+      <!-- CourseExamSlot -->
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.uuid">
+        <source>UUID</source><target>UUID</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.course_instance">
+        <source>Course instance</source><target>Kursinstans</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.examiner">
+        <source>Examiner</source><target>Examinator</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.start_date_time">
+        <source>Start date and time</source><target>Startdatum och tid</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.end_date_time">
+        <source>End date and time</source><target>Slutdatum och tid</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.location">
+        <source>Location</source><target>Plats</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.capacity">
+        <source>Capacity</source><target>Kapacitet</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.registered_count">
+        <source>Registered count</source><target>Registrerade</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.is_cancelled">
+        <source>Cancelled</source><target>Inställd</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.created_at">
+        <source>Created at</source><target>Skapad</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_courseexamslot.updated_at">
+        <source>Updated at</source><target>Uppdaterad</target></trans-unit>
+    </body>
+  </file>
+</xliff>

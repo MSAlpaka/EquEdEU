@@ -1,0 +1,13 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <section class="certificate-index" role="region" aria-labelledby="certIndexTitle">
+    <h2 id="certIndexTitle">
+      <f:translate key="certificate.index.title" />
+    </h2>
+
+    <f:for each="{certificates}" as="certificate">
+      <f:render partial="Certificate/InfoBlock" arguments="{certificate: certificate}" />
+    </f:for>
+  </section>
+</f:section>

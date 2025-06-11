@@ -1,0 +1,84 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Equed\EquedLms\Service;
+
+use DateTimeImmutable;
+use Equed\EquedLms\Domain\Model\ExamAttempt;
+use Equed\EquedLms\Domain\Repository\ExamAttemptRepositoryInterface;
+use Equed\EquedLms\Factory\ExamAttemptFactoryInterface;
+
+/**
+ * Service to create and manage exam attempts.
+ */
+final class ExamService
+{
+    public function __construct(
+        private readonly ExamAttemptRepositoryInterface  $examAttemptRepository,
+        private readonly ExamAttemptFactoryInterface     $examAttemptFactory
+    ) {
+    }
+
+    /**
+     * Create and persist a new exam attempt.
+     *
+     * @param int $feUserId Frontend user UID
+     * @param int $examTemplateId Exam template UID
+     * @return ExamAttempt Newly created and persisted exam attempt
+     */
+    public function createAttempt(int $feUserId, int $examTemplateId): ExamAttempt
+    {
+        $attempt = $this->examAttemptFactory->createForUserAndTemplate($feUserId, $examTemplateId);
+        $this->examAttemptRepository->add($attempt);
+
+        return $attempt;
+    }
+
+    /**
+     * Mark an exam attempt as scored and persist the change.
+     *
+     * @param ExamAttempt $attempt Exam attempt entity
+     * @param int         $score   Numeric score achieved
+     */
+    public function markAttemptAsScored(ExamAttempt $attempt, int $score): void
+    {
+        if (!$attempt->getScored()) {
+            $attempt->setScored(true);
+            $attempt->setScore($score);
+            $attempt->setEndTime(new DateTimeImmutable());
+
+            $this->examAttemptRepository->update($attempt);
+        }
+    }
+
+    /**
+     * Retrieve all exam attempts for a user and a specific template.
+     *
+     * @param int $feUserId     Frontend user UID
+     * @param int $templateId   Exam template UID
+     * @return ExamAttempt[]    Array of ExamAttempt entities
+     */
+    public function getAttemptsForUser(int $feUserId, int $templateId): array
+    {
+        return $this->examAttemptRepository->findByUserAndTemplate($feUserId, $templateId);
+    }
+
+    /**
+     * Check if the user has a completed (scored) attempt for a specific exam template.
+     *
+     * @param int $feUserId     Frontend user UID
+     * @param int $templateId   Exam template UID
+     * @return bool             True if a scored attempt exists, false otherwise
+     */
+    public function hasCompletedAttempt(int $feUserId, int $templateId): bool
+    {
+        foreach ($this->getAttemptsForUser($feUserId, $templateId) as $attempt) {
+            if ($attempt->getScored() === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

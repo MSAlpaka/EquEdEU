@@ -1,0 +1,28 @@
+table: tx_equedlms_domain_model_observationtemplate
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  course_program:
+    type: integer
+  title:
+    type: string
+  title_key:
+    type: string
+  description:
+    type: text
+  structure:
+    type: text
+  is_active:
+    type: boolean
+  language:
+    type: string
+  is_archived:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

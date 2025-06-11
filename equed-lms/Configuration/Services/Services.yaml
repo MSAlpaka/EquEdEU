@@ -1,0 +1,47 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Equed\EquedLms\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/**'
+
+  # Translation service with fallback logic registered for DI
+  Equed\EquedLms\Service\GptTranslationService:
+    public: true
+
+  # LanguageService now injected with GptTranslationService
+  Equed\EquedLms\Service\LanguageService:
+    arguments:
+      $gptTranslationService: '@Equed\EquedLms\Service\GptTranslationService'
+
+  # Event listener for course completion (PSR-14)
+  Equed\EquedLms\EventListener\CourseCompletedListener:
+    tags:
+      - { name: 'event.listener', identifier: 'equed.course.completed' }
+
+  # Custom validator for lesson submissions
+  Equed\EquedLms\Validation\LessonSubmissionValidator:
+    tags:
+      - { name: 'validation.validator' }
+
+  # Middleware to check submissions before processing
+  Equed\EquedLms\Middleware\SubmissionCheckMiddleware:
+    tags:
+      - { name: 'middleware', priority: 50 }
+
+  # Register Doctrine schema loader
+  Equed\EquedLms\EventListener\SchemaLoader:
+    tags:
+      - { name: 'event.listener' }
+
+  Equed\EquedLms\Domain\Repository\FrontendUserRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\FrontendUserRepository
+
+  Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\UserProfileRepository
+
+  Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\UserBadgeRepository

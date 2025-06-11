@@ -1,0 +1,66 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Equed\EquedLms\Tests\Unit\Service;
+
+use Equed\EquedLms\Domain\Model\CertificateDispatch;
+use Equed\EquedLms\Domain\Model\UserCourseRecord;
+use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
+use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
+use Equed\EquedLms\Service\CertificateService;
+use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Service\NotificationServiceInterface;
+use Equed\EquedLms\Tests\Traits\ProphecyTrait;
+use PHPUnit\Framework\TestCase;
+
+class CertificateServiceTest extends TestCase
+{
+    use ProphecyTrait;
+
+    private CertificateService $subject;
+    private $repository;
+    private $factory;
+    private $translator;
+    private $notifier;
+
+    protected function setUp(): void
+    {
+        $this->repository = $this->prophesize(CertificateDispatchRepository::class);
+        $this->factory = $this->prophesize(CertificateDispatchFactoryInterface::class);
+        $this->translator = $this->prophesize(GptTranslationServiceInterface::class);
+        $this->notifier = $this->prophesize(NotificationServiceInterface::class);
+
+        $this->subject = new CertificateService(
+            $this->repository->reveal(),
+            $this->factory->reveal(),
+            $this->translator->reveal(),
+            $this->notifier->reveal(),
+            'https://example.com'
+        );
+    }
+
+    public function testIssuesNewCertificate(): void
+    {
+        $record = $this->prophesize(UserCourseRecord::class);
+        $dispatch = $this->prophesize(CertificateDispatch::class);
+
+        $this->repository->findByUserCourseRecord($record)->willReturn(null);
+        $this->factory->createFromUserCourseRecord($record, 'pdf', \Prophecy\Argument::type('string'))
+            ->willReturn($dispatch);
+        $this->repository->add($dispatch)->shouldBeCalled();
+
+        $result = $this->subject->issueCertificate($record->reveal());
+        $this->assertSame($dispatch->reveal(), $result);
+    }
+
+    public function testReturnsExistingDispatch(): void
+    {
+        $record = $this->prophesize(UserCourseRecord::class);
+        $existing = $this->prophesize(CertificateDispatch::class);
+        $this->repository->findByUserCourseRecord($record)->willReturn($existing);
+
+        $result = $this->subject->issueCertificate($record->reveal());
+        $this->assertSame($existing->reveal(), $result);
+    }
+}

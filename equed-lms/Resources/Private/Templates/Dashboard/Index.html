@@ -1,0 +1,23 @@
+<f:layout name="Dashboard" />
+
+<f:section name="Content">
+  <section class="dashboard-overview" role="region" aria-labelledby="dashboardHeading">
+    <h2 id="dashboardHeading">
+      <f:translate key="dashboard.title.participant" />
+    </h2>
+
+    <f:render partial="Dashboard/Tile" arguments="{type: 'courses', value: stats.courses}" />
+    <f:render partial="Dashboard/Tile" arguments="{type: 'certificates', value: stats.certificates}" />
+    <f:render partial="Dashboard/Tile" arguments="{type: 'notifications', value: stats.notifications}" />
+  </section>
+
+  <section class="dashboard-notifications" role="region" aria-labelledby="notificationsHeading">
+    <h3 id="notificationsHeading">
+      <f:translate key="dashboard.notifications" />
+    </h3>
+
+    <f:for each="{notifications}" as="note">
+      <f:render partial="Notification/Item" arguments="{type: note.type, message: note.message, date: note.date}" />
+    </f:for>
+  </section>
+</f:section>

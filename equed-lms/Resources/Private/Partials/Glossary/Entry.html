@@ -1,0 +1,27 @@
+<div class="glossary-entry" role="article" aria-labelledby="glossaryTerm_{entry.uid}">
+  <h2 id="glossaryTerm_{entry.uid}">{entry.term}</h2>
+
+  <f:if condition="{entry.iconSvg}">
+    <div class="glossary-icon" aria-hidden="true">
+      <img src="/fileadmin/glossary/{entry.iconSvg}" alt="{entry.term}" />
+    </div>
+  </f:if>
+
+  <div class="glossary-definition">
+    <f:if condition="{mode} == 'simple'">
+      <f:then>{entry.definitionSimple}</f:then>
+      <f:else>{entry.definitionExpert}</f:else>
+    </f:if>
+  </div>
+
+  <f:if condition="{entry.courses}">
+    <div class="glossary-courses">
+      <strong><f:translate key="glossary.related_courses" />:</strong>
+      <ul>
+        <f:for each="{entry.courses}" as="course">
+          <li>{course.title}</li>
+        </f:for>
+      </ul>
+    </div>
+  </f:if>
+</div>

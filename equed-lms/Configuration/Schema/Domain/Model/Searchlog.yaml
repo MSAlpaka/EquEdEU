@@ -1,0 +1,24 @@
+table: tx_equedlms_domain_model_searchlog
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  fe_user:
+    type: integer
+  query:
+    type: string
+  results_found:
+    type: integer
+  context:
+    type: integer
+  ip_hash:
+    type: string
+  user_agent:
+    type: text
+  referer:
+    type: string
+  timestamp:
+    type: string
+  uuid:
+    type: string

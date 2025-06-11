@@ -1,0 +1,28 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <article class="badge-display" role="region" aria-labelledby="badgeHeading_{badge.identifier}">
+
+    <header>
+      <h2 id="badgeHeading_{badge.identifier}">
+        <f:translate key="badge.title" arguments="{0: badge.title}" />
+      </h2>
+      <p>
+        <strong><f:translate key="badge.level" /></strong>: {badge.level}<br />
+        <strong><f:translate key="badge.awardedOn" /></strong>: {badge.awardedDate}<br />
+        <strong><f:translate key="badge.validUntil" /></strong>: {badge.validUntil}
+      </p>
+    </header>
+
+    <section aria-label="{f:translate(key: 'badge.description')}">
+      <p>{badge.description}</p>
+    </section>
+
+    <f:if condition="{badge.image}">
+      <section class="badge-image" aria-label="{f:translate(key: 'badge.image')}">
+        <img src="{badge.image}" alt="{f:translate(key: 'badge.alt')} {badge.title}" />
+      </section>
+    </f:if>
+
+  </article>
+</f:section>

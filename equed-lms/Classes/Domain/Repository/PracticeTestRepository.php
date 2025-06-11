@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Equed\EquedLms\Domain\Repository;
+
+use Equed\EquedLms\Domain\Model\PracticeTest;
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
+/**
+ * Repository for PracticeTest entities.
+ */
+class PracticeTestRepository extends Repository
+{
+    /**
+     * Finds all active practice tests (not marked deleted).
+     *
+     * @return PracticeTest[]
+     */
+    public function findAllActive(): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('deleted', 0)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Finds a practice test by its UID.
+     *
+     * @param int $uid
+     * @return PracticeTest|null
+     */
+    public function findByUid($uid)
+    {
+        return $this->findByIdentifier($uid);
+    }
+}
+// EOF

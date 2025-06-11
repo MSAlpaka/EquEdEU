@@ -1,0 +1,38 @@
+table: tx_equedlms_domain_model_coursebundle
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  title_key:
+    type: string
+  description:
+    type: text
+  description_key:
+    type: string
+  available_from:
+    type: integer
+  hidden:
+    type: boolean
+  price:
+    type: string
+  discount_percentage:
+    type: string
+  is_active:
+    type: boolean
+  is_visible:
+    type: boolean
+  slug:
+    type: string
+  image:
+    type: integer
+  recommended_after:
+    type: integer
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

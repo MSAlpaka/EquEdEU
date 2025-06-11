@@ -1,0 +1,11 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <section class="notifications" role="region" aria-labelledby="notificationsTitle">
+    <h2 id="notificationsTitle"><f:translate key="notification.index.title" /></h2>
+
+    <f:for each="{notifications}" as="note">
+      <f:render partial="Notification/Item" arguments="{type: note.type, message: note.message, date: note.date}" />
+    </f:for>
+  </section>
+</f:section>

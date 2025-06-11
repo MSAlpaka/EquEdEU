@@ -1,0 +1,22 @@
+table: tx_equedlms_domain_model_contentpage
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  title:
+    type: string
+  slug:
+    type: string
+  bodytext:
+    type: text
+  language:
+    type: string
+  published:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

@@ -1,0 +1,32 @@
+table: tx_equedlms_domain_model_certificatetemplate
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  title:
+    type: string
+  title_key:
+    type: string
+  description:
+    type: text
+  course_program:
+    type: integer
+  language:
+    type: string
+  badge_level:
+    type: integer
+  design_type:
+    type: string
+  is_public:
+    type: boolean
+  background_file:
+    type: integer
+  is_archived:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

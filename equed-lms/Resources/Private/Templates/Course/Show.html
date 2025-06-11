@@ -1,0 +1,26 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <article class="course-details" role="region" aria-labelledby="courseTitle_{course.uid}">
+    <h2 id="courseTitle_{course.uid}">{course.title}</h2>
+
+    <p>
+      <span class="sr-only"><f:translate key="course.level" />:</span>
+      {course.level}
+    </p>
+
+    <p>
+      <f:translate key="course.description" />
+    </p>
+
+    <f:render partial="User/ProgressBar" arguments="{percent: course.progress}" />
+
+    <f:link.action action="start"
+                   controller="Lesson"
+                   arguments="{course: course}"
+                   class="btn btn-primary"
+                   aria-label="{f:translate(key: 'course.action.start')} {course.title}">
+      <f:translate key="course.action.start" />
+    </f:link.action>
+  </article>
+</f:section>

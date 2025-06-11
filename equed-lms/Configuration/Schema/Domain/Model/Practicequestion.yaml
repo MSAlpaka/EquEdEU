@@ -1,0 +1,30 @@
+table: tx_equedlms_domain_model_practicequestion
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  practice_test:
+    type: integer
+  question_type:
+    type: integer
+  question_text:
+    type: text
+  image:
+    type: integer
+  answers:
+    type: text
+  correct_answers:
+    type: text
+  explanation:
+    type: text
+  position:
+    type: string
+  language:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

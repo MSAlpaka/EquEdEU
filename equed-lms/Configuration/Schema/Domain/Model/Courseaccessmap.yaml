@@ -1,0 +1,20 @@
+table: tx_equedlms_domain_model_courseaccessmap
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  fe_user:
+    type: integer
+  course_program:
+    type: integer
+  grant_reason:
+    type: string
+  granted_at:
+    type: integer
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

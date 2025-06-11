@@ -1,0 +1,5 @@
+#!/bin/sh
+if ! php-cs-fixer fix --dry-run; then
+    echo 'Please fix PHP CS Fixer issues before committing.'
+    exit 1
+fi

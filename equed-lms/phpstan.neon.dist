@@ -1,0 +1,37 @@
+# phpstan.neon.dist
+includes:
+  - phpstan-baseline.neon
+
+parameters:
+  level: 9
+
+  paths:
+    - Classes
+    - Configuration
+    - ext_localconf.php
+    - ext_tables.php
+
+  excludePaths:
+    analyse:
+      - tests
+      - typo3conf/ext/**/Tests
+      - Classes/ViewHelpers/*
+  bootstrapFiles:
+    - vendor/autoload.php
+    - phpstan-bootstrap.php
+  ignoreErrors:
+    - '#Call to an undefined method TYPO3\\CMS#'
+    - '#processDispatchQueue\(\)#'
+    - '#getInactiveInstructorList\(\)#'
+    - '#getUnreviewedSubmissionsOlderThan\(\)#'
+    - '#Call to an undefined static method TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility::getFileFieldTCAConfig#'
+    - '#Call to an undefined static method TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility::addLLrefForTCAdescr#'
+    - '#Call to an undefined static method TYPO3\\CMS\\Extbase\\Utility\\ExtensionUtility::registerModule#'
+    - '#Class Symfony\\Component\\Dotenv\\Dotenv not found#'
+    - '#Instantiated class Symfony\\Component\\Dotenv\\Dotenv not found#'
+    - '#Call to method usePutenv\(\) on an unknown class Symfony\\Component\\Dotenv\\Dotenv#'
+    - '#Class Equed\\EquedLms\\Controller\\DashboardController not found#'
+    - '#Class Equed\\EquedLms\\Middleware\\ApiAuthenticationMiddleware not found#'
+    - '#Class Equed\\EquedLms\\Task\\CertificateRenewalReminderTask not found#'
+  reportUnmatchedIgnoredErrors: false
+

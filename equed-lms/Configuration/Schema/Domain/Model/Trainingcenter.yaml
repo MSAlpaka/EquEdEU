@@ -1,0 +1,34 @@
+table: tx_equedlms_domain_model_trainingcenter
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  name:
+    type: string
+  center_id:
+    type: string
+  description:
+    type: text
+  address:
+    type: text
+  region:
+    type: string
+  country:
+    type: string
+  contact_email:
+    type: string
+  phone:
+    type: string
+  website:
+    type: string
+  certified_until:
+    type: integer
+  status:
+    type: string
+  allowed_programs:
+    type: string
+  instructors:
+    type: string
+  uuid:
+    type: string

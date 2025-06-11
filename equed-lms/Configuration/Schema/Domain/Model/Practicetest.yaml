@@ -1,0 +1,32 @@
+table: tx_equedlms_domain_model_practicetest
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  course_program:
+    type: integer
+  lesson:
+    type: integer
+  is_active:
+    type: boolean
+  is_mandatory_for_progress:
+    type: boolean
+  estimated_duration:
+    type: string
+  shuffle_questions:
+    type: boolean
+  max_attempts:
+    type: string
+  language:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

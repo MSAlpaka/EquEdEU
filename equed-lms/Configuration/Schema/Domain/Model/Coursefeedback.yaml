@@ -1,0 +1,38 @@
+table: tx_equedlms_domain_model_coursefeedback
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  user_course_record:
+    type: integer
+  submitted_by_user:
+    type: integer
+  rating_instructor:
+    type: integer
+  rating_training_location:
+    type: integer
+  rating_overall:
+    type: integer
+  standard_coverage_confirmed:
+    type: boolean
+  wants_followup_info:
+    type: boolean
+  is_visible_to_instructor:
+    type: boolean
+  is_visible_to_training_center:
+    type: boolean
+  language:
+    type: string
+  comment:
+    type: text
+  course_wishes:
+    type: text
+  status:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

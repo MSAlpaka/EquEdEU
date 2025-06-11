@@ -1,0 +1,18 @@
+table: tx_equedlms_domain_model_submission
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  file:
+    type: string
+  user:
+    type: integer
+  lesson:
+    type: integer
+  created_at:
+    type: integer

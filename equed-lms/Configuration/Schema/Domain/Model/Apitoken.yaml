@@ -1,0 +1,14 @@
+table: tx_equedlms_domain_model_apitoken
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  token:
+    type: string
+  label:
+    type: string
+  expires_at:
+    type: integer
+  revoked:
+    type: boolean

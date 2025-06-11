@@ -1,0 +1,27 @@
+<f:layout name="Certificate/Base" />
+
+<f:section name="Main">
+  <h2><f:translate key="report.feedback.title" /></h2>
+  <p><f:translate key="report.feedback.course" />: {course.title}</p>
+  <p><f:translate key="report.feedback.date" />: {summary.date}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><f:translate key="report.feedback.criteria" /></th>
+        <th><f:translate key="report.feedback.rating" /></th>
+      </tr>
+    </thead>
+    <tbody>
+      <f:for each="{summary.items}" as="item">
+        <tr>
+          <td>{item.label}</td>
+          <td>{item.value}/5</td>
+        </tr>
+      </f:for>
+    </tbody>
+  </table>
+
+  <p><f:translate key="report.feedback.comments" />:</p>
+  <p>{summary.comments}</p>
+</f:section>

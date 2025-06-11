@@ -1,0 +1,17 @@
+<div class="rating-summary" role="region" aria-labelledby="profileRatingSummary">
+  <h3 id="profileRatingSummary">
+    <f:translate key="feedback.rating.title" />
+  </h3>
+
+  <f:render partial="User/ProgressBar" arguments="{percent: rating.percent}" />
+
+  <p>
+    <span class="sr-only"><f:translate key="feedback.rating.average.label" />:</span>
+    {rating.average}/5
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="feedback.rating.count.label" />:</span>
+    {rating.count}
+  </p>
+</div>

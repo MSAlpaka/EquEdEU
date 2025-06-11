@@ -1,0 +1,26 @@
+table: tx_equedlms_domain_model_certificatedesign
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  name:
+    type: string
+  description:
+    type: text
+  template_file:
+    type: string
+  font_family:
+    type: string
+  background_color:
+    type: string
+  text_color:
+    type: string
+  active:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

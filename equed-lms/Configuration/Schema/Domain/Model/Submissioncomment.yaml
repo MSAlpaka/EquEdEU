@@ -1,0 +1,16 @@
+table: tx_equedlms_domain_model_submissioncomment
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  submission:
+    type: integer
+  author:
+    type: integer
+  comment:
+    type: text
+  lang:
+    type: string
+  visible_for_user:
+    type: boolean

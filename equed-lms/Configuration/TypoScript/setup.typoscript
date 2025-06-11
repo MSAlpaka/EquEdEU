@@ -1,0 +1,32 @@
+plugin.tx_equedlms {
+  view {
+    templateRootPaths {
+      0 = EXT:equed_lms/Resources/Private/Templates/
+      10 = EXT:site_package/Resources/Private/Overrides/Templates/
+    }
+    partialRootPaths {
+      0 = EXT:equed_lms/Resources/Private/Partials/
+      10 = EXT:site_package/Resources/Private/Overrides/Partials/
+    }
+    layoutRootPaths {
+      0 = EXT:equed_lms/Resources/Private/Layouts/
+      10 = EXT:site_package/Resources/Private/Overrides/Layouts/
+    }
+  }
+
+  persistence {
+    storagePid = {$plugin.tx_equedlms.persistence.storagePid}
+  }
+
+  features {
+    skipDefaultArguments = 1
+  }
+
+  settings {
+    enableFrontendEditing = {$plugin.tx_equedlms.settings.enableFrontendEditing}
+    defaultLanguage = {$plugin.tx_equedlms.settings.defaultLanguage}
+    courseImageFallback = {$plugin.tx_equedlms.settings.courseImageFallback}
+  }
+}
+
+module.tx_equedlms < plugin.tx_equedlms

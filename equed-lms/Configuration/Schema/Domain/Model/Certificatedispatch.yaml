@@ -1,0 +1,24 @@
+table: tx_equedlms_domain_model_certificatedispatch
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  title:
+    type: string
+  fe_user:
+    type: integer
+  course_instance:
+    type: integer
+  delivery_method:
+    type: string
+  qr_code_url:
+    type: string
+  pdf:
+    type: integer
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

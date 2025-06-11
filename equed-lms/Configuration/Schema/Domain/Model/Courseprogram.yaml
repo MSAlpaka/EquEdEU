@@ -1,0 +1,20 @@
+table: tx_equedlms_domain_model_courseprogram
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  training_center:
+    type: integer
+  badge_icon:
+    type: string
+  requires_external_examiner:
+    type: boolean
+  certifier_must_validate:
+    type: boolean
+  recertification_required:
+    type: boolean
+  recertification_interval_years:
+    type: integer
+  visible_in_catalog:
+    type: boolean

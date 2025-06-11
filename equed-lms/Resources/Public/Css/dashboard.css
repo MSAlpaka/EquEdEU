@@ -1,0 +1,28 @@
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.dashboard-tile {
+  flex: 1 1 30%;
+  min-width: 260px;
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+  color: #000;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.dashboard-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .dashboard-tile {
+    flex: 1 1 100%;
+  }
+}

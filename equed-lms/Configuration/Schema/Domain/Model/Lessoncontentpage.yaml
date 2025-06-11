@@ -1,0 +1,16 @@
+table: tx_equedlms_domain_model_lessoncontentpage
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  lesson:
+    type: integer
+  title_key:
+    type: string
+  content:
+    type: text
+  icon_identifier:
+    type: string
+  visibility_condition:
+    type: string

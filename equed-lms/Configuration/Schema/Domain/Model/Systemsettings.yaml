@@ -1,0 +1,26 @@
+table: tx_equedlms_domain_model_systemsettings
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  setting_key:
+    type: string
+  value:
+    type: text
+  data_type:
+    type: integer
+  description:
+    type: text
+  is_editable:
+    type: boolean
+  is_visible_to_admins:
+    type: boolean
+  group:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

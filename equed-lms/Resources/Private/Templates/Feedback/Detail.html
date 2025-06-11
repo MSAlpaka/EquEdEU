@@ -1,0 +1,24 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <section class="feedback-detail" role="region" aria-labelledby="feedbackHeading">
+    <h2 id="feedbackHeading">
+      <f:translate key="feedback.detail.title" />
+    </h2>
+
+    <p>
+      <span class="sr-only"><f:translate key="feedback.comment.label" />:</span>
+      {feedback.comment}
+    </p>
+
+    <p>
+      <span class="sr-only"><f:translate key="feedback.rating.label" />:</span>
+      {feedback.rating}
+    </p>
+
+    <p>
+      <span class="sr-only"><f:translate key="feedback.user.label" />:</span>
+      {feedback.user}
+    </p>
+  </section>
+</f:section>

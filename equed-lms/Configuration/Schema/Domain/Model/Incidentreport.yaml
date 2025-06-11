@@ -1,0 +1,46 @@
+table: tx_equedlms_domain_model_incidentreport
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  user_course_record:
+    type: integer
+  course_instance:
+    type: integer
+  instructor:
+    type: integer
+  certifier:
+    type: integer
+  reported_user:
+    type: integer
+  incident_type_key:
+    type: string
+  severity_key:
+    type: string
+  status:
+    type: string
+  comment_instructor:
+    type: text
+  comment_service_center:
+    type: text
+  comment_certifier:
+    type: text
+  linked_certificate_number:
+    type: string
+  linked_standard_key:
+    type: string
+  visible_to_instructor:
+    type: boolean
+  visible_to_training_center:
+    type: boolean
+  visible_to_certifier:
+    type: boolean
+  is_archived:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

@@ -1,0 +1,82 @@
+{
+    "name": "equed/equed-lms",
+    "description": "EquEdEU LMS - LMS for Equine Education Europe",
+    "type": "typo3-cms-extension",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+      {
+        "name": "Equine Education Europe",
+        "email": "info@equed.eu",
+        "homepage": "https://equed.eu"
+      }
+    ],
+    "require": {
+      "php": "^8.2",
+      "typo3/cms-core": "^13.4",
+      "symfony/filesystem": "^7.1.6",
+      "typo3/cms-extbase": "^13.4",
+      "typo3/cms-fluid": "^13.4",
+      "typo3/cms-backend": "^13.4",
+      "typo3/cms-frontend": "^13.4",
+      "typo3/cms-rte-ckeditor": "^13.4",
+      "typo3/cms-form": "^13.4",
+      "typo3/cms-recordlist": "^13.4",
+      "typo3/cms-scheduler": "^13.4",
+      "symfony/http-client": "^6.4",
+      "guzzlehttp/guzzle": "^7.8",
+      "ramsey/uuid": "^4.7",
+      "symfony/serializer": "^6.4",
+      "symfony/validator": "^6.4",
+      "symfony/translation": "^6.4",
+      "league/flysystem": "^3.0",
+      "phpoffice/phpspreadsheet": "^1.29",
+      "doctrine/dbal": "^4.2.1",
+      "doctrine/orm": "^3.3",
+      "ext-json": "*",
+      "stripe/stripe-php": "^11.0",
+      "openai-php/client": "^0.7",
+      "firebase/php-jwt": "^6.10"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.50",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpstan/phpstan": "^1.11",
+        "phpunit/phpunit": "^10.5",
+        "squizlabs/php_codesniffer": "^3.7",
+        "typo3/testing-framework": "^8",
+        "vimeo/psalm": "^5.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "Equed\\EquedCore\\": "Classes/",
+        "Equed\\EquedLms\\": "Classes/"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Equed\\EquedLms\\Tests\\": "Tests/"
+      }
+    },
+    "extra": {
+      "typo3/cms": {
+        "extension-key": "equed_lms"
+      }
+    },
+    "scripts": {
+      "cs": "php-cs-fixer fix --config=.php-cs-fixer.php",
+      "lint": "php -l Classes/**/*.php",
+      "phpstan": "phpstan analyse Classes --level=max",
+      "test": "phpunit --colors=always",
+      "psalm": "vendor/bin/psalm"
+    },
+    "config": {
+      "optimize-autoloader": true,
+      "sort-packages": true,
+      "preferred-install": "dist",
+      "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true,
+            "php-http/discovery": true
+        }
+    }
+  }

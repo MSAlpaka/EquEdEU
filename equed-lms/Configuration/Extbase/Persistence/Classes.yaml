@@ -1,0 +1,121 @@
+TYPO3\CMS\Extbase\Persistence\Classes:
+  Equed\EquedLms\Domain\Model\BadgeAward:
+    tableName: tx_equedlms_domain_model_badgeaward
+  Equed\EquedLms\Domain\Model\BadgeDefinition:
+    tableName: tx_equedlms_domain_model_badgedefinition
+  Equed\EquedLms\Domain\Model\CertificateDispatch:
+    tableName: tx_equedlms_domain_model_certificatedispatch
+  Equed\EquedLms\Domain\Model\CertificateTemplate:
+    tableName: tx_equedlms_domain_model_certificatetemplate
+  Equed\EquedLms\Domain\Model\CourseAccessMap:
+    tableName: tx_equedlms_domain_model_courseaccessmap
+  Equed\EquedLms\Domain\Model\CourseBookingRequest:
+    tableName: tx_equedlms_domain_model_coursebookingrequest
+  Equed\EquedLms\Domain\Model\CourseBundle:
+    tableName: tx_equedlms_domain_model_coursebundle
+  Equed\EquedLms\Domain\Model\CourseCertificate:
+    tableName: tx_equedlms_domain_model_coursecertificate
+  Equed\EquedLms\Domain\Model\CourseExamSlot:
+    tableName: tx_equedlms_domain_model_courseexamslot
+  Equed\EquedLms\Domain\Model\CourseFeedback:
+    tableName: tx_equedlms_domain_model_coursefeedback
+  Equed\EquedLms\Domain\Model\CourseInstance:
+    tableName: tx_equedlms_domain_model_courseinstance
+  Equed\EquedLms\Domain\Model\CourseMaterial:
+    tableName: tx_equedlms_domain_model_coursematerial
+  Equed\EquedLms\Domain\Model\Course:
+    tableName: tx_equedlms_domain_model_course
+  Equed\EquedLms\Domain\Model\CourseProgram:
+    tableName: tx_equedlms_domain_model_courseprogram
+  Equed\EquedLms\Domain\Model\ExamAttempt:
+    tableName: tx_equedlms_domain_model_examattempt
+  Equed\EquedLms\Domain\Model\ExamResult:
+    tableName: tx_equedlms_domain_model_examresult
+  Equed\EquedLms\Domain\Model\ExamTemplate:
+    tableName: tx_equedlms_domain_model_examtemplate
+  Equed\EquedLms\Domain\Model\ExamTemplateCriteria:
+    tableName: tx_equedlms_domain_model_examtemplatecriteria
+  Equed\EquedLms\Domain\Model\ExternalSystemSync:
+    tableName: tx_equedlms_domain_model_externalsystemsync
+  Equed\EquedLms\Domain\Model\FeedbackEntry:
+    tableName: tx_equedlms_domain_model_feedbackentry
+  Equed\EquedLms\Domain\Model\GlossaryEntry:
+    tableName: tx_equedlms_domain_model_glossaryentry
+  Equed\EquedLms\Domain\Model\GlossarySuggestion:
+    tableName: tx_equedlms_domain_model_glossarysuggestion
+  Equed\EquedLms\Domain\Model\GlossaryTerm:
+    tableName: tx_equedlms_domain_model_glossaryterm
+  Equed\EquedLms\Domain\Model\IncidentReport:
+    tableName: tx_equedlms_domain_model_incidentreport
+  Equed\EquedLms\Domain\Model\InstructorAvailabilityRegion:
+    tableName: tx_equedlms_domain_model_instructoravailabilityregion
+  Equed\EquedLms\Domain\Model\InstructorEligibility:
+    tableName: tx_equedlms_domain_model_instructoreligibility
+  Equed\EquedLms\Domain\Model\InstructorFeedback:
+    tableName: tx_equedlms_domain_model_instructorfeedback
+  Equed\EquedLms\Domain\Model\LearningPath:
+    tableName: tx_equedlms_domain_model_learningpath
+  Equed\EquedLms\Domain\Model\Lesson:
+    tableName: tx_equedlms_domain_model_lesson
+  Equed\EquedLms\Domain\Model\LessonAnswerOption:
+    tableName: tx_equedlms_domain_model_lessonansweroption
+  Equed\EquedLms\Domain\Model\LessonAttempt:
+    tableName: tx_equedlms_domain_model_lessonattempt
+  Equed\EquedLms\Domain\Model\LessonAttemptAnswer:
+    tableName: tx_equedlms_domain_model_lessonattemptanswer
+  Equed\EquedLms\Domain\Model\LessonContentPage:
+    tableName: tx_equedlms_domain_model_lessoncontentpage
+  Equed\EquedLms\Domain\Model\LessonFeedback:
+    tableName: tx_equedlms_domain_model_lessonfeedback
+  Equed\EquedLms\Domain\Model\LessonProgress:
+    tableName: tx_equedlms_domain_model_lessonprogress
+  Equed\EquedLms\Domain\Model\LessonQuestion:
+    tableName: tx_equedlms_domain_model_lessonquestion
+  Equed\EquedLms\Domain\Model\LessonQuiz:
+    tableName: tx_equedlms_domain_model_lessonquiz
+  Equed\EquedLms\Domain\Model\Notification:
+    tableName: tx_equedlms_domain_model_notification
+  Equed\EquedLms\Domain\Model\ObservationTemplate:
+    tableName: tx_equedlms_domain_model_observationtemplate
+  Equed\EquedLms\Domain\Model\PracticeAnswerOption:
+    tableName: tx_equedlms_domain_model_practiceansweroption
+  Equed\EquedLms\Domain\Model\PracticeQuestion:
+    tableName: tx_equedlms_domain_model_practicequestion
+  Equed\EquedLms\Domain\Model\PracticeTest:
+    tableName: tx_equedlms_domain_model_practicetest
+  Equed\EquedLms\Domain\Model\QmsCase:
+    tableName: tx_equedlms_domain_model_qmscase
+  Equed\EquedLms\Domain\Model\QuizResult:
+    tableName: tx_equedlms_domain_model_quizresult
+  Equed\EquedLms\Domain\Model\RecognitionAward:
+    tableName: tx_equedlms_domain_model_recognitionaward
+  Equed\EquedLms\Domain\Model\StandardCheckAnswer:
+    tableName: tx_equedlms_domain_model_standardcheckanswer
+  Equed\EquedLms\Domain\Model\StandardCheckItem:
+    tableName: tx_equedlms_domain_model_standardcheckitem
+  Equed\EquedLms\Domain\Model\SubmissionAttachment:
+    tableName: tx_equedlms_domain_model_submissionattachment
+  Equed\EquedLms\Domain\Model\SubmissionComment:
+    tableName: tx_equedlms_domain_model_submissioncomment
+  Equed\EquedLms\Domain\Model\SubmissionReview:
+    tableName: tx_equedlms_domain_model_submissionreview
+  Equed\EquedLms\Domain\Model\Submission:
+    tableName: tx_equedlms_domain_model_submission
+  Equed\EquedLms\Domain\Model\TrainingCenter:
+    tableName: tx_equedlms_domain_model_trainingcenter
+  Equed\EquedLms\Domain\Model\TrainingCenterFeedback:
+    tableName: tx_equedlms_domain_model_trainingcenterfeedback
+  Equed\EquedLms\Domain\Model\TrainingLog:
+    tableName: tx_equedlms_domain_model_traininglog
+  Equed\EquedLms\Domain\Model\TrainingRecord:
+    tableName: tx_equedlms_domain_model_trainingrecord
+  Equed\EquedLms\Domain\Model\UserBadge:
+    tableName: tx_equedlms_domain_model_userbadge
+  Equed\EquedLms\Domain\Model\UserCourseRecord:
+    tableName: tx_equedlms_domain_model_usercourserecord
+  Equed\EquedLms\Domain\Model\UserProfile:
+    tableName: tx_equedlms_domain_model_userprofile
+  Equed\EquedLms\Domain\Model\UserProgressRecord:
+    tableName: tx_equedlms_domain_model_userprogressrecord
+  Equed\EquedLms\Domain\Model\UserSubmission:
+    tableName: tx_equedlms_domain_model_usersubmission

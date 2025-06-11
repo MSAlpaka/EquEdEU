@@ -1,0 +1,28 @@
+table: tx_equedlms_domain_model_eventbooking
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user:
+    type: integer
+  event_schedule:
+    type: integer
+  booking_status:
+    type: integer
+  comment:
+    type: text
+  confirmed_by_instructor:
+    type: boolean
+  confirmation_datetime:
+    type: string
+  cancelled_reason:
+    type: text
+  language:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

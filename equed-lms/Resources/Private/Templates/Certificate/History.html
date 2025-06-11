@@ -1,0 +1,9 @@
+<f:layout name="Default" />
+<f:section name="Content">
+  <h2><f:translate key="certificate.history.title" /></h2>
+  <ul class="certificate-history">
+    <f:for each="{history}" as="entry">
+      <li>{entry.date} – {entry.course} – {entry.status}</li>
+    </f:for>
+  </ul>
+</f:section>

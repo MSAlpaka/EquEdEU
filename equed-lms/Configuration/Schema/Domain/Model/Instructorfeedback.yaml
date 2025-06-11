@@ -1,0 +1,48 @@
+table: tx_equedlms_domain_model_instructorfeedback
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  frontend_user:
+    type: integer
+  instructor_user:
+    type: integer
+  course_instance:
+    type: integer
+  lesson:
+    type: integer
+  user_submission:
+    type: integer
+  lesson_attempt:
+    type: integer
+  feedback_type:
+    type: integer
+  title:
+    type: string
+  comment:
+    type: text
+  rating:
+    type: string
+  recommendation:
+    type: text
+  attachment:
+    type: integer
+  submitted_at:
+    type: string
+  visible_to_user:
+    type: boolean
+  qms_flagged:
+    type: boolean
+  qms_case:
+    type: integer
+  feedback_uuid:
+    type: string
+  revision_of:
+    type: integer
+  language:
+    type: string
+  is_final:
+    type: boolean
+  is_automated:
+    type: boolean

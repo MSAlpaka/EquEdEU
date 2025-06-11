@@ -1,0 +1,23 @@
+<div class="certificate-info" role="region" aria-labelledby="certTitle_{certificate.uid}">
+  <h2 id="certTitle_{certificate.uid}"><f:translate key="certificate.title" /></h2>
+
+  <p>
+    <span class="sr-only"><f:translate key="certificate.for" />:</span>
+    <strong>{certificate.userName}</strong>
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="certificate.course" />:</span>
+    {certificate.courseTitle}
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="certificate.date" />:</span>
+    {certificate.issueDate}
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="certificate.number" />:</span>
+    <f:render partial="User/Badge" arguments="{identifier: certificate.badge}" />
+  </p>
+</div>

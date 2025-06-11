@@ -1,0 +1,40 @@
+table: tx_equedlms_domain_model_notification
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  recipient:
+    type: integer
+  type:
+    type: integer
+  title:
+    type: string
+  message:
+    type: text
+  payload:
+    type: text
+  related_model:
+    type: string
+  related_uid:
+    type: string
+  is_read:
+    type: boolean
+  created_at:
+    type: string
+  valid_until:
+    type: string
+  priority:
+    type: integer
+  uuid:
+    type: string
+  language:
+    type: string
+  send_email:
+    type: boolean
+  send_push:
+    type: boolean
+  channel:
+    type: integer
+  sender:
+    type: string

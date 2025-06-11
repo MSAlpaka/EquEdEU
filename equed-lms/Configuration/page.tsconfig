@@ -1,0 +1,33 @@
+# Vorschau für eigenes Inhaltselement (CType)
+mod.web_layout.tt_content.preview.equed_course = EXT:equed_lms/Resources/Private/BackendPreviews/CoursePreview.php
+
+# CType-Auswahl anpassen (optional alte entfernen)
+TCEFORM.tt_content.CType.removeItems := addToList(equed_lms_old)
+
+# Wizard-Einträge für neue Inhaltselemente
+mod.wizards.newContentElement.wizardItems.plugins {
+  elements {
+    equed_course {
+      iconIdentifier = content-plugin
+      title = LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:plugin.equed_course.title
+      description = LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:plugin.equed_course.description
+      tt_content_defValues {
+        CType = equed_course
+      }
+    }
+
+    equed_glossary {
+      iconIdentifier = content-plugin
+      title = LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:plugin.equed_glossary.title
+      description = LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:plugin.equed_glossary.description
+      tt_content_defValues {
+        CType = equed_glossary
+      }
+    }
+  }
+
+  show := addToList(equed_course,equed_glossary)
+}
+
+# CSS-Integration im Backend
+mod.web_layout.BackendLayouts.default.cssFiles.equedCourse = EXT:equed_lms/Resources/Public/Css/equed_course.css

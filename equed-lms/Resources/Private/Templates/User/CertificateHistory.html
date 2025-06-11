@@ -1,0 +1,21 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <section class="certificate-history" role="region" aria-labelledby="certHistoryTitle">
+    <h2 id="certHistoryTitle">
+      <f:translate key="certificate.history.title" />
+    </h2>
+
+    <ul>
+      <f:for each="{history}" as="entry">
+        <li>
+          <span class="sr-only"><f:translate key="certificate.date" />:</span>{entry.date}
+          –
+          <span class="sr-only"><f:translate key="certificate.course" />:</span>{entry.course}
+          –
+          <span class="sr-only"><f:translate key="certificate.status" />:</span>{entry.status}
+        </li>
+      </f:for>
+    </ul>
+  </section>
+</f:section>

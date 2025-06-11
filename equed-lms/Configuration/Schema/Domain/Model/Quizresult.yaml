@@ -1,0 +1,22 @@
+table: tx_equedlms_domain_model_quizresult
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user_course_record:
+    type: integer
+  lesson_quiz:
+    type: integer
+  score:
+    type: string
+  max_score:
+    type: string
+  passed:
+    type: boolean
+  mode:
+    type: integer
+  submitted_at:
+    type: string
+  lang:
+    type: string

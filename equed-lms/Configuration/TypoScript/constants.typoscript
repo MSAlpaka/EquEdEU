@@ -1,0 +1,20 @@
+plugin.tx_equedlms {
+  view {
+    templateRootPath = EXT:equed_lms/Resources/Private/Templates/
+    partialRootPath  = EXT:equed_lms/Resources/Private/Partials/
+    layoutRootPath   = EXT:equed_lms/Resources/Private/Layouts/
+  }
+
+  settings {
+    defaultLanguage         = en
+    courseImageFallback     = EXT:equed_lms/Resources/Public/Images/course-default.jpg
+    enableFrontendEditing   = 0
+  }
+
+  persistence {
+    storagePid = 0
+  }
+}
+
+# Konstante für Setup-Importe oder Site-spezifische Überschreibungen
+page.includeCSS.equed_lms = EXT:equed_lms/Resources/Public/Css/styles.css
