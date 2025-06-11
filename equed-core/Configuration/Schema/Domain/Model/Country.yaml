@@ -1,0 +1,53 @@
+# Doctrine schema for Country domain model
+
+tx_equedcore_domain_model_country:
+  columns:
+    uid:
+      type: integer
+      unsigned: true
+      notnull: true
+      autoincrement: true
+    pid:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    tstamp:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    crdate:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    deleted:
+      type: boolean
+      notnull: true
+      default: false
+    hidden:
+      type: boolean
+      notnull: true
+      default: false
+    country_iso:
+      type: string
+      length: 2
+      notnull: true
+      default: ''
+    name_en:
+      type: string
+      length: 255
+      notnull: true
+      default: ''
+    name_de:
+      type: string
+      length: 255
+      notnull: true
+      default: ''
+  primaryKey:
+    - uid
+  indexes:
+    country_iso:
+      columns:
+        - country_iso

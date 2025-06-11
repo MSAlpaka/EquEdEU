@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages">
+    <body>
+      <trans-unit id="tx_equedcore_domain_model_country">
+        <source>Country</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.country_iso">
+        <source>Country ISO</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.name_en">
+        <source>Name (English)</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.name_de">
+        <source>Name (German)</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload">
+        <source>Document Upload</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.file_reference">
+        <source>File</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.uploaded_by">
+        <source>Uploaded by</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.upload_date">
+        <source>Upload date</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.is_certified">
+        <source>Certified</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate">
+        <source>External Certificate</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.certificate_number">
+        <source>Certificate number</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.issued_by">
+        <source>Issued by</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.issue_date">
+        <source>Issue date</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.related_document">
+        <source>Related document</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.is_valid">
+        <source>Valid</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language">
+        <source>Language</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.language_iso">
+        <source>Language ISO</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.label_en">
+        <source>Label (English)</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.label_de">
+        <source>Label (German)</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta">
+        <source>User meta</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.user_id">
+        <source>User</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.meta_key">
+        <source>Meta key</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.meta_value">
+        <source>Meta value</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.last_updated_date">
+        <source>Last updated</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog">
+        <source>Audit log</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.action">
+        <source>Action</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.user_id">
+        <source>User</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.ip_address">
+        <source>IP address</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.uuid">
+        <source>UUID</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.user_hash">
+        <source>User hash</source>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.details">
+        <source>Details</source>
+      </trans-unit>
+      <trans-unit id="fe_users.instructor_level">
+        <source>Instructor Level</source>
+      </trans-unit>
+      <trans-unit id="dsgvo_notice">
+        <source>This document contains no sensitive data. Verifiable via QR.</source>
+      </trans-unit>
+      <trans-unit id="documentupload.list">
+        <source>Document Uploads</source>
+      </trans-unit>
+      <trans-unit id="documentupload.show.title">
+        <source>Document Upload</source>
+      </trans-unit>
+      <trans-unit id="documentupload.edit.title">
+        <source>Edit Document Upload</source>
+      </trans-unit>
+      <trans-unit id="documentupload.new.title">
+        <source>New Document Upload</source>
+      </trans-unit>
+      <trans-unit id="documentupload.action.update">
+        <source>Update</source>
+      </trans-unit>
+      <trans-unit id="documentupload.action.create">
+        <source>Create</source>
+      </trans-unit>
+      <trans-unit id="documentupload.action.edit">
+        <source>Edit</source>
+      </trans-unit>
+      <trans-unit id="documentupload.action.delete">
+        <source>Delete</source>
+      </trans-unit>
+      <trans-unit id="documentupload.action.new">
+        <source>New</source>
+      </trans-unit>
+      <trans-unit id="documentupload.action.backToList">
+        <source>Back to list</source>
+      </trans-unit>
+      <trans-unit id="documentupload.field.file_reference">
+        <source>File</source>
+      </trans-unit>
+      <trans-unit id="documentupload.field.uploaded_by">
+        <source>Uploaded by</source>
+      </trans-unit>
+      <trans-unit id="documentupload.field.upload_date">
+        <source>Upload date</source>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified">
+        <source>Certified</source>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified.yes">
+        <source>Yes</source>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified.no">
+        <source>No</source>
+      </trans-unit>
+      <trans-unit id="documentupload.confirm.delete">
+        <source>Are you sure you want to delete this entry?</source>
+      </trans-unit>
+      <trans-unit id="documentupload.created">
+        <source>Created the document.</source>
+      </trans-unit>
+      <trans-unit id="documentupload.updated">
+        <source>Updated the document.</source>
+      </trans-unit>
+      <trans-unit id="documentupload.deleted">
+        <source>Deleted the document.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

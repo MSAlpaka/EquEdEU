@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+  <file source-language="de" datatype="plaintext" original="messages">
+    <body>
+      <trans-unit id="tx_equedcore_domain_model_country">
+        <source>Land</source>
+        <target>Country</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.country_iso">
+        <source>Landescode (ISO)</source>
+        <target>Country ISO</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.name_en">
+        <source>Name (Englisch)</source>
+        <target>Name (English)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_country.name_de">
+        <source>Name (Deutsch)</source>
+        <target>Name (German)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload">
+        <source>Dokumentenupload</source>
+        <target>Document Upload</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.file_reference">
+        <source>Datei</source>
+        <target>File</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.uploaded_by">
+        <source>Hochgeladen von</source>
+        <target>Uploaded by</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.upload_date">
+        <source>Upload-Datum</source>
+        <target>Upload date</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_documentupload.is_certified">
+        <source>Zertifiziert</source>
+        <target>Certified</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate">
+        <source>Externes Zertifikat</source>
+        <target>External Certificate</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.certificate_number">
+        <source>Zertifikatsnummer</source>
+        <target>Certificate number</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.issued_by">
+        <source>Ausgestellt von</source>
+        <target>Issued by</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.issue_date">
+        <source>Ausstellungsdatum</source>
+        <target>Issue date</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.related_document">
+        <source>Zugehöriges Dokument</source>
+        <target>Related document</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_externalcertificate.is_valid">
+        <source>Gültig</source>
+        <target>Valid</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language">
+        <source>Sprache</source>
+        <target>Language</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.language_iso">
+        <source>Sprachcode (ISO)</source>
+        <target>Language ISO</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.label_en">
+        <source>Bezeichnung (Englisch)</source>
+        <target>Label (English)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_language.label_de">
+        <source>Bezeichnung (Deutsch)</source>
+        <target>Label (German)</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta">
+        <source>Benutzer-Metadaten</source>
+        <target>User meta</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.user_id">
+        <source>Benutzer</source>
+        <target>User</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.meta_key">
+        <source>Meta-Schlüssel</source>
+        <target>Meta key</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.meta_value">
+        <source>Meta-Wert</source>
+        <target>Meta value</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_usermeta.last_updated_date">
+        <source>Zuletzt aktualisiert</source>
+        <target>Last updated</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog">
+        <source>Audit-Log</source>
+        <target>Audit log</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.action">
+        <source>Aktion</source>
+        <target>Action</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.user_id">
+        <source>Benutzer</source>
+        <target>User</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.ip_address">
+        <source>IP-Adresse</source>
+        <target>IP address</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.uuid">
+        <source>UUID</source>
+        <target>UUID</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.user_hash">
+        <source>Benutzer-Hash</source>
+        <target>User hash</target>
+      </trans-unit>
+      <trans-unit id="tx_equedcore_domain_model_auditlog.details">
+        <source>Details</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="fe_users.instructor_level">
+        <source>Instructor Level</source>
+        <target>Instructor Level</target>
+      </trans-unit>
+      <trans-unit id="dsgvo_notice">
+        <source>Dieses Dokument enthält keine sensiblen Daten. Über QR prüfbar.</source>
+        <target>This document contains no sensitive data. Verifiable via QR.</target>
+      </trans-unit>
+      <trans-unit id="documentupload.list">
+        <source>Dokumentenuploads</source>
+        <target>Document Uploads</target>
+      </trans-unit>
+      <trans-unit id="documentupload.show.title">
+        <source>Dokumentenupload</source>
+        <target>Document Upload</target>
+      </trans-unit>
+      <trans-unit id="documentupload.edit.title">
+        <source>Dokumentenupload bearbeiten</source>
+        <target>Edit Document Upload</target>
+      </trans-unit>
+      <trans-unit id="documentupload.new.title">
+        <source>Neuen Dokumentenupload anlegen</source>
+        <target>New Document Upload</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.update">
+        <source>Aktualisieren</source>
+        <target>Update</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.create">
+        <source>Anlegen</source>
+        <target>Create</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.edit">
+        <source>Bearbeiten</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.delete">
+        <source>Löschen</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.new">
+        <source>Neu</source>
+        <target>New</target>
+      </trans-unit>
+      <trans-unit id="documentupload.action.backToList">
+        <source>Zurück zur Liste</source>
+        <target>Back to list</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.file_reference">
+        <source>Datei</source>
+        <target>File</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.uploaded_by">
+        <source>Hochgeladen von</source>
+        <target>Uploaded by</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.upload_date">
+        <source>Upload-Datum</source>
+        <target>Upload date</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified">
+        <source>Zertifiziert</source>
+        <target>Certified</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified.yes">
+        <source>Ja</source>
+        <target>Yes</target>
+      </trans-unit>
+      <trans-unit id="documentupload.field.is_certified.no">
+        <source>Nein</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="documentupload.confirm.delete">
+        <source>Wollen Sie diesen Eintrag wirklich löschen?</source>
+        <target>Are you sure you want to delete this entry?</target>
+      </trans-unit>
+      <trans-unit id="documentupload.created">
+        <source>Dokument erstellt.</source>
+        <target>Created the document.</target>
+      </trans-unit>
+      <trans-unit id="documentupload.updated">
+        <source>Dokument aktualisiert.</source>
+        <target>Updated the document.</target>
+      </trans-unit>
+      <trans-unit id="documentupload.deleted">
+        <source>Dokument gelöscht.</source>
+        <target>Deleted the document.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

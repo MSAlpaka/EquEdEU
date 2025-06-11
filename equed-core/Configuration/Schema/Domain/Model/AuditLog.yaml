@@ -1,0 +1,54 @@
+# Doctrine schema for AuditLog domain model
+# Generated from PHP domain model
+
+# Table name
+tx_equedcore_domain_model_auditlog:
+  columns:
+    uid:
+      type: integer
+      unsigned: true
+      notnull: true
+      autoincrement: true
+    pid:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    tstamp:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    crdate:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    deleted:
+      type: boolean
+      notnull: true
+      default: false
+    hidden:
+      type: boolean
+      notnull: true
+      default: false
+    action:
+      type: string
+      length: 255
+      notnull: true
+      default: ''
+    user_id:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    ip_address:
+      type: string
+      length: 64
+      notnull: false
+  primaryKey:
+    - uid
+  indexes:
+    user_id:
+      columns:
+        - user_id

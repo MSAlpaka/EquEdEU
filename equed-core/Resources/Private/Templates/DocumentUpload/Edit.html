@@ -1,0 +1,27 @@
+<f:layout name="Default" />
+<f:section name="main">
+  <h1><f:translate key="documentupload.edit.title" /></h1>
+  <f:form action="update" object="{documentUpload}" enctype="multipart/form-data">
+    <f:form.hidden property="uid" />
+    <div class="form-group">
+      <label for="fileReference"><f:translate key="documentupload.field.file_reference" /></label>
+      <f:form.upload property="fileReference" id="fileReference" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="uploadedBy"><f:translate key="documentupload.field.uploaded_by" /></label>
+      <f:form.select property="uploadedBy" options="{instructors}" id="uploadedBy" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="uploadDate"><f:translate key="documentupload.field.upload_date" /></label>
+      <f:form.textfield property="uploadDate" id="uploadDate" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="isCertified"><f:translate key="documentupload.field.is_certified" /></label>
+      <f:form.checkbox property="isCertified" id="isCertified" />
+    </div>
+    <f:form.submit value="{f:translate(key: 'documentupload.action.update')}" class="btn btn-primary" />
+  </f:form>
+  <f:link.action action="list" class="btn btn-secondary">
+    <f:translate key="documentupload.action.backToList" />
+  </f:link.action>
+</f:section>

@@ -1,0 +1,44 @@
+<f:layout name="Default" />
+<f:section name="main">
+  <h1>{f:translate(key: 'documentupload.list', extensionName: 'EquedCore')}</h1>
+  <f:flashMessages />
+  <table>
+    <thead>
+      <tr>
+        <th><f:translate key="documentupload.field.file_reference" /></th>
+        <th><f:translate key="documentupload.field.uploaded_by" /></th>
+        <th><f:translate key="documentupload.field.upload_date" /></th>
+        <th><f:translate key="documentupload.field.is_certified" /></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <f:for each="{documentUploads}" as="doc">
+        <tr>
+          <td>{doc.fileReference.uid}</td>
+          <td>{doc.uploadedBy.username}</td>
+          <td>{doc.uploadDate -> f:format.date(format: 'd.m.Y H:i')}</td>
+          <td>
+            <f:if condition="{doc.isCertified}">
+              <span aria-label="{f:translate(key: 'documentupload.field.is_certified')} ✓">✓</span>
+            <f:else>
+              <span aria-label="{f:translate(key: 'documentupload.field.is_certified')} ✗">✗</span>
+            </f:else>
+            </f:if>
+          </td>
+          <td>
+            <f:link.action action="edit" arguments="{documentUpload: doc}">
+              <f:translate key="documentupload.action.edit" />
+            </f:link.action>
+            <f:link.action action="delete" arguments="{documentUpload: doc}" onclick="return confirm('{f:translate(key: 'documentupload.confirm.delete')}');">
+              <f:translate key="documentupload.action.delete" />
+            </f:link.action>
+          </td>
+        </tr>
+      </f:for>
+    </tbody>
+  </table>
+  <f:link.action action="new" class="btn btn-primary">
+    <f:translate key="documentupload.action.new" />
+  </f:link.action>
+</f:section>

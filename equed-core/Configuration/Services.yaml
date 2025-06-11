@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Equed\EquedCore\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Psr/*'
+
+  Psr\SimpleCache\CacheInterface:
+    class: Equed\EquedCore\Cache\ArrayCache

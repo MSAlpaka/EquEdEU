@@ -1,0 +1,53 @@
+# Doctrine schema for SearchLog domain model
+
+tx_equedcore_domain_model_searchlog:
+  columns:
+    uid:
+      type: integer
+      unsigned: true
+      notnull: true
+      autoincrement: true
+    pid:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    tstamp:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    crdate:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    deleted:
+      type: boolean
+      notnull: true
+      default: false
+    hidden:
+      type: boolean
+      notnull: true
+      default: false
+    search_term:
+      type: string
+      length: 255
+      notnull: true
+      default: ''
+    user_id:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+    search_date:
+      type: integer
+      unsigned: true
+      notnull: true
+      default: 0
+  primaryKey:
+    - uid
+  indexes:
+    user_id:
+      columns:
+        - user_id

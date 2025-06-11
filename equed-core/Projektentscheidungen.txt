@@ -1,0 +1,11 @@
+# Projektentscheidungen (Übersicht)
+
+- **EQF & Qualität**: Alle Curricula orientieren sich an EQF Level 3–5 und erfüllen ISO 17024 relevante Anforderungen.
+- **Rollen**: Teilnehmer:in, Instructor, Certifier und ServiceCenter steuern Zugriff und Prüfungsabläufe.
+- **QMS‑Eskalation**: Certifier bearbeiten einfache Fälle. Bei schwerwiegenden oder unbeantworteten Vorgängen übernimmt das ServiceCenter und kann bis zur Sperrung eskalieren.
+- **DSGVO & Sicherheit**: Login via JWT mit optionaler 2FA, verschlüsselte Uploads, selbst gehostetes Matomo für Analytics. Öffentliche Profile nur per Opt‑in.
+- **Zertifizierung**: QR‑Codes auf Zertifikaten verweisen auf eine öffentliche Verifikationsseite. Optional sind Suchfunktionen unter `equed.eu/verify`.
+- **Sprachen**: Standard ist Englisch, zusätzlich DE, FR, ES, SW und EASY. EASY‑ und sensible Inhalte erfordern manuelle Freigabe.
+- **App & Module**: React‑basierte Offline‑App; optionale Module wie Dropshipping, Factoring und Pro‑Funktionen können gebucht werden.
+- **Rezertifizierung**: Keine generelle Pflicht. Bestimmte Programme verlangen alle drei Jahre ein Kurzmodul oder einen Fallbericht.
+- **Zeitplan 2025**: Core und LMS bis Juli; App, Recognition‑System und Liveschaltung bis Oktober.
