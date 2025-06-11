@@ -39,7 +39,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventschedule.start_datetime',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ],
         'end_datetime' => [
@@ -47,7 +47,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventschedule.end_datetime',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ],
         'event_type' => [
@@ -109,7 +109,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventschedule.created_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ],
         'updated_at' => [
@@ -117,7 +117,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_eventschedule.updated_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'datetime'
             ]
         ]
     ],
