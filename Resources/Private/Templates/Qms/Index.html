@@ -1,0 +1,12 @@
+<f:layout name="Default" />
+<f:section name="Content">
+
+  <section class="qms-case-list" role="region" aria-labelledby="qmsTitle">
+    <h2 id="qmsTitle"><f:translate key="qms.cases.title" /></h2>
+
+    <f:for each="{cases}" as="case">
+      <f:render partial="Qms/CaseBox" arguments="{title: case.title, status: case.status, date: case.date, responsible: case.responsible}" />
+    </f:for>
+  </section>
+
+</f:section>

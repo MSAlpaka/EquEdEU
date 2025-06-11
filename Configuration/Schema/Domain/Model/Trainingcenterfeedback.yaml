@@ -1,0 +1,46 @@
+table: tx_equedlms_domain_model_trainingcenterfeedback
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  related_trainingcenter:
+    type: integer
+  course_instance:
+    type: integer
+  submitted_by:
+    type: integer
+  anonymous:
+    type: boolean
+  infrastructure_score:
+    type: integer
+  instructor_score:
+    type: integer
+  organization_score:
+    type: integer
+  recommendation_score:
+    type: integer
+  would_recommend:
+    type: boolean
+  comments:
+    type: text
+  free_suggestions:
+    type: text
+  feedback_type:
+    type: string
+  course_type:
+    type: string
+  status:
+    type: string
+  is_internal:
+    type: boolean
+  visible_to_center:
+    type: boolean
+  reviewed_by_qms:
+    type: boolean
+  language:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: integer

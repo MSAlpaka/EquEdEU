@@ -1,0 +1,17 @@
+<f:layout name="Certificate/Base" />
+
+<f:section name="Main">
+  <h2><f:translate key="qms.report.title" /></h2>
+  <p><f:translate key="qms.report.caseId" />: {case.uid}</p>
+  <p><f:translate key="qms.report.date" />: {case.date}</p>
+  <p><f:translate key="qms.report.subject" />: {case.title}</p>
+
+  <h3><f:translate key="qms.report.description" /></h3>
+  <p>{case.description}</p>
+
+  <h3><f:translate key="qms.report.feedback" /></h3>
+  <p>{case.feedback}</p>
+
+  <h3><f:translate key="qms.report.status" /></h3>
+  <p><f:translate key="qms.status.{case.status}" /></p>
+</f:section>

@@ -1,0 +1,24 @@
+table: tx_equedlms_domain_model_courseinstance
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  courseprogram:
+    type: integer
+  start_date:
+    type: integer
+  end_date:
+    type: integer
+  instructor:
+    type: integer
+  location:
+    type: string
+  validation_mode:
+    type: string
+  access_policy:
+    type: integer
+  tags:
+    type: string
+  metadata:
+    type: text

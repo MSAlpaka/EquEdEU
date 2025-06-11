@@ -1,0 +1,52 @@
+table: tx_equedlms_domain_model_userprofile
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  user:
+    type: integer
+  docu_level:
+    type: string
+  docu_level_key:
+    type: string
+  total_practice_hours:
+    type: integer
+  completed_specialties:
+    type: integer
+  recognition_award:
+    type: string
+  recognition_award_key:
+    type: string
+  badge_level:
+    type: integer
+  badge_level_key:
+    type: string
+  profile_status:
+    type: string
+  profile_status_key:
+    type: string
+  is_visible_in_search:
+    type: boolean
+  has_pro_access:
+    type: boolean
+  display_name:
+    type: string
+  country:
+    type: string
+  is_instructor:
+    type: boolean
+  onboarding_complete:
+    type: boolean
+  language:
+    type: string
+  last_login_at:
+    type: integer
+  is_archived:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

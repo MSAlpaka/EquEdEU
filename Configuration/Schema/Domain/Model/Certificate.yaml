@@ -1,0 +1,16 @@
+table: tx_equedlms_domain_model_certificate
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user:
+    type: integer
+  courseprogram:
+    type: integer
+  issued_at:
+    type: integer
+  certificate_number:
+    type: string
+  file:
+    type: string

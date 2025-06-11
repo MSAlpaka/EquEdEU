@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="en" datatype="plaintext" original="messages" product-name="equed_lms">
+    <body>
+      <trans-unit id="task.qmsReminder.name">
+        <source>QMS Reminder</source>
+      </trans-unit>
+      <trans-unit id="task.qmsReminder.description">
+        <source>Send reminders for open QMS cases</source>
+      </trans-unit>
+      <trans-unit id="task.certificateDispatch.name">
+        <source>Certificate Dispatch</source>
+      </trans-unit>
+      <trans-unit id="task.certificateDispatch.description">
+        <source>Dispatch queued certificates</source>
+      </trans-unit>
+      <trans-unit id="task.instructorActivity.name">
+        <source>Instructor Activity</source>
+      </trans-unit>
+      <trans-unit id="task.instructorActivity.description">
+        <source>Log inactive instructors</source>
+      </trans-unit>
+      <trans-unit id="task.submissionReview.name">
+        <source>Submission Review</source>
+      </trans-unit>
+      <trans-unit id="task.submissionReview.description">
+        <source>Flag unreviewed submissions</source>
+      </trans-unit>
+      <trans-unit id="task.progressCleanup.name">
+        <source>Progress Cleanup</source>
+      </trans-unit>
+      <trans-unit id="task.progressCleanup.description">
+        <source>Clean up abandoned course progress</source>
+      </trans-unit>
+      <trans-unit id="task.certificateRenewalReminder.title">
+        <source>Certificate Renewal Reminder</source>
+      </trans-unit>
+      <trans-unit id="task.certificateRenewalReminder.description">
+        <source>Reminder for expiring certificates</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

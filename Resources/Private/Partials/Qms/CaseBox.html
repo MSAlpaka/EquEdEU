@@ -1,0 +1,20 @@
+<div class="qms-case-box case-{status}" role="region" aria-labelledby="caseTitle_{title}">
+  <h4 id="caseTitle_{title}">
+    <f:translate key="qms.case.title" />: {title}
+  </h4>
+
+  <p>
+    <span class="sr-only"><f:translate key="qms.case.status" />:</span>
+    <f:translate key="qms.status.{status}" />
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="qms.case.date" />:</span>
+    {date}
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="qms.case.responsible" />:</span>
+    {responsible}
+  </p>
+</div>

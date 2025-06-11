@@ -1,0 +1,34 @@
+table: tx_equedlms_domain_model_badgeaward
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  frontend_user:
+    type: integer
+  user_course_record:
+    type: integer
+  badge_type:
+    type: string
+  badge_code:
+    type: string
+  badge_level:
+    type: integer
+  description_key:
+    type: string
+  lang:
+    type: string
+  awarded_by_system:
+    type: boolean
+  awarded_by:
+    type: integer
+  awarded_at:
+    type: integer
+  valid_until:
+    type: integer
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

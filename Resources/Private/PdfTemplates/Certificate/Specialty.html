@@ -1,0 +1,20 @@
+<f:layout name="Certificate/Base" />
+
+<f:section name="Main">
+  <div class="cert-header">
+    <img src="EXT:equed_lms/Resources/Public/Images/certificate-specialty.svg" alt="EquEd LMS Specialty" height="70" />
+    <h1><f:translate key="certificate.specialty.title" /></h1>
+  </div>
+
+  <div class="cert-body">
+    <p><f:translate key="certificate.text.issuedTo" /> <strong>{user.name}</strong></p>
+    <p><f:translate key="certificate.text.specialty" /> <strong>{specialty.title}</strong></p>
+    <p><f:translate key="certificate.text.date" />: {certificate.date}</p>
+    <p><f:translate key="certificate.text.certNumber" />: {certificate.number}</p>
+    <p><f:translate key="certificate.text.validity" />: {certificate.validUntil}</p>
+  </div>
+
+  <div class="cert-footer">
+    <f:translate key="certificate.footer.certifiedBy" />: {certifier.name}
+  </div>
+</f:section>

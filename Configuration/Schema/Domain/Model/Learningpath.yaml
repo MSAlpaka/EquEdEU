@@ -1,0 +1,26 @@
+table: tx_equedlms_domain_model_learningpath
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  sys_language_uid:
+    type: integer
+  l10n_parent:
+    type: integer
+  l10n_diffsource:
+    type: string
+  hidden:
+    type: boolean
+  starttime:
+    type: integer
+  endtime:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  level:
+    type: integer
+  courses:
+    type: string

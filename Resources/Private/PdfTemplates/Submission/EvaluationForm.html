@@ -1,0 +1,27 @@
+<f:layout name="Certificate/Base" />
+
+<f:section name="Main">
+  <h2><f:translate key="submission.evaluation.title" /></h2>
+  <p><f:translate key="submission.evaluation.course" />: {submission.course}</p>
+  <p><f:translate key="submission.evaluation.user" />: {submission.user}</p>
+  <p><f:translate key="submission.evaluation.date" />: {submission.date}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><f:translate key="submission.evaluation.criterion" /></th>
+        <th><f:translate key="submission.evaluation.score" /></th>
+        <th><f:translate key="submission.evaluation.comment" /></th>
+      </tr>
+    </thead>
+    <tbody>
+      <f:for each="{submission.items}" as="item">
+        <tr>
+          <td>{item.label}</td>
+          <td>{item.score}</td>
+          <td>{item.comment}</td>
+        </tr>
+      </f:for>
+    </tbody>
+  </table>
+</f:section>

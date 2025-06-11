@@ -1,0 +1,26 @@
+table: tx_equedlms_domain_model_examtemplatecriteria
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title_key:
+    type: string
+  title_override:
+    type: string
+  max_points:
+    type: string
+  is_required:
+    type: boolean
+  position:
+    type: integer
+  exam_template:
+    type: integer
+  is_archived:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
+  uuid:
+    type: string

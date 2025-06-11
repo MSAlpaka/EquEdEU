@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Equed\EquedLms\Service;
+
+use Equed\EquedLms\Domain\Model\UserProfile;
+use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use Ramsey\Uuid\Uuid;
+
+final class SyncService
+{
+    public function __construct(
+        private readonly UserProfileRepositoryInterface $profileRepository,
+        private readonly PersistenceManagerInterface $persistenceManager
+    ) {
+    }
+
+    public function pushToApp(UserProfile $profile): array
+    {
+        return [
+            'userId'      => $profile->getFeUser(),
+            'uuid'        => $profile->getUuid(),
+            'displayName' => $profile->getDisplayName(),
+            'language'    => $profile->getLanguage(),
+            'country'     => $profile->getCountry(),
+            'updatedAt'   => $profile->getUpdatedAt()?->format(DATE_ATOM),
+        ];
+    }
+
+    public function pullFromApp(array $data): UserProfile
+    {
+        $userId = isset($data['userId']) ? (int) $data['userId'] : 0;
+        $profile = $this->profileRepository->findByUserId($userId) ?? new UserProfile();
+
+        // Set user reference
+        $profile->setFeUser($userId);
+
+        // UUID handling
+        if (method_exists($profile, 'setUuid') && empty($profile->getUuid())) {
+            $profile->setUuid(Uuid::uuid4()->toString());
+        }
+
+        // Conflict resolution via updatedAt timestamp
+        $remoteUpdated = isset($data['updatedAt']) ? new \DateTimeImmutable($data['updatedAt']) : null;
+        $localUpdated = $profile->getUpdatedAt();
+
+        if ($remoteUpdated && (!$localUpdated || $remoteUpdated > $localUpdated)) {
+            if (isset($data['displayName'])) {
+                $profile->setDisplayName((string) $data['displayName']);
+            }
+            if (isset($data['language'])) {
+                $profile->setLanguage((string) $data['language']);
+            }
+            if (isset($data['country'])) {
+                $profile->setCountry((string) $data['country']);
+            }
+            $profile->setUpdatedAt(new \DateTimeImmutable());
+        }
+
+        if ($profile->getUid() === null) {
+            $this->profileRepository->add($profile);
+        } else {
+            $this->profileRepository->update($profile);
+        }
+
+        $this->persistenceManager->persistAll();
+
+        return $profile;
+    }
+}

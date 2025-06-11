@@ -1,0 +1,32 @@
+table: tx_equedlms_domain_model_instructoreligibility
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  fe_user:
+    type: integer
+  course_program:
+    type: integer
+  eligibility_type:
+    type: integer
+  source_reference:
+    type: string
+  is_examiner:
+    type: boolean
+  is_certifier:
+    type: boolean
+  is_active:
+    type: boolean
+  approved_at:
+    type: string
+  expires_at:
+    type: string
+  note:
+    type: text
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

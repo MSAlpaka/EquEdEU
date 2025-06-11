@@ -1,0 +1,18 @@
+table: tx_equedlms_domain_model_traininglog
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user_course_record:
+    type: integer
+  event_type:
+    type: string
+  event_key:
+    type: string
+  details:
+    type: text
+  lang:
+    type: string
+  is_archived:
+    type: boolean

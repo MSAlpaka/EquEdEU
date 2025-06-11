@@ -1,0 +1,12 @@
+table: tx_equedlms_domain_model_lessonfeedback
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user_course_record:
+    type: integer
+  text_feedback:
+    type: text
+  course_wish:
+    type: text

@@ -1,0 +1,31 @@
+<f:layout name="Default" />
+<f:section name="Content">
+
+  <section class="qms-case-detail" role="region" aria-labelledby="caseTitle">
+    <h2 id="caseTitle">{case.title}</h2>
+
+    <p>
+      <strong><f:translate key="qms.case.date" />:</strong>
+      <time datetime="{case.date -> f:format.date(format:'Y-m-d')}">
+        <f:format.date format="d.m.Y">{case.date}</f:format.date>
+      </time>
+    </p>
+
+    <p>
+      <strong><f:translate key="qms.case.description" />:</strong>
+      {case.description}
+    </p>
+
+    <p>
+      <strong><f:translate key="qms.case.status" />:</strong>
+      <f:translate key="qms.status.{case.status}" />
+    </p>
+
+    <p>
+      <strong><f:translate key="qms.case.responsible" />:</strong>
+      {case.responsible}
+    </p>
+
+  </section>
+
+</f:section>

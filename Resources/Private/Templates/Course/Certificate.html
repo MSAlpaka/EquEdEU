@@ -1,0 +1,35 @@
+<f:layout name="Certificate" />
+
+<f:section name="Content">
+  <div class="certificate" role="document" lang="{f:translate(key: 'language.code')}">
+    <div class="certificate-header">
+      <img src="EXT:equed_lms/Resources/Public/Images/certificate-header.svg"
+           alt="EquEd LMS" />
+    </div>
+
+    <div class="certificate-content">
+      <h1><f:translate key="certificate.title" /></h1>
+
+      <p>
+        <f:translate key="certificate.issued.to" />
+        <strong>{certificate.userName}</strong>
+      </p>
+      <p>
+        <f:translate key="certificate.course" />:
+        <strong>{certificate.courseTitle}</strong>
+      </p>
+      <p>
+        <f:translate key="certificate.date" />:
+        <strong>{certificate.issueDate}</strong>
+      </p>
+      <p>
+        <f:translate key="certificate.id" />:
+        <strong>{certificate.certNumber}</strong>
+      </p>
+    </div>
+
+    <div class="certificate-footer">
+      <p><f:translate key="certificate.footer" /></p>
+    </div>
+  </div>
+</f:section>

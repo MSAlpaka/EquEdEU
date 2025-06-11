@@ -1,0 +1,44 @@
+table: tx_equedlms_domain_model_coursegoal
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  course_program:
+    type: integer
+  lesson:
+    type: integer
+  is_core_goal:
+    type: boolean
+  is_visible_to_user:
+    type: boolean
+  goal_type:
+    type: integer
+  category:
+    type: string
+  requirement_level:
+    type: integer
+  required_for_certification:
+    type: boolean
+  required_for_course_access:
+    type: boolean
+  is_exam_relevant:
+    type: boolean
+  weighting:
+    type: string
+  position:
+    type: string
+  notes:
+    type: text
+  language:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: xml, gd
+          ini-values: memory_limit=-1
+          coverage: none
+          tools: composer
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          composer-options: --no-interaction --no-progress --prefer-dist
+      - name: Lint PHP
+        run: composer lint
+      - name: Check coding style
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.php
+      - name: Static analysis - Psalm
+        run: composer psalm
+      - name: Static analysis - PHPStan
+        run: composer phpstan
+      - name: Run tests
+        run: composer test

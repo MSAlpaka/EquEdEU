@@ -1,0 +1,44 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+
+<article class="certificate-single" role="region" aria-labelledby="certificateHeading">
+
+  <header>
+    <h1 id="certificateHeading">{certificate.courseTitle}</h1>
+    <p>
+      <strong><f:translate key="certificate.issuedTo" /></strong>: {certificate.userName}<br />
+      <strong><f:translate key="certificate.date" /></strong>: {certificate.issueDate}<br />
+      <strong><f:translate key="certificate.number" /></strong>: {certificate.certificateNumber}
+    </p>
+  </header>
+
+  <section class="certificate-body" aria-label="{f:translate(key: 'certificate.details')}">
+    <p>{certificate.description}</p>
+
+    <f:if condition="{certificate.qrCodeUrl}">
+      <div class="certificate-qr">
+        <h2><f:translate key="certificate.verify" /></h2>
+        <img src="{certificate.qrCodeUrl}" alt="{f:translate(key: 'certificate.verify.alt')}" />
+        <p>
+          <f:translate key="certificate.verify.instructions" />
+          <br />
+          <a href="{certificate.verifyUrl}" target="_blank" rel="noopener" aria-label="{f:translate(key: 'certificate.verify.link')}: {certificate.certificateNumber}">
+            {certificate.verifyUrl}
+          </a>
+        </p>
+      </div>
+    </f:if>
+
+    <f:if condition="{certificate.downloadable}">
+      <p>
+        <f:link.action action="download" controller="Certificate" arguments="{certificate: certificate}" target="_blank" class="button" aria-label="{f:translate(key: 'certificate.download')}">
+          <f:translate key="certificate.download" />
+        </f:link.action>
+      </p>
+    </f:if>
+  </section>
+
+</article>
+
+</f:section>

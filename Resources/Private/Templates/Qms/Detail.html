@@ -1,0 +1,8 @@
+<f:layout name="Default" />
+<f:section name="Content">
+  <h2>{case.title}</h2>
+  <p><f:translate key="qms.case.date" />: {case.date}</p>
+  <p><f:translate key="qms.case.description" />: {case.description}</p>
+  <p><f:translate key="qms.case.status" />: <f:translate key="qms.status.{case.status}" /></p>
+  <p><f:translate key="qms.case.responsible" />: {case.responsible}</p>
+</f:section>

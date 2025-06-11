@@ -1,0 +1,45 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <article class="lesson-view" aria-labelledby="lessonTitle">
+
+    <header>
+      <h1 id="lessonTitle">{lesson.title}</h1>
+      <p class="lesson-meta">
+        <f:translate key="lesson.duration" />: {lesson.duration} min |
+        <f:translate key="lesson.type" />: {lesson.type}
+      </p>
+    </header>
+
+    <section class="lesson-content" aria-label="{f:translate(key: 'lesson.content')}">
+      <f:format.html>{lesson.content}</f:format.html>
+    </section>
+
+    <f:if condition="{lesson.media}">
+      <section class="lesson-media" aria-label="{f:translate(key: 'lesson.media')}">
+        <h2><f:translate key="lesson.media" /></h2>
+        <f:for each="{lesson.media}" as="media">
+          <f:if condition="{media.type} == 'image'">
+            <img src="{media.url}" alt="{media.alt}" />
+          </f:if>
+          <f:if condition="{media.type} == 'video'">
+            <video controls aria-label="{media.title}">
+              <source src="{media.url}" type="video/mp4" />
+              <f:translate key="lesson.video.unsupported" />
+            </video>
+          </f:if>
+        </f:for>
+      </section>
+    </f:if>
+
+    <section class="lesson-navigation" aria-label="{f:translate(key: 'lesson.navigation')}">
+      <f:link.action action="previous" controller="Lesson" arguments="{lesson: previousLesson}" class="button" aria-label="{f:translate(key: 'lesson.previous')}">
+        &laquo; <f:translate key="lesson.previous" />
+      </f:link.action>
+      <f:link.action action="next" controller="Lesson" arguments="{lesson: nextLesson}" class="button" aria-label="{f:translate(key: 'lesson.next')}">
+        <f:translate key="lesson.next" /> &raquo;
+      </f:link.action>
+    </section>
+
+  </article>
+</f:section>

@@ -1,0 +1,12 @@
+table: tx_equedlms_domain_model_badge
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  label:
+    type: string
+  description:
+    type: text
+  icon:
+    type: string

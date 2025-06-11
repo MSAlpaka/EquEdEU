@@ -1,0 +1,41 @@
+{
+  "timeout": 10,
+  "source": {
+    "directories": [
+      "Classes"
+    ],
+    "excludes": [
+      "Classes/Domain/Model/Generated"
+    ]
+  },
+  "logs": {
+    "text": "build/infection.log",
+    "summary": "build/infection-summary.txt",
+    "debug": "build/infection-debug.txt"
+  },
+  "mutators": {
+    "@default": true,
+    "TrueValue": true,
+    "FalseValue": true,
+    "For_": true,
+    "Plus": true,
+    "Equal": true,
+    "NotEqual": true,
+    "GreaterThan": true,
+    "GreaterThanOrEqualTo": true,
+    "LessThan": true,
+    "LessThanOrEqualTo": true
+  },
+  "phpUnit": {
+    "customPath": "vendor/bin/phpunit",
+    "testsuite": "unit",
+    "configDir": ".",
+    "filter": "Equed\\Lms\\Tests\\Unit\\",
+    "timeout": 30
+  },
+  "ignoreSourceCodeMutators": [],
+  "ignoreMsiWithNoMutations": true,
+  "minMsi": 80,
+  "minCoveredMsi": 85,
+  "showMutations": true
+}

@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'EquedCI';
+  src: url('../Fonts/equed-ci.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'EquedCI', 'DejaVu Sans', sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #000;
+  margin: 2cm;
+  background: #fff;
+}
+
+.pdf-container {
+  padding: 0;
+}
+
+.pdf-title {
+  font-size: 18pt;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5cm;
+}
+
+.pdf-section {
+  margin-bottom: 1cm;
+}
+
+.pdf-footer {
+  font-size: 10pt;
+  text-align: center;
+  margin-top: 2cm;
+  border-top: 1px solid #999;
+  padding-top: 0.5cm;
+}

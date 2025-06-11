@@ -1,0 +1,65 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+
+  <f:if condition="{course}">
+    <f:then>
+      <article class="equed-course" role="region" aria-labelledby="courseTitle">
+
+      <header>
+        <h1 id="courseTitle">{course.title}</h1>
+        <p class="course-level">
+          <f:translate key="course.level" />: {course.level}
+        </p>
+        <p class="course-duration">
+          <f:translate key="course.duration" />:
+          <f:format.number decimals="0">{course.totalDuration}</f:format.number> min
+        </p>
+        <p class="course-description">{course.description}</p>
+      </header>
+
+      <section class="course-progress" aria-label="{f:translate(key: 'course.progress')}">
+        <h2><f:translate key="course.progress" /></h2>
+
+        <div class="progress-bar"
+             role="progressbar"
+             aria-valuenow="{progressPercent}"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-label="{f:translate(key: 'course.progress')}">
+          <div class="progress-fill" style="width: {progressPercent}%;">
+            <span class="sr-only">{progressPercent}%</span>
+          </div>
+        </div>
+
+        <f:if condition="{progressPercent} == 100">
+          <div class="course-complete" role="status" aria-live="polite">
+            <span aria-hidden="true">✔</span>
+            <span><f:translate key="course.completed" /></span>
+          </div>
+        </f:if>
+      </section>
+
+      <f:if condition="{course.lessons}">
+        <section class="course-lessons" aria-labelledby="lessonsHeading">
+          <h2 id="lessonsHeading"><f:translate key="course.lessons" /></h2>
+          <ul>
+            <f:for each="{course.lessons}" as="lesson">
+              <li>
+                <strong>{lesson.title}</strong>
+                <span class="lesson-duration">({lesson.duration} min)</span><br />
+                <span class="lesson-description">{lesson.description}</span>
+              </li>
+            </f:for>
+          </ul>
+        </section>
+      </f:if>
+
+      </article>
+    </f:then>
+    <f:else>
+      <p><f:translate key="course.notfound">Course not found</f:translate></p>
+    </f:else>
+  </f:if>
+
+</f:section>

@@ -1,0 +1,12 @@
+table: tx_equedlms_domain_model_accesspolicy
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  policy_key:
+    type: float
+  description:
+    type: text
+  enabled:
+    type: boolean

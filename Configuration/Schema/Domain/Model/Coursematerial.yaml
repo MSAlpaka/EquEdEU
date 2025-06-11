@@ -1,0 +1,16 @@
+table: tx_equedlms_domain_model_coursematerial
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  file:
+    type: string
+  courseprogram:
+    type: integer
+  access_level:
+    type: integer

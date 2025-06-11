@@ -1,0 +1,34 @@
+table: tx_equedlms_domain_model_lessonprogress
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  sys_language_uid:
+    type: integer
+  l10n_parent:
+    type: integer
+  l10n_diffsource:
+    type: string
+  hidden:
+    type: boolean
+  starttime:
+    type: integer
+  endtime:
+    type: integer
+  lesson:
+    type: integer
+  user:
+    type: integer
+  progress:
+    type: integer
+  status:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
+  completed:
+    type: boolean

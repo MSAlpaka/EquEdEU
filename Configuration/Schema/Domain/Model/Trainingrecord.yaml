@@ -1,0 +1,40 @@
+table: tx_equedlms_domain_model_trainingrecord
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user_course_record:
+    type: integer
+  training_type:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  duration_hours:
+    type: string
+  date:
+    type: string
+  proof_document:
+    type: integer
+  is_validated:
+    type: boolean
+  validated_by:
+    type: string
+  lang:
+    type: string
+  is_archived:
+    type: boolean
+  final_score:
+    type: string
+  certificate_issued:
+    type: boolean
+  certificate_number:
+    type: string
+  certificate_issued_at:
+    type: string
+  gpt_evaluation_data:
+    type: text
+  feedback_received:
+    type: boolean

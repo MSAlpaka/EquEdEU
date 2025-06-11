@@ -1,0 +1,13 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <section class="course-overview" role="region" aria-labelledby="courseOverviewTitle">
+    <h2 id="courseOverviewTitle">
+      <f:translate key="course.overview.title" />
+    </h2>
+
+    <f:for each="{courses}" as="course">
+      <f:render partial="Course/ListItem" arguments="{course: course}" />
+    </f:for>
+  </section>
+</f:section>

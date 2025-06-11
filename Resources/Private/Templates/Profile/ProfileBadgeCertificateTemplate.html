@@ -1,0 +1,17 @@
+<f:section name="Content">
+    <h2>Your Profile</h2>
+
+    <div class="badges">
+        <h3>Your Badges</h3>
+        <f:for each="{user.badges}" as="badge">
+            <div class="badge">
+                <f:badge viewHelper="Equed.EquedLms.ViewHelper.BadgeViewHelper" status="{badge}" />
+            </div>
+        </f:for>
+    </div>
+
+    <div class="certificates">
+        <h3>Your Certificates</h3>
+        <f:certificate viewHelper="Equed.EquedLms.ViewHelper.CertificateViewHelper" certificates="{user.certificates}" />
+    </div>
+</f:section>

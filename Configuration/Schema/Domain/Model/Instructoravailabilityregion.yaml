@@ -1,0 +1,26 @@
+table: tx_equedlms_domain_model_instructoravailabilityregion
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  fe_user:
+    type: integer
+  region_type:
+    type: integer
+  region_value:
+    type: text
+  course_program:
+    type: integer
+  priority:
+    type: string
+  note:
+    type: text
+  is_active:
+    type: boolean
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

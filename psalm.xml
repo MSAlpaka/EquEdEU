@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="7"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="false"
+    findUnusedCode="false"
+    errorBaseline="psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="Classes" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+    <stubs>
+        <file name="psalm-stubs/ExtbaseFrontendUser.stub.php" preloadClasses="true" />
+        <file name="psalm-stubs/ExtbaseInject.stub.php" preloadClasses="true" />
+        <file name="psalm-stubs/CoreServices.stub.php" preloadClasses="true" />
+        <file name="psalm-stubs/ExtbaseORM.stub.php" preloadClasses="true" />
+        <file name="psalm-stubs/EquedCoreSubmission.stub.php" preloadClasses="true" />
+    </stubs>
+</psalm>

@@ -1,0 +1,24 @@
+table: tx_equedlms_domain_model_examtemplate
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  course_program:
+    type: integer
+  exam_type:
+    type: integer
+  criteria:
+    type: string
+  required_score:
+    type: string
+  required_percentage:
+    type: string
+  is_active:
+    type: boolean
+  uuid:
+    type: string

@@ -1,0 +1,28 @@
+table: tx_equedlms_domain_model_coursebookingrequest
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  requested_by:
+    type: integer
+  course_program:
+    type: integer
+  preferred_center:
+    type: integer
+  preferred_instructor:
+    type: integer
+  preferred_date:
+    type: string
+  comments:
+    type: text
+  status:
+    type: integer
+  assigned_instance:
+    type: integer
+  created_at:
+    type: string
+  updated_at:
+    type: string
+  uuid:
+    type: string

@@ -1,0 +1,34 @@
+table: tx_equedlms_domain_model_coursecertificate
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  user_course_record:
+    type: integer
+  certificate_template:
+    type: integer
+  certificate_dispatch:
+    type: integer
+  certificate_number:
+    type: string
+  language:
+    type: string
+  badge_level:
+    type: integer
+  is_public:
+    type: boolean
+  issued_at:
+    type: integer
+  is_archived:
+    type: boolean
+  is_badge_relevant:
+    type: boolean
+  is_auto_generated:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

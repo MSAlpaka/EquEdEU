@@ -1,0 +1,36 @@
+table: tx_equedlms_domain_model_userprogressrecord
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user:
+    type: integer
+  course_instance:
+    type: integer
+  lesson:
+    type: integer
+  lesson_page:
+    type: string
+  completed:
+    type: boolean
+  completed_at:
+    type: string
+  progress_percent:
+    type: string
+  last_accessed_at:
+    type: string
+  attempt_count:
+    type: string
+  time_spent_seconds:
+    type: string
+  feedback_submitted:
+    type: boolean
+  notes:
+    type: text
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

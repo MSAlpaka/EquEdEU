@@ -1,0 +1,16 @@
+table: tx_equedlms_domain_model_accesslog
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  ip_address:
+    type: string
+  user_agent:
+    type: text
+  event_type:
+    type: string
+  event_context:
+    type: string
+  fe_user:
+    type: integer

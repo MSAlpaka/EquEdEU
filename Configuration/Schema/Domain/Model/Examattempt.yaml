@@ -1,0 +1,46 @@
+table: tx_equedlms_domain_model_examattempt
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user:
+    type: integer
+  course_instance:
+    type: integer
+  exam_type:
+    type: integer
+  exam_date:
+    type: string
+  status:
+    type: integer
+  is_passed:
+    type: boolean
+  score_total:
+    type: string
+  score_required:
+    type: string
+  score_percentage:
+    type: string
+  grader:
+    type: integer
+  grader_comment:
+    type: text
+  attempt_data_json:
+    type: text
+  linked_submission:
+    type: integer
+  linked_quiz:
+    type: integer
+  reviewed_at:
+    type: string
+  allow_retake:
+    type: boolean
+  retake_reason:
+    type: text
+  grading_template:
+    type: integer
+  documents_upload:
+    type: integer
+  uuid:
+    type: string

@@ -1,0 +1,30 @@
+table: tx_equedlms_domain_model_externalsystemsync
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  system_name:
+    type: string
+  integration_type:
+    type: integer
+  endpoint_url:
+    type: string
+  auth_token:
+    type: string
+  sync_scope:
+    type: text
+  last_synced_at:
+    type: string
+  sync_status:
+    type: integer
+  is_active:
+    type: boolean
+  log:
+    type: text
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

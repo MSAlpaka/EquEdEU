@@ -1,0 +1,46 @@
+<f:section name="Content">
+    <h2>Materials</h2>
+
+    <div class="material-filter">
+        <label for="material-type">Select Material Type:</label>
+        <select id="material-type" onchange="filterMaterials()">
+            <option value="pdf">PDF</option>
+            <option value="video">Video</option>
+        </select>
+    </div>
+
+    <div id="materials-list">
+        <f:for each="{materials}" as="material">
+            <div class="material-item">
+                <h3>{material.title}</h3>
+                <p>{material.description}</p>
+                <a href="{material.file_url}" download>Download</a>
+            </div>
+        </f:for>
+    </div>
+
+    <script>
+        function filterMaterials() {
+            var type = document.getElementById('material-type').value;
+            fetch('/api/app/materials?type=' + type)
+                .then(response => response.json())
+                .then(data => {
+                    const materialsList = document.getElementById('materials-list');
+                    materialsList.innerHTML = ''; // Clear existing list
+                    data.materials.forEach(material => {
+                        const materialItem = document.createElement('div');
+                        materialItem.classList.add('material-item');
+                        materialItem.innerHTML = `
+                            <h3>${material.title}</h3>
+                            <p>${material.description}</p>
+                            <a href="${material.file_url}" download>Download</a>
+                        `;
+                        materialsList.appendChild(materialItem);
+                    });
+                });
+        }
+
+        // Initialize with PDF filter by default
+        filterMaterials();
+    </script>
+</f:section>

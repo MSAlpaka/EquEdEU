@@ -1,0 +1,28 @@
+table: tx_equedlms_domain_model_examresult
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  uuid:
+    type: string
+  user_course_record:
+    type: integer
+  theory_passed:
+    type: boolean
+  practice_passed:
+    type: boolean
+  case_passed:
+    type: boolean
+  total_score:
+    type: float
+  overall_passed:
+    type: boolean
+  overall_comment:
+    type: string
+  is_archived:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

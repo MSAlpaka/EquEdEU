@@ -1,0 +1,7 @@
+<f:layout name="Default" />
+<f:section name="Content">
+  <h2><f:translate key="qms.cases.title" /></h2>
+  <f:for each="{cases}" as="case">
+    <f:render partial="Qms/CaseBox" arguments="{title: case.title, status: case.status, date: case.date, responsible: case.responsible}" />
+  </f:for>
+</f:section>

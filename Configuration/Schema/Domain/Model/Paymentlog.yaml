@@ -1,0 +1,22 @@
+table: tx_equedlms_domain_model_paymentlog
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  user:
+    type: integer
+  amount:
+    type: string
+  payment_method:
+    type: integer
+  transaction_id:
+    type: string
+  status:
+    type: integer
+  uuid:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string

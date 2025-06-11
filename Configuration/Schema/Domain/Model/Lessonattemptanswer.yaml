@@ -1,0 +1,42 @@
+table: tx_equedlms_domain_model_lessonattemptanswer
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  lesson_attempt:
+    type: integer
+  lesson_question:
+    type: integer
+  question_type:
+    type: integer
+  answer_text:
+    type: text
+  answer_option_ids:
+    type: text
+  file_upload:
+    type: integer
+  is_correct:
+    type: boolean
+  points_awarded:
+    type: string
+  max_points:
+    type: string
+  requires_review:
+    type: boolean
+  reviewed_by:
+    type: integer
+  instructor_comment:
+    type: text
+  status:
+    type: integer
+  qms_flagged:
+    type: boolean
+  evaluation_notes:
+    type: text
+  time_spent_sec:
+    type: string
+  version_hash:
+    type: string
+  answer_uuid:
+    type: string

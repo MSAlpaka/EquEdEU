@@ -1,0 +1,41 @@
+<f:layout name="Default" />
+<f:section name="Content">
+
+  <section class="feedback-detail" role="region" aria-labelledby="feedbackShowHeading">
+    <h2 id="feedbackShowHeading"><f:translate key="feedback.show.title" /></h2>
+
+    <ul>
+      <li>
+        <strong><f:translate key="feedback.field.instructorFeedback" />:</strong>
+        <span role="img" aria-label="{f:translate(key: feedbackEntry.instructorFeedback ? 'feedback.yes' : 'feedback.no')}">
+          <f:if condition="{feedbackEntry.instructorFeedback}">✔<f:else />✘</f:if>
+        </span>
+      </li>
+
+      <li>
+        <strong><f:translate key="feedback.field.courseStandardMet" />:</strong>
+        <span role="img" aria-label="{f:translate(key: feedbackEntry.courseStandardMet ? 'feedback.yes' : 'feedback.no')}">
+          <f:if condition="{feedbackEntry.courseStandardMet}">✔<f:else />✘</f:if>
+        </span>
+      </li>
+
+      <li>
+        <strong><f:translate key="feedback.field.wantsMoreCourses" />:</strong>
+        <span role="img" aria-label="{f:translate(key: feedbackEntry.wantsMoreCourses ? 'feedback.yes' : 'feedback.no')}">
+          <f:if condition="{feedbackEntry.wantsMoreCourses}">✔<f:else />✘</f:if>
+        </span>
+      </li>
+
+      <li><strong><f:translate key="feedback.field.requestedTopics" />:</strong> {feedbackEntry.requestedTopics}</li>
+      <li><strong><f:translate key="feedback.field.openFeedback" />:</strong><br /> {feedbackEntry.openFeedback}</li>
+      <li><strong><f:translate key="feedback.field.instructorRating" />:</strong> {feedbackEntry.instructorRating}</li>
+      <li><strong><f:translate key="feedback.field.locationRating" />:</strong> {feedbackEntry.locationRating}</li>
+      <li><strong><f:translate key="feedback.field.eligibleFutureCourses" />:</strong><br /> {feedbackEntry.eligibleFutureCourses}</li>
+      <li>
+        <strong><f:translate key="feedback.field.createdAt" />:</strong>
+        <f:format.date format="d.m.Y H:i">{feedbackEntry.createdAt}</f:format.date>
+      </li>
+    </ul>
+  </section>
+
+</f:section>

@@ -1,0 +1,24 @@
+<f:layout name="Default" />
+<f:section name="Content">
+
+  <section class="submission-overview" role="region" aria-labelledby="submissionTitle">
+    <h2 id="submissionTitle"><f:translate key="submission.index.title" /></h2>
+
+    <f:for each="{submissions}" as="submission">
+      <article class="submission-entry" role="group" aria-label="{submission.course}">
+        <p><f:translate key="submission.course" />: {submission.course}</p>
+        <p><f:translate key="submission.status" />:
+          <f:render partial="Submission/Status" arguments="{status: submission.status}" />
+        </p>
+        <f:link.action action="review"
+                       controller="Submission"
+                       arguments="{submission: submission}"
+                       class="btn btn-outline-primary"
+                       aria-label="{f:translate(key: 'submission.review')} {submission.course}">
+          <f:translate key="submission.review" />
+        </f:link.action>
+      </article>
+    </f:for>
+  </section>
+
+</f:section>

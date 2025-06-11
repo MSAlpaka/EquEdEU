@@ -1,0 +1,20 @@
+table: tx_equedlms_domain_model_lessonansweroption
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  lesson_question:
+    type: integer
+  sort_order:
+    type: string
+  answer_text:
+    type: text
+  is_correct:
+    type: boolean
+  feedback_if_selected:
+    type: text
+  feedback_if_not_selected:
+    type: text
+  media:
+    type: integer

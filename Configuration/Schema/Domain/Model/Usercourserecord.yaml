@@ -1,0 +1,58 @@
+table: tx_equedlms_domain_model_usercourserecord
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  fe_user:
+    type: integer
+  course_instance:
+    type: integer
+  enrolled_at:
+    type: string
+  completed_at:
+    type: string
+  revoked_at:
+    type: string
+  certificate_number:
+    type: string
+  certificate_hash:
+    type: string
+  badge_level:
+    type: integer
+  status:
+    type: integer
+  progress_percent:
+    type: string
+  last_activity:
+    type: string
+  certifier:
+    type: integer
+  instructor:
+    type: integer
+  certified_at:
+    type: string
+  certificate_file:
+    type: string
+  certificate_code:
+    type: string
+  requires_external_examiner:
+    type: boolean
+  external_examiner:
+    type: integer
+  validation_required:
+    type: boolean
+  validated_by:
+    type: integer
+  validated_at:
+    type: string
+  qms_flagged:
+    type: boolean
+  qms_case:
+    type: integer
+  note_internal:
+    type: text
+  attempts_total:
+    type: string
+  recognition_awarded:
+    type: boolean

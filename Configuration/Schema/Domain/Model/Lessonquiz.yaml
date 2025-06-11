@@ -1,0 +1,44 @@
+table: tx_equedlms_domain_model_lessonquiz
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  title:
+    type: string
+  lesson:
+    type: integer
+  description:
+    type: text
+  quiz_type:
+    type: integer
+  pass_required:
+    type: boolean
+  pass_percentage:
+    type: string
+  max_attempts:
+    type: string
+  questions:
+    type: string
+  randomize_questions:
+    type: boolean
+  shuffle_answers:
+    type: boolean
+  show_feedback_per_question:
+    type: boolean
+  time_limit_sec:
+    type: string
+  allow_back_navigation:
+    type: boolean
+  external_grading_required:
+    type: boolean
+  feedback_success:
+    type: text
+  feedback_fail:
+    type: text
+  visible_in_overview:
+    type: boolean
+  relevant_for_progress:
+    type: boolean
+  relevant_for_certification:
+    type: boolean

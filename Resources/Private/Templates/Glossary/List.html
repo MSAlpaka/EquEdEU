@@ -1,0 +1,54 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+  <section class="glossary-section" role="region" aria-labelledby="glossaryTitle">
+    <h2 id="glossaryTitle"><f:translate key="glossary.overview.title" /></h2>
+
+    <!-- Filterformular -->
+    <f:form method="get" action="list" aria-labelledby="glossaryTitle">
+      <fieldset>
+        <legend><f:translate key="glossary.filter.title" /></legend>
+
+        <div class="form-group">
+          <label for="searchTerm"><f:translate key="glossary.search.label" /></label>
+          <f:form.textfield name="search" value="{search}" id="searchTerm" />
+        </div>
+
+        <div class="form-group">
+          <label for="mode"><f:translate key="glossary.mode.label" /></label>
+          <f:form.select name="mode" id="mode" options="{ 'simple': f:translate(key:'glossary.mode.simple'), 'expert': f:translate(key:'glossary.mode.expert') }" value="{mode}" />
+        </div>
+
+        <div class="form-group">
+          <f:form.submit value="{f:translate(key: 'glossary.filter.submit')}" />
+        </div>
+      </fieldset>
+    </f:form>
+
+    <!-- Begriffsauflistung nach Anfangsbuchstabe -->
+    <f:if condition="{groupedTerms}">
+      <f:then>
+        <f:for each="{groupedTerms}" as="terms" key="initial">
+          <section class="glossary-initial" role="region" aria-labelledby="initial_{initial}">
+            <h3 id="initial_{initial}">{initial}</h3>
+            <ul>
+              <f:for each="{terms}" as="term">
+                <li>
+                  <strong>{term.term}</strong><br />
+                  <span>{term.definition}</span>
+                  <f:if condition="{term.examples}">
+                    <br />
+                    <small><f:translate key="glossary.examples" />: {term.examples}</small>
+                  </f:if>
+                </li>
+              </f:for>
+            </ul>
+          </section>
+        </f:for>
+      </f:then>
+      <f:else>
+        <p><f:translate key="glossary.noneAvailable" /></p>
+      </f:else>
+    </f:if>
+  </section>
+</f:section>

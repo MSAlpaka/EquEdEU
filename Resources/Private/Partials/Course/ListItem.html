@@ -1,0 +1,17 @@
+<div class="course-list-item" role="region" aria-labelledby="courseTitle_{course.uid}">
+  <h3 id="courseTitle_{course.uid}">
+    {course.title}
+  </h3>
+
+  <p>
+    <span class="sr-only"><f:translate key="course.level" />:</span>
+    {course.level}
+  </p>
+
+  <p>
+    <span class="sr-only"><f:translate key="course.status" />:</span>
+    {course.status}
+  </p>
+
+  <f:render partial="User/ProgressBar" arguments="{percent: course.progress}" />
+</div>

@@ -1,0 +1,50 @@
+routes:
+  - path: /api/courses/programs
+    controller: Equed\EquedLms\Controller\Api\CourseProgramController::listAction
+    methods: [GET]
+    auth: true
+
+  - path: /api/courses/instances
+    controller: Equed\EquedLms\Controller\Api\CourseInstanceController::listAction
+    methods: [GET]
+    auth: true
+
+  - path: /api/courses/instances/{uuid}
+    controller: Equed\EquedLms\Controller\Api\CourseInstanceController::detailAction
+    methods: [GET]
+    auth: true
+
+  - path: /api/courses/instances/{uuid}/enroll
+    controller: Equed\EquedLms\Controller\Api\CourseInstanceController::enrollAction
+    methods: [POST]
+    auth: true
+
+  - path: /api/feedback
+    controller: Equed\EquedLms\Controller\Api\FeedbackController::submitAction
+    methods: [POST]
+    auth: true
+
+  - path: /api/submissions
+    controller: Equed\EquedLms\Controller\Api\SubmissionController::submitAction
+    methods: [POST]
+    auth: true
+
+  - path: /api/user/records
+    controller: Equed\EquedLms\Controller\Api\UserCourseRecordController::listAction
+    methods: [GET]
+    auth: true
+
+  - path: /api/glossary
+    controller: Equed\EquedLms\Controller\Api\GlossaryController::listAction
+    methods: [GET]
+    auth: false
+
+  - path: /api/glossary/suggest
+    controller: Equed\EquedLms\Controller\Api\GlossaryController::suggestAction
+    methods: [POST]
+    auth: true
+
+  - path: /api/lessons/{uuid}/submit
+    controller: Equed\EquedLms\Controller\Api\LessonController::submitAction
+    methods: [POST]
+    auth: true

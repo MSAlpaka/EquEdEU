@@ -1,0 +1,28 @@
+table: tx_equedlms_domain_model_glossarysuggestion
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  sys_language_uid:
+    type: string
+  hidden:
+    type: boolean
+  frontend_user:
+    type: integer
+  title:
+    type: string
+  title_key:
+    type: string
+  simple_explanation:
+    type: text
+  expert_explanation:
+    type: text
+  lang:
+    type: integer
+  icon_identifier:
+    type: string
+  status:
+    type: integer
+  admin_comment:
+    type: text

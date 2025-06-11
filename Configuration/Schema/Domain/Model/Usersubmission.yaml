@@ -1,0 +1,52 @@
+table: tx_equedlms_domain_model_usersubmission
+columns:
+  uid:
+    type: integer
+  pid:
+    type: integer
+  frontend_user:
+    type: integer
+  course_instance:
+    type: integer
+  lesson:
+    type: integer
+  submissionType:
+    type: integer
+  title:
+    type: string
+  description:
+    type: text
+  file_upload:
+    type: integer
+  text_submission:
+    type: text
+  submitted_at:
+    type: string
+  last_modified_at:
+    type: string
+  status:
+    type: integer
+  needs_review:
+    type: boolean
+  reviewed_by:
+    type: integer
+  reviewed_at:
+    type: string
+  feedback_comment:
+    type: text
+  points_awarded:
+    type: string
+  qms_flagged:
+    type: boolean
+  qms_case:
+    type: integer
+  uuid:
+    type: string
+  visibility:
+    type: integer
+  language:
+    type: string
+  tags:
+    type: string
+  related_submission:
+    type: integer
