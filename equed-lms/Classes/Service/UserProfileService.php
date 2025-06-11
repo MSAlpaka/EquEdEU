@@ -26,7 +26,7 @@ final class UserProfileService
     public function getInstructorProfile(int $userId): ?UserProfile
     {
         $profile = $this->userProfileRepository->findByUserId($userId);
-        return ($profile !== null && $profile->getIsInstructor()) ? $profile : null;
+        return ($profile !== null && $profile->isInstructor()) ? $profile : null;
     }
 
     /**

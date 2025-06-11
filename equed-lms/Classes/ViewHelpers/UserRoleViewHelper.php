@@ -54,7 +54,7 @@ final class UserRoleViewHelper extends AbstractViewHelper
             $roleKey = $profile->getIsCertifier()
                 ? 'role.certifier'
                 : (
-                    $profile->getIsInstructor()
+                    $profile->isInstructor()
                     ? 'role.instructor'
                     : 'role.participant'
                 );
