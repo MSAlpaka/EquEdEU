@@ -47,16 +47,6 @@ interface UserBadgeRepositoryInterface
      */
     public function add(UserBadge $badge): void;
 
-    public function countValidBadges(int $userId): int;
-
-    public function findByUserAndType(int $userId, string $type): ?UserBadge;
-
-    public function findByUuid(string $uuid): ?UserBadge;
-
-    public function countByUserAndIdentifier(int $userId, string $identifier): int;
-
-    public function add(UserBadge $badge): void;
-
     /**
      * @return QueryInterface<UserBadge>
      */
