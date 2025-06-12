@@ -31,12 +31,19 @@ final class LessonProgressRepository extends Repository implements LessonProgres
         );
     }
 
+    /**
+     * Find lesson progress for a user and lesson.
+     *
+     * @param int $userId   Frontend user UID
+     * @param int $lessonId Lesson UID
+     * @return LessonProgress|null
+     */
     public function findByUserAndLesson(int $userId, int $lessonId): ?LessonProgress
     {
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('instructor', $userId),
+                $query->equals('feUser', $userId),
                 $query->equals('lesson', $lessonId),
             ])
         );
@@ -45,16 +52,27 @@ final class LessonProgressRepository extends Repository implements LessonProgres
         return $query->execute()->getFirst();
     }
 
+    /**
+     * Find all progress entries for a user.
+     *
+     * @param int $userId Frontend user UID
+     * @return LessonProgress[]
+     */
     public function findByUserId(int $userId): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('instructor', $userId)
+            $query->equals('feUser', $userId)
         );
 
         return $query->execute()->toArray();
     }
 
+    /**
+     * Add or update a LessonProgress model.
+     *
+     * @param LessonProgress $progress Progress entity
+     */
     public function updateOrAdd(LessonProgress $progress): void
     {
         if ($progress->getUid() === null) {
