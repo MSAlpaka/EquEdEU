@@ -151,6 +151,7 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
      *
      * @param FrontendUser     $user
      * @param CourseInstance   $instance
+     * @return UserCourseRecord|null
      */
     public function findLatestByUserAndInstance(FrontendUser $user, CourseInstance $instance): ?UserCourseRecord
     {
