@@ -47,8 +47,6 @@ final class QmsEscalationService
         );
 
         $this->mailService->sendMail(
-            'qms@equed.eu',
-            'QMS System',
             'servicecenter@equed.eu',
             $subject,
             $body
