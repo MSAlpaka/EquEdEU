@@ -67,4 +67,14 @@ final class CertificateDispatchRepository extends Repository implements Certific
 
         return $query->execute()->toArray();
     }
+
+    /**
+     * Adds a new certificate dispatch to the repository.
+     *
+     * @param CertificateDispatch $dispatch The certificate dispatch instance to add.
+     */
+    public function add(CertificateDispatch $dispatch): void
+    {
+        parent::add($dispatch);
+    }
 }
