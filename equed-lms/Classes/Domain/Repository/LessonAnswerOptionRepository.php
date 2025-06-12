@@ -51,4 +51,3 @@ final class LessonAnswerOptionRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

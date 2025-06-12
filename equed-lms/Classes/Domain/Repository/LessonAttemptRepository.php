@@ -71,4 +71,3 @@ final class LessonAttemptRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

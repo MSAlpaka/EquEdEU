@@ -49,4 +49,3 @@ final class CourseAccessMapRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

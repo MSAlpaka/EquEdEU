@@ -47,4 +47,3 @@ final class CertificateTemplateRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

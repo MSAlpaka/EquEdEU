@@ -106,4 +106,3 @@ final class TrainingRecordRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// End of file

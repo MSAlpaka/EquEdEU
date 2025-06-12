@@ -44,4 +44,3 @@ final class CourseMaterialRepository extends Repository
             ->toArray();
     }
 }
-// EOF

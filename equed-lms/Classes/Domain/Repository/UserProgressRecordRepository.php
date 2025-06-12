@@ -72,4 +72,3 @@ final class UserProgressRecordRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

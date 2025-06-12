@@ -82,4 +82,3 @@ final class QmsCaseRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

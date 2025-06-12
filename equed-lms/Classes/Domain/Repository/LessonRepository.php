@@ -97,4 +97,3 @@ final class LessonRepository extends Repository
         return $query->execute()->getFirst();
     }
 }
-// EOF

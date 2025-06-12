@@ -55,4 +55,3 @@ final class PracticeQuestionRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

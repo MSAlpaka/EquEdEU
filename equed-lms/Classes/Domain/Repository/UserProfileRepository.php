@@ -165,4 +165,3 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
         return $this->findByFeUser($userId);
     }
 }
-// End of file

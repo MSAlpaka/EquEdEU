@@ -54,4 +54,3 @@ final class RecognitionAwardRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF
