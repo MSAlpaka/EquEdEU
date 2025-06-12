@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Repository;
 
-use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\ExamAttempt;
 use Equed\EquedLms\Domain\Model\ExamTemplate;
 use Equed\EquedLms\Domain\Model\FrontendUser;
@@ -16,10 +15,11 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class ExamAttemptRepository extends Repository
 {
     /**
-     * Finds all attempts by a specific user for a given exam template.
+     * Find all attempts by a specific user for the provided exam template.
      *
-     * @param FrontendUser  $frontendUser
-     * @param ExamTemplate  $template
+     * @param FrontendUser $frontendUser Frontend user entity
+     * @param ExamTemplate $template     Exam template entity
+     *
      * @return ExamAttempt[]
      */
     public function findByUserAndTemplate(FrontendUser $frontendUser, ExamTemplate $template): array
@@ -27,24 +27,9 @@ class ExamAttemptRepository extends Repository
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $frontendUser),
+                $query->equals('frontendUser', $frontendUser),
                 $query->equals('examTemplate', $template),
             ])
-        );
-
-        return $query->execute()->toArray();
-    }
-
-    /**
-     * Finds all attempts that have not yet been scored.
-     *
-     * @return ExamAttempt[]
-     */
-    public function findUnscoredAttempts(): array
-    {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('scored', false)
         );
 
         return $query->execute()->toArray();
@@ -60,42 +45,11 @@ class ExamAttemptRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $frontendUser)
+            $query->equals('frontendUser', $frontendUser)
         );
 
         return $query->execute()->toArray();
     }
 
-    /**
-     * Finds all attempts of a given type (e.g., theory, practical, casework).
-     *
-     * @param string $type
-     * @return ExamAttempt[]
-     */
-    public function findByType(string $type): array
-    {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('type', $type)
-        );
-
-        return $query->execute()->toArray();
-    }
-
-    /**
-     * Finds all attempts for a specific course instance.
-     *
-     * @param CourseInstance $courseInstance
-     * @return ExamAttempt[]
-     */
-    public function findByCourseInstance(CourseInstance $courseInstance): array
-    {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('courseInstance', $courseInstance)
-        );
-
-        return $query->execute()->toArray();
-    }
 }
 // EOF
