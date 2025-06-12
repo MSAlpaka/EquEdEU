@@ -8,6 +8,8 @@ use Closure;
 use TCPDF;
 use ZipArchive;
 use RuntimeException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface;
 
 /**
@@ -16,6 +18,7 @@ use Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface;
 final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInterface
 {
     private readonly string $outputDirectory;
+    private readonly Filesystem $filesystem;
     /** @var callable(): TCPDF */
     private readonly \Closure $pdfFactory;
     /** @var callable(): ZipArchive */
@@ -30,10 +33,12 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
      */
     public function __construct(
         string $outputDirectory,
+        ?Filesystem $filesystem = null,
         ?callable $pdfFactory = null,
         ?callable $zipFactory = null
     ) {
         $this->outputDirectory = rtrim($outputDirectory, '/');
+        $this->filesystem = $filesystem ?? new Filesystem();
         $this->pdfFactory = $pdfFactory !== null
             ? Closure::fromCallable($pdfFactory)
             : static fn (): TCPDF => new TCPDF();
@@ -49,13 +54,17 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
      */
     private function ensureOutputDirectory(): void
     {
-        if (is_dir($this->outputDirectory)) {
+        if ($this->filesystem->exists($this->outputDirectory)) {
             return;
         }
 
-        if (!mkdir($this->outputDirectory, 0775, true) && !is_dir($this->outputDirectory)) {
+        try {
+            $this->filesystem->mkdir($this->outputDirectory, 0775);
+        } catch (IOExceptionInterface $e) {
             throw new RuntimeException(
-                sprintf('Unable to create output directory "%s".', $this->outputDirectory)
+                sprintf('Unable to create output directory "%s".', $this->outputDirectory),
+                0,
+                $e
             );
         }
     }
@@ -86,7 +95,16 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         $pdf->Write(0, 'Issued On: ' . $certificateData['issued_on']);
         $pdf->Ln();
 
-        $pdf->Output($filePath, 'F');
+        $content = $pdf->Output('', 'S');
+        try {
+            $this->filesystem->dumpFile($filePath, $content);
+        } catch (IOExceptionInterface $e) {
+            throw new RuntimeException(
+                sprintf('Unable to write PDF file "%s".', $filePath),
+                0,
+                $e
+            );
+        }
 
         return $filePath;
     }
