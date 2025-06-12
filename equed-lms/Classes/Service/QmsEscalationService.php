@@ -16,14 +16,17 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 final class QmsEscalationService
 {
     private readonly string $extensionKey;
+    private readonly string $serviceCenterEmail;
 
     public function __construct(
         private readonly LogService $logService,
         private readonly MailServiceInterface $mailService,
         private readonly GptTranslationServiceInterface $translationService,
+        string $serviceCenterEmail = 'servicecenter@equed.eu',
         string $extensionKey = 'equed_lms'
     ) {
         $this->extensionKey = $extensionKey;
+        $this->serviceCenterEmail = $serviceCenterEmail;
     }
 
     /**
@@ -47,7 +50,7 @@ final class QmsEscalationService
         );
 
         $this->mailService->sendMail(
-            'servicecenter@equed.eu',
+            $this->serviceCenterEmail,
             $subject,
             $body
         );
