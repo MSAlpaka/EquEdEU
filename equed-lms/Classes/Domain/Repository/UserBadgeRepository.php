@@ -74,6 +74,12 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         return $query->execute()->toArray();
     }
 
+    /**
+     * Find all valid badges for a user.
+     *
+     * @param int $userId Frontend user UID
+     * @return UserBadge[]
+     */
     public function findValidBadges(int $userId): array
     {
         $query = $this->createQuery();
@@ -84,6 +90,12 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         return $query->execute()->toArray();
     }
 
+    /**
+     * Count valid badges for a user.
+     *
+     * @param int $userId Frontend user UID
+     * @return int
+     */
     public function countValidBadges(int $userId): int
     {
         $query = $this->createQuery();
@@ -94,6 +106,13 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         return $query->count();
     }
 
+    /**
+     * Find a badge by user ID and badge type.
+     *
+     * @param int    $userId Frontend user UID
+     * @param string $type   Badge type identifier
+     * @return UserBadge|null
+     */
     public function findByUserAndType(int $userId, string $type): ?UserBadge
     {
         $query = $this->createQuery();
@@ -108,6 +127,13 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         return $query->execute()->getFirst();
     }
 
+    /**
+     * Count badges by user ID and badge identifier.
+     *
+     * @param int    $userId     Frontend user UID
+     * @param string $identifier Badge type identifier
+     * @return int
+     */
     public function countByUserAndIdentifier(int $userId, string $identifier): int
     {
         $query = $this->createQuery();
