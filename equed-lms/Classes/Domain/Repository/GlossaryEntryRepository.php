@@ -19,7 +19,7 @@ final class GlossaryEntryRepository extends Repository
      * Finds all glossary terms by language
      *
      * @param string $language
-     * @return array
+     * @return GlossaryEntry[]
      */
     public function findByLanguage(string $language): array
     {
@@ -35,7 +35,7 @@ final class GlossaryEntryRepository extends Repository
      *
      * @param string $language
      * @param string $search
-     * @return array
+     * @return GlossaryEntry[]
      */
     public function findFiltered(string $language, string $search = ''): array
     {
@@ -59,7 +59,7 @@ final class GlossaryEntryRepository extends Repository
      *
      * @param string $term
      * @param string|null $language
-     * @return array
+     * @return GlossaryEntry[]
      */
     public function findByExactTerm(string $term, ?string $language = null): array
     {
