@@ -103,7 +103,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_userbadge')
             ->where(
-                $qb->expr()->eq('user', $qb->createNamedParameter($userId, \PDO::PARAM_INT))
+                $qb->expr()->eq('fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT))
             );
 
         $result = $qb->executeQuery()->fetchOne();
@@ -146,7 +146,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_userbadge')
             ->where(
-                $qb->expr()->eq('user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
                 $qb->expr()->eq('badge_type', $qb->createNamedParameter($identifier))
             );
 
