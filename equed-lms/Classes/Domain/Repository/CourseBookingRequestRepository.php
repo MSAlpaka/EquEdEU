@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CourseBookingRequest;
-use Equed\EquedLms\Domain\Model\CourseInstance;
+use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -31,16 +31,16 @@ class CourseBookingRequestRepository extends Repository
     }
 
     /**
-     * Finds all booking requests for the given course instance.
+     * Finds all booking requests for the given course program.
      *
-     * @param CourseInstance $courseInstance
+     * @param CourseProgram $courseProgram
      * @return CourseBookingRequest[]
      */
-    public function findByCourseInstance(CourseInstance $courseInstance): array
+    public function findByCourseProgram(CourseProgram $courseProgram): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('courseInstance', $courseInstance)
+            $query->equals('courseProgram', $courseProgram)
         );
 
         return $query->execute()->toArray();
