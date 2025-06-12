@@ -57,12 +57,14 @@ class AuditLogRepository extends Repository
     }
 
     /**
-     * @param mixed $uid
-     * @return \Equed\EquedCore\Domain\Model\AuditLog|null
+     * Find an audit log entry by UID.
+     *
+     * @param int $uid
+     * @return AuditLog|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?AuditLog
     {
-        /** @var \Equed\EquedCore\Domain\Model\AuditLog|null $result */
+        /** @var AuditLog|null $result */
         $result = parent::findByUid($uid);
 
         return $result;

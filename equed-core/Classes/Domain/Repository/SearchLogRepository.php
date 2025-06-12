@@ -49,13 +49,16 @@ class SearchLogRepository extends Repository
     }
 
     /**
-     * @param mixed $uid
-     * @return \Equed\EquedCore\Domain\Model\SearchLog|null
+     * Find a log entry by its UID.
+     *
+     * @param int $uid
+     * @return SearchLog|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?SearchLog
     {
-        /** @var \Equed\EquedCore\Domain\Model\SearchLog|null $object */
+        /** @var SearchLog|null $object */
         $object = parent::findByUid($uid);
+
         return $object;
     }
 

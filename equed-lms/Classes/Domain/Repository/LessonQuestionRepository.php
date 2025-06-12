@@ -31,12 +31,12 @@ class LessonQuestionRepository extends Repository
     }
 
     /**
-     * Finds a question by its UID.
+     * Find a question by its UID.
      *
      * @param int $uid
      * @return LessonQuestion|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?LessonQuestion
     {
         return $this->findByIdentifier($uid);
     }

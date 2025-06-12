@@ -53,12 +53,12 @@ class NotificationRepository extends Repository
     }
 
     /**
-     * Finds a notification by its UID.
+     * Find a notification by UID.
      *
      * @param int $uid
      * @return Notification|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?Notification
     {
         return $this->findByIdentifier($uid);
     }

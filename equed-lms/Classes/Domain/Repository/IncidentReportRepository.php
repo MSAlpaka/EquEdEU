@@ -80,12 +80,12 @@ class IncidentReportRepository extends Repository
     }
 
     /**
-     * Finds an incident report by its UID.
+     * Find an incident report by UID.
      *
      * @param int $uid
      * @return IncidentReport|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?IncidentReport
     {
         return $this->findByIdentifier($uid);
     }

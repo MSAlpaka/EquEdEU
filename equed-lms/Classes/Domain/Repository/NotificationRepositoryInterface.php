@@ -21,10 +21,9 @@ interface NotificationRepositoryInterface
     public function findLatestByUser(FrontendUser $user, int $limit = 5): array;
 
     /**
-     * @param int $uid
-     * @return Notification|null
+     * Find a notification by UID.
      */
-    public function findByUid(int $uid);
+    public function findByUid(int $uid): ?Notification;
 
     /**
      * @param Notification $notification
