@@ -16,7 +16,7 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 class CertificateDispatchRepository extends Repository implements CertificateDispatchRepositoryInterface
 {
     /**
-     * Finds all dispatched certificates for a specific frontend user.
+     * Finds all dispatched certificates for a specific instructor.
      *
      * @param FrontendUser $frontendUser
      * @return CertificateDispatch[]
@@ -25,7 +25,7 @@ class CertificateDispatchRepository extends Repository implements CertificateDis
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $frontendUser)
+            $query->equals('instructor', $frontendUser)
         );
 
         return $query->execute()->toArray();

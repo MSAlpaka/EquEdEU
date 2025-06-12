@@ -36,7 +36,7 @@ final class LessonProgressRepository extends Repository implements LessonProgres
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $userId),
+                $query->equals('instructor', $userId),
                 $query->equals('lesson', $lessonId),
             ])
         );
@@ -49,7 +49,7 @@ final class LessonProgressRepository extends Repository implements LessonProgres
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $userId)
+            $query->equals('instructor', $userId)
         );
 
         return $query->execute()->toArray();

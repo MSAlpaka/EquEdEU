@@ -15,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class CourseAccessMapRepository extends Repository
 {
     /**
-     * Finds all access maps for a specific frontend user.
+     * Finds all access maps for a specific instructor.
      *
      * @param FrontendUser $frontendUser
      * @return CourseAccessMap[]
@@ -24,7 +24,7 @@ class CourseAccessMapRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $frontendUser)
+            $query->equals('instructor', $frontendUser)
         );
 
         return $query->execute()->toArray();

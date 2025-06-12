@@ -15,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class CourseBookingRequestRepository extends Repository
 {
     /**
-     * Finds all booking requests for the given frontend user.
+     * Finds all booking requests for the given instructor.
      *
      * @param FrontendUser $frontendUser
      * @return CourseBookingRequest[]
@@ -24,7 +24,7 @@ class CourseBookingRequestRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $frontendUser)
+            $query->equals('instructor', $frontendUser)
         );
 
         return $query->execute()->toArray();
