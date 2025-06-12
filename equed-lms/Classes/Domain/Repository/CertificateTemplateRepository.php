@@ -13,16 +13,16 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class CertificateTemplateRepository extends Repository
 {
     /**
-     * Finds all certificate templates matching a badge type.
+     * Finds all certificate templates matching a badge level.
      *
-     * @param string $badgeType
+     * @param string $badgeLevel
      * @return CertificateTemplate[]
      */
-    public function findByBadgeType(string $badgeType): array
+    public function findByBadgeLevel(string $badgeLevel): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('badgeType', $badgeType)
+            $query->equals('badgeLevel', $badgeLevel)
         );
 
         return $query->execute()->toArray();
@@ -38,7 +38,7 @@ class CertificateTemplateRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('defaultLanguage', $language)
+            $query->equals('language', $language)
         );
 
         return $query->execute()->toArray();
