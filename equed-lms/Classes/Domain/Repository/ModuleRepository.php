@@ -45,4 +45,21 @@ final class ModuleRepository extends Repository
 
         return $query->execute()->getFirst();
     }
+
+    /**
+     * Find a module by its UUID.
+     *
+     * @param string $uuid
+     * @return Module|null
+     */
+    public function findByUuid(string $uuid): ?Module
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid)
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
+    }
 }
