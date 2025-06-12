@@ -72,6 +72,7 @@ final class CertificateDispatchRepository extends Repository implements Certific
      * Adds a new certificate dispatch to the repository.
      *
      * @param CertificateDispatch $dispatch The certificate dispatch instance to add.
+     * @return void
      */
     public function add(CertificateDispatch $dispatch): void
     {

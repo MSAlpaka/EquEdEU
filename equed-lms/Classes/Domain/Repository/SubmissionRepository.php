@@ -50,6 +50,9 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
 
     /**
      * {@inheritDoc}
+     *
+     * @param Submission $submission
+     * @return void
      */
     public function update(Submission $submission): void
     {

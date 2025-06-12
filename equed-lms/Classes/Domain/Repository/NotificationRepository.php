@@ -70,6 +70,7 @@ final class NotificationRepository extends Repository implements NotificationRep
      * Adds a notification to the repository.
      *
      * @param Notification $notification Notification entity to add
+     * @return void
      */
     public function add(Notification $notification): void
     {

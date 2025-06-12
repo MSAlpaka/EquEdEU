@@ -65,6 +65,7 @@ final class SearchLogRepository extends Repository
     /**
      * @param \Equed\EquedCore\Domain\Model\SearchLog $object
      * @throws AccessDeniedException
+     * @return void
      */
     public function add($object): void
     {
@@ -74,6 +75,7 @@ final class SearchLogRepository extends Repository
 
     /**
      * @param \Equed\EquedCore\Domain\Model\SearchLog $object
+     * @return void
      */
     public function update($object): void
     {
@@ -83,6 +85,7 @@ final class SearchLogRepository extends Repository
 
     /**
      * @param \Equed\EquedCore\Domain\Model\SearchLog $object
+     * @return void
      */
     public function remove($object): void
     {

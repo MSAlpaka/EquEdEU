@@ -176,6 +176,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
      * Add a badge to the repository.
      *
      * @param UserBadge $badge Badge instance to add
+     * @return void
      */
     public function add(UserBadge $badge): void
     {
