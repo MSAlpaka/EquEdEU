@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<CourseProgram>
  */
-class CourseProgramRepository extends Repository
+final class CourseProgramRepository extends Repository
 {
     /**
      * Find a course program by UID.

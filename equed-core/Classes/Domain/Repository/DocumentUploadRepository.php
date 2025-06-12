@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Exception\AccessDeniedException;
  * @version 1.0.0
  */
 /** @extends Repository<\Equed\EquedCore\Domain\Model\DocumentUpload> */
-class DocumentUploadRepository extends Repository
+final class DocumentUploadRepository extends Repository
 {
     protected CacheInterface $cache;
 

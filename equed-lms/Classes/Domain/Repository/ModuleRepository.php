@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for Module entities.
  */
-class ModuleRepository extends Repository
+final class ModuleRepository extends Repository
 {
     /**
      * Find modules for the given course program.

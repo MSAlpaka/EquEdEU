@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for Notification entities.
  */
-class NotificationRepository extends Repository
+final class NotificationRepository extends Repository
 {
     /**
      * Finds unread notifications for a specific instructor.

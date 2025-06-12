@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for Lesson entities.
  */
-class LessonRepository extends Repository
+final class LessonRepository extends Repository
 {
     /**
      * Finds all lessons for a given course program.

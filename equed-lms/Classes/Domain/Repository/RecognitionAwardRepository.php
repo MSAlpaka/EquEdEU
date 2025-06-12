@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for RecognitionAward entities.
  */
-class RecognitionAwardRepository extends Repository
+final class RecognitionAwardRepository extends Repository
 {
     /**
      * Default ordering: newest first.

@@ -12,6 +12,6 @@ use Equed\EquedLms\Domain\Model\EventBooking;
  *
  * @extends Repository<EventBooking>
  */
-class EventBookingRepository extends Repository
+final class EventBookingRepository extends Repository
 {
 }

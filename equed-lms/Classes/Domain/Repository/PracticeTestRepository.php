@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for PracticeTest entities.
  */
-class PracticeTestRepository extends Repository
+final class PracticeTestRepository extends Repository
 {
     /**
      * Finds all active practice tests (not marked deleted).

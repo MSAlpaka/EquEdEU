@@ -13,7 +13,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for LessonAttempt entities.
  */
-class LessonAttemptRepository extends Repository
+final class LessonAttemptRepository extends Repository
 {
     /**
      * Finds the latest attempt by a specific instructor for a given lesson.

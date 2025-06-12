@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for CourseMaterial entities.
  */
-class CourseMaterialRepository extends Repository
+final class CourseMaterialRepository extends Repository
 {
     /**
      * Find a CourseMaterial by its UUID.

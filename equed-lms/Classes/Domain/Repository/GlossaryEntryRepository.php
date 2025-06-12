@@ -7,7 +7,10 @@ namespace Equed\EquedLms\Domain\Repository;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
-class GlossaryEntryRepository extends Repository
+/**
+ * Repository for GlossaryEntry entities.
+ */
+final class GlossaryEntryRepository extends Repository
 {
     /**
      * Finds all glossary terms by language

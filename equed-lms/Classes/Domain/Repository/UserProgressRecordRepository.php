@@ -13,7 +13,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<UserProgressRecord>
  */
-class UserProgressRecordRepository extends Repository
+final class UserProgressRecordRepository extends Repository
 {
     /**
      * Default ordering: oldest progress first.

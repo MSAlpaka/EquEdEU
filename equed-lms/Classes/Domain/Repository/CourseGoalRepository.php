@@ -12,7 +12,7 @@ use Equed\EquedLms\Domain\Model\CourseGoal;
  *
  * @extends Repository<CourseGoal>
  */
-class CourseGoalRepository extends Repository
+final class CourseGoalRepository extends Repository
 {
     /**
      * Find goals for a specific course program.

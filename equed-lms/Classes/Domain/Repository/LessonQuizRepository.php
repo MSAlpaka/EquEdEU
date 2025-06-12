@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for LessonQuiz entities.
  */
-class LessonQuizRepository extends Repository
+final class LessonQuizRepository extends Repository
 {
     /**
      * Finds all quizzes for a given lesson.

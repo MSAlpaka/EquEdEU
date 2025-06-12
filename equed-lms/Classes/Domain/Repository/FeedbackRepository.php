@@ -13,7 +13,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for CourseFeedback entities.
  */
-class FeedbackRepository extends Repository
+final class FeedbackRepository extends Repository
 {
     /**
      * Finds all feedback entries for a specific frontend user.

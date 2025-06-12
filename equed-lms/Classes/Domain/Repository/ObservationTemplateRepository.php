@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for ObservationTemplate entities.
  */
-class ObservationTemplateRepository extends Repository
+final class ObservationTemplateRepository extends Repository
 {
     /**
      * Finds all active templates (deleted flag is false).

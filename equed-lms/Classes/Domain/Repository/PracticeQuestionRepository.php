@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for PracticeQuestion entities.
  */
-class PracticeQuestionRepository extends Repository
+final class PracticeQuestionRepository extends Repository
 {
     /**
      * Finds all active practice questions (not marked deleted).

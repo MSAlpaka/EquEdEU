@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for IncidentReport entities.
  */
-class IncidentReportRepository extends Repository
+final class IncidentReportRepository extends Repository
 {
     /**
      * Finds all incident reports for a specific instructor.

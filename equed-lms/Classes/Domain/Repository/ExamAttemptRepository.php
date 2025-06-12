@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for ExamAttempt entities.
  */
-class ExamAttemptRepository extends Repository
+final class ExamAttemptRepository extends Repository
 {
     /**
      * Find all attempts by a specific user for the provided exam template.

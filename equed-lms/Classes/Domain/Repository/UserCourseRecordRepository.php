@@ -17,7 +17,7 @@ use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
  *
  * @extends Repository<UserCourseRecord>
  */
-class UserCourseRecordRepository extends Repository implements UserCourseRecordRepositoryInterface
+final class UserCourseRecordRepository extends Repository implements UserCourseRecordRepositoryInterface
 {
     /**
      * Default ordering: newest records first.
