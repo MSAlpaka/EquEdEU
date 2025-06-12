@@ -24,7 +24,7 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
 

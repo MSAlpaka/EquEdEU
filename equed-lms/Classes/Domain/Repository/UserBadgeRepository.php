@@ -22,7 +22,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'earnedAt' => QueryInterface::ORDER_DESCENDING,
     ];
 

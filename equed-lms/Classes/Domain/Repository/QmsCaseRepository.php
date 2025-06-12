@@ -14,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 final class QmsCaseRepository extends Repository
 {
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'createdAt' => QueryInterface::ORDER_DESCENDING,
     ];
 

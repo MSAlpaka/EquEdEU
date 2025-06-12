@@ -20,7 +20,7 @@ final class UserProgressRecordRepository extends Repository
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'createdAt' => QueryInterface::ORDER_ASCENDING,
     ];
 
