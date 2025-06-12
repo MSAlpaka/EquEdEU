@@ -2,57 +2,65 @@
 
 declare(strict_types=1);
 
+namespace Equed\EquedLms\Domain\Repository {
+    if (!class_exists(BadgeAwardRepository::class)) {
+        class BadgeAwardRepository {
+            public function addForCourse(int $userId, int $courseId, string $label): void {}
+            public function addForLearningPath(int $userId, int $pathId, string $label): void {}
+        }
+    }
+}
+
 namespace Equed\EquedLms\Tests\Unit\Service;
 
-use PHPUnit\Framework\TestCase;
-use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use Equed\EquedLms\Service\BadgeAwardService;
 use Equed\EquedLms\Domain\Repository\BadgeAwardRepository;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Domain\Repository\LearningPathRepository;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Model\UserCourseRecord;
-use Equed\EquedLms\Domain\Model\LearningPath;
+use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 
 class BadgeAwardServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private BadgeAwardService $subject;
-    private $badgeRepo;
-    private $userBadgeRepo;
-    private $logger;
-
-    protected function setUp(): void
+    public function testAwardPendingBadgesAddsEntries(): void
     {
-        $this->badgeRepo = $this->prophesize(BadgeRepository::class);
-        $this->userBadgeRepo = $this->prophesize(UserBadgeRepository::class);
-        $this->logger = $this->prophesize(LoggerInterface::class);
+        $record = new class {
+            public function __construct() { $this->user = new class { public function getUid(){return 1;} }; $this->course = new class { public function getUid(){return 2;} public function getTitle(){return 'Course';} }; }
+            public function getFeUser(){ return $this->user; }
+            public function getCourse(){ return $this->course; }
+        };
+        $path = new class {
+            public function __construct() { $this->user = new class { public function getUid(){return 1;} }; }
+            public function getFeUser(){ return $this->user; }
+            public function getUid(){ return 3; }
+            public function getTitle(){ return 'Path'; }
+        };
 
-        $this->subject = new BadgeAwardService(
-            $this->badgeRepo->reveal(),
-            $this->userBadgeRepo->reveal(),
-            $this->logger->reveal()
+        $awardRepo = $this->prophesize(BadgeAwardRepository::class);
+        $awardRepo->addForCourse(1, 2, 'c')->shouldBeCalled();
+        $awardRepo->addForLearningPath(1, 3, 'p')->shouldBeCalled();
+
+        $courseRepo = $this->prophesize(UserCourseRecordRepository::class);
+        $courseRepo->findCompletedWithoutBadge()->willReturn([$record]);
+        $lpRepo = $this->prophesize(LearningPathRepository::class);
+        $lpRepo->findCompletedWithoutBadge()->willReturn([$path]);
+
+        $translator = $this->prophesize(GptTranslationServiceInterface::class);
+        $translator->translate('badge.course_completion', ['course' => 'Course'])->willReturn('c');
+        $translator->translate('badge.learning_path_completion', ['path' => 'Path'])->willReturn('p');
+
+        $service = new BadgeAwardService(
+            $awardRepo->reveal(),
+            $courseRepo->reveal(),
+            $lpRepo->reveal(),
+            $translator->reveal()
         );
-    }
 
-    public function testItAwardsBadge(): void
-    {
-        $user = new User();
-        $this->badgeRepo->findByCode('HC1')->willReturn(['id' => 1]);
-        $this->userBadgeRepo->assignBadge($user, ['id' => 1])->shouldBeCalled();
-
-        $result = $this->subject->awardBadgeToUser($user, 'HC1');
-        $this->assertTrue($result);
-    }
-
-    public function testItFailsOnInvalidBadge(): void
-    {
-        $user = new User();
-        $this->badgeRepo->findByCode('???')->willReturn(null);
-        $this->logger->warning('Invalid badge code: ???')->shouldBeCalled();
-
-        $result = $this->subject->awardBadgeToUser($user, '???');
-        $this->assertFalse($result);
+        $count = $service->awardPendingBadges();
+        $this->assertSame(2, $count);
     }
 }
