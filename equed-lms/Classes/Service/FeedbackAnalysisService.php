@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\CourseFeedback;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
-use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Service\LogService;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
@@ -21,7 +21,7 @@ final class FeedbackAnalysisService
 
     public function __construct(
         private readonly RequestFactory $requestFactory,
-        private readonly LogServiceInterface $logService,
+        private readonly LogService $logService,
         private readonly GptTranslationServiceInterface $translationService,
         private readonly string $openAiApiKey,
         private readonly bool $feedbackAnalysisEnabled

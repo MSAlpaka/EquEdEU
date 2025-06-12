@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Enum\CourseStatus;
-use Equed\EquedLms\Service\CertificateServiceInterface;
-use Equed\EquedLms\Service\NotificationServiceInterface;
+use Equed\EquedLms\Service\CertificateService;
+use Equed\EquedLms\Service\NotificationService;
 
 /**
  * Service to finalize a user course record: mark validated, persist changes,
@@ -18,8 +18,8 @@ use Equed\EquedLms\Service\NotificationServiceInterface;
 final class CourseStatusUpdaterService
 {
     public function __construct(
-        private readonly CertificateServiceInterface    $certificateService,
-        private readonly NotificationServiceInterface   $notificationService,
+        private readonly CertificateService    $certificateService,
+        private readonly NotificationService   $notificationService,
         private readonly UserCourseRecordRepository     $userCourseRecordRepository
     ) {
     }

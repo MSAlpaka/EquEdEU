@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Psr\Cache\CacheItemPoolInterface;
-use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Service\LogService;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
@@ -17,7 +17,7 @@ final class GptTranslationService implements GptTranslationServiceInterface
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly CacheItemPoolInterface $cache,
-        private readonly LogServiceInterface $logService,
+        private readonly LogService $logService,
         private readonly string $apiEndpoint,
         private readonly string $apiKey,
         private readonly string $defaultLanguage = 'en'

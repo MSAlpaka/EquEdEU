@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\QmsCase;
-use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Service\MailServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -18,7 +18,7 @@ final class QmsEscalationService
     private readonly string $extensionKey;
 
     public function __construct(
-        private readonly LogServiceInterface $logService,
+        private readonly LogService $logService,
         private readonly MailServiceInterface $mailService,
         private readonly GptTranslationServiceInterface $translationService,
         string $extensionKey = 'equed_lms'

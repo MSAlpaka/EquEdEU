@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Task;
 
-use Equed\EquedLms\Service\SubmissionServiceInterface;
-use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Service\SubmissionService;
+use Equed\EquedLms\Service\LogService;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**
@@ -16,8 +16,8 @@ final class SubmissionReviewTask extends AbstractTask
     private const REVIEW_THRESHOLD_DAYS = 14;
 
     public function __construct(
-        private readonly SubmissionServiceInterface $submissionService,
-        private readonly LogServiceInterface $logService
+        private readonly SubmissionService $submissionService,
+        private readonly LogService $logService
     ) {
     }
 
