@@ -32,30 +32,30 @@ final class LessonRepository extends Repository
     }
 
     /**
-     * Finds all visible lessons (hidden = false).
+     * Find all lessons marked as visible.
      *
      * @return Lesson[]
      */
-    public function findVisibleLessons(): array
+    public function findVisible(): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('hidden', 0)
+            $query->equals('visible', true)
         );
 
         return $query->execute()->toArray();
     }
 
     /**
-     * Finds all lessons that have a quiz associated.
+     * Find lessons that contain quiz questions.
      *
      * @return Lesson[]
      */
-    public function findQuizLessonsOnly(): array
+    public function findWithQuiz(): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('hasQuiz', true)
+            $query->greaterThan('quiz.uid', 0)
         );
 
         return $query->execute()->toArray();
