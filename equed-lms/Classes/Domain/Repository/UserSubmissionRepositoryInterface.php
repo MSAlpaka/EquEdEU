@@ -52,6 +52,10 @@ interface UserSubmissionRepositoryInterface
      */
     public function findByPracticeTest(int $practiceTestUid): array;
 
+    public function countByLesson(int $lessonUid): int;
+
+    public function countByPracticeTest(int $practiceTestUid): int;
+
     /**
      * @param SubmissionStatus|string $status
      * @return UserSubmission[]
