@@ -81,6 +81,22 @@ interface UserSubmissionRepositoryInterface
     public function countByPracticeTest(PracticeTest $practiceTest): int;
 
     /**
+     * Count submissions with status "submitted" for the given lesson.
+     *
+     * @param Lesson $lesson
+     * @return int
+     */
+    public function countSubmittedByLesson(Lesson $lesson): int;
+
+    /**
+     * Count pending submissions for a specific course instance.
+     *
+     * @param int $courseInstanceId
+     * @return int
+     */
+    public function countPendingByCourseInstance(int $courseInstanceId): int;
+
+    /**
      * Count submissions by status.
      *
      * @param SubmissionStatus|string $status

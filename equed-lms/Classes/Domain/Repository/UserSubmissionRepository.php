@@ -159,6 +159,44 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     }
 
     /**
+     * Count submissions with status "submitted" for the given lesson.
+     */
+    public function countSubmittedByLesson(Lesson $lesson): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('lesson', $qb->createNamedParameter($lesson->getUid(), \PDO::PARAM_INT)),
+                $qb->expr()->eq('status', $qb->createNamedParameter('submitted'))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
+    }
+
+    /**
+     * Count pending submissions for a specific course instance.
+     */
+    public function countPendingByCourseInstance(int $courseInstanceId): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('course_instance', $qb->createNamedParameter($courseInstanceId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('status', $qb->createNamedParameter(SubmissionStatus::Pending->value))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
+    }
+
+    /**
      * Count submissions by status.
      */
     public function countByStatus(SubmissionStatus|string $status): int
