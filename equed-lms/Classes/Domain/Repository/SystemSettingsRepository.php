@@ -8,7 +8,12 @@ use Equed\EquedLms\Domain\Model\SystemSettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- * Repository for SystemSettings entities.
+ * Repository for {@link SystemSettings} entities.
+ *
+ * The repository stores system wide configuration values. It currently does not
+ * define any custom query methods and simply inherits the default Extbase
+ * {@link Repository} behaviour. New lookup logic can be introduced here when
+ * required.
  *
  * @extends Repository<SystemSettings>
  */
