@@ -8,11 +8,12 @@ use Equed\EquedLms\Domain\Model\CertificateDispatch;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 
 /**
  * Repository for CertificateDispatch entities.
  */
-class CertificateDispatchRepository extends Repository
+class CertificateDispatchRepository extends Repository implements CertificateDispatchRepositoryInterface
 {
     /**
      * Finds all dispatched certificates for a specific frontend user.
