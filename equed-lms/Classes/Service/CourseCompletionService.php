@@ -9,13 +9,14 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Factory\UserCourseRecordFactoryInterface;
 use Equed\EquedLms\Event\Course\CourseCompletedEvent;
+use Equed\EquedLms\Domain\Service\CourseCompletionServiceInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 /**
  * Service responsible for marking user course records as completed.
  */
-final class CourseCompletionService
+final class CourseCompletionService implements CourseCompletionServiceInterface
 {
     public function __construct(
         private readonly UserCourseRecordRepository        $recordRepository,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Domain\Service\MediaUploadServiceInterface;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
@@ -15,7 +16,7 @@ use Equed\EquedLms\Domain\Model\FrontendUser;
 /**
  * Service to securely handle media file uploads.
  */
-final class MediaUploadService
+final class MediaUploadService implements MediaUploadServiceInterface
 {
     private const ALLOWED_MIME_TYPES = [
         'image/jpeg',
