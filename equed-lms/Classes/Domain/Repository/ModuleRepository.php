@@ -64,4 +64,51 @@ final class ModuleRepository extends Repository
 
         return $query->execute()->getFirst();
     }
+
+    /**
+     * Find active modules for a course program.
+     *
+     * A module is considered active when its parent program is visible, not
+     * archived and available.
+     *
+     * @param CourseProgram $program Related course program
+     * @return Module[]               List of matching modules
+     */
+    public function findActiveModules(CourseProgram $program): array
+    {
+        $now = new \DateTimeImmutable();
+
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('courseProgram', $program),
+                $query->equals('courseProgram.isVisible', true),
+                $query->equals('courseProgram.isArchived', false),
+                $query->lessThanOrEqual('courseProgram.availableFrom', $now),
+            ])
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Count modules for a specific program.
+     *
+     * @param int $programId UID of the course program
+     * @return int           Number of modules
+     */
+    public function countByCourseProgram(int $programId): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_module')
+            ->where(
+                $qb->expr()->eq('course_program', $qb->createNamedParameter($programId, \PDO::PARAM_INT))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
 }
