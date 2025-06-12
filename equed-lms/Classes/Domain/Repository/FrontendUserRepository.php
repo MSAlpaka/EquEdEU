@@ -34,6 +34,10 @@ final class FrontendUserRepository extends Repository implements FrontendUserRep
         return $user instanceof FrontendUser ? $user : null;
     }
 
+    /**
+     * @param FrontendUser $user
+     * @return void
+     */
     public function update(FrontendUser $user): void
     {
         parent::update($user);

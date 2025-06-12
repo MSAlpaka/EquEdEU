@@ -65,6 +65,7 @@ final class DocumentUploadRepository extends Repository
     /**
      * @throws AccessDeniedException
      * @param \Equed\EquedCore\Domain\Model\DocumentUpload $object
+     * @return void
      */
     public function add($object): void
     {
@@ -82,6 +83,7 @@ final class DocumentUploadRepository extends Repository
 
     /**
      * @param \Equed\EquedCore\Domain\Model\DocumentUpload $object
+     * @return void
      */
     public function update($object): void
     {
@@ -91,6 +93,7 @@ final class DocumentUploadRepository extends Repository
 
     /**
      * @param \Equed\EquedCore\Domain\Model\DocumentUpload $object
+     * @return void
      */
     public function remove($object): void
     {

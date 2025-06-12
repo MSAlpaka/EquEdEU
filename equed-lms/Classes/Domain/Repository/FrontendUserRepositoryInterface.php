@@ -9,8 +9,16 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 interface FrontendUserRepositoryInterface
 {
+    /**
+     * @param string $token
+     * @return FrontendUser|null
+     */
     public function findByApiToken(string $token): ?FrontendUser;
 
+    /**
+     * @param FrontendUser $user
+     * @return void
+     */
     public function update(FrontendUser $user): void;
 
     /**

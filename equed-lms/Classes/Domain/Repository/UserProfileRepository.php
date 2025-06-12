@@ -169,6 +169,7 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
      * Adds a user profile to the repository.
      *
      * @param UserProfile $profile Profile entity to add
+     * @return void
      */
     public function add(UserProfile $profile): void
     {
@@ -179,6 +180,7 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
      * Updates a user profile in the repository.
      *
      * @param UserProfile $profile Profile entity to update
+     * @return void
      */
     public function update(UserProfile $profile): void
     {

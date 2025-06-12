@@ -17,6 +17,10 @@ interface UserSubmissionRepositoryInterface
      */
     public function findPendingSubmissionsForInstructor(int $feUserId): array;
 
+    /**
+     * @param int $courseInstanceId
+     * @return int
+     */
     public function countByCourseInstance(int $courseInstanceId): int;
 
     /**
@@ -29,8 +33,16 @@ interface UserSubmissionRepositoryInterface
      */
     public function findByCourseInstance(int $courseInstanceId): array;
 
+    /**
+     * @param int $uid
+     * @return UserSubmission|null
+     */
     public function findByUid(int $uid): ?UserSubmission;
 
+    /**
+     * @param string $uuid
+     * @return UserSubmission|null
+     */
     public function findByUuid(string $uuid): ?UserSubmission;
 
     /**
@@ -56,12 +68,23 @@ interface UserSubmissionRepositoryInterface
      */
     public function findByPracticeTest(PracticeTest $practiceTest): array;
 
+    /**
+     * @param Lesson $lesson
+     * @return int
+     */
     public function countByLesson(Lesson $lesson): int;
 
+    /**
+     * @param PracticeTest $practiceTest
+     * @return int
+     */
     public function countByPracticeTest(PracticeTest $practiceTest): int;
 
     /**
      * Count submissions by status.
+     *
+     * @param SubmissionStatus|string $status
+     * @return int
      */
     public function countByStatus(SubmissionStatus|string $status): int;
 
@@ -76,6 +99,10 @@ interface UserSubmissionRepositoryInterface
      */
     public function findPending(): array;
 
+    /**
+     * @param int $userCourseRecordUid
+     * @return UserSubmission|null
+     */
     public function findLatestByUserCourseRecord(int $userCourseRecordUid): ?UserSubmission;
 
     /**
