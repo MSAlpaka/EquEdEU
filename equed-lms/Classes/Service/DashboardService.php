@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
@@ -33,7 +34,8 @@ final class DashboardService implements DashboardServiceInterface
         private readonly ProgressServiceInterface               $progressService,
         private readonly GptTranslationServiceInterface                  $translationService,
         private readonly CacheItemPoolInterface                 $cachePool,
-        private readonly bool                                   $gptAnalysisEnabled
+        private readonly bool                                   $gptAnalysisEnabled,
+        private readonly ClockInterface                         $clock
     ) {
     }
 
@@ -78,7 +80,7 @@ final class DashboardService implements DashboardServiceInterface
             'notifications' => $this->buildNotificationsData($notificationList),
             'cacheMeta'     => [
                 'ttl'       => self::CACHE_TTL_SECONDS,
-                'fetchedAt' => (new DateTimeImmutable())->format(DateTimeImmutable::ATOM),
+                'fetchedAt' => $this->clock->now()->format(DateTimeImmutable::ATOM),
             ],
             'features'      => [
                 'gptAnalysis' => $this->gptAnalysisEnabled,

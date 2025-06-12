@@ -57,3 +57,6 @@ services:
 
   Equed\EquedLms\Domain\Service\DocumentServiceInterface:
     class: Equed\EquedLms\Service\DocumentService
+
+  Equed\EquedLms\Domain\Service\ClockInterface:
+    class: Equed\EquedLms\Service\SystemClock

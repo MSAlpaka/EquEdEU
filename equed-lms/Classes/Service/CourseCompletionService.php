@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Factory\UserCourseRecordFactoryInterface;
@@ -22,7 +23,8 @@ final class CourseCompletionService implements CourseCompletionServiceInterface
         private readonly UserCourseRecordRepository        $recordRepository,
         private readonly UserCourseRecordFactoryInterface  $recordFactory,
         private readonly PersistenceManagerInterface       $persistenceManager,
-        private readonly EventDispatcherInterface          $eventDispatcher
+        private readonly EventDispatcherInterface          $eventDispatcher,
+        private readonly ClockInterface                    $clock
     ) {
     }
 
@@ -47,7 +49,7 @@ final class CourseCompletionService implements CourseCompletionServiceInterface
         }
 
         $record->setCompleted(true);
-        $record->setCompletedAt(new DateTimeImmutable());
+        $record->setCompletedAt($this->clock->now());
 
         $this->persistenceManager->persistAll();
         $this->eventDispatcher->dispatch(new CourseCompletedEvent($record));

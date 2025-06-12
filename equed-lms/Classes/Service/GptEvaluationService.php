@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Equed\EquedLms\Service\LogService;
@@ -27,7 +28,8 @@ final class GptEvaluationService
         private readonly GptTranslationServiceInterface $translationService,
         private readonly string                        $openAiApiKey,
         private readonly bool                          $evaluationEnabled,
-        private readonly string                        $openAiApiUrl
+        private readonly string                        $openAiApiUrl,
+        private readonly ClockInterface                $clock
     ) {
     }
 
@@ -113,7 +115,7 @@ final class GptEvaluationService
                 ->setGptSummary($analysis['summary'] ?? '')
                 ->setGptSuggestion($analysis['suggestion'] ?? '')
                 ->setGptAnalysisData(json_encode($analysis, JSON_THROW_ON_ERROR))
-                ->setAnalyzedAt(new DateTimeImmutable());
+                ->setAnalyzedAt($this->clock->now());
 
             $this->submissionRepository->update($submission);
 
