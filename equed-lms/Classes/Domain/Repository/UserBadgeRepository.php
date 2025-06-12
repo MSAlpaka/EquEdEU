@@ -27,7 +27,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
     ];
 
     /**
-     * Find all badges earned by a specific instructor.
+     * Find all badges earned by a specific user.
      *
      * @param FrontendUser $user
      * @return UserBadge[]
@@ -36,7 +36,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('instructor', $user)
+            $query->equals('feUser', $user)
         );
 
         return $query->execute()->toArray();
@@ -78,7 +78,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('instructor', $userId)
+            $query->equals('feUser', $userId)
         );
 
         return $query->execute()->toArray();
@@ -88,7 +88,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('instructor', $userId)
+            $query->equals('feUser', $userId)
         );
 
         return $query->execute()->count();
@@ -99,7 +99,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('instructor', $userId),
+                $query->equals('feUser', $userId),
                 $query->equals('badgeType', $type),
             ])
         );
@@ -113,7 +113,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('instructor', $userId),
+                $query->equals('feUser', $userId),
                 $query->equals('badgeType', $identifier),
             ])
         );
