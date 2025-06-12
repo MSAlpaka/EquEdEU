@@ -164,4 +164,24 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
     {
         return $this->findByFeUser($userId);
     }
+
+    /**
+     * Adds a user profile to the repository.
+     *
+     * @param UserProfile $profile Profile entity to add
+     */
+    public function add(UserProfile $profile): void
+    {
+        parent::add($profile);
+    }
+
+    /**
+     * Updates a user profile in the repository.
+     *
+     * @param UserProfile $profile Profile entity to update
+     */
+    public function update(UserProfile $profile): void
+    {
+        parent::update($profile);
+    }
 }
