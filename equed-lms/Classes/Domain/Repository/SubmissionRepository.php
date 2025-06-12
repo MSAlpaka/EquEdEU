@@ -38,20 +38,7 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
     /**
      * {@inheritDoc}
      */
-    public function findPendingForWeeklyAnalysis(): array
-    {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('gptAnalysisStatus', 'pending')
-        );
-
-        return $query->execute()->toArray();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function findPendingForEvaluation(): array
+    public function findPendingForAnalysis(): array
     {
         $query = $this->createQuery();
         $query->matching(
@@ -69,35 +56,5 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
         parent::update($submission);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function findByUserCourseRecord(int $userCourseRecordUid): array
-    {
-        $queryBuilder = $this->createQuery()->getQueryBuilder();
-        $queryBuilder->resetQueryParts();
-        $queryBuilder
-            ->select('us.points_awarded AS points', 'us.max_points AS maxPoints')
-            ->from('tx_equedlms_domain_model_usersubmission', 'us')
-            ->join(
-                'us',
-                'tx_equedlms_domain_model_usercourserecord',
-                'ucr',
-                'ucr.uid = :ucrUid AND us.course_instance = ucr.course_instance AND us.frontend_user = ucr.fe_user'
-            )
-            ->setParameter('ucrUid', $userCourseRecordUid, \PDO::PARAM_INT);
-
-        $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
-
-        return array_map(
-            static function (array $row): array {
-                return [
-                    'points'    => isset($row['points']) ? (float) $row['points'] : null,
-                    'maxPoints' => isset($row['maxPoints']) ? (float) $row['maxPoints'] : null,
-                ];
-            },
-            $rows
-        );
-    }
 }
 // EOF

@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\SubmissionRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 
 /**
  * Service for calculating user progress within a course program.
@@ -20,7 +20,7 @@ final class UserProgressService
 
     public function __construct(
         private readonly LessonRepositoryInterface $lessonRepository,
-        private readonly SubmissionRepositoryInterface $submissionRepository
+        private readonly UserSubmissionRepositoryInterface $userSubmissionRepository
     ) {
     }
 
@@ -45,7 +45,7 @@ final class UserProgressService
         ));
 
         $submissionScore = $this->calculateSubmissionScore(
-            $this->submissionRepository->findByUserCourseRecord((int) $ucr->getUid())
+            $this->userSubmissionRepository->findScoresByUserCourseRecord((int) $ucr->getUid())
         );
 
         $quizScore = $ucr->getQuizScorePercent() ?? 0.0;
