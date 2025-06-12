@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Tests\Unit\Service;
 
-use Equed\EquedLms\Domain\Model\Feedback;
+use Equed\EquedLms\Domain\Model\CourseFeedback;
 use Equed\EquedLms\Service\FeedbackAnalysisService;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\LogServiceInterface;
@@ -30,7 +30,7 @@ class FeedbackServiceTest extends TestCase
             false
         );
 
-        $result = $service->analyzeFeedback(new Feedback());
+        $result = $service->analyzeFeedback(new CourseFeedback());
         $this->assertNull($result);
     }
 }

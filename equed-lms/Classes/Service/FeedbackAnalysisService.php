@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use Equed\EquedLms\Domain\Model\Feedback;
+use Equed\EquedLms\Domain\Model\CourseFeedback;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Equed\EquedLms\Service\LogServiceInterface;
@@ -31,10 +31,10 @@ final class FeedbackAnalysisService
     /**
      * Analyze feedback; returns analysis array with 'summary', 'clusters', 'suggestedRating' or null.
      *
-     * @param Feedback $feedback Feedback entity
+     * @param CourseFeedback $feedback Feedback entity
      * @return array<string, mixed>|null
      */
-    public function analyzeFeedback(Feedback $feedback): ?array
+    public function analyzeFeedback(CourseFeedback $feedback): ?array
     {
         if (!$this->feedbackAnalysisEnabled) {
             return null;

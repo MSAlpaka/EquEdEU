@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Repository;
 
-use Equed\EquedLms\Domain\Model\Feedback;
+use Equed\EquedLms\Domain\Model\CourseFeedback;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- * Repository for Feedback entities.
+ * Repository for CourseFeedback entities.
  */
 class FeedbackRepository extends Repository
 {
@@ -19,13 +19,13 @@ class FeedbackRepository extends Repository
      * Finds all feedback entries for a specific frontend user.
      *
      * @param FrontendUser $user
-     * @return Feedback[]
+     * @return CourseFeedback[]
      */
     public function findByFeUser(FrontendUser $user): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $user)
+            $query->equals('submittedByUser', $user)
         );
 
         return $query->execute()->toArray();
@@ -34,13 +34,13 @@ class FeedbackRepository extends Repository
     /**
      * Finds all feedback entries not yet seen by instructors.
      *
-     * @return Feedback[]
-     */
+     * @return CourseFeedback[]
+    */
     public function findUnseenFeedback(): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('seenByInstructor', false)
+            $query->equals('isVisibleToInstructor', false)
         );
 
         return $query->execute()->toArray();
@@ -49,17 +49,13 @@ class FeedbackRepository extends Repository
     /**
      * Finds all feedback entries that have not been analyzed by GPT.
      *
-     * @return QueryResultInterface<Feedback>
+     * @return QueryResultInterface<CourseFeedback>
      */
     public function findUnanalyzed(): QueryResultInterface
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->logicalOr([
-                $query->equals('analysisSummary', null),
-                $query->equals('analysisSummary', ''),
-                $query->equals('suggestedRating', 0),
-            ])
+            $query->equals('status', 'submitted')
         );
 
         return $query->execute();
@@ -70,15 +66,15 @@ class FeedbackRepository extends Repository
      *
      * @param FrontendUser   $user
      * @param CourseInstance $courseInstance
-     * @return Feedback|null
+     * @return CourseFeedback|null
      */
-    public function findByUserAndCourse(FrontendUser $user, CourseInstance $courseInstance): ?Feedback
+    public function findByUserAndCourse(FrontendUser $user, CourseInstance $courseInstance): ?CourseFeedback
     {
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $user),
-                $query->equals('course', $courseInstance),
+                $query->equals('submittedByUser', $user),
+                $query->equals('userCourseRecord.courseInstance', $courseInstance),
             ])
         );
         $query->setLimit(1);
