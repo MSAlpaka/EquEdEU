@@ -77,4 +77,3 @@ final class TrainingCenterFeedbackRepository extends Repository
         return $query->execute()->getFirst();
     }
 }
-// EOF

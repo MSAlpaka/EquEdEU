@@ -49,4 +49,3 @@ final class InstructorAvailabilityRegionRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

@@ -54,4 +54,3 @@ final class ObservationTemplateRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

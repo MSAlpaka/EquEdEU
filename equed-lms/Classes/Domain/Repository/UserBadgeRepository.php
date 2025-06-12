@@ -155,4 +155,3 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
         return $result === false ? 0 : (int)$result;
     }
 }
-// EOF

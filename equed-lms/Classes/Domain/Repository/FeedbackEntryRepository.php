@@ -51,4 +51,3 @@ final class FeedbackEntryRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

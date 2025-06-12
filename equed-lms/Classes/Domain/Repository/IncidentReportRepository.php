@@ -93,4 +93,3 @@ final class IncidentReportRepository extends Repository
         return $this->findByIdentifier($uid);
     }
 }
-// EOF

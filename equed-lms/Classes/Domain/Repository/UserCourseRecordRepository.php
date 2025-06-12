@@ -304,4 +304,3 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
         return array_values(array_filter($rows, static fn ($v) => $v !== null && $v !== ''));
     }
 }
-// EOF

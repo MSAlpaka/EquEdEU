@@ -68,4 +68,3 @@ final class CertificateDispatchRepository extends Repository implements Certific
         return $query->execute()->toArray();
     }
 }
-// EOF

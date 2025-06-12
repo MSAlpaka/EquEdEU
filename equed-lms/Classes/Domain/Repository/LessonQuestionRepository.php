@@ -56,4 +56,3 @@ final class LessonQuestionRepository extends Repository
             ->toArray();
     }
 }
-// EOF

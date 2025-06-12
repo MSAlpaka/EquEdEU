@@ -66,4 +66,3 @@ final class NotificationRepository extends Repository implements NotificationRep
         return $this->findByIdentifier($uid);
     }
 }
-// EOF

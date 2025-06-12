@@ -53,4 +53,3 @@ final class LessonQuizRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

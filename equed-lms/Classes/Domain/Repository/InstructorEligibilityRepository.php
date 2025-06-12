@@ -71,4 +71,3 @@ final class InstructorEligibilityRepository extends Repository
         return $query->execute()->getFirst() !== null;
     }
 }
-// EOF

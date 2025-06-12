@@ -267,4 +267,3 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
         return $result;
     }
 }
-// EOF

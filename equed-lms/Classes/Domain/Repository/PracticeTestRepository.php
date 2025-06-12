@@ -38,4 +38,3 @@ final class PracticeTestRepository extends Repository
         return $this->findByIdentifier($uid);
     }
 }
-// EOF

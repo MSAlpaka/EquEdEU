@@ -25,4 +25,3 @@ final class LearningPathRepository extends Repository
         'title' => QueryInterface::ORDER_ASCENDING,
     ];
 }
-// EOF

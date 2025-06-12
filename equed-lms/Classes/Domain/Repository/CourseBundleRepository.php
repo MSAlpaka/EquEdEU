@@ -44,4 +44,3 @@ final class CourseBundleRepository extends Repository
         return $query->execute()->toArray();
     }
 }
-// EOF

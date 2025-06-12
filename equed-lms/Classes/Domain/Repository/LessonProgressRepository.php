@@ -112,4 +112,3 @@ final class LessonProgressRepository extends Repository implements LessonProgres
         return $result === false ? 0 : (int)$result;
     }
 }
-// EOF

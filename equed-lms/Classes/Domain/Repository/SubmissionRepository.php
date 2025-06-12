@@ -57,4 +57,3 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
     }
 
 }
-// EOF
