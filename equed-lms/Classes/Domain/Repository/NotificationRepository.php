@@ -8,11 +8,14 @@ use Equed\EquedLms\Domain\Model\Notification;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
 
 /**
  * Repository for Notification entities.
+ *
+ * @extends Repository<Notification>
  */
-final class NotificationRepository extends Repository
+final class NotificationRepository extends Repository implements NotificationRepositoryInterface
 {
     /**
      * Finds unread notifications for a specific instructor.

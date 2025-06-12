@@ -12,9 +12,17 @@ use Equed\EquedLms\Domain\Model\CourseInstance;
  * @method CourseInstance|null findByUid(int $uid)
  * @method CourseInstance[] findByInstructor(int $instructorId)
  * @method CourseInstance[] findByCourseProgram(int $courseProgramId)
- * @method CourseInstance[] findAllRequiringExternalExaminer()
- * @method array<int, mixed> findDistinctField(string $field)
  */
 interface CourseInstanceRepositoryInterface
 {
+    /**
+     * @return CourseInstance[]
+     */
+    public function findAllRequiringExternalExaminer(): array;
+
+    /**
+     * @param string $field
+     * @return array<int, mixed>
+     */
+    public function findDistinctField(string $field): array;
 }
