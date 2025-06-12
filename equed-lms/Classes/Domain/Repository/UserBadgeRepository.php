@@ -75,6 +75,23 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
     }
 
     /**
+     * Find a badge by its UUID.
+     *
+     * @param string $uuid
+     * @return UserBadge|null
+     */
+    public function findByUuid(string $uuid): ?UserBadge
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid)
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
      * Find all valid badges for a user.
      *
      * @param int $userId Frontend user UID
