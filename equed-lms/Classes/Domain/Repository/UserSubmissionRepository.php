@@ -159,6 +159,28 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     }
 
     /**
+     * Count submissions by status.
+     */
+    public function countByStatus(SubmissionStatus|string $status): int
+    {
+        if (is_string($status)) {
+            $status = SubmissionStatus::from($status);
+        }
+
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('status', $qb->createNamedParameter($status->value))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
      * Find submissions by status.
      *
      * @param SubmissionStatus|string $status

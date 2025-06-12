@@ -61,6 +61,11 @@ interface UserSubmissionRepositoryInterface
     public function countByPracticeTest(PracticeTest $practiceTest): int;
 
     /**
+     * Count submissions by status.
+     */
+    public function countByStatus(SubmissionStatus|string $status): int;
+
+    /**
      * @param SubmissionStatus|string $status
      * @return UserSubmission[]
      */
