@@ -10,6 +10,10 @@ use Equed\EquedLms\Service\ProgressServiceInterface;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\UserCourseStatus;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use DateTimeImmutable;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -20,6 +24,7 @@ final class ProgressService implements ProgressServiceInterface
     public function __construct(
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         private readonly GptTranslationServiceInterface $translationService,
+        private readonly ConnectionPool $connectionPool,
         private readonly string $extensionKey = 'equed_lms'
     ) {
     }
@@ -109,6 +114,21 @@ final class ProgressService implements ProgressServiceInterface
 
     public function cleanupAbandonedCourseProgress(int $days): void
     {
-        // no-op placeholder to satisfy interface
+        $cutoff = (new DateTimeImmutable())
+            ->modify(sprintf('-%d days', $days))
+            ->format('Y-m-d H:i:s');
+
+        /** @var QueryBuilder $qb */
+        $qb = $this->connectionPool
+            ->getConnectionForTable('tx_equedlms_domain_model_usercourserecord')
+            ->createQueryBuilder();
+
+        $qb
+            ->delete('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->lt('last_activity', $qb->createNamedParameter($cutoff)),
+                $qb->expr()->eq('status', $qb->createNamedParameter(UserCourseStatus::InProgress->value))
+            )
+            ->executeStatement();
     }
 }
