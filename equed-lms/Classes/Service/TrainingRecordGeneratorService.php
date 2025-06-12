@@ -8,11 +8,12 @@ use Closure;
 use TCPDF;
 use ZipArchive;
 use RuntimeException;
+use Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface;
 
 /**
  * Service for generating training record documents (PDF and ZIP).
  */
-final class TrainingRecordGeneratorService
+final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInterface
 {
     private readonly string $outputDirectory;
     /** @var callable(): TCPDF */
