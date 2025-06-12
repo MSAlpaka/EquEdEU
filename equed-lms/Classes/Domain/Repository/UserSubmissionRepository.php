@@ -114,7 +114,7 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
             $query->equals('lesson', $lessonUid)
         );
 
-        return $query->execute()->count();
+        return $query->count();
     }
 
     /**
@@ -127,7 +127,7 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
             $query->equals('practiceTest', $practiceTestUid)
         );
 
-        return $query->execute()->count();
+        return $query->count();
     }
 
     /**
@@ -207,7 +207,7 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
             $query->equals('userCourseRecord.courseInstance', $courseInstanceId)
         );
 
-        return $query->execute()->count();
+        return $query->count();
     }
 
     /**
