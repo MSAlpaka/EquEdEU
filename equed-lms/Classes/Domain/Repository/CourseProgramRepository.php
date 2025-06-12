@@ -26,6 +26,23 @@ final class CourseProgramRepository extends Repository
     }
 
     /**
+     * Find a course program by its UUID.
+     *
+     * @param string $uuid
+     * @return CourseProgram|null
+     */
+    public function findByUuid(string $uuid): ?CourseProgram
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid)
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
      * Find all visible course programs.
      *
      * @return CourseProgram[]
@@ -35,6 +52,29 @@ final class CourseProgramRepository extends Repository
         $query = $this->createQuery();
         $query->matching(
             $query->equals('isVisible', true)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find all active course programs.
+     *
+     * Active programs are visible, not archived and available now.
+     *
+     * @return CourseProgram[]
+     */
+    public function findActive(): array
+    {
+        $now = new \DateTimeImmutable();
+
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('isVisible', true),
+                $query->equals('isArchived', false),
+                $query->lessThanOrEqual('availableFrom', $now),
+            ])
         );
 
         return $query->execute()->toArray();
