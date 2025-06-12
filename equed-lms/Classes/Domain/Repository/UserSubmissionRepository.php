@@ -105,6 +105,32 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     }
 
     /**
+     * Count submissions for a specific lesson.
+     */
+    public function countByLesson(int $lessonUid): int
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('lesson', $lessonUid)
+        );
+
+        return $query->execute()->count();
+    }
+
+    /**
+     * Count submissions for a specific practice test.
+     */
+    public function countByPracticeTest(int $practiceTestUid): int
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('practiceTest', $practiceTestUid)
+        );
+
+        return $query->execute()->count();
+    }
+
+    /**
      * Find submissions by status.
      *
      * @param SubmissionStatus|string $status
