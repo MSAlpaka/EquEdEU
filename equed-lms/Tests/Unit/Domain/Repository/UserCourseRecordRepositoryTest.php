@@ -44,4 +44,16 @@ class UserCourseRecordRepositoryTest extends TestCase
         $result = $this->subject->findByUser(new FrontendUser());
         $this->assertSame($expected->reveal(), $result);
     }
+
+    public function testFindActiveByUserReturnsRecords(): void
+    {
+        $expected = $this->prophesize(QueryResultInterface::class);
+
+        $this->query->matching(\Prophecy\Argument::any())->willReturn($this->query);
+        $this->query->execute()->willReturn($expected);
+        $expected->toArray()->willReturn(['rec']);
+
+        $result = $this->subject->findActiveByUser(new FrontendUser());
+        $this->assertSame(['rec'], $result);
+    }
 }

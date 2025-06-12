@@ -45,6 +45,27 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     }
 
     /**
+     * Find active course records for a user.
+     *
+     * Active records have the status "in_progress".
+     *
+     * @param FrontendUser $user
+     * @return UserCourseRecord[]
+     */
+    public function findActiveByUser(FrontendUser $user): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('user', $user),
+                $query->equals('status', UserCourseStatus::InProgress->value),
+            ])
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
      * Find all course records for a given course instance.
      *
      * @param CourseInstance $instance
