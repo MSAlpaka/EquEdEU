@@ -30,16 +30,14 @@ final class GlossaryController extends ActionController
     {
         $queryParams = $request->getQueryParams();
         $search = trim((string)($queryParams['search'] ?? ''));
-        $mode = trim((string)($queryParams['mode'] ?? 'simple'));
         $language = $this->getCurrentLanguage();
 
-        $glossaryEntries = $this->glossaryEntryRepository->findFiltered($language, $search, $mode);
+        $glossaryEntries = $this->glossaryEntryRepository->findFiltered($language, $search);
         $groupedTerms = $this->groupByInitial($glossaryEntries);
 
         return $this->htmlResponse([
             'groupedTerms' => $groupedTerms,
             'search' => $search,
-            'mode' => $mode,
         ]);
     }
 
