@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\ExamAttempt;
 use Equed\EquedLms\Domain\Repository\ExamAttemptRepositoryInterface;
 use Equed\EquedLms\Factory\ExamAttemptFactoryInterface;
@@ -16,7 +17,8 @@ final class ExamService
 {
     public function __construct(
         private readonly ExamAttemptRepositoryInterface  $examAttemptRepository,
-        private readonly ExamAttemptFactoryInterface     $examAttemptFactory
+        private readonly ExamAttemptFactoryInterface     $examAttemptFactory,
+        private readonly ClockInterface                  $clock
     ) {
     }
 
@@ -46,7 +48,7 @@ final class ExamService
         if (!$attempt->getScored()) {
             $attempt->setScored(true);
             $attempt->setScore($score);
-            $attempt->setEndTime(new DateTimeImmutable());
+            $attempt->setEndTime($this->clock->now());
 
             $this->examAttemptRepository->update($attempt);
         }

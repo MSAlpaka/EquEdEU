@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\CertificateDispatch;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
@@ -21,6 +22,7 @@ final class CertificateService
         private readonly CertificateDispatchFactoryInterface $dispatchFactory,
         private readonly GptTranslationServiceInterface $translationService,
         private readonly NotificationService $notificationService,
+        private readonly ClockInterface $clock,
         string $qrCodeBaseUrl
     ) {
         $this->qrCodeBaseUrl = rtrim($qrCodeBaseUrl, '/') . '/';
@@ -50,7 +52,7 @@ final class CertificateService
     private function generateQrCodeUrl(UserCourseRecord|CertificateDispatch $source): string
     {
         $userId = $source->getFeUser()?->getUid() ?? 0;
-        $timestamp = (new DateTimeImmutable())->format('YmdHis');
+        $timestamp = $this->clock->now()->format('YmdHis');
 
         return sprintf('%s%s/%s', $this->qrCodeBaseUrl, $userId, $timestamp);
     }

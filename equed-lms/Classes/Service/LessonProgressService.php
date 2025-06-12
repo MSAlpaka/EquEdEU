@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
@@ -16,7 +17,8 @@ use Equed\EquedLms\Domain\Model\FrontendUser;
 final class LessonProgressService
 {
     public function __construct(
-        private readonly LessonProgressRepositoryInterface $progressRepository
+        private readonly LessonProgressRepositoryInterface $progressRepository,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -54,7 +56,7 @@ final class LessonProgressService
 
         $progress->setStatus('completed');
         $progress->setCompleted(true);
-        $progress->setCompletedAt(new DateTimeImmutable());
+        $progress->setCompletedAt($this->clock->now());
 
         $this->progressRepository->updateOrAdd($progress);
 

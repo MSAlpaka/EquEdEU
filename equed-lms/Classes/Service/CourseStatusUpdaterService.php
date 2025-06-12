@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Enum\CourseStatus;
@@ -20,7 +21,8 @@ final class CourseStatusUpdaterService
     public function __construct(
         private readonly CertificateService    $certificateService,
         private readonly NotificationService   $notificationService,
-        private readonly UserCourseRecordRepository     $userCourseRecordRepository
+        private readonly UserCourseRecordRepository     $userCourseRecordRepository,
+        private readonly ClockInterface        $clock
     ) {
     }
 
@@ -32,7 +34,7 @@ final class CourseStatusUpdaterService
     public function finalize(UserCourseRecord $record): void
     {
         $record->setStatus(CourseStatus::Validated->value);
-        $record->setCompletionDate(new DateTimeImmutable());
+        $record->setCompletionDate($this->clock->now());
 
         $this->userCourseRecordRepository->update($record);
 
