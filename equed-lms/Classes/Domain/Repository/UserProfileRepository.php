@@ -23,7 +23,7 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'updatedAt' => QueryInterface::ORDER_DESCENDING,
     ];
 

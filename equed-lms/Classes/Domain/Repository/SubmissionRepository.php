@@ -20,7 +20,7 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'createdAt' => QueryInterface::ORDER_DESCENDING,
     ];
 

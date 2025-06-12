@@ -17,7 +17,7 @@ final class LearningPathRepository extends Repository
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'level' => QueryInterface::ORDER_ASCENDING,
         'title' => QueryInterface::ORDER_ASCENDING,
     ];

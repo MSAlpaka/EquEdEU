@@ -21,7 +21,7 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
      *
      * @var array<string,int>
      */
-    protected $defaultOrderings = [
+    protected array $defaultOrderings = [
         'createdAt' => QueryInterface::ORDER_DESCENDING,
     ];
 
