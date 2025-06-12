@@ -35,7 +35,7 @@ namespace Equed\EquedLms\Tests\Unit\Domain\Model {
 
         public function testSetAndGetStatus(): void
         {
-            $this->subject->setStatus('validated');
+            $this->subject->setStatus(\Equed\EquedLms\Enum\UserCourseStatus::Validated);
             $this->assertSame('validated', $this->subject->getStatus()->value);
         }
 

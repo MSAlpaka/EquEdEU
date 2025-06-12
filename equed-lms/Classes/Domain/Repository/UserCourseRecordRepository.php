@@ -84,7 +84,7 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     /**
      * Find course records by status.
      *
-     * @param string $status Enum: in_progress, failed, passed, validated
+     * @param UserCourseStatus|string $status Value from UserCourseStatus enum
      * @return UserCourseRecord[]
      */
     public function findByStatus(UserCourseStatus|string $status): array
