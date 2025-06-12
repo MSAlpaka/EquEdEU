@@ -10,6 +10,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
+use Equed\EquedLms\Domain\Model\Module;
 
 /**
  * Lesson
@@ -29,6 +30,9 @@ final class Lesson extends AbstractEntity
     protected int $expectedDuration = 0;
 
     protected string $category = '';
+
+    #[Extbase\ORM\ManyToOne]
+    protected ?Module $module = null;
 
     /**
      * @var ObjectStorage<ContentPage>
@@ -117,6 +121,16 @@ final class Lesson extends AbstractEntity
     public function setCategory(string $category): void
     {
         $this->category = $category;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): void
+    {
+        $this->module = $module;
     }
 
     /**

@@ -51,6 +51,26 @@
       <trans-unit id="tx_equedlms_domain_model_lesson.course">
         <source>Parent course</source>
       </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lesson.module">
+        <source>Parent module</source>
+      </trans-unit>
+
+      <!-- Module -->
+      <trans-unit id="tx_equedlms_domain_model_module.title">
+        <source>Module title</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.description">
+        <source>Module description</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.identifier">
+        <source>Module identifier</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.course_program">
+        <source>Course program</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.lessons">
+        <source>Lessons</source>
+      </trans-unit>
 
       <!-- Submission -->
       <trans-unit id="tx_equedlms_domain_model_submission.title">

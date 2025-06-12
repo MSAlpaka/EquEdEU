@@ -36,6 +36,19 @@
         <source>Associated materials</source><target>Dazu passende Materialien</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_lesson.course">
         <source>Parent course</source><target>Zu welchem Kurs gehört das?</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_lesson.module">
+        <source>Parent module</source><target>Zu welchem Modul gehört das?</target></trans-unit>
+      <!-- Module -->
+      <trans-unit id="tx_equedlms_domain_model_module.title">
+        <source>Module title</source><target>Titel vom Modul</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.description">
+        <source>Module description</source><target>Beschreibung vom Modul</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.identifier">
+        <source>Module identifier</source><target>Modul-Kennung</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.course_program">
+        <source>Course program</source><target>Kurs-Programm</target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_module.lessons">
+        <source>Lessons</source><target>Lektionen</target></trans-unit>
 
       
       <trans-unit id="tx_equedlms_domain_model_submission.title">
