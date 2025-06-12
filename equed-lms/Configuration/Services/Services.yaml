@@ -1,3 +1,6 @@
+parameters:
+  equed_lms.training_record_output_path: '%kernel.project_dir%/var/training_records'
+
 services:
   _defaults:
     autowire: true
@@ -92,6 +95,10 @@ services:
 
   Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface:
     class: Equed\EquedLms\Service\TrainingRecordGeneratorService
+
+  Equed\EquedLms\Service\TrainingRecordGeneratorService:
+    arguments:
+      $outputDirectory: '%equed_lms.training_record_output_path%'
 
   Equed\EquedLms\Domain\Service\ExamNotificationServiceInterface:
     class: Equed\EquedLms\Service\ExamNotificationService
