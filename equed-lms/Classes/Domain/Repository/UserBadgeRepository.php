@@ -91,7 +91,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
             $query->equals('feUser', $userId)
         );
 
-        return $query->execute()->count();
+        return $query->count();
     }
 
     public function findByUserAndType(int $userId, string $type): ?UserBadge
@@ -118,7 +118,7 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
             ])
         );
 
-        return $query->execute()->count();
+        return $query->count();
     }
 }
 // EOF
