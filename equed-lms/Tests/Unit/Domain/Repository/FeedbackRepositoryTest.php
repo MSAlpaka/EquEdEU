@@ -25,7 +25,7 @@ class FeedbackRepositoryTest extends TestCase
         $this->persistenceManager = $this->prophesize(PersistenceManager::class);
 
         $this->persistenceManager
-            ->createQueryForType(\Equed\EquedLms\Domain\Model\Feedback::class)
+            ->createQueryForType(\Equed\EquedLms\Domain\Model\CourseFeedback::class)
             ->willReturn($this->query);
 
         $this->subject = new FeedbackRepository();

@@ -6,7 +6,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use PHPUnit\Framework\TestCase;
 use Equed\EquedLms\Service\FeedbackAnalysisService;
-use Equed\EquedLms\Domain\Model\Feedback;
+use Equed\EquedLms\Domain\Model\CourseFeedback;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use Psr\Log\NullLogger;
 use Equed\EquedLms\Service\LogService;
@@ -16,7 +16,7 @@ class FeedbackAnalysisServiceTest extends TestCase
 {
     public function testAnalyzeFeedbackReturnsMockedResponse(): void
     {
-        $feedback = new Feedback();
+        $feedback = new CourseFeedback();
         $feedback->setOriginalComment('Sehr strukturiertes, klares Feedback.');
 
         $mockRequestFactory = $this->createMock(RequestFactory::class);
