@@ -11,6 +11,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for QMS cases.
+ *
+ * @extends Repository<QmsCase>
  */
 final class QmsCaseRepository extends Repository
 {

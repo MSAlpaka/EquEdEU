@@ -9,6 +9,9 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Repository for GlossaryEntry entities.
+
+ *
+ * @extends Repository<GlossaryEntry>
  */
 final class GlossaryEntryRepository extends Repository
 {

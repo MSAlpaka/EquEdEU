@@ -9,6 +9,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for PracticeTest entities.
+
+ *
+ * @extends Repository<PracticeTest>
  */
 final class PracticeTestRepository extends Repository
 {

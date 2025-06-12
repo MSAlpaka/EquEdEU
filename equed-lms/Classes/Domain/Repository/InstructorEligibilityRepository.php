@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for InstructorEligibility entities.
+
+ *
+ * @extends Repository<InstructorEligibility>
  */
 final class InstructorEligibilityRepository extends Repository
 {

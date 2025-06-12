@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for CourseAccessMap entities.
+
+ *
+ * @extends Repository<CourseAccessMap>
  */
 final class CourseAccessMapRepository extends Repository
 {

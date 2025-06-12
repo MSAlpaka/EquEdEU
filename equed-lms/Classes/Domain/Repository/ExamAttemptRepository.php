@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for ExamAttempt entities.
+
+ *
+ * @extends Repository<ExamAttempt>
  */
 final class ExamAttemptRepository extends Repository
 {

@@ -9,6 +9,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for CertificateTemplate entities.
+
+ *
+ * @extends Repository<CertificateTemplate>
  */
 final class CertificateTemplateRepository extends Repository
 {

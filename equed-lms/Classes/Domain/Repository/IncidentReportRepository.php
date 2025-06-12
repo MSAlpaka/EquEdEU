@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for IncidentReport entities.
+
+ *
+ * @extends Repository<IncidentReport>
  */
 final class IncidentReportRepository extends Repository
 {

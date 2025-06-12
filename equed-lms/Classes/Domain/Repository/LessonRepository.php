@@ -12,6 +12,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for Lesson entities.
+
+ *
+ * @extends Repository<Lesson>
  */
 final class LessonRepository extends Repository
 {

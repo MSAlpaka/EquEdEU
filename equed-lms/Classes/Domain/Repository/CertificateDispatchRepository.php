@@ -12,6 +12,9 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 
 /**
  * Repository for CertificateDispatch entities.
+
+ *
+ * @extends Repository<CertificateDispatch>
  */
 final class CertificateDispatchRepository extends Repository implements CertificateDispatchRepositoryInterface
 {

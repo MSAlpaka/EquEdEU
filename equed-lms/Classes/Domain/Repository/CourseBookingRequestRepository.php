@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for CourseBookingRequest entities.
+
+ *
+ * @extends Repository<CourseBookingRequest>
  */
 final class CourseBookingRequestRepository extends Repository
 {

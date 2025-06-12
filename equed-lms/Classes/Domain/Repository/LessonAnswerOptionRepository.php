@@ -10,6 +10,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for LessonAnswerOption entities.
+
+ *
+ * @extends Repository<LessonAnswerOption>
  */
 final class LessonAnswerOptionRepository extends Repository
 {
