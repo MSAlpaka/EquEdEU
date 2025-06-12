@@ -14,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<UserSubmission>
  */
-class UserSubmissionRepository extends Repository
+class UserSubmissionRepository extends Repository implements UserSubmissionRepositoryInterface
 {
     /**
      * Default ordering: newest submissions first.
@@ -119,6 +119,79 @@ class UserSubmissionRepository extends Repository
         $query->setLimit(1);
 
         return $query->execute()->getFirst();
+    }
+
+    /**
+     * Find submissions pending instructor feedback for a given instructor.
+     *
+     * @param int $feUserId Instructor FE user UID
+     * @return UserSubmission[]
+     */
+    public function findPendingSubmissionsForInstructor(int $feUserId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('userCourseRecord.courseInstance.instructor', $feUserId),
+                $query->equals('status', SubmissionStatus::Pending->value),
+            ])
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Count submissions for a specific course instance.
+     */
+    public function countByCourseInstance(int $courseInstanceId): int
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('userCourseRecord.courseInstance', $courseInstanceId)
+        );
+
+        return $query->execute()->count();
+    }
+
+    /**
+     * Find submissions by frontend user.
+     *
+     * @return UserSubmission[]
+     */
+    public function findByFeUser(int $feUserId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('userCourseRecord.user', $feUserId)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find submissions by course instance UID.
+     *
+     * @return UserSubmission[]
+     */
+    public function findByCourseInstance(int $courseInstanceId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('userCourseRecord.courseInstance', $courseInstanceId)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find a submission by UID.
+     */
+    public function findByUid(int $uid): ?UserSubmission
+    {
+        /** @var UserSubmission|null $result */
+        $result = parent::findByUid($uid);
+
+        return $result;
     }
 }
 // EOF
