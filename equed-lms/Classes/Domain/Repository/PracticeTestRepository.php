@@ -19,12 +19,9 @@ final class PracticeTestRepository extends Repository
      */
     public function findAllActive(): array
     {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('deleted', 0)
-        );
-
-        return $query->execute()->toArray();
+        return $this->createQuery()
+            ->execute()
+            ->toArray();
     }
 
     /**
