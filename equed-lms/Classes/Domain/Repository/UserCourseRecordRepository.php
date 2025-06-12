@@ -10,13 +10,14 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Enum\UserCourseStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 
 /**
  * Repository for UserCourseRecord entities.
  *
  * @extends Repository<UserCourseRecord>
  */
-class UserCourseRecordRepository extends Repository
+class UserCourseRecordRepository extends Repository implements UserCourseRecordRepositoryInterface
 {
     /**
      * Default ordering: newest records first.
