@@ -42,6 +42,37 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function findScoresByUserCourseRecord(int $userCourseRecordUid): array
+    {
+        $queryBuilder = $this->createQuery()->getQueryBuilder();
+        $queryBuilder->resetQueryParts();
+        $queryBuilder
+            ->select('us.points_awarded AS points', 'us.max_points AS maxPoints')
+            ->from('tx_equedlms_domain_model_usersubmission', 'us')
+            ->join(
+                'us',
+                'tx_equedlms_domain_model_usercourserecord',
+                'ucr',
+                'ucr.uid = :ucrUid AND us.course_instance = ucr.course_instance AND us.frontend_user = ucr.fe_user'
+            )
+            ->setParameter('ucrUid', $userCourseRecordUid, \PDO::PARAM_INT);
+
+        $rows = $queryBuilder->executeQuery()->fetchAllAssociative();
+
+        return array_map(
+            static function (array $row): array {
+                return [
+                    'points'    => isset($row['points']) ? (float) $row['points'] : null,
+                    'maxPoints' => isset($row['maxPoints']) ? (float) $row['maxPoints'] : null,
+                ];
+            },
+            $rows
+        );
+    }
+
+    /**
      * Find all submissions for a specific lesson.
      *
      * @param int $lessonUid

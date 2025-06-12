@@ -14,29 +14,15 @@ interface SubmissionRepositoryInterface
     public function findByUid(int $uid): ?Submission;
 
     /**
-     * Returns submissions waiting for the weekly AI analysis.
+     * Returns submissions pending GPT analysis.
      *
      * @return Submission[]
      */
-    public function findPendingForWeeklyAnalysis(): array;
-
-    /**
-     * Returns submissions pending evaluation by GPT.
-     *
-     * @return Submission[]
-     */
-    public function findPendingForEvaluation(): array;
+    public function findPendingForAnalysis(): array;
 
     /**
      * Persist changes to a submission.
      */
     public function update(Submission $submission): void;
 
-    /**
-     * Fetch all submissions belonging to a specific UserCourseRecord.
-     *
-     * @param int $userCourseRecordUid
-     * @return array<int, array{points: float|null, maxPoints: float|null}>
-     */
-    public function findByUserCourseRecord(int $userCourseRecordUid): array;
 }

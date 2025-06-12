@@ -71,7 +71,7 @@ final class AiFeedbackAnalysisCommand extends Command
         }
 
         $feedbackItems    = $this->feedbackRepository->findPendingForWeeklyAnalysis();
-        $submissionItems  = $this->submissionRepository->findPendingForWeeklyAnalysis();
+        $submissionItems  = $this->submissionRepository->findPendingForAnalysis();
         $processedCounter = 0;
 
         foreach ($feedbackItems as $feedback) {

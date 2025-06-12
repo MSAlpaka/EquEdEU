@@ -35,6 +35,14 @@ interface UserSubmissionRepositoryInterface
     public function findByUserCourseRecord(int $userCourseRecordUid): array;
 
     /**
+     * Fetch earned and maximum points for a UserCourseRecord.
+     *
+     * @param int $userCourseRecordUid
+     * @return array<int, array{points: float|null, maxPoints: float|null}>
+     */
+    public function findScoresByUserCourseRecord(int $userCourseRecordUid): array;
+
+    /**
      * @return UserSubmission[]
      */
     public function findByLesson(int $lessonUid): array;

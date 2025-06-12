@@ -42,7 +42,7 @@ final class GptEvaluationService
             return 0;
         }
 
-        $pending = $this->submissionRepository->findPendingForEvaluation();
+        $pending = $this->submissionRepository->findPendingForAnalysis();
         $count   = 0;
 
         foreach ($pending as $submission) {
