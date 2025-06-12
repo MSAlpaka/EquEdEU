@@ -13,16 +13,16 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class CourseMaterialRepository extends Repository
 {
     /**
-     * Finds a CourseMaterial by its slug (URL key).
+     * Find a CourseMaterial by its UUID.
      *
-     * @param string $slug
+     * @param string $uuid
      * @return CourseMaterial|null
      */
-    public function findBySlug(string $slug): ?CourseMaterial
+    public function findByUuid(string $uuid): ?CourseMaterial
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('slug', $slug)
+            $query->equals('uuid', $uuid)
         );
         $query->setLimit(1);
 
@@ -30,7 +30,7 @@ class CourseMaterialRepository extends Repository
     }
 
     /**
-     * Finds all active CourseMaterial entities (hidden = false).
+     * Find all CourseMaterial records that are not deleted.
      *
      * @return CourseMaterial[]
      */
@@ -38,7 +38,7 @@ class CourseMaterialRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('hidden', 0)
+            $query->equals('deleted', 0)
         );
 
         return $query->execute()->toArray();
