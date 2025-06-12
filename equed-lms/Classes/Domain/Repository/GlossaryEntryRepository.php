@@ -25,14 +25,13 @@ class GlossaryEntryRepository extends Repository
     }
 
     /**
-     * Finds glossary terms filtered by language, search term and mode
+     * Finds glossary terms filtered by language and optional search term.
      *
      * @param string $language
      * @param string $search
-     * @param string $mode
      * @return array
      */
-    public function findFiltered(string $language, string $search = '', string $mode = 'simple'): array
+    public function findFiltered(string $language, string $search = ''): array
     {
         $query = $this->createQuery();
         $constraints = [];
@@ -41,12 +40,6 @@ class GlossaryEntryRepository extends Repository
 
         if (!empty($search)) {
             $constraints[] = $query->like('term', '%' . $search . '%');
-        }
-
-        if ($mode === 'simple') {
-            $constraints[] = $query->equals('mode', 'simple');
-        } elseif ($mode === 'expert') {
-            $constraints[] = $query->equals('mode', 'expert');
         }
 
         $query->matching($query->logicalAnd($constraints));
