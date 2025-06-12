@@ -39,11 +39,20 @@ final class TrainingRecordGeneratorService
         $this->zipFactory = $zipFactory !== null
             ? Closure::fromCallable($zipFactory)
             : static fn (): ZipArchive => new ZipArchive();
+    }
 
-        if (!is_dir($this->outputDirectory)
-            && !mkdir($this->outputDirectory, 0775, true)
-            && !is_dir($this->outputDirectory)
-        ) {
+    /**
+     * Ensures that the output directory exists.
+     *
+     * @throws RuntimeException If the directory cannot be created
+     */
+    private function ensureOutputDirectory(): void
+    {
+        if (is_dir($this->outputDirectory)) {
+            return;
+        }
+
+        if (!mkdir($this->outputDirectory, 0775, true) && !is_dir($this->outputDirectory)) {
             throw new RuntimeException(
                 sprintf('Unable to create output directory "%s".', $this->outputDirectory)
             );
@@ -59,6 +68,8 @@ final class TrainingRecordGeneratorService
      */
     public function generatePdf(array $certificateData): string
     {
+        $this->ensureOutputDirectory();
+
         $fileKey = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $certificateData['cert_number']);
         $filePath = $this->outputDirectory . '/' . $fileKey . '.pdf';
 
@@ -88,6 +99,8 @@ final class TrainingRecordGeneratorService
      */
     public function generateZip(array $certificateData): string
     {
+        $this->ensureOutputDirectory();
+
         $zip = ($this->zipFactory)();
         $fileKey = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $certificateData['cert_number']);
         $zipFilePath = $this->outputDirectory . '/' . $fileKey . '.zip';
