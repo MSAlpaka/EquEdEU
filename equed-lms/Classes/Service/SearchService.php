@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use Equed\EquedLms\Dto\SearchResults;
 
 /**
  * Provides search capabilities across multiple entities.
@@ -21,29 +22,26 @@ final class SearchService
      * Performs a global search across relevant tables.
      *
      * @param string $term
-     * @return array<string, mixed>
      */
-    public function search(string $term): array
+    public function search(string $term): SearchResults
     {
-        $results = [];
-
         if (mb_strlen($term) < 2) {
-            return ['error' => 'Search term too short.'];
+            return new SearchResults([], [], 'Search term too short.');
         }
 
-        $results['courses'] = $this->searchTable(
+        $courses = $this->searchTable(
             'tx_equedlms_domain_model_course',
             ['title', 'description'],
             $term
         );
 
-        $results['glossary'] = $this->searchTable(
+        $glossary = $this->searchTable(
             'tx_equedlms_domain_model_glossaryentry',
             ['term', 'definition'],
             $term
         );
 
-        return $results;
+        return new SearchResults($courses, $glossary);
     }
 
     /**

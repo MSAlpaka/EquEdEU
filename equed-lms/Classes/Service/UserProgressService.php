@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
+use Equed\EquedLms\Dto\UserProgress;
 
 /**
  * Service for calculating user progress within a course program.
@@ -26,15 +27,12 @@ final class UserProgressService
 
     /**
      * Calculate overall progress percentage and lesson completion counts.
-     *
-     * @param UserCourseRecord $ucr
-     * @return array{percent:int, completed:int, total:int}
      */
-    public function calculate(UserCourseRecord $ucr): array
+    public function calculate(UserCourseRecord $ucr): UserProgress
     {
         $program = $ucr->getCourseInstance()?->getCourseProgram();
         if ($program === null) {
-            return ['percent' => 0, 'completed' => 0, 'total' => 0];
+            return new UserProgress(0, 0, 0);
         }
 
         $requiredLessons = $this->lessonRepository->findRequiredByCourseProgram($program->getUid());
@@ -56,11 +54,11 @@ final class UserProgressService
             + ($submissionScore * self::SUBMISSION_FACTOR)
             + (($quizScore / 100.0) * self::QUIZ_FACTOR);
 
-        return [
-            'percent'   => (int) round($progress * 100.0),
-            'completed' => $completedCount,
-            'total'     => $totalCount,
-        ];
+        return new UserProgress(
+            (int) round($progress * 100.0),
+            $completedCount,
+            $totalCount
+        );
     }
 
     /**
