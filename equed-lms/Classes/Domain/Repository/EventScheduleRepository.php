@@ -12,6 +12,6 @@ use Equed\EquedLms\Domain\Model\EventSchedule;
  *
  * @extends Repository<EventSchedule>
  */
-class EventScheduleRepository extends Repository
+final class EventScheduleRepository extends Repository
 {
 }

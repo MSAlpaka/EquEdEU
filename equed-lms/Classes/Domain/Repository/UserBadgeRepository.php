@@ -15,7 +15,7 @@ use Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface;
  *
  * @extends Repository<UserBadge>
  */
-class UserBadgeRepository extends Repository implements UserBadgeRepositoryInterface
+final class UserBadgeRepository extends Repository implements UserBadgeRepositoryInterface
 {
     /**
      * Default ordering: newest badges first.

@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for LessonAttemptAnswer entities.
  */
-class LessonAttemptAnswerRepository extends Repository
+final class LessonAttemptAnswerRepository extends Repository
 {
     /**
      * Finds all answers for a specific lesson attempt.

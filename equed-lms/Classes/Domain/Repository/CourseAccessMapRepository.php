@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for CourseAccessMap entities.
  */
-class CourseAccessMapRepository extends Repository
+final class CourseAccessMapRepository extends Repository
 {
     /**
      * Finds all access maps for a specific instructor.

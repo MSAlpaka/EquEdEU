@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for LessonAnswerOption entities.
  */
-class LessonAnswerOptionRepository extends Repository
+final class LessonAnswerOptionRepository extends Repository
 {
     /**
      * Finds all answer options for a specific lesson question.

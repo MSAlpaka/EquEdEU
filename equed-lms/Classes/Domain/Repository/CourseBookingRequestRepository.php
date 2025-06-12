@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for CourseBookingRequest entities.
  */
-class CourseBookingRequestRepository extends Repository
+final class CourseBookingRequestRepository extends Repository
 {
     /**
      * Finds all booking requests for the given instructor.

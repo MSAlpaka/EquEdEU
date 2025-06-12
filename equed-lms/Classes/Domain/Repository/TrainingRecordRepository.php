@@ -18,7 +18,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<TrainingRecord>
  */
-class TrainingRecordRepository extends Repository
+final class TrainingRecordRepository extends Repository
 {
     /**
      * Default ordering: newest first by creation date.

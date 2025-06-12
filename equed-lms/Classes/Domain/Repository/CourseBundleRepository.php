@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for CourseBundle entities.
  */
-class CourseBundleRepository extends Repository
+final class CourseBundleRepository extends Repository
 {
     /**
      * Finds a CourseBundle by its slug (URL key).

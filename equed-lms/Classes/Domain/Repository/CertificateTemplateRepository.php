@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for CertificateTemplate entities.
  */
-class CertificateTemplateRepository extends Repository
+final class CertificateTemplateRepository extends Repository
 {
     /**
      * Finds all certificate templates matching a badge level.

@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for InstructorEligibility entities.
  */
-class InstructorEligibilityRepository extends Repository
+final class InstructorEligibilityRepository extends Repository
 {
     /**
      * Finds all eligibility entries for a given instructor.

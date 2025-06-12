@@ -12,6 +12,6 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<SystemSettings>
  */
-class SystemSettingsRepository extends Repository
+final class SystemSettingsRepository extends Repository
 {
 }

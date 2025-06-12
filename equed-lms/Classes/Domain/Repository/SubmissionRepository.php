@@ -13,7 +13,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<Submission>
  */
-class SubmissionRepository extends Repository implements SubmissionRepositoryInterface
+final class SubmissionRepository extends Repository implements SubmissionRepositoryInterface
 {
     /**
      * Default ordering: newest first by creation date.

@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Exception\AccessDeniedException;
  * @version 1.0.0
  */
 /** @extends Repository<\Equed\EquedCore\Domain\Model\SearchLog> */
-class SearchLogRepository extends Repository
+final class SearchLogRepository extends Repository
 {
     protected CacheInterface $cache;
 

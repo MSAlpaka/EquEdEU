@@ -13,7 +13,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for TrainingCenterFeedback entities.
  */
-class TrainingCenterFeedbackRepository extends Repository
+final class TrainingCenterFeedbackRepository extends Repository
 {
     /**
      * Default ordering: newest first.

@@ -16,7 +16,7 @@ use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
  *
  * @extends Repository<UserProfile>
  */
-class UserProfileRepository extends Repository implements UserProfileRepositoryInterface
+final class UserProfileRepository extends Repository implements UserProfileRepositoryInterface
 {
     /**
      * Default ordering: newest profiles first.

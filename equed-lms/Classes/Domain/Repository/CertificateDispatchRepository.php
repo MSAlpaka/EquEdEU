@@ -13,7 +13,7 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 /**
  * Repository for CertificateDispatch entities.
  */
-class CertificateDispatchRepository extends Repository implements CertificateDispatchRepositoryInterface
+final class CertificateDispatchRepository extends Repository implements CertificateDispatchRepositoryInterface
 {
     /**
      * Finds all dispatched certificates for a specific instructor.

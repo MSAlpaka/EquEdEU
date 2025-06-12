@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for InstructorFeedback entities.
  */
-class InstructorFeedbackRepository extends Repository
+final class InstructorFeedbackRepository extends Repository
 {
     /**
      * Finds all feedback entries for a specific instructor.

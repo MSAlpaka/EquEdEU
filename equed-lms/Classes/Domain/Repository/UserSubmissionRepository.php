@@ -14,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<UserSubmission>
  */
-class UserSubmissionRepository extends Repository implements UserSubmissionRepositoryInterface
+final class UserSubmissionRepository extends Repository implements UserSubmissionRepositoryInterface
 {
     /**
      * Default ordering: newest submissions first.

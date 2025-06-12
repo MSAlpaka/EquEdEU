@@ -12,7 +12,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for InstructorAvailabilityRegion entities.
  */
-class InstructorAvailabilityRegionRepository extends Repository
+final class InstructorAvailabilityRegionRepository extends Repository
 {
     /**
      * Finds all availability regions for a given instructor.

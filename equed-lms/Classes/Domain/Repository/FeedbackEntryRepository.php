@@ -11,7 +11,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * Repository for FeedbackEntry entities.
  */
-class FeedbackEntryRepository extends Repository
+final class FeedbackEntryRepository extends Repository
 {
     /**
      * Finds all feedback entries belonging to a course feedback.
