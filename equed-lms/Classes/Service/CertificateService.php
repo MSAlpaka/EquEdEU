@@ -10,7 +10,7 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
 use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Service\NotificationServiceInterface;
+use Equed\EquedLms\Service\NotificationService;
 
 final class CertificateService
 {
@@ -20,7 +20,7 @@ final class CertificateService
         private readonly CertificateDispatchRepository $certificateDispatchRepository,
         private readonly CertificateDispatchFactoryInterface $dispatchFactory,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly NotificationServiceInterface $notificationService,
+        private readonly NotificationService $notificationService,
         string $qrCodeBaseUrl
     ) {
         $this->qrCodeBaseUrl = rtrim($qrCodeBaseUrl, '/') . '/';

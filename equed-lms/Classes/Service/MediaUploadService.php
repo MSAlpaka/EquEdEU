@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Domain\Service\MediaUploadServiceInterface;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
@@ -27,7 +27,7 @@ final class MediaUploadService implements MediaUploadServiceInterface
 
     public function __construct(
         private readonly StorageRepository $storageRepository,
-        private readonly LogServiceInterface $logService,
+        private readonly LogService $logService,
         private readonly ResourceFactory $resourceFactory
     ) {
     }

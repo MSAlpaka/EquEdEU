@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\CertificateRepositoryInterface;
-use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
+use Equed\EquedLms\Service\CertificateService;
 use Equed\EquedLms\Domain\Service\BadgeServiceInterface;
 
 /**
@@ -26,7 +26,7 @@ final class CertificateController
 {
     public function __construct(
         private readonly CertificateRepositoryInterface $certificateRepository,
-        private readonly CertificateServiceInterface    $certificateService,
+        private readonly CertificateService    $certificateService,
         private readonly BadgeServiceInterface          $badgeService,
         private readonly ConfigurationServiceInterface  $configurationService,
         private readonly GptTranslationServiceInterface $translationService,

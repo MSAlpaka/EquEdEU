@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Task;
 
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
-use Equed\EquedLms\Service\CertificateServiceInterface;
+use Equed\EquedLms\Service\CertificateService;
 
 /**
  * Scheduler task to dispatch certificates in queue.
@@ -13,7 +13,7 @@ use Equed\EquedLms\Service\CertificateServiceInterface;
 final class CertificateDispatchTask extends AbstractTask
 {
     public function __construct(
-        private readonly CertificateServiceInterface $certificateService
+        private readonly CertificateService $certificateService
     ) {
     }
 
