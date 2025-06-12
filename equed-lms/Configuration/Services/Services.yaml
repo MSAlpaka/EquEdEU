@@ -45,3 +45,15 @@ services:
 
   Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\UserBadgeRepository
+
+  Equed\EquedLms\Domain\Service\DashboardServiceInterface:
+    class: Equed\EquedLms\Service\DashboardService
+
+  Equed\EquedLms\Domain\Service\CourseCompletionServiceInterface:
+    class: Equed\EquedLms\Service\CourseCompletionService
+
+  Equed\EquedLms\Domain\Service\MediaUploadServiceInterface:
+    class: Equed\EquedLms\Service\MediaUploadService
+
+  Equed\EquedLms\Domain\Service\DocumentServiceInterface:
+    class: Equed\EquedLms\Service\DocumentService

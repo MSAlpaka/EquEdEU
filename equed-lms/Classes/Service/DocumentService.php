@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Exception\InvalidFileTypeException;
+use Equed\EquedLms\Domain\Service\DocumentServiceInterface;
 
 /**
  * Service to generate secure download and template URIs for documents.
  */
-final class DocumentService
+final class DocumentService implements DocumentServiceInterface
 {
     /**
      * @var string[]

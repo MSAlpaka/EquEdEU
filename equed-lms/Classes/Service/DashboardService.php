@@ -13,6 +13,7 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
 use Equed\EquedLms\Service\ProgressServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\DashboardServiceInterface;
 use Equed\EquedLms\Enum\UserCourseStatus;
 
 /**
@@ -20,7 +21,7 @@ use Equed\EquedLms\Enum\UserCourseStatus;
  * implementing tabbed navigation, card metrics, filters, DataTables metadata,
  * translation fallback, feature toggles, and offline caching metadata.
  */
-final class DashboardService
+final class DashboardService implements DashboardServiceInterface
 {
     private const CACHE_TTL_SECONDS = 600;
 
