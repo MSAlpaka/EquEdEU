@@ -10,6 +10,15 @@
         "homepage": "https://equed.eu"
       }
     ],
+    "repositories": [
+      {
+        "type": "path",
+        "url": "../equed-core",
+        "options": {
+          "symlink": true
+        }
+      }
+    ],
     "require": {
       "php": "^8.2",
       "typo3/cms-core": "^13.4",
@@ -35,7 +44,8 @@
       "ext-json": "*",
       "stripe/stripe-php": "^11.0",
       "openai-php/client": "^0.7",
-      "firebase/php-jwt": "^6.10"
+      "firebase/php-jwt": "^6.10",
+      "equed/equed-core": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.50",
@@ -48,7 +58,6 @@
     },
     "autoload": {
       "psr-4": {
-        "Equed\\EquedCore\\": "Classes/",
         "Equed\\EquedLms\\": "Classes/"
       }
     },
