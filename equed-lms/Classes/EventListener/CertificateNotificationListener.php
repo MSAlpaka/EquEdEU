@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\Listener;
+namespace Equed\EquedLms\EventListener;
 
 use Equed\EquedLms\Domain\Repository\NotificationRepository;
 use Equed\EquedLms\Event\CertificateIssuedEvent;
