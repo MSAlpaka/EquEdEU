@@ -18,15 +18,12 @@ interface UserProfileRepositoryInterface
 
     public function findByUserId(int $userId): ?UserProfile;
 
-    /**
-     * @param UserProfile $profile
-     */
-    public function add($object);
+    public function add(UserProfile $profile): void;
+
+    public function update(UserProfile $profile): void;
 
     /**
-     * @param UserProfile $profile
+     * @return QueryInterface<UserProfile>
      */
-    public function update($object);
-
-    public function createQuery();
+    public function createQuery(): QueryInterface;
 }
