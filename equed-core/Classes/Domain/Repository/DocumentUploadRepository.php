@@ -49,12 +49,14 @@ class DocumentUploadRepository extends Repository
     }
 
     /**
-     * @param mixed $uid
+     * Find a document upload by UID.
+     *
+     * @param int $uid
      * @return DocumentUpload|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?DocumentUpload
     {
-        /** @var \Equed\EquedCore\Domain\Model\DocumentUpload|null $result */
+        /** @var DocumentUpload|null $result */
         $result = parent::findByUid($uid);
 
         return $result;

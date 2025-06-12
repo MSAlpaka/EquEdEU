@@ -29,12 +29,12 @@ class PracticeQuestionRepository extends Repository
     }
 
     /**
-     * Finds a practice question by its UID.
+     * Find a practice question by UID.
      *
      * @param int $uid
      * @return PracticeQuestion|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?PracticeQuestion
     {
         return $this->findByIdentifier($uid);
     }

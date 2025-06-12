@@ -49,13 +49,16 @@ class ExternalCertificateRepository extends Repository
     }
 
     /**
-     * @param mixed $uid
-     * @return \Equed\EquedCore\Domain\Model\ExternalCertificate|null
+     * Find an external certificate by UID.
+     *
+     * @param int $uid
+     * @return ExternalCertificate|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?ExternalCertificate
     {
-        /** @var \Equed\EquedCore\Domain\Model\ExternalCertificate|null $result */
+        /** @var ExternalCertificate|null $result */
         $result = parent::findByUid($uid);
+
         return $result;
     }
 

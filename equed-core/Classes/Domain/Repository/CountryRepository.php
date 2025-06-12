@@ -49,13 +49,16 @@ class CountryRepository extends Repository
     }
 
     /**
-     * @param mixed $uid
-     * @return \Equed\EquedCore\Domain\Model\Country|null
+     * Find a country by UID.
+     *
+     * @param int $uid
+     * @return Country|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?Country
     {
-        /** @var \Equed\EquedCore\Domain\Model\Country|null $result */
+        /** @var Country|null $result */
         $result = parent::findByUid($uid);
+
         return $result;
     }
 

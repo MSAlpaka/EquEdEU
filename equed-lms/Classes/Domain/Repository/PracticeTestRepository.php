@@ -28,12 +28,12 @@ class PracticeTestRepository extends Repository
     }
 
     /**
-     * Finds a practice test by its UID.
+     * Find a practice test by UID.
      *
      * @param int $uid
      * @return PracticeTest|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?PracticeTest
     {
         return $this->findByIdentifier($uid);
     }

@@ -49,13 +49,16 @@ class UserMetaRepository extends Repository
     }
 
     /**
-     * @param mixed $uid
-     * @return \Equed\EquedCore\Domain\Model\UserMeta|null
+     * Find user meta by UID.
+     *
+     * @param int $uid
+     * @return UserMeta|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?UserMeta
     {
-        /** @var \Equed\EquedCore\Domain\Model\UserMeta|null $result */
+        /** @var UserMeta|null $result */
         $result = parent::findByUid($uid);
+
         return $result;
     }
 

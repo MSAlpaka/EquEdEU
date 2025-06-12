@@ -28,12 +28,12 @@ class ObservationTemplateRepository extends Repository
     }
 
     /**
-     * Finds a template by its unique identifier.
+     * Find a template by its unique identifier.
      *
      * @param int $uid
      * @return ObservationTemplate|null
      */
-    public function findByUid($uid)
+    public function findByUid(int $uid): ?ObservationTemplate
     {
         return $this->findByIdentifier($uid);
     }
