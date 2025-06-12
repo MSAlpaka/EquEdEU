@@ -4036,7 +4036,7 @@ parameters:
 			path: Classes/Domain/Repository/CertificateTemplateRepository.php
 
 		-
-			message: "#^Method Equed\\\\EquedLms\\\\Domain\\\\Repository\\\\CertificateTemplateRepository\\:\\:findByBadgeType\\(\\) should return array\\<Equed\\\\EquedLms\\\\Domain\\\\Model\\\\CertificateTemplate\\> but returns array\\<int, TYPO3\\\\CMS\\\\Extbase\\\\DomainObject\\\\DomainObjectInterface\\>\\.$#"
+			message: "#^Method Equed\\\\EquedLms\\\\Domain\\\\Repository\\\\CertificateTemplateRepository\\:\\:findByBadgeLevel\(\\) should return array\\<Equed\\\\EquedLms\\\\Domain\\\\Model\\\\CertificateTemplate\\> but returns array\\<int, TYPO3\\\\CMS\\\\Extbase\\\\DomainObject\\\\DomainObjectInterface\\>\\.$#"
 			count: 1
 			path: Classes/Domain/Repository/CertificateTemplateRepository.php
 
