@@ -11,10 +11,10 @@ interface FrontendUserRepositoryInterface
 {
     public function findByApiToken(string $token): ?FrontendUser;
 
-    /**
-     * @param FrontendUser $user
-     */
-    public function update($object);
+    public function update(FrontendUser $user): void;
 
-    public function createQuery();
+    /**
+     * @return QueryInterface<FrontendUser>
+     */
+    public function createQuery(): QueryInterface;
 }

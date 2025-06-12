@@ -20,10 +20,10 @@ interface UserBadgeRepositoryInterface
 
     public function countByUserAndIdentifier(int $userId, string $identifier): int;
 
-    /**
-     * @param UserBadge $badge
-     */
-    public function add($object);
+    public function add(UserBadge $badge): void;
 
-    public function createQuery();
+    /**
+     * @return QueryInterface<UserBadge>
+     */
+    public function createQuery(): QueryInterface;
 }
