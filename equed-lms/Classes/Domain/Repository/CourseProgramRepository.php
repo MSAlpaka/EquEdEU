@@ -95,4 +95,53 @@ final class CourseProgramRepository extends Repository
 
         return $query->execute()->toArray();
     }
+
+    /**
+     * Find all active programs for the given category.
+     *
+     * Active programs are visible, not archived and available now.
+     *
+     * @param string $category
+     * @return CourseProgram[]
+     */
+    public function findActiveByCategory(string $category): array
+    {
+        $now = new \DateTimeImmutable();
+
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('category', $category),
+                $query->equals('isVisible', true),
+                $query->equals('isArchived', false),
+                $query->lessThanOrEqual('availableFrom', $now),
+            ])
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Count all active programs.
+     *
+     * Active programs are visible, not archived and available now.
+     */
+    public function countActivePrograms(): int
+    {
+        $now = new \DateTimeImmutable();
+
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_courseprogram')
+            ->where(
+                $qb->expr()->eq('is_visible', $qb->createNamedParameter(true, \PDO::PARAM_BOOL)),
+                $qb->expr()->eq('is_archived', $qb->createNamedParameter(false, \PDO::PARAM_BOOL)),
+                $qb->expr()->lte('available_from', $qb->createNamedParameter($now->format('Y-m-d H:i:s')))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
 }
