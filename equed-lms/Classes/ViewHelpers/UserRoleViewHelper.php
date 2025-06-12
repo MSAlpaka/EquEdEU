@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\ViewHelper;
+namespace Equed\EquedLms\ViewHelpers;
 
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;

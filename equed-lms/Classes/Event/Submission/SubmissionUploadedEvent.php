@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\Event;
+namespace Equed\EquedLms\Event\Submission;
 
 use DateTimeImmutable;
 use Equed\EquedLms\Domain\Model\UserSubmission;

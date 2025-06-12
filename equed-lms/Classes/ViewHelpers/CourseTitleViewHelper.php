@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\ViewHelper;
+namespace Equed\EquedLms\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;

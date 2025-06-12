@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\Listener;
+namespace Equed\EquedLms\EventListener;
 
 use Equed\EquedLms\Event\CourseCompletedEvent;
 use Equed\EquedLms\Event\CertificateIssuedEvent;
+use Equed\EquedLms\Event\Course\CourseCompletionValidatedEvent;
 use Equed\EquedLms\Service\AutoCertificationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;

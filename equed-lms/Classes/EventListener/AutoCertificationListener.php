@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\Listener;
+namespace Equed\EquedLms\EventListener;
 
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Service\CertificateGeneratorInterface;
 use Equed\EquedLms\Enum\UserCourseStatus;
-use Equed\EquedLms\Event\CourseCompletionValidatedEvent;
+use Equed\EquedLms\Event\Course\CourseCompletionValidatedEvent;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use TYPO3\CMS\Core\Annotations\EventListener;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -20,7 +20,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
  * @EventListener(
  *     identifier="auto_certification_listener",
  *     after={"typo3.eventlistener"},
- *     eventName=Equed\EquedLms\Event\CourseCompletionValidatedEvent::class
+ *     eventName=Equed\EquedLms\Event\Course\CourseCompletionValidatedEvent::class
  * )
  */
 final class AutoCertificationListener
