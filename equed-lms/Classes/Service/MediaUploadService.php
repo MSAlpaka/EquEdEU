@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 
@@ -27,7 +26,8 @@ final class MediaUploadService
 
     public function __construct(
         private readonly StorageRepository $storageRepository,
-        private readonly LogServiceInterface $logService
+        private readonly LogServiceInterface $logService,
+        private readonly ResourceFactory $resourceFactory
     ) {
     }
 
@@ -63,8 +63,7 @@ final class MediaUploadService
                 $uploadedFile['name']
             );
 
-            $coreRef = GeneralUtility::makeInstance(ResourceFactory::class)
-                ->createFileReferenceObject([
+            $coreRef = $this->resourceFactory->createFileReferenceObject([
                     'uid_local'   => $file->getUid(),
                     'uid_foreign' => StringUtility::getUniqueId('NEW_'),
                     'uid'         => StringUtility::getUniqueId('NEW_'),
