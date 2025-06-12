@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for RecognitionAward entities.
+
+ *
+ * @extends Repository<RecognitionAward>
  */
 final class RecognitionAwardRepository extends Repository
 {

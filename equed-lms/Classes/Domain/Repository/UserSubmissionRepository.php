@@ -49,7 +49,6 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     public function findScoresByUserCourseRecord(int $userCourseRecordUid): array
     {
         $queryBuilder = $this->createQuery()->getQueryBuilder();
-        $queryBuilder->resetQueryParts();
         $queryBuilder
             ->select('us.points_awarded AS points', 'us.max_points AS maxPoints')
             ->from('tx_equedlms_domain_model_usersubmission', 'us')
@@ -111,12 +110,17 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
      */
     public function countByLesson(Lesson $lesson): int
     {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('lesson', $lesson)
-        );
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('lesson', $qb->createNamedParameter($lesson->getUid(), \PDO::PARAM_INT))
+            );
 
-        return $query->count();
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
     }
 
     /**
@@ -124,12 +128,17 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
      */
     public function countByPracticeTest(PracticeTest $practiceTest): int
     {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('practiceTest', $practiceTest)
-        );
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('practice_test', $qb->createNamedParameter($practiceTest->getUid(), \PDO::PARAM_INT))
+            );
 
-        return $query->count();
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
     }
 
     /**
@@ -204,12 +213,17 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
      */
     public function countByCourseInstance(int $courseInstanceId): int
     {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('userCourseRecord.courseInstance', $courseInstanceId)
-        );
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('course_instance', $qb->createNamedParameter($courseInstanceId, \PDO::PARAM_INT))
+            );
 
-        return $query->count();
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
     }
 
     /**

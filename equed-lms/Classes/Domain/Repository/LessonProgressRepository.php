@@ -14,6 +14,9 @@ use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 
 /**
  * Repository for LessonProgress entries.
+
+ *
+ * @extends Repository<LessonProgress>
  *
  * Uses QueryBuilder for efficient scalar queries,
  * returns only needed fields,

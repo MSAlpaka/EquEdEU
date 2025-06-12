@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for InstructorFeedback entities.
+
+ *
+ * @extends Repository<InstructorFeedback>
  */
 final class InstructorFeedbackRepository extends Repository
 {

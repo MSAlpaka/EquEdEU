@@ -9,6 +9,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for CourseBundle entities.
+
+ *
+ * @extends Repository<CourseBundle>
  */
 final class CourseBundleRepository extends Repository
 {

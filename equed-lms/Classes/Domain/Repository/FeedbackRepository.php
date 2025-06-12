@@ -12,6 +12,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for CourseFeedback entities.
+
+ *
+ * @extends Repository<Feedback>
  */
 final class FeedbackRepository extends Repository
 {

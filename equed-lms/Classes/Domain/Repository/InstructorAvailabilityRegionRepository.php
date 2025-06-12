@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for InstructorAvailabilityRegion entities.
+
+ *
+ * @extends Repository<InstructorAvailabilityRegion>
  */
 final class InstructorAvailabilityRegionRepository extends Repository
 {

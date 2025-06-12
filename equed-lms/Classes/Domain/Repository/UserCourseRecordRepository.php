@@ -179,7 +179,6 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
         }
 
         $qb = $this->createQuery()->getQueryBuilder();
-        $qb->resetQueryParts();
         $qb
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_usercourserecord')
@@ -198,7 +197,6 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     public function countByUserId(int $userId): int
     {
         $qb = $this->createQuery()->getQueryBuilder();
-        $qb->resetQueryParts();
         $qb
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_usercourserecord')
@@ -223,7 +221,6 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
         }
 
         $qb = $this->createQuery()->getQueryBuilder();
-        $qb->resetQueryParts();
         $qb
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_usercourserecord')
@@ -249,7 +246,6 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
         }
 
         $qb = $this->createQuery()->getQueryBuilder();
-        $qb->resetQueryParts();
         $qb
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_usercourserecord')
@@ -270,7 +266,6 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     public function countByUserIdAndCourseProgram(int $userId, int $courseProgramId): int
     {
         $qb = $this->createQuery()->getQueryBuilder();
-        $qb->resetQueryParts();
         $qb
             ->select($qb->expr()->count('*'))
             ->from('tx_equedlms_domain_model_usercourserecord', 'ucr')
@@ -299,7 +294,6 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     public function findDistinctField(string $field): array
     {
         $queryBuilder = $this->createQuery()->getQueryBuilder();
-        $queryBuilder->resetQueryParts();
         $rows = $queryBuilder
             ->selectDistinct($field)
             ->from('tx_equedlms_domain_model_usercourserecord')

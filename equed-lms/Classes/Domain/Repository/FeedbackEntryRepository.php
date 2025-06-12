@@ -10,6 +10,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for FeedbackEntry entities.
+
+ *
+ * @extends Repository<FeedbackEntry>
  */
 final class FeedbackEntryRepository extends Repository
 {

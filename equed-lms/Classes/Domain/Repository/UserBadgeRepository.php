@@ -98,12 +98,17 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
      */
     public function countValidBadges(int $userId): int
     {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->equals('feUser', $userId)
-        );
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_userbadge')
+            ->where(
+                $qb->expr()->eq('user', $qb->createNamedParameter($userId, \PDO::PARAM_INT))
+            );
 
-        return $query->count();
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
     }
 
     /**
@@ -136,15 +141,18 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
      */
     public function countByUserAndIdentifier(int $userId, string $identifier): int
     {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd([
-                $query->equals('feUser', $userId),
-                $query->equals('badgeType', $identifier),
-            ])
-        );
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_userbadge')
+            ->where(
+                $qb->expr()->eq('user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('badge_type', $qb->createNamedParameter($identifier))
+            );
 
-        return $query->count();
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int)$result;
     }
 }
 // EOF

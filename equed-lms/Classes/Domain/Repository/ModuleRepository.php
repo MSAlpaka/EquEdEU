@@ -10,6 +10,8 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for Module entities.
+ *
+ * @extends Repository<Module>
  */
 final class ModuleRepository extends Repository
 {

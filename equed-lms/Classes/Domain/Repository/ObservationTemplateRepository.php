@@ -9,6 +9,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for ObservationTemplate entities.
+
+ *
+ * @extends Repository<ObservationTemplate>
  */
 final class ObservationTemplateRepository extends Repository
 {

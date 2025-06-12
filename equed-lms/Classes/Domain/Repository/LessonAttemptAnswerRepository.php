@@ -11,6 +11,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for LessonAttemptAnswer entities.
+
+ *
+ * @extends Repository<LessonAttemptAnswer>
  */
 final class LessonAttemptAnswerRepository extends Repository
 {

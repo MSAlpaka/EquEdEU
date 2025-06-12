@@ -42,7 +42,6 @@ final class CourseInstanceRepository extends Repository implements CourseInstanc
     public function findDistinctField(string $field): array
     {
         $queryBuilder = $this->createQuery()->getQueryBuilder();
-        $queryBuilder->resetQueryParts();
         $rows = $queryBuilder
             ->selectDistinct($field)
             ->from('tx_equedlms_domain_model_courseinstance')

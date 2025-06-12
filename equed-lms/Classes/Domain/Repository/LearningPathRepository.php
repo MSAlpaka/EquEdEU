@@ -9,6 +9,9 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Repository for LearningPath entities.
+
+ *
+ * @extends Repository<LearningPath>
  */
 final class LearningPathRepository extends Repository
 {
