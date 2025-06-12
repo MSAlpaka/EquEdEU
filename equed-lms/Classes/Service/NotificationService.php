@@ -6,18 +6,26 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Service\MailServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\FrontendUserRepositoryInterface;
+use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Handles sending notifications via email or push.
  */
-final class NotificationService
+final class NotificationService implements NotificationServiceInterface
 {
     private const EXTENSION_KEY = 'equed_lms';
 
     public function __construct(
         private readonly MailServiceInterface $mailService,
-        private readonly GptTranslationServiceInterface $translationService
+        private readonly GptTranslationServiceInterface $translationService,
+        private readonly NotificationRepositoryInterface $notificationRepository,
+        private readonly FrontendUserRepositoryInterface $frontendUserRepository,
+        private readonly PersistenceManagerInterface $persistenceManager
     ) {
     }
 
@@ -40,6 +48,34 @@ final class NotificationService
         $subject = $this->translate('notification.user.subject', ['certificate' => $certificateNumber]);
         $body = $this->translate('notification.user.body', ['certificate' => $certificateNumber]);
         $this->mailService->sendMail($email, $subject, $body);
+    }
+
+    public function getNotificationsForUser(int $userId): array
+    {
+        $query = $this->frontendUserRepository->createQuery();
+        $query->matching($query->equals('uid', $userId));
+        $user = $query->execute()->getFirst();
+        if (! $user instanceof FrontendUser) {
+            return [];
+        }
+
+        return $this->notificationRepository->findLatestByUser($user);
+    }
+
+    public function markAsRead(int $userId, int $notificationId): void
+    {
+        $notification = $this->notificationRepository->findByUid($notificationId);
+        if ($notification === null) {
+            return;
+        }
+
+        if ($notification->getRecipient()?->getUid() !== $userId) {
+            return;
+        }
+
+        $notification->setIsRead(true);
+        $this->notificationRepository->update($notification);
+        $this->persistenceManager->persistAll();
     }
 
     private function translate(string $key, array $arguments = []): string

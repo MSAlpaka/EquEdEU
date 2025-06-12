@@ -10,7 +10,7 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
 use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
 use Equed\EquedLms\Service\CertificateService;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Service\NotificationServiceInterface;
+use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 
