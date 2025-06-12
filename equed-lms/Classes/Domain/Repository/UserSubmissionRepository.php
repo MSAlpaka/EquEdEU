@@ -106,6 +106,23 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     }
 
     /**
+     * Find a submission by its UUID.
+     *
+     * @param string $uuid
+     * @return UserSubmission|null
+     */
+    public function findByUuid(string $uuid): ?UserSubmission
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid)
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
      * Count submissions for a specific lesson.
      */
     public function countByLesson(Lesson $lesson): int

@@ -82,6 +82,23 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     }
 
     /**
+     * Find a course record by its UUID.
+     *
+     * @param string $uuid
+     * @return UserCourseRecord|null
+     */
+    public function findByUuid(string $uuid): ?UserCourseRecord
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid)
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
      * Find course records by status.
      *
      * @param UserCourseStatus|string $status Value from UserCourseStatus enum

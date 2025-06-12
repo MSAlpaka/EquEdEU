@@ -27,4 +27,5 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
  */
 interface UserCourseRecordRepositoryInterface
 {
+    public function findByUuid(string $uuid): ?UserCourseRecord;
 }

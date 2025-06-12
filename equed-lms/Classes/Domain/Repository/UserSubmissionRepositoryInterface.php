@@ -31,6 +31,8 @@ interface UserSubmissionRepositoryInterface
 
     public function findByUid(int $uid): ?UserSubmission;
 
+    public function findByUuid(string $uuid): ?UserSubmission;
+
     /**
      * @return UserSubmission[]
      */
