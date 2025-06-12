@@ -47,7 +47,7 @@ final class UserSubmissionService
      * Determines if a submission is validatable (pending validation).
      *
      * @param int $submissionId UID of the submission
-     * @return bool True if submission exists and status is 'pending'
+     * @return bool True if submission exists and status is SubmissionStatus::Pending
      */
     public function isValidatable(int $submissionId): bool
     {

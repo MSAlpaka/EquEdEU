@@ -33,7 +33,7 @@ class UserSubmissionServiceTest extends TestCase
     public function testGetInstructorFeedbackStatusReturnsValue(): void
     {
         $submission = $this->prophesize(\stdClass::class);
-        $submission->getStatus()->willReturn((object)['value' => 'pending']);
+        $submission->getStatus()->willReturn(\Equed\EquedLms\Enum\SubmissionStatus::Pending);
         $this->repository->findByUid(7)->willReturn($submission->reveal());
 
         $this->assertSame('pending', $this->subject->getInstructorFeedbackStatus(7));

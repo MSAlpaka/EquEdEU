@@ -13,6 +13,7 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
 use Equed\EquedLms\Service\ProgressServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Enum\UserCourseStatus;
 
 /**
  * Aggregates and prepares all data for the user dashboard,
@@ -115,10 +116,10 @@ final class DashboardService
 
         foreach ($records as $record) {
             $ci     = $record->getCourseInstance();
-            $status = $record->getStatus()->value;
+            $status = $record->getStatus();
             $tabKey = match ($status) {
-                'validated', 'passed' => 'completed',
-                default               => 'running',
+                UserCourseStatus::Validated, UserCourseStatus::Passed => 'completed',
+                default                                            => 'running',
             };
             $ciId   = $ci->getUid();
             $certUrl = $latestCertificates[$ciId]?->getQrCodeUrl() ?? null;
