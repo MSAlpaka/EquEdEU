@@ -63,7 +63,9 @@ final class InstructorEligibilityRepository extends Repository
             ])
         );
 
-        return $query->execute()->count() > 0;
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst() !== null;
     }
 }
 // EOF
