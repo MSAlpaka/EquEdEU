@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Repository;
 
+use Equed\EquedLms\Domain\Model\Lesson;
+use Equed\EquedLms\Domain\Model\PracticeTest;
 use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Enum\SubmissionStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -75,14 +77,14 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     /**
      * Find all submissions for a specific lesson.
      *
-     * @param int $lessonUid
+     * @param Lesson $lesson
      * @return UserSubmission[]
      */
-    public function findByLesson(int $lessonUid): array
+    public function findByLesson(Lesson $lesson): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('lesson', $lessonUid)
+            $query->equals('lesson', $lesson)
         );
 
         return $query->execute()->toArray();
@@ -91,14 +93,14 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     /**
      * Find all submissions for a specific practice test.
      *
-     * @param int $practiceTestUid
+     * @param PracticeTest $practiceTest
      * @return UserSubmission[]
      */
-    public function findByPracticeTest(int $practiceTestUid): array
+    public function findByPracticeTest(PracticeTest $practiceTest): array
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('practiceTest', $practiceTestUid)
+            $query->equals('practiceTest', $practiceTest)
         );
 
         return $query->execute()->toArray();
@@ -107,11 +109,11 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     /**
      * Count submissions for a specific lesson.
      */
-    public function countByLesson(int $lessonUid): int
+    public function countByLesson(Lesson $lesson): int
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('lesson', $lessonUid)
+            $query->equals('lesson', $lesson)
         );
 
         return $query->count();
@@ -120,11 +122,11 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     /**
      * Count submissions for a specific practice test.
      */
-    public function countByPracticeTest(int $practiceTestUid): int
+    public function countByPracticeTest(PracticeTest $practiceTest): int
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('practiceTest', $practiceTestUid)
+            $query->equals('practiceTest', $practiceTest)
         );
 
         return $query->count();

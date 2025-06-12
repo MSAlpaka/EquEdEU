@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Repository;
 
+use Equed\EquedLms\Domain\Model\Lesson;
+use Equed\EquedLms\Domain\Model\PracticeTest;
 use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Enum\SubmissionStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -45,16 +47,16 @@ interface UserSubmissionRepositoryInterface
     /**
      * @return UserSubmission[]
      */
-    public function findByLesson(int $lessonUid): array;
+    public function findByLesson(Lesson $lesson): array;
 
     /**
      * @return UserSubmission[]
      */
-    public function findByPracticeTest(int $practiceTestUid): array;
+    public function findByPracticeTest(PracticeTest $practiceTest): array;
 
-    public function countByLesson(int $lessonUid): int;
+    public function countByLesson(Lesson $lesson): int;
 
-    public function countByPracticeTest(int $practiceTestUid): int;
+    public function countByPracticeTest(PracticeTest $practiceTest): int;
 
     /**
      * @param SubmissionStatus|string $status
