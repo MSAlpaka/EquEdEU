@@ -60,3 +60,45 @@ services:
 
   Equed\EquedLms\Domain\Service\ClockInterface:
     class: Equed\EquedLms\Service\SystemClock
+  Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\CourseInstanceRepository
+
+  Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\LessonProgressRepository
+
+  Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\NotificationRepository
+
+  Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\UserCourseRecordRepository
+
+  Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\UserSubmissionRepository
+
+  Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\CertificateDispatchRepository
+
+  Equed\EquedLms\Domain\Repository\SubmissionRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\SubmissionRepository
+
+  Equed\EquedLms\Domain\Service\JwtServiceInterface:
+    class: Equed\EquedLms\Service\JwtService
+
+  Equed\EquedLms\Domain\Service\NotificationServiceInterface:
+    class: Equed\EquedLms\Service\NotificationService
+
+  Equed\EquedLms\Domain\Service\CourseGoalServiceInterface:
+    class: Equed\EquedLms\Service\CourseGoalService
+
+  Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface:
+    class: Equed\EquedLms\Service\TrainingRecordGeneratorService
+
+  Equed\EquedLms\Domain\Service\ExamNotificationServiceInterface:
+    class: Equed\EquedLms\Service\ExamNotificationService
+
+  Equed\EquedLms\Service\ProgressServiceInterface:
+    class: Equed\EquedLms\Service\ProgressService
+
+  Equed\EquedLms\Service\MailServiceInterface:
+    class: Equed\EquedLms\Service\Email\MailService
+
