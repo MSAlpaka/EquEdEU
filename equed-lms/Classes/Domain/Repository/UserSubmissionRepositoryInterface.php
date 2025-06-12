@@ -72,5 +72,5 @@ interface UserSubmissionRepositoryInterface
     /**
      * @return QueryInterface<UserSubmission>
      */
-    public function createQuery();
+    public function createQuery(): QueryInterface;
 }
