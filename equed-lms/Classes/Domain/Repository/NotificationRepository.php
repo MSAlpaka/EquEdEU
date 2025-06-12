@@ -65,4 +65,14 @@ final class NotificationRepository extends Repository implements NotificationRep
     {
         return $this->findByIdentifier($uid);
     }
+
+    /**
+     * Adds a notification to the repository.
+     *
+     * @param Notification $notification Notification entity to add
+     */
+    public function add(Notification $notification): void
+    {
+        parent::add($notification);
+    }
 }
