@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\Lesson;
+use Equed\EquedLms\Domain\Model\Module;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -58,6 +59,39 @@ final class LessonRepository extends Repository
         );
 
         return $query->execute()->toArray();
+    }
+
+    /**
+     * Find all lessons for a specific module.
+     *
+     * @param Module $module
+     * @return Lesson[]
+     */
+    public function findByModule(Module $module): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('module', $module)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find a lesson by its UUID.
+     *
+     * @param string $uuid
+     * @return Lesson|null
+     */
+    public function findByUuid(string $uuid): ?Lesson
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid)
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
     }
 }
 // EOF
