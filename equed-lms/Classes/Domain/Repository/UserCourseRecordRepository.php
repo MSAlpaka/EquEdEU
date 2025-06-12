@@ -168,6 +168,129 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     }
 
     /**
+     * Count records by status.
+     *
+     * @param UserCourseStatus|string $status
+     */
+    public function countByStatus(UserCourseStatus|string $status): int
+    {
+        if (is_string($status)) {
+            $status = UserCourseStatus::from($status);
+        }
+
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb->resetQueryParts();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->eq('status', $qb->createNamedParameter($status->value))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
+     * Count records for a frontend user.
+     */
+    public function countByUserId(int $userId): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb->resetQueryParts();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->eq('fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
+     * Count records for a user filtered by status.
+     *
+     * @param UserCourseStatus|string $status
+     */
+    public function countByUserIdAndStatus(int $userId, UserCourseStatus|string $status): int
+    {
+        if (is_string($status)) {
+            $status = UserCourseStatus::from($status);
+        }
+
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb->resetQueryParts();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->eq('fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('status', $qb->createNamedParameter($status->value))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
+     * Count records for a user and course instance with status filter.
+     *
+     * @param UserCourseStatus|string $status
+     */
+    public function countByUserAndInstanceAndStatus(int $userId, int $courseInstanceId, UserCourseStatus|string $status): int
+    {
+        if (is_string($status)) {
+            $status = UserCourseStatus::from($status);
+        }
+
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb->resetQueryParts();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->eq('fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('course_instance', $qb->createNamedParameter($courseInstanceId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('status', $qb->createNamedParameter($status->value))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
+     * Count records for a user within a course program.
+     */
+    public function countByUserIdAndCourseProgram(int $userId, int $courseProgramId): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb->resetQueryParts();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usercourserecord', 'ucr')
+            ->join(
+                'ucr',
+                'tx_equedlms_domain_model_courseinstance',
+                'ci',
+                'ci.uid = ucr.course_instance'
+            )
+            ->where(
+                $qb->expr()->eq('ucr.fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('ci.courseprogram', $qb->createNamedParameter($courseProgramId, \PDO::PARAM_INT))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
      * Return a list of distinct values for a given field.
      *
      * @param string $field Database field name
