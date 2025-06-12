@@ -59,4 +59,16 @@ class ModuleRepositoryTest extends TestCase
         $result = $this->subject->findByIdentifier('mod-1');
         $this->assertSame($module, $result);
     }
+
+    public function testFindActiveModulesReturnsModules(): void
+    {
+        $expected = $this->prophesize(QueryResultInterface::class);
+
+        $this->query->matching(\Prophecy\Argument::any())->willReturn($this->query);
+        $this->query->execute()->willReturn($expected);
+        $expected->toArray()->willReturn(['mod']);
+
+        $result = $this->subject->findActiveModules(new CourseProgram());
+        $this->assertSame(['mod'], $result);
+    }
 }

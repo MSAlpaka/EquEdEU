@@ -14,3 +14,7 @@ columns:
     type: integer
   lessons:
     type: string
+indexes:
+  course_program:
+    columns:
+      - course_program
