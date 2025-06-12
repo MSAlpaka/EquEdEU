@@ -186,6 +186,115 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     }
 
     /**
+     * Find a course record for a user and course instance.
+     *
+     * @param int $userId          Frontend user UID
+     * @param int $courseInstanceId Course instance UID
+     * @return UserCourseRecord|null
+     */
+    public function findOneByUserAndCourseInstance(int $userId, int $courseInstanceId): ?UserCourseRecord
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('user', $userId),
+                $query->equals('courseInstance', $courseInstanceId),
+            ])
+        );
+        $query->setLimit(1);
+
+        return $query->execute()->getFirst();
+    }
+
+    /**
+     * Find course records by instructor of the course instance.
+     *
+     * @param int $instructorId Frontend user UID of the instructor
+     * @return UserCourseRecord[]
+     */
+    public function findByInstructor(int $instructorId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('courseInstance.instructor', $instructorId)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find course records for a frontend user.
+     *
+     * @param int $feUserId Frontend user UID
+     * @return UserCourseRecord[]
+     */
+    public function findByFeUser(int $feUserId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('user', $feUserId)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find course records by user ID.
+     *
+     * @param int $userId Frontend user UID
+     * @return UserCourseRecord[]
+     */
+    public function findByUserId(int $userId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('user', $userId)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find course records for a user and course instance.
+     *
+     * @param int $userId          Frontend user UID
+     * @param int $courseInstanceId Course instance UID
+     * @return UserCourseRecord[]
+     */
+    public function findByUserAndCourseInstance(int $userId, int $courseInstanceId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('user', $userId),
+                $query->equals('courseInstance', $courseInstanceId),
+            ])
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Find course records for a user filtered by status.
+     *
+     * @param int    $userId Frontend user UID
+     * @param string $status Status value from UserCourseStatus
+     * @return UserCourseRecord[]
+     */
+    public function findByUserAndStatus(int $userId, string $status): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->equals('user', $userId),
+                $query->equals('status', $status),
+            ])
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
      * Count records by status.
      *
      * @param UserCourseStatus|string $status
