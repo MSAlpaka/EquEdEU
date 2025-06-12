@@ -171,4 +171,14 @@ final class UserBadgeRepository extends Repository implements UserBadgeRepositor
 
         return $result === false ? 0 : (int)$result;
     }
+
+    /**
+     * Add a badge to the repository.
+     *
+     * @param UserBadge $badge Badge instance to add
+     */
+    public function add(UserBadge $badge): void
+    {
+        parent::add($badge);
+    }
 }
