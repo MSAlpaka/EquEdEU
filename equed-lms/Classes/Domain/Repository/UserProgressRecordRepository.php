@@ -25,7 +25,7 @@ class UserProgressRecordRepository extends Repository
     ];
 
     /**
-     * Find all progress records for a given frontend user.
+     * Find all progress records for a given instructor.
      *
      * @param int $feUserUid
      * @return UserProgressRecord[]
@@ -34,7 +34,7 @@ class UserProgressRecordRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $feUserUid)
+            $query->equals('instructor', $feUserUid)
         );
 
         return $query->execute()->toArray();

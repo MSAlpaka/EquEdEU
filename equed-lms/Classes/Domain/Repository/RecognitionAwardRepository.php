@@ -39,7 +39,7 @@ class RecognitionAwardRepository extends Repository
     }
 
     /**
-     * Finds all recognition awards for a given frontend user.
+     * Finds all recognition awards for a given instructor.
      *
      * @param FrontendUser $user
      * @return RecognitionAward[]
@@ -48,7 +48,7 @@ class RecognitionAwardRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $user)
+            $query->equals('instructor', $user)
         );
 
         return $query->execute()->toArray();

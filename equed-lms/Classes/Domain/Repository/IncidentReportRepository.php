@@ -15,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class IncidentReportRepository extends Repository
 {
     /**
-     * Finds all incident reports for a specific frontend user.
+     * Finds all incident reports for a specific instructor.
      *
      * @param FrontendUser $user
      * @return IncidentReport[]
@@ -24,7 +24,7 @@ class IncidentReportRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $user)
+            $query->equals('instructor', $user)
         );
 
         return $query->execute()->toArray();

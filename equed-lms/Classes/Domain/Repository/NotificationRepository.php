@@ -15,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class NotificationRepository extends Repository
 {
     /**
-     * Finds unread notifications for a specific frontend user.
+     * Finds unread notifications for a specific instructor.
      *
      * @param FrontendUser $user
      * @return Notification[]
@@ -25,7 +25,7 @@ class NotificationRepository extends Repository
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $user),
+                $query->equals('instructor', $user),
                 $query->equals('read', false),
             ])
         );
@@ -34,7 +34,7 @@ class NotificationRepository extends Repository
     }
 
     /**
-     * Finds the latest notifications for a specific frontend user.
+     * Finds the latest notifications for a specific instructor.
      *
      * @param FrontendUser $user
      * @param int          $limit
@@ -44,7 +44,7 @@ class NotificationRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $user)
+            $query->equals('instructor', $user)
         );
         $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
         $query->setLimit($limit);

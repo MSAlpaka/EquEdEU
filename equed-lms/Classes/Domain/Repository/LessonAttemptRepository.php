@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class LessonAttemptRepository extends Repository
 {
     /**
-     * Finds the latest attempt by a specific user for a given lesson.
+     * Finds the latest attempt by a specific instructor for a given lesson.
      *
      * @param FrontendUser $user
      * @param Lesson       $lesson
@@ -27,7 +27,7 @@ class LessonAttemptRepository extends Repository
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $user),
+                $query->equals('instructor', $user),
                 $query->equals('lesson', $lesson),
             ])
         );
@@ -53,7 +53,7 @@ class LessonAttemptRepository extends Repository
     }
 
     /**
-     * Finds all lesson attempts for a specific frontend user.
+     * Finds all lesson attempts for a specific instructor.
      *
      * @param FrontendUser $user
      * @return LessonAttempt[]
@@ -62,7 +62,7 @@ class LessonAttemptRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $user)
+            $query->equals('instructor', $user)
         );
 
         return $query->execute()->toArray();

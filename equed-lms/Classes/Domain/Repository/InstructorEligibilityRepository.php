@@ -24,7 +24,7 @@ class InstructorEligibilityRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $instructor)
+            $query->equals('instructor', $instructor)
         );
 
         return $query->execute()->toArray();
@@ -58,7 +58,7 @@ class InstructorEligibilityRepository extends Repository
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $instructor),
+                $query->equals('instructor', $instructor),
                 $query->equals('courseProgram', $courseProgram),
             ])
         );
