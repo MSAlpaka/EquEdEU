@@ -67,6 +67,9 @@ services:
   Equed\EquedLms\Domain\Repository\LessonRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\LessonRepository
 
+  Equed\EquedLms\Domain\Repository\LearningPathRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\LearningPathRepository
+
   Equed\EquedLms\Domain\Service\DashboardServiceInterface:
     class: Equed\EquedLms\Service\DashboardService
 
