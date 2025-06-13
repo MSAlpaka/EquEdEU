@@ -35,7 +35,7 @@ final class Lesson extends AbstractEntity
     protected ?Module $module = null;
 
     /**
-     * @var ObjectStorage<ContentPage>
+     * @var ObjectStorage<LessonContentPage>
      */
     #[Extbase\ORM\OneToMany(mappedBy: 'lesson', cascade: ['remove'])]
     protected ObjectStorage $pages;
@@ -134,21 +134,21 @@ final class Lesson extends AbstractEntity
     }
 
     /**
-     * @return ObjectStorage<ContentPage>
+     * @return ObjectStorage<LessonContentPage>
      */
     public function getPages(): ObjectStorage
     {
         return $this->pages;
     }
 
-    public function addPage(ContentPage $page): void
+    public function addPage(LessonContentPage $page): void
     {
         if (!$this->pages->contains($page)) {
             $this->pages->attach($page);
         }
     }
 
-    public function removePage(ContentPage $page): void
+    public function removePage(LessonContentPage $page): void
     {
         if ($this->pages->contains($page)) {
             $this->pages->detach($page);
