@@ -30,18 +30,18 @@ return [
                 'rows' => 6,
             ],
         ],
-        'duration_minutes' => [
-            'label' => 'LLL:EXT:equed_lms/...:lesson.duration_minutes',
+        'expected_duration' => [
+            'label' => 'LLL:EXT:equed_lms/...:lesson.expected_duration',
             'config' => [
                 'type' => 'number',
                 'default' => 10,
             ],
         ],
-        'course_program' => [
-            'label' => 'LLL:EXT:equed_lms/...:lesson.course_program',
+        'module' => [
+            'label' => 'LLL:EXT:equed_lms/...:lesson.module',
             'config' => [
                 'type' => 'select',
-                'foreign_table' => 'tx_equedlms_domain_model_courseprogram',
+                'foreign_table' => 'tx_equedlms_domain_model_module',
                 'renderType' => 'selectSingle',
                 'maxitems' => 1,
                 'default' => 0,
@@ -74,8 +74,8 @@ return [
     'types' => [
         '0' => [
             'showitem' => '
-                title, description, duration_minutes,
-                course_program, sort_order, visible, materials
+                title, description, expected_duration,
+                module, sort_order, visible, materials
             ',
         ],
     ],

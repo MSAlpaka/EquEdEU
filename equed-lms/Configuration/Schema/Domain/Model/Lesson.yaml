@@ -8,9 +8,7 @@ columns:
     type: string
   description:
     type: text
-  duration_minutes:
-    type: string
-  course_program:
+  expected_duration:
     type: integer
   sort_order:
     type: string
