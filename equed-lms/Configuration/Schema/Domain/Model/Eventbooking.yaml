@@ -15,7 +15,7 @@ columns:
   confirmed_by_instructor:
     type: boolean
   confirmation_datetime:
-    type: string
+    type: integer
   cancelled_reason:
     type: text
   language:
@@ -23,6 +23,6 @@ columns:
   uuid:
     type: string
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer

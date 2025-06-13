@@ -11,7 +11,7 @@ columns:
   exam_type:
     type: integer
   exam_date:
-    type: string
+    type: integer
   status:
     type: integer
   is_passed:
@@ -33,7 +33,7 @@ columns:
   linked_quiz:
     type: integer
   reviewed_at:
-    type: string
+    type: integer
   allow_retake:
     type: boolean
   retake_reason:

@@ -11,9 +11,9 @@ columns:
   course_instance:
     type: integer
   start_datetime:
-    type: string
+    type: integer
   end_datetime:
-    type: string
+    type: integer
   event_type:
     type: integer
   location:
@@ -29,9 +29,9 @@ columns:
   uuid:
     type: string
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer
   title_key:
     type: string
   description_key:

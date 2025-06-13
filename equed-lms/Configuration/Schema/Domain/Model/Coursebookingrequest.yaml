@@ -13,7 +13,7 @@ columns:
   preferred_instructor:
     type: integer
   preferred_date:
-    type: string
+    type: integer
   comments:
     type: text
   status:
@@ -21,8 +21,8 @@ columns:
   assigned_instance:
     type: integer
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer
   uuid:
     type: string

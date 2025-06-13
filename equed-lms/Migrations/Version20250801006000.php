@@ -33,8 +33,8 @@ final class Version20250801006000 extends AbstractMigration
         $table->addColumn('image', 'integer');
         $table->addColumn('recommended_after', 'integer');
         $table->addColumn('uuid', 'string');
-        $table->addColumn('created_at', 'string');
-        $table->addColumn('updated_at', 'string');
+        $table->addColumn('created_at', 'integer');
+        $table->addColumn('updated_at', 'integer');
         $table->setPrimaryKey(['uid']);
 
         $mm = $schema->createTable('tx_equedlms_coursebundle_courseprogram_mm');

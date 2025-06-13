@@ -15,7 +15,7 @@ columns:
   sync_scope:
     type: text
   last_synced_at:
-    type: string
+    type: integer
   sync_status:
     type: integer
   is_active:
@@ -25,6 +25,6 @@ columns:
   uuid:
     type: string
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer
