@@ -29,7 +29,7 @@ columns:
   attachment:
     type: integer
   submitted_at:
-    type: string
+    type: integer
   visible_to_user:
     type: boolean
   qms_flagged:
