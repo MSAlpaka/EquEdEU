@@ -14,5 +14,6 @@ node_modules/
 
 # PHPUnit / Infection
 .phpunit.result.cache
+.php-cs-fixer.cache
 infection.log
 coverage/
