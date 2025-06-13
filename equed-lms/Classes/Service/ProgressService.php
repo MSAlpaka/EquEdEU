@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\ProgressServiceInterface;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\CourseProgram;
@@ -14,7 +14,6 @@ use Equed\EquedLms\Enum\UserCourseStatus;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use Equed\EquedLms\Domain\Service\ClockInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Service for retrieving and formatting user progress data.
@@ -23,10 +22,9 @@ final class ProgressService implements ProgressServiceInterface
 {
     public function __construct(
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
-        private readonly GptTranslationServiceInterface $translationService,
+        private readonly LanguageServiceInterface $languageService,
         private readonly ConnectionPool $connectionPool,
-        private readonly ClockInterface $clock,
-        private readonly string $extensionKey = 'equed_lms'
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -65,7 +63,13 @@ final class ProgressService implements ProgressServiceInterface
                 'courseId'    => $program?->getUid(),
                 'courseTitle' => $instance->getTitle(),
                 'progress'    => $progress,
-                'status'      => $this->translateStatus($record->getStatus()->value),
+                'status'      => $this->languageService->translate(
+                    match ($record->getStatus()->value) {
+                        'completed'   => 'status.completed',
+                        'inProgress'  => 'status.inProgress',
+                        default       => 'status.notStarted',
+                    }
+                ),
             ];
         }
 
@@ -75,42 +79,6 @@ final class ProgressService implements ProgressServiceInterface
             'overallPercent' => $overall,
             'courses'        => $courses,
         ];
-    }
-
-    /**
-     * Translate a status code into a localized label.
-     *
-     * @param string $statusCode
-     * @return string
-     */
-    private function translateStatus(string $statusCode): string
-    {
-        $key = match ($statusCode) {
-            'completed'   => 'status.completed',
-            'inProgress'  => 'status.inProgress',
-            default       => 'status.notStarted',
-        };
-
-        return $this->translate($key, ['status' => $statusCode]);
-    }
-
-    /**
-     * Translate a localization key with GPT-based service and fallback.
-     *
-     * @param string              $key        Localization key
-     * @param array<string,mixed> $arguments  Placeholder arguments
-     * @return string
-     */
-    private function translate(string $key, array $arguments = []): string
-    {
-        if ($this->translationService->isEnabled()) {
-            $translated = $this->translationService->translate($key, $arguments, $this->extensionKey);
-            if ($translated !== null && $translated !== $key) {
-                return $translated;
-            }
-        }
-
-        return LocalizationUtility::translate($key, $this->extensionKey, $arguments) ?? $key;
     }
 
     public function cleanupAbandonedCourseProgress(int $days): void

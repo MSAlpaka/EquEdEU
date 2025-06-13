@@ -7,21 +7,19 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 
 /**
  * Service for calculating user progress in courses.
  */
 final class ProgressCalculationService
 {
-    private const EXTENSION_KEY = 'equed_lms';
 
     public function __construct(
         private readonly CourseInstanceRepositoryInterface $courseInstanceRepository,
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         private readonly CacheItemPoolInterface $cachePool,
-        private readonly GptTranslationServiceInterface $translationService
+        private readonly LanguageServiceInterface $languageService
     ) {
     }
 
@@ -78,18 +76,7 @@ final class ProgressCalculationService
             default => 'progress.notStarted',
         };
 
-        return $this->translate($key, ['progress' => (int)round($progress)]);
+        return $this->languageService->translate($key, ['progress' => (int)round($progress)]);
     }
 
-    private function translate(string $key, array $arguments = []): string
-    {
-        if ($this->translationService->isEnabled()) {
-            $translated = $this->translationService->translate($key, $arguments, self::EXTENSION_KEY);
-            if ($translated !== null && $translated !== $key) {
-                return $translated;
-            }
-        }
-
-        return LocalizationUtility::translate($key, self::EXTENSION_KEY, $arguments) ?? $key;
-    }
 }

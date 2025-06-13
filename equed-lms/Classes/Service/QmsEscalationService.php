@@ -7,8 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\QmsCase;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Service\MailServiceInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 
 /**
  * Service to escalate QMS cases via email.
@@ -21,7 +20,7 @@ final class QmsEscalationService
     public function __construct(
         private readonly LogService $logService,
         private readonly MailServiceInterface $mailService,
-        private readonly GptTranslationServiceInterface $translationService,
+        private readonly LanguageServiceInterface $languageService,
         string $serviceCenterEmail = 'servicecenter@equed.eu',
         string $extensionKey = 'equed_lms'
     ) {
@@ -34,19 +33,21 @@ final class QmsEscalationService
      */
     public function escalate(QmsCase $case): void
     {
-        $subject = $this->translate(
+        $subject = $this->languageService->translate(
             'qms.escalation.subject',
-            ['caseId' => $case->getUid()]
+            ['caseId' => $case->getUid()],
+            $this->extensionKey
         );
 
-        $body = $this->translate(
+        $body = $this->languageService->translate(
             'qms.escalation.body',
             [
                 'caseId'   => $case->getUid(),
                 'issue'    => $case->getIssue(),
                 'status'   => $case->getStatus(),
                 'userId'   => $case->getFeUser(),
-            ]
+            ],
+            $this->extensionKey
         );
 
         $this->mailService->sendMail(
@@ -68,19 +69,4 @@ final class QmsEscalationService
      * @param array<string,mixed>  $arguments  Placeholder arguments
      * @return string Translated text or key if none found
      */
-    private function translate(string $key, array $arguments = []): string
-    {
-        if ($this->translationService->isEnabled()) {
-            $translated = $this->translationService->translate(
-                $key,
-                $arguments,
-                $this->extensionKey
-            );
-            if ($translated !== null && $translated !== $key) {
-                return $translated;
-            }
-        }
-
-        return LocalizationUtility::translate($key, $this->extensionKey, $arguments) ?? $key;
-    }
 }

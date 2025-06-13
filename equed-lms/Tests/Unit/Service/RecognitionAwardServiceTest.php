@@ -6,7 +6,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Domain\Model\UserBadge;
 use Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\RecognitionAwardService;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ class RecognitionAwardServiceTest extends TestCase
     private $repo;
     private $persistence;
     private $cache;
-    private $translation;
+    private $language;
     private $clock;
 
     protected function setUp(): void
@@ -31,14 +31,14 @@ class RecognitionAwardServiceTest extends TestCase
         $this->repo = $this->prophesize(UserBadgeRepositoryInterface::class);
         $this->persistence = $this->prophesize(PersistenceManagerInterface::class);
         $this->cache = $this->prophesize(CacheItemPoolInterface::class);
-        $this->translation = $this->prophesize(GptTranslationServiceInterface::class);
+        $this->language = $this->prophesize(LanguageServiceInterface::class);
         $this->clock = $this->prophesize(ClockInterface::class);
 
         $this->subject = new RecognitionAwardService(
             $this->repo->reveal(),
             $this->persistence->reveal(),
             $this->cache->reveal(),
-            $this->translation->reveal(),
+            $this->language->reveal(),
             $this->clock->reveal()
         );
     }
@@ -57,7 +57,7 @@ class RecognitionAwardServiceTest extends TestCase
     public function testAssignRecognitionBadgeCreatesNewBadge(): void
     {
         $this->repo->findByUserAndType(7, 'foo')->willReturn(null);
-        $this->translation->isEnabled()->willReturn(false);
+        $this->language->translate(\Prophecy\Argument::any(), \Prophecy\Argument::cetera())->willReturn('');
         $this->repo->add(\Prophecy\Argument::type(UserBadge::class))->shouldBeCalled();
         $this->persistence->persistAll()->shouldBeCalled();
         $this->cache->deleteItem('qualifyAdvanced_7')->shouldBeCalled();

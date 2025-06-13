@@ -10,21 +10,19 @@ use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Domain\Repository\CertificateRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\QmsCaseRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 
 /**
  * Service to gather dashboard data for a Service Center.
  */
 final class ServiceCenterDashboardService
 {
-    private const EXTENSION_KEY = 'equed_lms';
 
     public function __construct(
         private readonly CertificateRepositoryInterface $certificateRepository,
         private readonly UserSubmissionRepositoryInterface $userSubmissionRepository,
         private readonly QmsCaseRepositoryInterface $qmsCaseRepository,
-        private readonly GptTranslationServiceInterface $translationService
+        private readonly LanguageServiceInterface $languageService
     ) {
     }
 
@@ -60,7 +58,14 @@ final class ServiceCenterDashboardService
             fn (UserSubmission $s): array => [
                 'type'   => $s->getType(),
                 'user'   => $s->getFeUser()?->getName(),
-                'status' => $this->translateStatus($s->getStatus()->value),
+                'status' => $this->languageService->translate(
+                    match ($s->getStatus()->value) {
+                        'pending'    => 'status.pending',
+                        'completed'  => 'status.completed',
+                        'inProgress' => 'status.inProgress',
+                        default      => 'status.unknown',
+                    }
+                ),
             ],
             $submissions
         );
@@ -71,29 +76,18 @@ final class ServiceCenterDashboardService
         return array_map(
             fn (QmsCase $q): array => [
                 'title'  => $q->getTitle(),
-                'status' => $this->translateStatus($q->getStatus()),
+                'status' => $this->languageService->translate(
+                    match ($q->getStatus()) {
+                        'pending'    => 'status.pending',
+                        'completed'  => 'status.completed',
+                        'inProgress' => 'status.inProgress',
+                        default      => 'status.unknown',
+                    }
+                ),
                 'date'   => $q->getDate()?->format('Y-m-d'),
             ],
             $cases
         );
     }
 
-    private function translateStatus(string $status): string
-    {
-        $key = match ($status) {
-            'pending'    => 'status.pending',
-            'completed'  => 'status.completed',
-            'inProgress' => 'status.inProgress',
-            default      => 'status.unknown',
-        };
-
-        if ($this->translationService->isEnabled()) {
-            $translated = $this->translationService->translate($key, ['status' => $status], self::EXTENSION_KEY);
-            if ($translated !== null && $translated !== $key) {
-                return $translated;
-            }
-        }
-
-        return LocalizationUtility::translate($key, self::EXTENSION_KEY, ['status' => $status]) ?? $status;
-    }
 }
