@@ -15,7 +15,7 @@ columns:
   explanation_text:
     type: string
   lang:
-    type: integer
+    type: string
   generated_by:
     type: string
   gpt_version:
