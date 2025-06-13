@@ -6,7 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 
 /**
  * Service to check access permissions for courses and lessons.
@@ -16,7 +16,7 @@ final class CourseAccessService
     private array $userRecordsCache = [];
 
     public function __construct(
-        private readonly UserCourseRecordRepository $userCourseRecordRepository
+        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository
     ) {
     }
 

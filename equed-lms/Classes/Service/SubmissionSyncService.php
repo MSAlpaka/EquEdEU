@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\UserSubmission;
-use Equed\EquedLms\Domain\Repository\UserSubmissionRepository;
+use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Equed\EquedLms\Domain\Service\ClockInterface;
@@ -13,7 +13,7 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 final class SubmissionSyncService
 {
     public function __construct(
-        private readonly UserSubmissionRepository $submissionRepository,
+        private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly ClockInterface $clock
     ) {

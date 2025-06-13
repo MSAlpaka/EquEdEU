@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\UserProfile;
-use Equed\EquedLms\Domain\Repository\UserProfileRepository;
+use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 
 final class AuthService
 {
     public function __construct(
-        private readonly UserProfileRepository $userProfileRepository
+        private readonly UserProfileRepositoryInterface $userProfileRepository
     ) {
     }
 

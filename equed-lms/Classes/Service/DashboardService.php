@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
@@ -27,7 +27,7 @@ final class DashboardService implements DashboardServiceInterface
     private const CACHE_TTL_SECONDS = 600;
 
     public function __construct(
-        private readonly UserCourseRecordRepository    $userCourseRecordRepo,
+        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepo,
         private readonly CourseInstanceRepositoryInterface      $courseInstanceRepo,
         private readonly CertificateDispatchRepositoryInterface $certificateRepo,
         private readonly NotificationRepositoryInterface        $notificationRepo,
