@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CourseMaterial;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CourseMaterialRepositoryInterface;
 
 /**
  * Repository for CourseMaterial entities.
@@ -13,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<CourseMaterial>
  */
-final class CourseMaterialRepository extends Repository
+final class CourseMaterialRepository extends Repository implements CourseMaterialRepositoryInterface
 {
     /**
      * Find a CourseMaterial by its UUID.
@@ -42,5 +43,18 @@ final class CourseMaterialRepository extends Repository
         return $this->createQuery()
             ->execute()
             ->toArray();
+    }
+
+    /**
+     * Find all CourseMaterial records that are visible.
+     *
+     * @return CourseMaterial[]
+     */
+    public function findAllVisible(): array
+    {
+        return array_filter(
+            $this->findAllActive(),
+            static fn (CourseMaterial $material): bool => !$material->getHidden()
+        );
     }
 }

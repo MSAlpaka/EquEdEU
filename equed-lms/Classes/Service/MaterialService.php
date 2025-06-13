@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\CourseMaterial;
-use Equed\EquedLms\Domain\Repository\CourseMaterialRepository;
+use Equed\EquedLms\Domain\Repository\CourseMaterialRepositoryInterface;
 
 /**
  * Service to retrieve course materials for lessons and content pages.
@@ -13,7 +13,7 @@ use Equed\EquedLms\Domain\Repository\CourseMaterialRepository;
 final class MaterialService
 {
     public function __construct(
-        private readonly CourseMaterialRepository $materialRepository
+        private readonly CourseMaterialRepositoryInterface $materialRepository
     ) {
     }
 
@@ -46,11 +46,6 @@ final class MaterialService
      */
     public function getAllVisibleMaterials(): array
     {
-        $materials = $this->materialRepository->findAll();
-
-        return array_filter(
-            $materials,
-            fn (CourseMaterial $material): bool => !$material->getHidden()
-        );
+        return $this->materialRepository->findAllVisible();
     }
 }
