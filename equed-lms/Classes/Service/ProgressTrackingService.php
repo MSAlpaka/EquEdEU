@@ -80,7 +80,7 @@ final class ProgressTrackingService
      * Determine status code based on progress percentage.
      *
      * @param float $progressPercent
-     * @return string
+     * @return ProgressStatus
      */
     private function determineStatus(float $progressPercent): \Equed\EquedLms\Enum\ProgressStatus
     {
