@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Enum\UserCourseStatus;
+use Equed\EquedLms\Enum\ProgressStatus;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use Equed\EquedLms\Domain\Service\ClockInterface;
@@ -65,9 +66,9 @@ final class ProgressService implements ProgressServiceInterface
                 'progress'    => $progress,
                 'status'      => $this->languageService->translate(
                     match ($record->getStatus()->value) {
-                        'completed'   => 'status.completed',
-                        'inProgress'  => 'status.inProgress',
-                        default       => 'status.notStarted',
+                        ProgressStatus::Completed->value  => 'status.completed',
+                        ProgressStatus::InProgress->value => 'status.inProgress',
+                        default                          => 'status.notStarted',
                     }
                 ),
             ];

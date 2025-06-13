@@ -10,6 +10,7 @@ use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Factory\UserCourseRecordFactoryInterface;
 use Equed\EquedLms\Enum\UserCourseStatus;
+use Equed\EquedLms\Enum\ProgressStatus;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\ProgressTrackingService;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
@@ -71,6 +72,6 @@ class ProgressTrackingServiceTest extends TestCase
     {
         $this->language->translate('status.completed')->willReturn('fertig');
 
-        $this->assertSame('fertig', $this->subject->getStatusLabel('completed'));
+        $this->assertSame('fertig', $this->subject->getStatusLabel(\Equed\EquedLms\Enum\ProgressStatus::Completed));
     }
 }

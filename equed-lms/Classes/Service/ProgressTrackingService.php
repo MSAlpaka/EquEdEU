@@ -12,6 +12,7 @@ use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 /**
  * Service for tracking and persisting user course progress.
@@ -49,7 +50,8 @@ final class ProgressTrackingService
             ?? $this->createUserCourseRecord($userId, $instance);
 
         $record->setProgressPercent($progressPercent);
-        $record->setStatus($this->determineStatus($progressPercent));
+        $status = $this->determineStatus($progressPercent);
+        $record->setStatus($status->value);
 
         $this->recordRepository->update($record);
         $this->persistenceManager->persistAll();
@@ -80,12 +82,12 @@ final class ProgressTrackingService
      * @param float $progressPercent
      * @return string
      */
-    private function determineStatus(float $progressPercent): string
+    private function determineStatus(float $progressPercent): \Equed\EquedLms\Enum\ProgressStatus
     {
         return match (true) {
-            $progressPercent >= 100.0 => 'completed',
-            $progressPercent > 0.0   => 'inProgress',
-            default                  => 'notStarted',
+            $progressPercent >= 100.0 => ProgressStatus::Completed,
+            $progressPercent > 0.0   => ProgressStatus::InProgress,
+            default                  => ProgressStatus::NotStarted,
         };
     }
 
@@ -104,12 +106,12 @@ final class ProgressTrackingService
     /**
      * Get localized label for a status code.
      *
-     * @param string $statusCode
+     * @param ProgressStatus $statusCode
      * @return string
      */
-    public function getStatusLabel(string $statusCode): string
+    public function getStatusLabel(ProgressStatus $statusCode): string
     {
-        $key = sprintf('status.%s', $statusCode);
+        $key = sprintf('status.%s', $statusCode->value);
 
         return $this->languageService->translate($key);
     }
