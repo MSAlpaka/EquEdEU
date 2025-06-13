@@ -33,16 +33,22 @@ final class QmsEscalationService
      */
     public function escalate(QmsCase $case): void
     {
-        $subject = $this->translate('qms.escalation.subject', [
-            'caseId' => $case->getUid(),
-        ]);
+        $subject = $this->languageService->translate(
+            'qms.escalation.subject',
+            ['caseId' => $case->getUid()],
+            $this->extensionKey
+        );
 
-        $body = $this->translate('qms.escalation.body', [
-            'caseId' => $case->getUid(),
-            'issue'  => $case->getIssue(),
-            'status' => $case->getStatus(),
-            'userId' => $case->getFeUser(),
-        ]);
+        $body = $this->languageService->translate(
+            'qms.escalation.body',
+            [
+                'caseId' => $case->getUid(),
+                'issue'  => $case->getIssue(),
+                'status' => $case->getStatus(),
+                'userId' => $case->getFeUser(),
+            ],
+            $this->extensionKey
+        );
 
         $this->mailService->sendMail(
             $this->serviceCenterEmail,
@@ -56,14 +62,4 @@ final class QmsEscalationService
         );
     }
 
-    /**
-     * Translate a localization key using the extension's language service.
-     *
-     * @param string              $key       Localization key
-     * @param array<string,mixed> $arguments Placeholder arguments
-     */
-    private function translate(string $key, array $arguments = []): string
-    {
-        return $this->languageService->translate($key, $arguments, $this->extensionKey);
-    }
 }
