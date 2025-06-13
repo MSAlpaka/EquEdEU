@@ -20,11 +20,21 @@ columns:
     type: text
   position:
     type: string
+  expected_answer_text:
+    type: text
+  generated_by:
+    type: string
+  gpt_version:
+    type: string
+  glossary_key:
+    type: string
+  difficulty:
+    type: string
   language:
     type: string
   uuid:
     type: string
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer
