@@ -27,6 +27,12 @@
         <file>./Tests/Unit/Service/DocumentServiceTest.php</file>
         <file>./Tests/Unit/Service/NotificationServiceTest.php</file>
         <file>./Tests/Unit/Service/QmsServiceTest.php</file>
+        <file>./Tests/Unit/Service/CourseCompletionServiceTest.php</file>
+        <file>./Tests/Unit/Service/CourseGoalServiceTest.php</file>
+        <file>./Tests/Unit/Service/UserCourseServiceTest.php</file>
+        <file>./Tests/Unit/Service/TokenServiceTest.php</file>
+        <file>./Tests/Unit/Service/JwtServiceTest.php</file>
+        <file>./Tests/Unit/Service/UserProgressServiceTest.php</file>
         </testsuite>
         <testsuite name="functional">
             <directory>./Tests/Functional/</directory>
