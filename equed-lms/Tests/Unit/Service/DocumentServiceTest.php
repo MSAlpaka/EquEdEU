@@ -30,4 +30,5 @@ final class DocumentServiceTest extends TestCase
         $result = $service->getTemplatePath('Danger 123!');
         $this->assertSame('https://tpl.example.com/Danger123.pdf', $result);
     }
+
 }
