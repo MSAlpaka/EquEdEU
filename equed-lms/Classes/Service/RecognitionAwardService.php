@@ -16,6 +16,7 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
  */
 final class RecognitionAwardService
 {
+    private const CACHE_TTL_SECONDS = 3600;
 
     public function __construct(
         private readonly UserBadgeRepositoryInterface $userBadgeRepository,
@@ -37,7 +38,7 @@ final class RecognitionAwardService
         $count = $this->userBadgeRepository->countValidBadges($userId);
         $qualifies = $count >= 4;
 
-        $cacheItem->set($qualifies);
+        $cacheItem->set($qualifies)->expiresAfter(self::CACHE_TTL_SECONDS);
         $this->cachePool->save($cacheItem);
 
         return $qualifies;

@@ -54,6 +54,19 @@ class RecognitionAwardServiceTest extends TestCase
         $this->assertTrue($this->subject->qualifiesForAdvancedTitle(5));
     }
 
+    public function testQualifiesForAdvancedTitleCachesResult(): void
+    {
+        $item = $this->prophesize(CacheItemInterface::class);
+        $item->isHit()->willReturn(false);
+        $item->set(true)->willReturn($item->reveal())->shouldBeCalled();
+        $item->expiresAfter(RecognitionAwardService::CACHE_TTL_SECONDS)->shouldBeCalled();
+        $this->cache->getItem('qualifyAdvanced_3')->willReturn($item->reveal());
+        $this->repo->countValidBadges(3)->willReturn(5);
+        $this->cache->save($item->reveal())->shouldBeCalled();
+
+        $this->assertTrue($this->subject->qualifiesForAdvancedTitle(3));
+    }
+
     public function testAssignRecognitionBadgeCreatesNewBadge(): void
     {
         $this->repo->findByUserAndType(7, 'foo')->willReturn(null);
