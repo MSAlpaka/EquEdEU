@@ -30,5 +30,7 @@ columns:
     type: integer
   updated_at:
     type: integer
+  completed_at:
+    type: integer
   completed:
     type: boolean
