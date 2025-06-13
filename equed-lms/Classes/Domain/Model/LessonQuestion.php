@@ -9,7 +9,9 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
+use TYPO3\CMS\Extbase\Annotation\ORM\OneToMany;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 final class LessonQuestion extends AbstractEntity
 {
@@ -33,6 +35,11 @@ final class LessonQuestion extends AbstractEntity
     /** Order within the quiz */
     protected int $orderNumber = 0;
 
+    /** @var ObjectStorage<LessonAnswerOption> */
+    #[OneToMany(mappedBy: 'question', cascade: ['remove'])]
+    #[Lazy]
+    protected ObjectStorage $answerOptions;
+
     /** Creation timestamp */
     protected DateTimeImmutable $createdAt;
 
@@ -41,10 +48,11 @@ final class LessonQuestion extends AbstractEntity
 
     public function __construct()
     {
-        $now            = new DateTimeImmutable();
-        $this->uuid     = Uuid::uuid4();
+        $now             = new DateTimeImmutable();
+        $this->uuid      = Uuid::uuid4();
         $this->createdAt = $now;
         $this->updatedAt = $now;
+        $this->answerOptions = new ObjectStorage();
     }
 
     public function getUuid(): UuidInterface
@@ -100,6 +108,28 @@ final class LessonQuestion extends AbstractEntity
     public function setOrderNumber(int $orderNumber): void
     {
         $this->orderNumber = $orderNumber;
+    }
+
+    /**
+     * @return ObjectStorage<LessonAnswerOption>
+     */
+    public function getAnswerOptions(): ObjectStorage
+    {
+        return $this->answerOptions;
+    }
+
+    public function addAnswerOption(LessonAnswerOption $option): void
+    {
+        if (!$this->answerOptions->contains($option)) {
+            $this->answerOptions->attach($option);
+        }
+    }
+
+    public function removeAnswerOption(LessonAnswerOption $option): void
+    {
+        if ($this->answerOptions->contains($option)) {
+            $this->answerOptions->detach($option);
+        }
     }
 
     public function getCreatedAt(): DateTimeImmutable
