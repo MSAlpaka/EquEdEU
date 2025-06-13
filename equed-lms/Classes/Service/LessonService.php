@@ -17,6 +17,7 @@ use Psr\Cache\CacheItemPoolInterface;
  */
 final class LessonService
 {
+    private const CACHE_TTL_SECONDS = 86400;
     public function __construct(
         private readonly LessonRepository $lessonRepository,
         private readonly CacheItemPoolInterface $cachePool
@@ -62,7 +63,7 @@ final class LessonService
             ),
         ];
 
-        $cacheItem->set($data);
+        $cacheItem->set($data)->expiresAfter(self::CACHE_TTL_SECONDS);
         $this->cachePool->save($cacheItem);
 
         return $data;
