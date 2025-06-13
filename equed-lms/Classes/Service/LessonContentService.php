@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\Lesson;
-use Equed\EquedLms\Domain\Repository\LessonRepository;
+use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 
 /**
  * Service for retrieving lesson content.
@@ -13,7 +13,7 @@ use Equed\EquedLms\Domain\Repository\LessonRepository;
 final class LessonContentService
 {
     public function __construct(
-        private readonly LessonRepository $lessonRepository
+        private readonly LessonRepositoryInterface $lessonRepository
     ) {
     }
 

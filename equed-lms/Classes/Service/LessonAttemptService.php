@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\LessonAttempt;
-use Equed\EquedLms\Domain\Repository\LessonAttemptRepository;
+use Equed\EquedLms\Domain\Repository\LessonAttemptRepositoryInterface;
 
 /**
  * Service for handling lesson attempts.
@@ -13,7 +13,7 @@ use Equed\EquedLms\Domain\Repository\LessonAttemptRepository;
 final class LessonAttemptService
 {
     public function __construct(
-        private readonly LessonAttemptRepository $lessonAttemptRepository
+        private readonly LessonAttemptRepositoryInterface $lessonAttemptRepository
     ) {
     }
 

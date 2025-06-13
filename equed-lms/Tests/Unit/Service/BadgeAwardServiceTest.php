@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Repository {
-    if (!class_exists(BadgeAwardRepository::class)) {
-        class BadgeAwardRepository {
-            public function addForCourse(int $userId, int $courseId, string $label): void {}
-            public function addForLearningPath(int $userId, int $pathId, string $label): void {}
+    if (!interface_exists(BadgeAwardRepositoryInterface::class)) {
+        interface BadgeAwardRepositoryInterface {
+            public function addForCourse(int $userId, int $courseId, string $label): void;
+            public function addForLearningPath(int $userId, int $pathId, string $label): void;
+            public function findByFeUser(int $feUserId): array;
         }
     }
 }
@@ -14,7 +15,7 @@ namespace Equed\EquedLms\Domain\Repository {
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\BadgeAwardService;
-use Equed\EquedLms\Domain\Repository\BadgeAwardRepository;
+use Equed\EquedLms\Domain\Repository\BadgeAwardRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Domain\Repository\LearningPathRepository;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
@@ -40,7 +41,7 @@ class BadgeAwardServiceTest extends TestCase
             public function getTitle(){ return 'Path'; }
         };
 
-        $awardRepo = $this->prophesize(BadgeAwardRepository::class);
+        $awardRepo = $this->prophesize(BadgeAwardRepositoryInterface::class);
         $awardRepo->addForCourse(1, 2, 'c')->shouldBeCalled();
         $awardRepo->addForLearningPath(1, 3, 'p')->shouldBeCalled();
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\LessonService;
-use Equed\EquedLms\Domain\Repository\LessonRepository;
+use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ final class LessonServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->repo = $this->prophesize(LessonRepository::class);
+        $this->repo = $this->prophesize(LessonRepositoryInterface::class);
         $this->cache = $this->prophesize(CacheItemPoolInterface::class);
 
         $this->subject = new LessonService(

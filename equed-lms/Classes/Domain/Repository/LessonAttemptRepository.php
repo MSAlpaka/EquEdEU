@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\LessonAttempt;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\LessonAttemptRepositoryInterface;
 
 /**
  * Repository for LessonAttempt entities.
@@ -16,7 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<LessonAttempt>
  */
-final class LessonAttemptRepository extends Repository
+final class LessonAttemptRepository extends Repository implements LessonAttemptRepositoryInterface
 {
     /**
      * Finds the latest attempt by a specific instructor for a given lesson.

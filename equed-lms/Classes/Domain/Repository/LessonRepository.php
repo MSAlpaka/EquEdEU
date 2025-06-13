@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\Module;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 
 /**
  * Repository for Lesson entities.
@@ -16,7 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<Lesson>
  */
-final class LessonRepository extends Repository
+final class LessonRepository extends Repository implements LessonRepositoryInterface
 {
     /**
      * Finds all lessons for a given course program via the module relation.

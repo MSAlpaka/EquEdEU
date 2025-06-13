@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\CourseGoalService;
-use Equed\EquedLms\Domain\Repository\CourseGoalRepository;
+use Equed\EquedLms\Domain\Repository\CourseGoalRepositoryInterface;
 use Equed\EquedLms\Domain\Model\CourseGoal;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -20,7 +20,7 @@ final class CourseGoalServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->repo = $this->prophesize(CourseGoalRepository::class);
+        $this->repo = $this->prophesize(CourseGoalRepositoryInterface::class);
         $this->subject = new CourseGoalService(
             $this->repo->reveal()
         );
