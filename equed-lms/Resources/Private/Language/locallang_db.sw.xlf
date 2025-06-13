@@ -30,7 +30,7 @@
         <source>Lesson title</source><target>Kichwa cha somo</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_lesson.description">
         <source>Lesson description</source><target>Maelezo ya somo</target></trans-unit>
-      <trans-unit id="tx_equedlms_domain_model_lesson.duration">
+      <trans-unit id="tx_equedlms_domain_model_lesson.expected_duration">
         <source>Estimated duration</source><target>Muda unaokadiriwa</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_lesson.material">
         <source>Associated materials</source><target>Nyenzo zinazohusiana</target></trans-unit>

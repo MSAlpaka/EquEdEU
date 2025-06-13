@@ -30,7 +30,7 @@
         <source>Lesson title</source><target>Titre de la leçon</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_lesson.description">
         <source>Lesson description</source><target>Description de la leçon</target></trans-unit>
-      <trans-unit id="tx_equedlms_domain_model_lesson.duration">
+      <trans-unit id="tx_equedlms_domain_model_lesson.expected_duration">
         <source>Estimated duration</source><target>Durée estimée</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_lesson.material">
         <source>Associated materials</source><target>Matériaux associés</target></trans-unit>

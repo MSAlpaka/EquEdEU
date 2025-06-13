@@ -26,17 +26,9 @@ return [
                 'type' => 'text'
             ]
         ],
-        'duration_minutes' => [
+        'expected_duration' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_lesson.duration_minutes',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
-            ]
-        ],
-        'course_program' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_lesson.course_program',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_lesson.expected_duration',
             'config' => [
                 'type' => 'input',
                 'eval' => 'int'
@@ -77,10 +69,10 @@ return [
     ],
     'types' => [
         1 => [
-            'showitem' => 'title, description, duration_minutes, course_program, module, sort_order, visible, materials'
+            'showitem' => 'title, description, expected_duration, module, sort_order, visible, materials'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,description,duration_minutes,course_program,module,sort_order,visible,materials'
+        'showRecordFieldList' => 'title,description,expected_duration,module,sort_order,visible,materials'
     ]
 ];
