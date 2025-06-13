@@ -8,6 +8,8 @@ use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\FrontendUserRepositoryInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Service\ExamNotificationServiceInterface;
+use Equed\EquedLms\Service\MailServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 
 /**
  * Simple implementation that notifies assigned examiners about upcoming exams.
@@ -18,6 +20,7 @@ final class ExamNotificationService implements ExamNotificationServiceInterface
         private readonly CourseInstanceRepositoryInterface $courseInstanceRepository,
         private readonly FrontendUserRepositoryInterface $frontendUserRepository,
         private readonly MailServiceInterface $mailService,
+        private readonly LanguageServiceInterface $languageService,
     ) {
     }
 
@@ -29,8 +32,11 @@ final class ExamNotificationService implements ExamNotificationServiceInterface
         foreach ($instances as $instance) {
             $examiner = $instance->getExternalExaminer();
             if ($examiner instanceof FrontendUser && $examiner->getEmail() !== '') {
-                $subject = 'Upcoming exam reminder';
-                $body = sprintf('An exam for "%s" is scheduled soon.', $instance->getTitle());
+                $subject = $this->languageService->translate('notification.exam.subject');
+                $body = $this->languageService->translate(
+                    'notification.exam.body',
+                    ['course' => $instance->getTitle()]
+                );
                 $this->mailService->sendMail($examiner->getEmail(), $subject, $body);
                 ++$count;
             }

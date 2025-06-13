@@ -516,6 +516,10 @@
         <source>Created at</source><target>Erstellt am</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_courseexamslot.updated_at">
         <source>Updated at</source><target>Aktualisiert am</target></trans-unit>
+      <trans-unit id="notification.exam.subject">
+        <source>Upcoming exam reminder</source><target>Erinnerung an anstehende Prüfung</target></trans-unit>
+      <trans-unit id="notification.exam.body">
+        <source>An exam for "{course}" is scheduled soon.</source><target>Eine Prüfung für "{course}" findet bald statt.</target></trans-unit>
     </body>
   </file>
 </xliff>

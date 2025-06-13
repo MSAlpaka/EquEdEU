@@ -495,6 +495,10 @@
         <source>Created at</source><target>Skapad</target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_courseexamslot.updated_at">
         <source>Updated at</source><target>Uppdaterad</target></trans-unit>
+      <trans-unit id="notification.exam.subject">
+        <source>Upcoming exam reminder</source><target>Påminnelse om kommande prov</target></trans-unit>
+      <trans-unit id="notification.exam.body">
+        <source>An exam for "{course}" is scheduled soon.</source><target>Ett prov för "{course}" är planerat snart.</target></trans-unit>
     </body>
   </file>
 </xliff>
