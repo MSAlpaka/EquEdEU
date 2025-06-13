@@ -15,16 +15,11 @@ final class DocumentService implements DocumentServiceInterface
 {
     private const ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png', 'docx'];
 
-    private SettingsService|null $settingsService = null;
-
-    private string $documentsBaseUri;
-    private string $templatesBaseUri;
-
-    public function __construct(string $documentsBaseUri, string $templatesBaseUri, ?SettingsService $settingsService = null)
-    {
-        $this->documentsBaseUri = rtrim($documentsBaseUri, '/') . '/';
-        $this->templatesBaseUri = rtrim($templatesBaseUri, '/') . '/';
-        $this->settingsService = $settingsService;
+    public function __construct(
+        private readonly string $documentsBaseUri,
+        private readonly string $templatesBaseUri,
+        private readonly ?SettingsService $settingsService = null
+    ) {
     }
 
     /**
@@ -44,7 +39,7 @@ final class DocumentService implements DocumentServiceInterface
         }
 
         $safeName = basename($fileName);
-        return $this->documentsBaseUri . $safeName;
+        return rtrim($this->documentsBaseUri, '/') . '/' . $safeName;
     }
 
     /**
@@ -56,7 +51,7 @@ final class DocumentService implements DocumentServiceInterface
     public function getTemplatePath(string $templateName): string
     {
         $safeName = preg_replace('/[^a-zA-Z0-9_\-]/', '', $templateName);
-        return $this->templatesBaseUri . $safeName . '.pdf';
+        return rtrim($this->templatesBaseUri, '/') . '/' . $safeName . '.pdf';
     }
 
     /**
