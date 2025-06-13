@@ -30,3 +30,7 @@ columns:
     type: string
   updated_at:
     type: string
+  title_key:
+    type: string
+  description_key:
+    type: string

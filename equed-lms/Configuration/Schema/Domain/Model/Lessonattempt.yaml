@@ -34,3 +34,9 @@ columns:
     type: boolean
   answers:
     type: string
+  uuid:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

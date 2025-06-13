@@ -44,3 +44,5 @@ columns:
     type: string
   created_at:
     type: integer
+  updated_at:
+    type: integer

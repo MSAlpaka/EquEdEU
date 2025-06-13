@@ -14,3 +14,13 @@ columns:
     type: integer
   access_level:
     type: integer
+  title_key:
+    type: string
+  description_key:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

@@ -45,6 +45,12 @@ tx_equedcore_domain_model_searchlog:
       unsigned: true
       notnull: true
       default: 0
+    uuid:
+      type: string
+    created_at:
+      type: integer
+    updated_at:
+      type: integer
   primaryKey:
     - uid
   indexes:

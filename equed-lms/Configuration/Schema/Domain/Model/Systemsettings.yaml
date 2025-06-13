@@ -24,3 +24,5 @@ columns:
     type: string
   updated_at:
     type: string
+  description_key:
+    type: string

@@ -10,3 +10,9 @@ columns:
     type: text
   course_wish:
     type: text
+  uuid:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

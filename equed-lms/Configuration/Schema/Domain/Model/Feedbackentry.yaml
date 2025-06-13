@@ -26,3 +26,7 @@ columns:
     type: text
   created_at:
     type: string
+  uuid:
+    type: string
+  updated_at:
+    type: integer
