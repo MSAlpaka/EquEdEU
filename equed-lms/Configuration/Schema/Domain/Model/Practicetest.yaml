@@ -4,33 +4,25 @@ columns:
     type: integer
   pid:
     type: integer
+  uuid:
+    type: string
   title:
     type: string
   description:
     type: text
   course_program:
     type: integer
-  lesson:
+  gpt_evaluation_enabled:
+    type: boolean
+  evaluation_scheme:
+    type: text
+  expected_file_types:
+    type: string
+  visible_from:
     type: integer
-  is_active:
-    type: boolean
-  is_mandatory_for_progress:
-    type: boolean
-  estimated_duration:
-    type: string
-  shuffle_questions:
-    type: boolean
-  max_attempts:
-    type: string
-  language:
-    type: string
-  uuid:
-    type: string
+  visible_until:
+    type: integer
   created_at:
     type: integer
   updated_at:
     type: integer
-  title_key:
-    type: string
-  description_key:
-    type: string

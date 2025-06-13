@@ -34,57 +34,42 @@ return [
                 'eval' => 'int'
             ]
         ],
-        'lesson' => [
+        'gpt_evaluation_enabled' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.lesson',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.gpt_evaluation_enabled',
+            'config' => [
+                'type' => 'check'
+            ]
+        ],
+        'evaluation_scheme' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.evaluation_scheme',
+            'config' => [
+                'type' => 'text'
+            ]
+        ],
+        'expected_file_types' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.expected_file_types',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'visible_from' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.visible_from',
             'config' => [
                 'type' => 'input',
                 'eval' => 'int'
             ]
         ],
-        'is_active' => [
+        'visible_until' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.is_active',
-            'config' => [
-                'type' => 'check'
-            ]
-        ],
-        'is_mandatory_for_progress' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.is_mandatory_for_progress',
-            'config' => [
-                'type' => 'check'
-            ]
-        ],
-        'estimated_duration' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.estimated_duration',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.visible_until',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
-            ]
-        ],
-        'shuffle_questions' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.shuffle_questions',
-            'config' => [
-                'type' => 'check'
-            ]
-        ],
-        'max_attempts' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.max_attempts',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
-            ]
-        ],
-        'language' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicetest.language',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'uuid' => [
@@ -114,10 +99,10 @@ return [
     ],
     'types' => [
         1 => [
-            'showitem' => 'title, description, course_program, lesson, is_active, is_mandatory_for_progress, estimated_duration, shuffle_questions, max_attempts, language, uuid, created_at, updated_at'
+            'showitem' => 'title, description, course_program, gpt_evaluation_enabled, evaluation_scheme, expected_file_types, visible_from, visible_until, uuid, created_at, updated_at'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,description,course_program,lesson,is_active,is_mandatory_for_progress,estimated_duration,shuffle_questions,max_attempts,language,uuid,created_at,updated_at'
+        'showRecordFieldList' => 'title,description,course_program,gpt_evaluation_enabled,evaluation_scheme,expected_file_types,visible_from,visible_until,uuid,created_at,updated_at'
     ]
 ];

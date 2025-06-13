@@ -29,54 +29,41 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'renderType' => 'selectSingle',
             ],
         ],
-        'lesson' => [
-            'label' => 'Related Lesson (optional)',
-            'config' => [
-                'type' => 'select',
-                'foreign_table' => 'tx_equedlms_domain_model_lesson',
-                'renderType' => 'selectSingle',
-            ],
-        ],
-        'is_active' => [
-            'label' => 'Active',
-            'config' => [
-                'type' => 'check',
-                'default' => 1,
-            ],
-        ],
-        'is_mandatory_for_progress' => [
-            'label' => 'Affects Progress Tracking',
+        'gpt_evaluation_enabled' => [
+            'label' => 'GPT Evaluation Enabled',
             'config' => [
                 'type' => 'check',
                 'default' => 0,
             ],
         ],
-        'estimated_duration' => [
-            'label' => 'Estimated Duration (minutes)',
+        'evaluation_scheme' => [
+            'label' => 'Evaluation Scheme',
             'config' => [
-                'type' => 'number',
+                'type' => 'text',
+                'rows' => 4,
             ],
         ],
-        'shuffle_questions' => [
-            'label' => 'Shuffle Questions',
-            'config' => [
-                'type' => 'check',
-                'default' => 1,
-            ],
-        ],
-        'max_attempts' => [
-            'label' => 'Max Attempts (0 = unlimited)',
-            'config' => [
-                'type' => 'number',
-                'default' => 0,
-            ],
-        ],
-        'language' => [
-            'label' => 'Language',
+        'expected_file_types' => [
+            'label' => 'Expected File Types',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim',
-                'default' => 'en',
+            ],
+        ],
+        'visible_from' => [
+            'label' => 'Visible From',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime',
+            ],
+        ],
+        'visible_until' => [
+            'label' => 'Visible Until',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime',
             ],
         ],
         'uuid' => [
@@ -103,8 +90,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
     ExtensionManagementUtility::addToAllTCAtypes(
         'tx_equedlms_domain_model_practicetest',
         '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        title, description, course_program, lesson, is_active, is_mandatory_for_progress,
-        estimated_duration, shuffle_questions, max_attempts,
-        language, uuid, created_at, updated_at'
+        title, description, course_program, gpt_evaluation_enabled, evaluation_scheme, expected_file_types,
+        visible_from, visible_until, uuid, created_at, updated_at'
     );
 })();
