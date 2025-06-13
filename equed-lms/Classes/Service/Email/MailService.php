@@ -14,10 +14,27 @@ use TYPO3\CMS\Core\Mail\MailMessage;
  */
 final class MailService implements MailServiceInterface
 {
+    private const EXTENSION_KEY = 'equed_lms';
     public function __construct(
         private readonly MailMessageFactoryInterface $mailFactory,
         private readonly GptTranslationServiceInterface $translationService
     ) {
+    }
+
+    /**
+     * Translate a key using the extension localization with fallback.
+     */
+    private function t(string $key, array $arguments, string $fallback): string
+    {
+        $result = $this->translationService->translate($key, $arguments, self::EXTENSION_KEY);
+        if ($result === null || str_starts_with($result, '[translation missing')) {
+            foreach ($arguments as $name => $value) {
+                $fallback = str_replace('{' . $name . '}', (string)$value, $fallback);
+            }
+            return $fallback;
+        }
+
+        return $result;
     }
 
     /**
@@ -28,12 +45,12 @@ final class MailService implements MailServiceInterface
      */
     public function sendCertificateIssuedMail(string $recipientEmail, string $certificateNumber): void
     {
-        $subject = $this->translationService->translate(
+        $subject = $this->t(
             'email.certificate_issued.subject',
             ['certificateNumber' => $certificateNumber],
             'Your Certificate is Ready'
         );
-        $body = $this->translationService->translate(
+        $body = $this->t(
             'email.certificate_issued.body',
             ['certificateNumber' => $certificateNumber],
             'Your certificate {certificateNumber} has been issued. Thank you!'
@@ -51,12 +68,12 @@ final class MailService implements MailServiceInterface
      */
     public function sendQmsNotification(string $recipientEmail, string $caseId): void
     {
-        $subject = $this->translationService->translate(
+        $subject = $this->t(
             'email.qms_notification.subject',
             ['caseId' => $caseId],
             'QMS Case Update'
         );
-        $body = $this->translationService->translate(
+        $body = $this->t(
             'email.qms_notification.body',
             ['caseId' => $caseId],
             'A new update is available in QMS case #{caseId}.'
@@ -106,7 +123,7 @@ final class MailService implements MailServiceInterface
         $mail->setTo($to)
             ->setSubject($subject)
             ->setBody($body, 'text/plain')
-            ->setFrom($this->translationService->translate('email.default_from', [], 'noreply@equed.eu'));
+            ->setFrom($this->t('email.default_from', [], 'noreply@equed.eu'));
 
         return $mail;
     }
