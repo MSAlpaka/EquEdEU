@@ -145,7 +145,7 @@
       <trans-unit id="tx_equedlms_domain_model_lessonprogress.lesson">
         <source>Lesson</source>
       </trans-unit>
-      <trans-unit id="tx_equedlms_domain_model_lessonprogress.user">
+      <trans-unit id="tx_equedlms_domain_model_lessonprogress.fe_user">
         <source>User</source>
       </trans-unit>
       <trans-unit id="tx_equedlms_domain_model_lessonprogress.progress">
