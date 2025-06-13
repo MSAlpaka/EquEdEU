@@ -22,3 +22,5 @@ columns:
     type: integer
   updated_at:
     type: integer
+  title_key:
+    type: string

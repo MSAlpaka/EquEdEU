@@ -14,6 +14,16 @@ columns:
     type: integer
   lessons:
     type: string
+  title_key:
+    type: string
+  description_key:
+    type: string
+  uuid:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
 indexes:
   course_program:
     columns:

@@ -44,3 +44,7 @@ columns:
     type: integer
   uuid:
     type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

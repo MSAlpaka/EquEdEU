@@ -32,3 +32,9 @@ columns:
     type: integer
   text_content:
     type: text
+  title_key:
+    type: string
+  description_key:
+    type: string
+  updated_at:
+    type: integer

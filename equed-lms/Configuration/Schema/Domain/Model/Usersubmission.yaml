@@ -21,9 +21,9 @@ columns:
   text_submission:
     type: text
   submitted_at:
-    type: string
+    type: integer
   last_modified_at:
-    type: string
+    type: integer
   status:
     type: integer
   needs_review:
@@ -31,7 +31,7 @@ columns:
   reviewed_by:
     type: integer
   reviewed_at:
-    type: string
+    type: integer
   feedback_comment:
     type: text
   points_awarded:
@@ -50,3 +50,17 @@ columns:
     type: string
   related_submission:
     type: integer
+  title_key:
+    type: string
+  description_key:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
+  score:
+    type: float
+  practice_test:
+    type: integer
+  instructor_comment:
+    type: text
