@@ -25,7 +25,7 @@ columns:
   status:
     type: integer
   progress_percent:
-    type: string
+    type: integer
   last_activity:
     type: integer
   certifier:

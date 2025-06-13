@@ -4,7 +4,7 @@ columns:
     type: integer
   pid:
     type: integer
-  user:
+  fe_user:
     type: integer
   event_schedule:
     type: integer

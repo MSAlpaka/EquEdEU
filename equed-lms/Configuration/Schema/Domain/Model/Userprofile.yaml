@@ -6,7 +6,7 @@ columns:
     type: integer
   uuid:
     type: string
-  user:
+  fe_user:
     type: integer
   docu_level:
     type: string
