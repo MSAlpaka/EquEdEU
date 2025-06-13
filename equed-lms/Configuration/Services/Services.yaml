@@ -49,6 +49,18 @@ services:
   Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\UserBadgeRepository
 
+  Equed\EquedLms\Domain\Repository\BadgeAwardRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\BadgeAwardRepository
+
+  Equed\EquedLms\Domain\Repository\CourseGoalRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\CourseGoalRepository
+
+  Equed\EquedLms\Domain\Repository\LessonAttemptRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\LessonAttemptRepository
+
+  Equed\EquedLms\Domain\Repository\LessonRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\LessonRepository
+
   Equed\EquedLms\Domain\Service\DashboardServiceInterface:
     class: Equed\EquedLms\Service\DashboardService
 

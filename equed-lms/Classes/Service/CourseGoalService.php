@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\CourseGoal;
-use Equed\EquedLms\Domain\Repository\CourseGoalRepository;
+use Equed\EquedLms\Domain\Repository\CourseGoalRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseGoalServiceInterface;
 
 /**
@@ -21,7 +21,7 @@ final class CourseGoalService implements CourseGoalServiceInterface
     private array $goalsCache = [];
 
     public function __construct(
-        private readonly CourseGoalRepository $courseGoalRepository
+        private readonly CourseGoalRepositoryInterface $courseGoalRepository
     ) {
     }
 

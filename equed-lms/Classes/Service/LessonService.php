@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\Asset;
 use Equed\EquedLms\Domain\Model\Page;
-use Equed\EquedLms\Domain\Repository\LessonRepository;
+use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
@@ -19,7 +19,7 @@ final class LessonService
 {
     private const CACHE_TTL_SECONDS = 86400;
     public function __construct(
-        private readonly LessonRepository $lessonRepository,
+        private readonly LessonRepositoryInterface $lessonRepository,
         private readonly CacheItemPoolInterface $cachePool
     ) {
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use Equed\EquedLms\Domain\Repository\BadgeAwardRepository;
+use Equed\EquedLms\Domain\Repository\BadgeAwardRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Domain\Repository\LearningPathRepository;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
@@ -12,7 +12,7 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
 final class BadgeAwardService
 {
     public function __construct(
-        private readonly BadgeAwardRepository       $awardRepo,
+        private readonly BadgeAwardRepositoryInterface       $awardRepo,
         private readonly UserCourseRecordRepository $courseRecordRepo,
         private readonly LearningPathRepository     $learningPathRepo,
         private readonly GptTranslationServiceInterface      $translationService
