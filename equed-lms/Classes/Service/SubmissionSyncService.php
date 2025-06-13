@@ -8,12 +8,14 @@ use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepository;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Ramsey\Uuid\Uuid;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 final class SubmissionSyncService
 {
     public function __construct(
         private readonly UserSubmissionRepository $submissionRepository,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -57,7 +59,7 @@ final class SubmissionSyncService
             $submission->setStatus($data['status']);
             $submission->setScore((float) ($data['score'] ?? 0));
             $submission->setGptFeedback((string) ($data['gptFeedback'] ?? ''));
-            $submission->setUpdatedAt(new \DateTimeImmutable());
+            $submission->setUpdatedAt($this->clock->now());
         }
 
         if ($submission->getUid() === null) {

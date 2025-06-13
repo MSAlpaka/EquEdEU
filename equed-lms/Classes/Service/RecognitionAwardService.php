@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -22,7 +23,8 @@ final class RecognitionAwardService
         private readonly UserBadgeRepositoryInterface $userBadgeRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly CacheItemPoolInterface $cachePool,
-        private readonly GptTranslationServiceInterface $translationService
+        private readonly GptTranslationServiceInterface $translationService,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -54,7 +56,7 @@ final class RecognitionAwardService
         $badge->setFeUserId($userId);
         $badge->setType($type);
         $badge->setTitle($this->translate("badge.{$type}.title"));
-        $badge->setAwardedAt(new \DateTimeImmutable());
+        $badge->setAwardedAt($this->clock->now());
 
         $this->userBadgeRepository->add($badge);
         $this->persistenceManager->persistAll();

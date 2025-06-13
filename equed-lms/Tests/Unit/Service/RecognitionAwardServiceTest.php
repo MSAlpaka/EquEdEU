@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\CacheItemInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 class RecognitionAwardServiceTest extends TestCase
 {
@@ -23,6 +24,7 @@ class RecognitionAwardServiceTest extends TestCase
     private $persistence;
     private $cache;
     private $translation;
+    private $clock;
 
     protected function setUp(): void
     {
@@ -30,12 +32,14 @@ class RecognitionAwardServiceTest extends TestCase
         $this->persistence = $this->prophesize(PersistenceManagerInterface::class);
         $this->cache = $this->prophesize(CacheItemPoolInterface::class);
         $this->translation = $this->prophesize(GptTranslationServiceInterface::class);
+        $this->clock = $this->prophesize(ClockInterface::class);
 
         $this->subject = new RecognitionAwardService(
             $this->repo->reveal(),
             $this->persistence->reveal(),
             $this->cache->reveal(),
-            $this->translation->reveal()
+            $this->translation->reveal(),
+            $this->clock->reveal()
         );
     }
 

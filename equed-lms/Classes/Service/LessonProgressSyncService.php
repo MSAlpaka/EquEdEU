@@ -9,13 +9,15 @@ use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Model\Lesson;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 final class LessonProgressSyncService
 {
     public function __construct(
         private readonly LessonProgressRepositoryInterface $progressRepository,
         private readonly LessonRepositoryInterface $lessonRepository,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -55,7 +57,7 @@ final class LessonProgressSyncService
                 $entry->setProgress((int) $item['progress']);
                 $entry->setStatus($item['status'] ?? 'incomplete');
                 $entry->setCompleted((bool) $item['completed']);
-                $entry->setUpdatedAt(new \DateTimeImmutable());
+                $entry->setUpdatedAt($this->clock->now());
             }
 
             $this->progressRepository->updateOrAdd($entry);

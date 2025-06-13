@@ -8,12 +8,14 @@ use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Ramsey\Uuid\Uuid;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 final class SyncService
 {
     public function __construct(
         private readonly UserProfileRepositoryInterface $profileRepository,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -56,7 +58,7 @@ final class SyncService
             if (isset($data['country'])) {
                 $profile->setCountry((string) $data['country']);
             }
-            $profile->setUpdatedAt(new \DateTimeImmutable());
+            $profile->setUpdatedAt($this->clock->now());
         }
 
         if ($profile->getUid() === null) {

@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepository;
 use Equed\EquedLms\Enum\SubmissionStatus;
 use Equed\EquedLms\Service\SubmissionSyncService;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
@@ -19,14 +20,17 @@ class SubmissionSyncServiceTest extends TestCase
     private SubmissionSyncService $subject;
     private $repo;
     private $persistence;
+    private $clock;
 
     protected function setUp(): void
     {
         $this->repo = $this->prophesize(UserSubmissionRepository::class);
         $this->persistence = $this->prophesize(PersistenceManagerInterface::class);
+        $this->clock = $this->prophesize(ClockInterface::class);
         $this->subject = new SubmissionSyncService(
             $this->repo->reveal(),
-            $this->persistence->reveal()
+            $this->persistence->reveal(),
+            $this->clock->reveal()
         );
     }
 

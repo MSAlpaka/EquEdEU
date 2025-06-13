@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 /**
  * Service to evaluate user submissions manually or assisted by GPT.
@@ -17,7 +18,8 @@ final class SubmissionEvaluationService
     public function __construct(
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -34,7 +36,7 @@ final class SubmissionEvaluationService
         $submission->setScore($score);
         $submission->setFeedback($feedback);
         $submission->setScored(true);
-        $submission->setEvaluatedAt(new \DateTimeImmutable());
+        $submission->setEvaluatedAt($this->clock->now());
 
         $this->submissionRepository->update($submission);
         $this->persistenceManager->persistAll();
