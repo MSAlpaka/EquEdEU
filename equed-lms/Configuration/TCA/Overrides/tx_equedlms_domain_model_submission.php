@@ -65,12 +65,65 @@ return [
                 'eval' => 'datetime',
             ],
         ],
+        'uuid' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.uuid',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
+            ],
+        ],
+        'gpt_analysis_status' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.gpt_analysis_status',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
+            ],
+        ],
+        'gpt_score' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.gpt_score',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'double2',
+            ],
+        ],
+        'gpt_summary' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.gpt_summary',
+            'config' => [
+                'type' => 'text',
+            ],
+        ],
+        'gpt_suggestion' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.gpt_suggestion',
+            'config' => [
+                'type' => 'text',
+            ],
+        ],
+        'gpt_analysis_data' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.gpt_analysis_data',
+            'config' => [
+                'type' => 'text',
+            ],
+        ],
+        'analyzed_at' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.analyzed_at',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime',
+            ],
+        ],
+        'text_content' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:submission.text_content',
+            'config' => [
+                'type' => 'text',
+            ],
+        ],
     ],
     'types' => [
         '0' => [
             'showitem' => '
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-                title, description, file, user, lesson, created_at
+                title, description, file, user, lesson, created_at, uuid, gpt_analysis_status, gpt_score, gpt_summary, gpt_suggestion, gpt_analysis_data, analyzed_at, text_content
             ',
         ],
     ],

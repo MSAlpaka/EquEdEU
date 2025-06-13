@@ -16,3 +16,19 @@ columns:
     type: integer
   created_at:
     type: integer
+  uuid:
+    type: string
+  gpt_analysis_status:
+    type: string
+  gpt_score:
+    type: float
+  gpt_summary:
+    type: text
+  gpt_suggestion:
+    type: text
+  gpt_analysis_data:
+    type: text
+  analyzed_at:
+    type: integer
+  text_content:
+    type: text
