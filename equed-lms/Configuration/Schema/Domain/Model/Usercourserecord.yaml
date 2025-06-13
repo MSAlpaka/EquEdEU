@@ -4,16 +4,18 @@ columns:
     type: integer
   pid:
     type: integer
+  uuid:
+    type: string
   fe_user:
     type: integer
   course_instance:
     type: integer
   enrolled_at:
-    type: string
+    type: integer
   completed_at:
-    type: string
+    type: integer
   revoked_at:
-    type: string
+    type: integer
   certificate_number:
     type: string
   certificate_hash:
@@ -25,13 +27,13 @@ columns:
   progress_percent:
     type: string
   last_activity:
-    type: string
+    type: integer
   certifier:
     type: integer
   instructor:
     type: integer
   certified_at:
-    type: string
+    type: integer
   certificate_file:
     type: string
   certificate_code:
@@ -45,7 +47,7 @@ columns:
   validated_by:
     type: integer
   validated_at:
-    type: string
+    type: integer
   qms_flagged:
     type: boolean
   qms_case:
@@ -56,3 +58,13 @@ columns:
     type: string
   recognition_awarded:
     type: boolean
+  archived_attempts:
+    type: text
+  passed_modules:
+    type: text
+  external_certificate_flag:
+    type: boolean
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

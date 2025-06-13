@@ -437,6 +437,18 @@
         <source>Attempts total</source><target></target></trans-unit>
       <trans-unit id="tx_equedlms_domain_model_usercourserecord.recognition_awarded">
         <source>Recognition awarded</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.uuid">
+        <source>UUID</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.archived_attempts">
+        <source>Archived attempts</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.passed_modules">
+        <source>Passed modules</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.external_certificate_flag">
+        <source>External certificate flag</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.created_at">
+        <source>Created at</source><target></target></trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.updated_at">
+        <source>Updated at</source><target></target></trans-unit>
 
       <!-- CourseExamSlot -->
       <trans-unit id="tx_equedlms_domain_model_courseexamslot.uuid">

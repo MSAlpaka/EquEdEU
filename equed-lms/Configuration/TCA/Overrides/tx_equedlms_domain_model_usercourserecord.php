@@ -229,7 +229,7 @@ return [
                 instructor, certifier, certified_at, certificate_file, certificate_code, certificate_number, certificate_hash, badge_level,
                 requires_external_examiner, external_examiner, validation_required,
                 validated_by, validated_at, qms_flagged, qms_case, note_internal,
-                attempts_total, recognition_awarded
+                attempts_total, recognition_awarded, uuid, archived_attempts, passed_modules, external_certificate_flag, created_at, updated_at
             ',
         ],
     ],

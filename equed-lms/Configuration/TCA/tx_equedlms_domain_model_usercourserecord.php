@@ -15,16 +15,22 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.fe_user',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int'
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'fe_users',
+                'minitems' => 1,
+                'maxitems' => 1,
             ]
         ],
         'course_instance' => [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.course_instance',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int'
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_equedlms_domain_model_courseinstance',
+                'minitems' => 1,
+                'maxitems' => 1,
             ]
         ],
         'enrolled_at' => [
@@ -32,7 +38,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.enrolled_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'completed_at' => [
@@ -40,7 +46,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.completed_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'revoked_at' => [
@@ -48,7 +54,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.revoked_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'certificate_number' => [
@@ -62,6 +68,14 @@ return [
         'certificate_hash' => [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.certificate_hash',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'uuid' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.uuid',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim'
@@ -96,7 +110,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.last_activity',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'certifier' => [
@@ -120,7 +134,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.certified_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'certificate_file' => [
@@ -174,7 +188,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.validated_at',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim'
+                'eval' => 'int'
             ]
         ],
         'qms_flagged' => [
@@ -213,14 +227,51 @@ return [
             'config' => [
                 'type' => 'check'
             ]
+        ],
+        'archived_attempts' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.archived_attempts',
+            'config' => [
+                'type' => 'text'
+            ]
+        ],
+        'passed_modules' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.passed_modules',
+            'config' => [
+                'type' => 'text'
+            ]
+        ],
+        'external_certificate_flag' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.external_certificate_flag',
+            'config' => [
+                'type' => 'check'
+            ]
+        ],
+        'created_at' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.created_at',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int'
+            ]
+        ],
+        'updated_at' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_usercourserecord.updated_at',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int'
+            ]
         ]
     ],
     'types' => [
         1 => [
-            'showitem' => 'fe_user, course_instance, enrolled_at, completed_at, revoked_at, certificate_number, certificate_hash, badge_level, status, progress_percent, last_activity, certifier, instructor, certified_at, certificate_file, certificate_code, requires_external_examiner, external_examiner, validation_required, validated_by, validated_at, qms_flagged, qms_case, note_internal, attempts_total, recognition_awarded'
+            'showitem' => 'fe_user, course_instance, enrolled_at, completed_at, revoked_at, certificate_number, certificate_hash, uuid, badge_level, status, progress_percent, last_activity, certifier, instructor, certified_at, certificate_file, certificate_code, requires_external_examiner, external_examiner, validation_required, validated_by, validated_at, qms_flagged, qms_case, note_internal, attempts_total, recognition_awarded, archived_attempts, passed_modules, external_certificate_flag, created_at, updated_at'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'fe_user,course_instance,enrolled_at,completed_at,revoked_at,certificate_number,certificate_hash,badge_level,status,progress_percent,last_activity,certifier,instructor,certified_at,certificate_file,certificate_code,requires_external_examiner,external_examiner,validation_required,validated_by,validated_at,qms_flagged,qms_case,note_internal,attempts_total,recognition_awarded'
+        'showRecordFieldList' => 'fe_user,course_instance,enrolled_at,completed_at,revoked_at,certificate_number,certificate_hash,uuid,badge_level,status,progress_percent,last_activity,certifier,instructor,certified_at,certificate_file,certificate_code,requires_external_examiner,external_examiner,validation_required,validated_by,validated_at,qms_flagged,qms_case,note_internal,attempts_total,recognition_awarded,archived_attempts,passed_modules,external_certificate_flag,created_at,updated_at'
     ]
 ];

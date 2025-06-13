@@ -226,6 +226,24 @@
       <trans-unit id="tx_equedlms_domain_model_usercourserecord.recognition_awarded">
         <source>Recognition awarded</source>
       </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.uuid">
+        <source>UUID</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.archived_attempts">
+        <source>Archived attempts</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.passed_modules">
+        <source>Passed modules</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.external_certificate_flag">
+        <source>External certificate flag</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.created_at">
+        <source>Created at</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_usercourserecord.updated_at">
+        <source>Updated at</source>
+      </trans-unit>
 
       <!-- GlossaryEntry (bereits definiert) -->
       <trans-unit id="tx_equedlms_domain_model_glossaryentry.term">
