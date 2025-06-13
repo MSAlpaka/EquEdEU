@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 /**
  * Service for calculating user progress in courses.
@@ -70,11 +71,13 @@ final class ProgressCalculationService
 
     public function getProgressLabel(float $progress): string
     {
-        $key = match (true) {
-            $progress >= 100.0 => 'progress.completed',
-            $progress > 0.0 => 'progress.inProgress',
-            default => 'progress.notStarted',
+        $status = match (true) {
+            $progress >= 100.0 => ProgressStatus::Completed,
+            $progress > 0.0    => ProgressStatus::InProgress,
+            default            => ProgressStatus::NotStarted,
         };
+
+        $key = sprintf('progress.%s', $status->value);
 
         return $this->languageService->translate($key, ['progress' => (int)round($progress)]);
     }
