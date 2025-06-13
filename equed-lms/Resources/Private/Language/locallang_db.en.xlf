@@ -91,6 +91,30 @@
       <trans-unit id="tx_equedlms_domain_model_submission.created_at">
         <source>Submission date</source>
       </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.uuid">
+        <source>UUID</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.gpt_analysis_status">
+        <source>GPT analysis status</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.gpt_score">
+        <source>GPT score</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.gpt_summary">
+        <source>GPT summary</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.gpt_suggestion">
+        <source>GPT suggestion</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.gpt_analysis_data">
+        <source>GPT analysis data</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.analyzed_at">
+        <source>Analyzed at</source>
+      </trans-unit>
+      <trans-unit id="tx_equedlms_domain_model_submission.text_content">
+        <source>Text content</source>
+      </trans-unit>
 
       <!-- Material -->
       <trans-unit id="tx_equedlms_domain_model_material.title">
