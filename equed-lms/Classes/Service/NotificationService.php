@@ -50,6 +50,32 @@ final class NotificationService implements NotificationServiceInterface
         $this->mailService->sendMail($email, $subject, $body);
     }
 
+    public function sendCourseCompletedNotice(FrontendUser $user, int $courseInstanceId): void
+    {
+        $email = $user->getEmail();
+        if ($email === '') {
+            return;
+        }
+
+        $subject = $this->translate('notification.course_completed.subject', ['course' => $courseInstanceId]);
+        $body    = $this->translate('notification.course_completed.body', ['course' => $courseInstanceId]);
+
+        $this->mailService->sendMail($email, $subject, $body);
+    }
+
+    public function sendCertificateIssuedInfo(FrontendUser $user, string $qrCodeUrl): void
+    {
+        $email = $user->getEmail();
+        if ($email === '') {
+            return;
+        }
+
+        $subject = $this->translate('notification.certificate_issued.subject');
+        $body    = $this->translate('notification.certificate_issued.body', ['url' => $qrCodeUrl]);
+
+        $this->mailService->sendMail($email, $subject, $body);
+    }
+
     public function getNotificationsForUser(int $userId): array
     {
         $query = $this->frontendUserRepository->createQuery();
