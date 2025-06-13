@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\EventListener;
 
-use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Service\CertificateGeneratorInterface;
 use Equed\EquedLms\Enum\UserCourseStatus;
 use Equed\EquedLms\Event\Course\CourseCompletionValidatedEvent;
@@ -25,15 +25,15 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
  */
 final class AutoCertificationListener
 {
-    private CertificateDispatchRepository $dispatchRepository;
-    private UserCourseRecordRepository $recordRepository;
+    private CertificateDispatchRepositoryInterface $dispatchRepository;
+    private UserCourseRecordRepositoryInterface $recordRepository;
     private CertificateGeneratorInterface $generator;
     private PersistenceManagerInterface $persistenceManager;
     private FlashMessageService $flashMessageService;
 
     public function __construct(
-        CertificateDispatchRepository $dispatchRepository,
-        UserCourseRecordRepository $recordRepository,
+        CertificateDispatchRepositoryInterface $dispatchRepository,
+        UserCourseRecordRepositoryInterface $recordRepository,
         CertificateGeneratorInterface $generator,
         PersistenceManagerInterface $persistenceManager,
         FlashMessageService $flashMessageService

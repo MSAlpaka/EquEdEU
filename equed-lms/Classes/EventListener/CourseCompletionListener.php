@@ -9,7 +9,7 @@ use Equed\EquedLms\Event\CertificateIssuedEvent;
 use Equed\EquedLms\Event\Course\CourseCompletionValidatedEvent;
 use Equed\EquedLms\Service\AutoCertificationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Core\Annotations\EventListener;
@@ -26,14 +26,14 @@ use TYPO3\CMS\Core\Annotations\EventListener;
 final class CourseCompletionListener
 {
     private AutoCertificationServiceInterface $certificationService;
-    private UserCourseRecordRepository $userCourseRecordRepository;
+    private UserCourseRecordRepositoryInterface $userCourseRecordRepository;
     private PersistenceManagerInterface $persistenceManager;
     private EventDispatcherInterface $eventDispatcher;
     private GptTranslationServiceInterface $translationService;
 
     public function __construct(
         AutoCertificationServiceInterface $certificationService,
-        UserCourseRecordRepository $userCourseRecordRepository,
+        UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         PersistenceManagerInterface $persistenceManager,
         EventDispatcherInterface $eventDispatcher,
         GptTranslationServiceInterface $translationService

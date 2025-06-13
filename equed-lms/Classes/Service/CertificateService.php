@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\CertificateDispatch;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
-use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
+use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\NotificationService;
@@ -18,7 +18,7 @@ final class CertificateService
     private string $qrCodeBaseUrl;
 
     public function __construct(
-        private readonly CertificateDispatchRepository $certificateDispatchRepository,
+        private readonly CertificateDispatchRepositoryInterface $certificateDispatchRepository,
         private readonly CertificateDispatchFactoryInterface $dispatchFactory,
         private readonly GptTranslationServiceInterface $translationService,
         private readonly NotificationService $notificationService,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\EventListener;
 
-use Equed\EquedLms\Domain\Repository\NotificationRepository;
+use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
 use Equed\EquedLms\Event\CertificateIssuedEvent;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
@@ -22,13 +22,13 @@ use TYPO3\CMS\Core\Annotations\EventListener;
  */
 final class CertificateNotificationListener
 {
-    private NotificationRepository $notificationRepository;
+    private NotificationRepositoryInterface $notificationRepository;
     private GptTranslationServiceInterface $translationService;
     private PersistenceManagerInterface $persistenceManager;
     private FlashMessageService $flashMessageService;
 
     public function __construct(
-        NotificationRepository $notificationRepository,
+        NotificationRepositoryInterface $notificationRepository,
         GptTranslationServiceInterface $translationService,
         PersistenceManagerInterface $persistenceManager,
         FlashMessageService $flashMessageService

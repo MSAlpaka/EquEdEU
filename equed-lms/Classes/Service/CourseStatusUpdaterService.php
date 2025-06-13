@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Enum\CourseStatus;
 use Equed\EquedLms\Service\CertificateService;
 use Equed\EquedLms\Service\NotificationService;
@@ -21,7 +21,7 @@ final class CourseStatusUpdaterService
     public function __construct(
         private readonly CertificateService    $certificateService,
         private readonly NotificationService   $notificationService,
-        private readonly UserCourseRecordRepository     $userCourseRecordRepository,
+        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         private readonly ClockInterface        $clock
     ) {
     }

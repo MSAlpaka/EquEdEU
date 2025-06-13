@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Factory\UserCourseRecordFactoryInterface;
 use Equed\EquedLms\Event\Course\CourseCompletedEvent;
 use Equed\EquedLms\Domain\Service\CourseCompletionServiceInterface;
@@ -20,7 +20,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 final class CourseCompletionService implements CourseCompletionServiceInterface
 {
     public function __construct(
-        private readonly UserCourseRecordRepository        $recordRepository,
+        private readonly UserCourseRecordRepositoryInterface $recordRepository,
         private readonly UserCourseRecordFactoryInterface  $recordFactory,
         private readonly PersistenceManagerInterface       $persistenceManager,
         private readonly EventDispatcherInterface          $eventDispatcher,
