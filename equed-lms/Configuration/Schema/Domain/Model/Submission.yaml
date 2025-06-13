@@ -36,5 +36,3 @@ columns:
     type: string
   description_key:
     type: string
-  updated_at:
-    type: integer
