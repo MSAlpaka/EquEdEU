@@ -8,24 +8,27 @@ use Equed\EquedLms\Domain\Model\CourseFeedback;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Equed\EquedLms\Service\LogService;
-use TYPO3\CMS\Core\Http\RequestFactory;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use TYPO3\CMS\Core\Http\RequestFactory;
+use Equed\EquedLms\Service\TranslatedLoggerTrait;
 
 /**
  * Service for analyzing feedback using GPT, with configurable feature toggle.
  */
 final class FeedbackAnalysisService
 {
+    use TranslatedLoggerTrait;
     private const GPT_API_URL = 'https://api.openai.com/v1/chat/completions';
     private const MIN_TEXT_LENGTH = 10;
 
     public function __construct(
         private readonly RequestFactory $requestFactory,
-        private readonly LogService $logService,
-        private readonly GptTranslationServiceInterface $translationService,
+        GptTranslationServiceInterface $translationService,
+        LogService $logService,
         private readonly string $openAiApiKey,
         private readonly bool $feedbackAnalysisEnabled
     ) {
+        $this->injectTranslatedLogger($translationService, $logService);
     }
 
     /**
@@ -91,12 +94,8 @@ final class FeedbackAnalysisService
 
             return $analysis;
         } catch (ClientExceptionInterface | JsonException $e) {
-            $this->logService->logError(
-                $this->translationService->translate(
-                    'feedback.analysis.error',
-                    ['error' => $e->getMessage()]
-                )
-            );
+            $this->logTranslatedError('feedback.analysis.error', ['error' => $e->getMessage()]);
+
             return null;
         }
     }

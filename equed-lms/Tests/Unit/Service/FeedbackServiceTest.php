@@ -24,8 +24,8 @@ class FeedbackServiceTest extends TestCase
 
         $service = new FeedbackAnalysisService(
             $requestFactory->reveal(),
-            $logService->reveal(),
             $translator->reveal(),
+            $logService->reveal(),
             'key',
             false
         );
