@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Repository\UserProfileRepository;
 
-class AuthService
+final class AuthService
 {
     public function __construct(
         private readonly UserProfileRepository $userProfileRepository
