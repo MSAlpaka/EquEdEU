@@ -4,6 +4,20 @@ columns:
     type: integer
   pid:
     type: integer
+  uuid:
+    type: string
+  title:
+    type: string
+  description:
+    type: text
+  category:
+    type: string
+  available_from:
+    type: integer
+  is_visible:
+    type: boolean
+  is_archived:
+    type: boolean
   training_center:
     type: integer
   badge_icon:
@@ -18,3 +32,7 @@ columns:
     type: integer
   visible_in_catalog:
     type: boolean
+  course_instances:
+    type: string
+  certificate_templates:
+    type: string
