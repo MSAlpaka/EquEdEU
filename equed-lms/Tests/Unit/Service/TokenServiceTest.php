@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Equed\EquedLms\Service {
-    function random_bytes(int $length): string { return str_repeat('a', $length); }
-}
-
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\TokenService;
+use Equed\EquedLms\Service\TokenGeneratorInterface;
 use Equed\EquedLms\Domain\Repository\FrontendUserRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
@@ -24,6 +21,18 @@ if (!class_exists(FrontendUser::class)) {
     }
 }
 
+if (!interface_exists(TokenGeneratorInterface::class)) {
+    interface TokenGeneratorInterface { public function generate(int $length): string; }
+}
+
+class FakeGenerator implements TokenGeneratorInterface
+{
+    public function generate(int $length): string
+    {
+        return str_repeat('a', $length);
+    }
+}
+
 if (!interface_exists(PersistenceManagerInterface::class)) {
     interface PersistenceManagerInterface { public function persistAll(); }
 }
@@ -35,14 +44,17 @@ final class TokenServiceTest extends TestCase
     private TokenService $subject;
     private $repo;
     private $pm;
+    private TokenGeneratorInterface $generator;
 
     protected function setUp(): void
     {
         $this->repo = $this->prophesize(FrontendUserRepositoryInterface::class);
         $this->pm = $this->prophesize(PersistenceManagerInterface::class);
-        $this->subject = new TokenService(
+        $this->generator = new FakeGenerator();
+        $this->subject   = new TokenService(
             $this->repo->reveal(),
-            $this->pm->reveal()
+            $this->pm->reveal(),
+            $this->generator
         );
     }
 
