@@ -67,4 +67,27 @@ class CertificateServiceTest extends TestCase
         $result = $this->subject->issueCertificate($record->reveal());
         $this->assertSame($existing->reveal(), $result);
     }
+
+    public function testSendCertificateNotificationTranslatesAndNotifies(): void
+    {
+        $dispatch = $this->prophesize(CertificateDispatch::class);
+        $course = $this->prophesize(\Equed\EquedLms\Domain\Model\CourseInstance::class);
+        $user = $this->prophesize(\Equed\EquedLms\Domain\Model\FrontendUser::class);
+
+        $course->getTitle()->willReturn('Course');
+        $user->getName()->willReturn('John');
+
+        $dispatch->getCourseInstance()->willReturn($course->reveal());
+        $dispatch->getFeUser()->willReturn($user->reveal());
+        $dispatch->getQrCodeUrl()->willReturn('url');
+
+        $this->translator->translate('certificate.notification.subject', ['course' => 'Course'])
+            ->willReturn('sub');
+        $this->translator->translate('certificate.notification.body', ['name' => 'John', 'qrCodeUrl' => 'url'])
+            ->willReturn('body');
+
+        $this->notifier->notify($user->reveal(), 'sub', 'body')->shouldBeCalled();
+
+        $this->subject->sendCertificateNotification($dispatch->reveal());
+    }
 }

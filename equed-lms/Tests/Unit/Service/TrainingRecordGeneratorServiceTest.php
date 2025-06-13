@@ -32,4 +32,25 @@ class TrainingRecordGeneratorServiceTest extends TestCase
         $path = $service->generateZip(['course'=>'c','cert_number'=>'n2','issued_on'=>'2024']);
         $this->assertStringEndsWith('.zip', $path);
     }
+
+    public function testFactoriesAreInvoked(): void
+    {
+        $fs = new Filesystem();
+        $pdfCalled = false;
+        $zipCalled = false;
+        $service = new TrainingRecordGeneratorService(
+            '/tmp',
+            $fs,
+            function () use (&$pdfCalled) { $pdfCalled = true; return new TCPDF(); },
+            function () use (&$zipCalled) { $zipCalled = true; return new ZipArchive(); }
+        );
+
+        $pdfPath = $service->generatePdf(['course'=>'c','cert_number'=>'n3','issued_on'=>'2024']);
+        $zipPath = $service->generateZip(['course'=>'c','cert_number'=>'n4','issued_on'=>'2024']);
+
+        $this->assertTrue($pdfCalled);
+        $this->assertTrue($zipCalled);
+        $this->assertStringEndsWith('.pdf', $pdfPath);
+        $this->assertStringEndsWith('.zip', $zipPath);
+    }
 }
