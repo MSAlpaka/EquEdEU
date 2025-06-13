@@ -15,7 +15,7 @@ columns:
   duration_hours:
     type: string
   date:
-    type: string
+    type: integer
   proof_document:
     type: integer
   is_validated:
@@ -33,7 +33,7 @@ columns:
   certificate_number:
     type: string
   certificate_issued_at:
-    type: string
+    type: integer
   gpt_evaluation_data:
     type: text
   feedback_received:

@@ -17,7 +17,7 @@ columns:
   mode:
     type: integer
   submitted_at:
-    type: string
+    type: integer
   lang:
     type: string
   uuid:
