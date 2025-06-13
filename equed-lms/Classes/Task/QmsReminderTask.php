@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Task;
 
-use Equed\EquedLms\Service\Email\MailServiceInterface;
+use Equed\EquedLms\Service\MailServiceInterface;
 use Equed\EquedLms\Service\QmsServiceInterface;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
