@@ -13,7 +13,7 @@ use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Enum\UserCourseStatus;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -25,6 +25,7 @@ final class ProgressService implements ProgressServiceInterface
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         private readonly GptTranslationServiceInterface $translationService,
         private readonly ConnectionPool $connectionPool,
+        private readonly ClockInterface $clock,
         private readonly string $extensionKey = 'equed_lms'
     ) {
     }
@@ -114,7 +115,7 @@ final class ProgressService implements ProgressServiceInterface
 
     public function cleanupAbandonedCourseProgress(int $days): void
     {
-        $cutoff = (new DateTimeImmutable())
+        $cutoff = $this->clock->now()
             ->modify(sprintf('-%d days', $days))
             ->format('Y-m-d H:i:s');
 

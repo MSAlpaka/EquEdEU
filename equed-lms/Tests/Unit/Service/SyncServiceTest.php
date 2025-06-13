@@ -9,6 +9,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 use Equed\EquedLms\Service\SyncService;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use PHPUnit\Framework\TestCase;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
@@ -30,7 +31,8 @@ class SyncServiceTest extends TestCase
 
         $repo = $this->prophesize(UserProfileRepositoryInterface::class);
         $pm = $this->prophesize(PersistenceManagerInterface::class);
-        $service = new SyncService($repo->reveal(), $pm->reveal());
+        $clock = $this->prophesize(ClockInterface::class);
+        $service = new SyncService($repo->reveal(), $pm->reveal(), $clock->reveal());
 
         $data = $service->pushToApp($profile);
         $this->assertSame($profile->getFeUser(), $data['userId']);
@@ -45,8 +47,9 @@ class SyncServiceTest extends TestCase
 
         $pm = $this->prophesize(PersistenceManagerInterface::class);
         $pm->persistAll()->shouldBeCalled();
+        $clock = $this->prophesize(ClockInterface::class);
 
-        $service = new SyncService($repo->reveal(), $pm->reveal());
+        $service = new SyncService($repo->reveal(), $pm->reveal(), $clock->reveal());
         $result = $service->pullFromApp([
             'userId' => 5,
             'updatedAt' => '2024-01-01T00:00:00+00:00'
