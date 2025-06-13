@@ -95,6 +95,8 @@ services:
 
   Equed\EquedLms\Domain\Service\JwtServiceInterface:
     class: Equed\EquedLms\Service\JwtService
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
 
   Equed\EquedLms\Domain\Service\NotificationServiceInterface:
     class: Equed\EquedLms\Service\NotificationService
