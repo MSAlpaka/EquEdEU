@@ -16,7 +16,10 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 final class CourseBundleRepository extends Repository
 {
     /**
-     * Finds a CourseBundle by its slug (URL key).
+     * Finds a CourseBundle by its slug.
+     *
+     * @param string $slug
+     * @return CourseBundle|null
      */
     public function findBySlug(string $slug): ?CourseBundle
     {
