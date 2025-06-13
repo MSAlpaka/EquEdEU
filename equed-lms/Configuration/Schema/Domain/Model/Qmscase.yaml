@@ -4,51 +4,49 @@ columns:
     type: integer
   pid:
     type: integer
-  title:
-    type: string
-  description:
-    type: text
-  origin:
-    type: integer
-  linked_submission:
-    type: integer
-  linked_feedback:
-    type: integer
-  linked_certificate:
-    type: integer
-  related_user:
-    type: integer
-  reported_by:
-    type: integer
-  assigned_to:
-    type: integer
-  linked_course_instance:
-    type: integer
-  status:
-    type: integer
-  priority:
-    type: integer
-  created_at:
-    type: string
-  updated_at:
-    type: string
-  resolved_at:
-    type: string
-  resolution_comment:
-    type: text
-  resolution_upload:
-    type: integer
-  escalated:
-    type: boolean
-  escalated_to:
-    type: integer
-  visibility:
-    type: integer
-  tags:
-    type: string
-  notes_json:
-    type: text
-  related_qmscase:
-    type: integer
   uuid:
     type: string
+  user_course_record:
+    type: integer
+  course_instance:
+    type: integer
+  certifier:
+    type: integer
+  incident_report:
+    type: integer
+  finalized_by:
+    type: integer
+  title:
+    type: string
+  title_key:
+    type: string
+  case_type:
+    type: string
+  status:
+    type: string
+  priority:
+    type: string
+  violates_standard:
+    type: boolean
+  standard_reference:
+    type: string
+  comment:
+    type: text
+  decision:
+    type: text
+  attachment:
+    type: integer
+  visible_to_instructor:
+    type: boolean
+  visible_to_training_center:
+    type: boolean
+  visible_to_certifier:
+    type: boolean
+  is_archived:
+    type: boolean
+  language:
+    type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
