@@ -24,5 +24,3 @@ columns:
     type: integer
   updated_at:
     type: integer
-  description_key:
-    type: string
