@@ -27,6 +27,16 @@ final class NotificationService implements NotificationServiceInterface
     ) {
     }
 
+    public function notify(FrontendUser $user, string $subject, string $body): void
+    {
+        $email = $user->getEmail();
+        if ($email === '') {
+            return;
+        }
+
+        $this->mailService->sendMail($email, $subject, $body);
+    }
+
     public function notifyCertifier(string $email, string $courseTitle): void
     {
         $subject = $this->languageService->translate('notification.certifier.subject', ['course' => $courseTitle]);
