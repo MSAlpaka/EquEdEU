@@ -8,22 +8,20 @@ use Equed\EquedLms\Domain\Model\UserBadge;
 use Equed\EquedLms\Domain\Repository\UserBadgeRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Service for recognizing and awarding badges to users.
  */
 final class RecognitionAwardService
 {
-    private const EXTENSION_KEY = 'equed_lms';
 
     public function __construct(
         private readonly UserBadgeRepositoryInterface $userBadgeRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly CacheItemPoolInterface $cachePool,
-        private readonly GptTranslationServiceInterface $translationService,
+        private readonly LanguageServiceInterface $languageService,
         private readonly ClockInterface $clock
     ) {
     }
@@ -55,7 +53,7 @@ final class RecognitionAwardService
         $badge = new UserBadge();
         $badge->setFeUserId($userId);
         $badge->setType($type);
-        $badge->setTitle($this->translate("badge.{$type}.title"));
+        $badge->setTitle($this->languageService->translate("badge.{$type}.title"));
         $badge->setAwardedAt($this->clock->now());
 
         $this->userBadgeRepository->add($badge);
@@ -65,15 +63,4 @@ final class RecognitionAwardService
         return $badge;
     }
 
-    private function translate(string $key, array $arguments = []): string
-    {
-        if ($this->translationService->isEnabled()) {
-            $translated = $this->translationService->translate($key, $arguments, self::EXTENSION_KEY);
-            if ($translated !== null && $translated !== $key) {
-                return $translated;
-            }
-        }
-
-        return LocalizationUtility::translate($key, self::EXTENSION_KEY, $arguments) ?? $key;
-    }
 }

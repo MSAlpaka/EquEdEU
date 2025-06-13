@@ -11,7 +11,7 @@ use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 
 /**
  * Service for tracking and persisting user course progress.
@@ -23,8 +23,7 @@ final class ProgressTrackingService
         private readonly CourseInstanceRepositoryInterface $courseInstanceRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly CacheItemPoolInterface $cachePool,
-        private readonly GptTranslationServiceInterface $translationService,
-        private readonly string $extensionKey = 'equed_lms'
+        private readonly LanguageServiceInterface $languageService
     ) {
     }
 
@@ -115,13 +114,7 @@ final class ProgressTrackingService
     public function getStatusLabel(string $statusCode): string
     {
         $key = sprintf('status.%s', $statusCode);
-        if ($this->translationService->isEnabled()) {
-            $translated = $this->translationService->translate($key, [], $this->extensionKey);
-            if ($translated !== null && $translated !== $key) {
-                return $translated;
-            }
-        }
 
-        return LocalizationUtility::translate($key, $this->extensionKey) ?? $statusCode;
+        return $this->languageService->translate($key);
     }
 }

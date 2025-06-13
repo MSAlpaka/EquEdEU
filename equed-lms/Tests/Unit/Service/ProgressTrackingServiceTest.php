@@ -9,7 +9,7 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Enum\UserCourseStatus;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\ProgressTrackingService;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
@@ -25,7 +25,7 @@ class ProgressTrackingServiceTest extends TestCase
     private $instanceRepo;
     private $persistence;
     private $cache;
-    private $translation;
+    private $language;
 
     protected function setUp(): void
     {
@@ -33,14 +33,14 @@ class ProgressTrackingServiceTest extends TestCase
         $this->instanceRepo = $this->prophesize(CourseInstanceRepositoryInterface::class);
         $this->persistence  = $this->prophesize(PersistenceManagerInterface::class);
         $this->cache        = $this->prophesize(CacheItemPoolInterface::class);
-        $this->translation  = $this->prophesize(GptTranslationServiceInterface::class);
+        $this->language     = $this->prophesize(LanguageServiceInterface::class);
 
         $this->subject = new ProgressTrackingService(
             $this->recordRepo->reveal(),
             $this->instanceRepo->reveal(),
             $this->persistence->reveal(),
             $this->cache->reveal(),
-            $this->translation->reveal()
+            $this->language->reveal()
         );
     }
 
@@ -61,8 +61,7 @@ class ProgressTrackingServiceTest extends TestCase
 
     public function testGetStatusLabelUsesTranslator(): void
     {
-        $this->translation->isEnabled()->willReturn(true);
-        $this->translation->translate('status.completed', [], 'equed_lms')->willReturn('fertig');
+        $this->language->translate('status.completed')->willReturn('fertig');
 
         $this->assertSame('fertig', $this->subject->getStatusLabel('completed'));
     }
