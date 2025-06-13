@@ -31,6 +31,8 @@ final class Lesson extends AbstractEntity
 
     protected string $category = '';
 
+    protected bool $visible = true;
+
     #[Extbase\ORM\ManyToOne]
     protected ?Module $module = null;
 
@@ -121,6 +123,16 @@ final class Lesson extends AbstractEntity
     public function setCategory(string $category): void
     {
         $this->category = $category;
+    }
+
+    public function isVisible(): bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): void
+    {
+        $this->visible = $visible;
     }
 
     public function getModule(): ?Module
