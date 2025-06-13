@@ -6,7 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
-use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Factory\UserCourseRecordFactoryInterface;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -23,7 +23,8 @@ final class ProgressTrackingService
         private readonly CourseInstanceRepositoryInterface $courseInstanceRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly CacheItemPoolInterface $cachePool,
-        private readonly LanguageServiceInterface $languageService
+        private readonly LanguageServiceInterface $languageService,
+        private readonly UserCourseRecordFactoryInterface $recordFactory
     ) {
     }
 
@@ -67,12 +68,7 @@ final class ProgressTrackingService
      */
     private function createUserCourseRecord(int $userId, CourseInstance $instance): UserCourseRecord
     {
-        $record = new UserCourseRecord();
-        $user = new \Equed\EquedLms\Domain\Model\FrontendUser();
-        $user->_setProperty('uid', $userId);
-        $record->setUser($user);
-        $record->setCourseInstance($instance);
-
+        $record = $this->recordFactory->createForUserAndInstance($userId, $instance);
         $this->recordRepository->add($record);
 
         return $record;
