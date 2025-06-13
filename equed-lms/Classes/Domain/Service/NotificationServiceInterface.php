@@ -12,4 +12,8 @@ interface NotificationServiceInterface
     public function getNotificationsForUser(int $userId): array;
 
     public function markAsRead(int $userId, int $notificationId): void;
+
+    public function sendCourseCompletedNotice(\Equed\EquedLms\Domain\Model\FrontendUser $user, int $courseInstanceId): void;
+
+    public function sendCertificateIssuedInfo(\Equed\EquedLms\Domain\Model\FrontendUser $user, string $qrCodeUrl): void;
 }

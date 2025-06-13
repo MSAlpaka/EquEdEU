@@ -5289,35 +5289,6 @@ parameters:
 			count: 1
 			path: Classes/Service/CourseGoalService.php
 
-		-
-			message: "#^Access to undefined constant Equed\\\\EquedLms\\\\Enum\\\\CourseStatus\\:\\:Validated\\.$#"
-			count: 1
-			path: Classes/Service/CourseStatusUpdaterService.php
-
-		-
-			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Domain\\\\Model\\\\UserCourseRecord\\:\\:getFeUser\\(\\)\\.$#"
-			count: 1
-			path: Classes/Service/CourseStatusUpdaterService.php
-
-		-
-			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Domain\\\\Model\\\\UserCourseRecord\\:\\:setCompletionDate\\(\\)\\.$#"
-			count: 1
-			path: Classes/Service/CourseStatusUpdaterService.php
-
-		-
-			message: "#^Call to method sendCertificateIssuedInfo\\(\\) on an unknown class Equed\\\\EquedLms\\\\Service\\\\NotificationServiceInterface\\.$#"
-			count: 1
-			path: Classes/Service/CourseStatusUpdaterService.php
-
-		-
-			message: "#^Call to method sendCourseCompletedNotice\\(\\) on an unknown class Equed\\\\EquedLms\\\\Service\\\\NotificationServiceInterface\\.$#"
-			count: 1
-			path: Classes/Service/CourseStatusUpdaterService.php
-
-		-
-			message: "#^Parameter \\$notificationService of method Equed\\\\EquedLms\\\\Service\\\\CourseStatusUpdaterService\\:\\:__construct\\(\\) has invalid type Equed\\\\EquedLms\\\\Service\\\\NotificationServiceInterface\\.$#"
-			count: 1
-			path: Classes/Service/CourseStatusUpdaterService.php
 
 		-
 			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Domain\\\\Model\\\\FrontendUser\\:\\:getName\\(\\)\\.$#"
