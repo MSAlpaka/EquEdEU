@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
