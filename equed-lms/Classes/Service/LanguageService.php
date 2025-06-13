@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -11,7 +12,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Service for translating labels via GPT-based translation service
  * with fallback to TYPO3 core localization.
  */
-final class LanguageService
+final class LanguageService implements LanguageServiceInterface
 {
     private GptTranslationServiceInterface $gptTranslationService;
     private string $extensionKey;
