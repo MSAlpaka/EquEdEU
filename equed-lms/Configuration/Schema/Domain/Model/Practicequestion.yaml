@@ -7,7 +7,7 @@ columns:
   practice_test:
     type: integer
   question_type:
-    type: integer
+    type: string
   question_text:
     type: text
   image:
@@ -21,7 +21,7 @@ columns:
   position:
     type: string
   expected_answer_text:
-    type: text
+    type: string
   generated_by:
     type: string
   gpt_version:
@@ -30,7 +30,7 @@ columns:
     type: string
   difficulty:
     type: string
-  language:
+  lang:
     type: string
   uuid:
     type: string

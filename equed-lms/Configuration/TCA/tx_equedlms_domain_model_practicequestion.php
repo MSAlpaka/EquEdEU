@@ -24,7 +24,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.question_type',
             'config' => [
                 'type' => 'input',
-                'eval' => 'int'
+                'eval' => 'trim'
             ]
         ],
         'question_text' => [
@@ -71,9 +71,49 @@ return [
                 'eval' => 'trim'
             ]
         ],
-        'language' => [
+        'expected_answer_text' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.language',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.expected_answer_text',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'generated_by' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.generated_by',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'gpt_version' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.gpt_version',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'glossary_key' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.glossary_key',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'difficulty' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.difficulty',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'lang' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_practicequestion.lang',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim'
@@ -106,10 +146,10 @@ return [
     ],
     'types' => [
         1 => [
-            'showitem' => 'practice_test, question_type, question_text, image, answers, correct_answers, explanation, position, language, uuid, created_at, updated_at'
+            'showitem' => 'practice_test, question_type, question_text, image, answers, correct_answers, explanation, position, expected_answer_text, generated_by, gpt_version, glossary_key, difficulty, lang, uuid, created_at, updated_at'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'practice_test,question_type,question_text,image,answers,correct_answers,explanation,position,language,uuid,created_at,updated_at'
+        'showRecordFieldList' => 'practice_test,question_type,question_text,image,answers,correct_answers,explanation,position,expected_answer_text,generated_by,gpt_version,glossary_key,difficulty,lang,uuid,created_at,updated_at'
     ]
 ];

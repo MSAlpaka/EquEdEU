@@ -19,7 +19,7 @@ final class Version20250801012000 extends AbstractMigration
         if ($schema->hasTable('tx_equedlms_domain_model_practicequestion')) {
             $table = $schema->getTable('tx_equedlms_domain_model_practicequestion');
             if (!$table->hasColumn('expected_answer_text')) {
-                $table->addColumn('expected_answer_text', 'text', ['notnull' => false]);
+                $table->addColumn('expected_answer_text', 'string', ['notnull' => false]);
             }
             if (!$table->hasColumn('generated_by')) {
                 $table->addColumn('generated_by', 'string', ['notnull' => false]);
@@ -34,7 +34,7 @@ final class Version20250801012000 extends AbstractMigration
                 $table->addColumn('difficulty', 'string', ['notnull' => false]);
             }
             if ($table->hasColumn('lang')) {
-                $table->changeColumn('lang', ['type' => 'integer']);
+                $table->changeColumn('lang', ['type' => 'string']);
             }
             if ($table->hasColumn('created_at')) {
                 $table->changeColumn('created_at', ['type' => 'integer']);
@@ -47,7 +47,7 @@ final class Version20250801012000 extends AbstractMigration
         if ($schema->hasTable('tx_equedlms_domain_model_practiceansweroption')) {
             $table = $schema->getTable('tx_equedlms_domain_model_practiceansweroption');
             if ($table->hasColumn('lang')) {
-                $table->changeColumn('lang', ['type' => 'integer']);
+                $table->changeColumn('lang', ['type' => 'string']);
             }
         }
     }
