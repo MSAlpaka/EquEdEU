@@ -6665,11 +6665,6 @@ parameters:
 			path: Classes/Task/ProgressCleanupTask.php
 
 		-
-			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailServiceInterface\\:\\:sendQmsReminder\\(\\)\\.$#"
-			count: 1
-			path: Classes/Task/QmsReminderTask.php
-
-		-
 			message: "#^Call to method getOpenCasesForReminder\\(\\) on an unknown class Equed\\\\EquedLms\\\\Service\\\\QmsServiceInterface\\.$#"
 			count: 1
 			path: Classes/Task/QmsReminderTask.php
