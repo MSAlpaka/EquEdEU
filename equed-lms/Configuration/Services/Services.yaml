@@ -15,10 +15,16 @@ services:
   Equed\EquedLms\Service\GptTranslationService:
     public: true
 
+  Equed\EquedLms\Service\Translator: ~
+
+  Equed\EquedLms\Domain\Service\TranslatorInterface:
+    class: Equed\EquedLms\Service\Translator
+
   # LanguageService now injected with GptTranslationService
   Equed\EquedLms\Service\LanguageService:
     arguments:
       $gptTranslationService: '@Equed\EquedLms\Service\GptTranslationService'
+      $translator: '@Equed\EquedLms\Service\Translator'
 
   # Event listener for course completion (PSR-14)
   Equed\EquedLms\EventListener\CourseCompletedListener:

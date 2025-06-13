@@ -24,13 +24,21 @@ if (!interface_exists(GptTranslationServiceInterface::class)) {
     }
 }
 
+if (!interface_exists(\Equed\EquedLms\Domain\Service\TranslatorInterface::class)) {
+    interface TranslatorInterface
+    {
+        public function translate(string $key, array $arguments = [], ?string $extension = null): ?string;
+    }
+}
+
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\LanguageService;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\TranslatorInterface;
 use PHPUnit\Framework\TestCase;
 
-class DummyTranslationService implements GptTranslationServiceInterface
+class DummyGptTranslationService implements GptTranslationServiceInterface
 {
     public function __construct(private bool $enabled = false)
     {
@@ -47,11 +55,22 @@ class DummyTranslationService implements GptTranslationServiceInterface
     }
 }
 
+class DummyTranslator implements TranslatorInterface
+{
+    public function translate(string $key, array $arguments = [], ?string $extension = null): ?string
+    {
+        return null;
+    }
+}
+
 class LanguageServiceTest extends TestCase
 {
     public function testFallbackReturnsKeyWhenTranslationMissing(): void
     {
-        $service = new LanguageService(new DummyTranslationService(false));
+        $service = new LanguageService(
+            new DummyGptTranslationService(false),
+            new DummyTranslator()
+        );
         $this->assertSame('missing.key', $service->translate('missing.key'));
     }
 }

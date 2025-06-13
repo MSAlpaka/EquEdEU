@@ -6,7 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Equed\EquedLms\Domain\Service\TranslatorInterface;
 
 /**
  * Service for translating labels via GPT-based translation service
@@ -15,14 +15,17 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 final class LanguageService implements LanguageServiceInterface
 {
     private GptTranslationServiceInterface $gptTranslationService;
+    private TranslatorInterface $translator;
     private string $extensionKey;
 
     public function __construct(
         GptTranslationServiceInterface $gptTranslationService,
+        TranslatorInterface $translator,
         string $extensionKey = 'equed_lms'
     ) {
         $this->gptTranslationService = $gptTranslationService;
-        $this->extensionKey         = $extensionKey;
+        $this->translator            = $translator;
+        $this->extensionKey          = $extensionKey;
     }
 
     /**
@@ -49,6 +52,6 @@ final class LanguageService implements LanguageServiceInterface
             }
         }
 
-        return LocalizationUtility::translate($key, $extension, $arguments) ?? $key;
+        return $this->translator->translate($key, $arguments, $extension) ?? $key;
     }
 }
