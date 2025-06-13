@@ -6,7 +6,7 @@ columns:
     type: integer
   course_instance:
     type: integer
-  user:
+  fe_user:
     type: integer
   instructor_feedback:
     type: boolean

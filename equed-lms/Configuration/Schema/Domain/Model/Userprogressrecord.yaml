@@ -4,7 +4,7 @@ columns:
     type: integer
   pid:
     type: integer
-  user:
+  fe_user:
     type: integer
   course_instance:
     type: integer
@@ -15,15 +15,15 @@ columns:
   completed:
     type: boolean
   completed_at:
-    type: string
+    type: integer
   progress_percent:
-    type: string
+    type: integer
   last_accessed_at:
-    type: string
+    type: integer
   attempt_count:
-    type: string
+    type: integer
   time_spent_seconds:
-    type: string
+    type: integer
   feedback_submitted:
     type: boolean
   notes:

@@ -10,7 +10,7 @@ columns:
     type: text
   file:
     type: string
-  user:
+  fe_user:
     type: integer
   lesson:
     type: integer

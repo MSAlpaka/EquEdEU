@@ -4,7 +4,7 @@ columns:
     type: integer
   pid:
     type: integer
-  user:
+  fe_user:
     type: integer
   badge_type:
     type: integer
@@ -13,7 +13,7 @@ columns:
   description:
     type: text
   awarded_at:
-    type: string
+    type: integer
   issuer:
     type: integer
   is_public:
@@ -27,7 +27,7 @@ columns:
   badge_level:
     type: integer
   expires_at:
-    type: string
+    type: integer
   renewal_required:
     type: boolean
   uuid:
