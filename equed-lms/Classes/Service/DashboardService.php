@@ -162,9 +162,10 @@ final class DashboardService implements DashboardServiceInterface
         $result = [];
         foreach ($notifications as $note) {
             $result[] = [
-                'type'    => $note->getType(),
-                'message' => $note->getMessage(),
-                'date'    => $note->getCreatedAt()?->format('Y-m-d H:i') ?? '',
+                'type'          => $note->getType(),
+                'titleKey'      => $note->getTitleKey(),
+                'customMessage' => $note->getCustomMessage(),
+                'date'          => $note->getCreatedAt()?->format('Y-m-d H:i') ?? '',
             ];
         }
         return $result;

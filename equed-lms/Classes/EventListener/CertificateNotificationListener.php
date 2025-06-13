@@ -53,13 +53,16 @@ final class CertificateNotificationListener
             ?? 'Your certificate has been issued.';
 
         $notification = $this->notificationRepository->create([
-            'feUser' => $user,
-            'message' => $message,
-            'type' => 'certificate',
-            'lang' => $user->getUserProfile()?->getLanguage() ?? 'en',
-            'read' => false,
-            'crdate' => new \DateTimeImmutable(),
-            'tstamp' => new \DateTimeImmutable(),
+            'recipient'      => $user,
+            'titleKey'       => $messageKey,
+            'customMessage'  => $message,
+            'type'           => 'certificate',
+            'language'       => $user->getUserProfile()?->getLanguage() ?? 'en',
+            'status'         => 'active',
+            'isRead'         => false,
+            'isArchived'     => false,
+            'createdAt'      => new \DateTimeImmutable(),
+            'updatedAt'      => new \DateTimeImmutable(),
         ]);
 
         $this->notificationRepository->add($notification);

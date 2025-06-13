@@ -19,47 +19,41 @@ return [
                 'eval' => 'int'
             ]
         ],
-        'type' => [
+        'course_instance' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.type',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.course_instance',
             'config' => [
                 'type' => 'input',
                 'eval' => 'int'
             ]
         ],
-        'title' => [
+        'submission' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.title',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.submission',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int'
+            ]
+        ],
+        'user_course_record' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.user_course_record',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int'
+            ]
+        ],
+        'type' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.type',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim'
             ]
         ],
-        'message' => [
+        'status' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.message',
-            'config' => [
-                'type' => 'text'
-            ]
-        ],
-        'payload' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.payload',
-            'config' => [
-                'type' => 'text'
-            ]
-        ],
-        'related_model' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.related_model',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
-            ]
-        ],
-        'related_uid' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.related_uid',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.status',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim'
@@ -72,28 +66,19 @@ return [
                 'type' => 'check'
             ]
         ],
+        'is_archived' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.is_archived',
+            'config' => [
+                'type' => 'check'
+            ]
+        ],
         'created_at' => [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.created_at',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim'
-            ]
-        ],
-        'valid_until' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.valid_until',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
-            ]
-        ],
-        'priority' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.priority',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'int'
             ]
         ],
         'uuid' => [
@@ -112,31 +97,24 @@ return [
                 'eval' => 'trim'
             ]
         ],
-        'send_email' => [
+        'title_key' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.send_email',
-            'config' => [
-                'type' => 'check'
-            ]
-        ],
-        'send_push' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.send_push',
-            'config' => [
-                'type' => 'check'
-            ]
-        ],
-        'channel' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.channel',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.title_key',
             'config' => [
                 'type' => 'input',
-                'eval' => 'int'
+                'eval' => 'trim'
             ]
         ],
-        'sender' => [
+        'custom_message' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.sender',
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.custom_message',
+            'config' => [
+                'type' => 'text'
+            ]
+        ],
+        'updated_at' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_notification.updated_at',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim'
@@ -145,10 +123,10 @@ return [
     ],
     'types' => [
         1 => [
-            'showitem' => 'recipient, type, title, message, payload, related_model, related_uid, is_read, created_at, valid_until, priority, uuid, language, send_email, send_push, channel, sender'
+            'showitem' => 'recipient, course_instance, submission, user_course_record, type, status, is_read, is_archived, language, title_key, custom_message, created_at, updated_at, uuid'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'recipient,type,title,message,payload,related_model,related_uid,is_read,created_at,valid_until,priority,uuid,language,send_email,send_push,channel,sender'
+        'showRecordFieldList' => 'recipient,course_instance,submission,user_course_record,type,status,is_read,is_archived,language,title_key,custom_message,created_at,updated_at,uuid'
     ]
 ];

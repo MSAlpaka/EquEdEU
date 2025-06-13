@@ -15,6 +15,27 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'maxitems' => 1,
             ],
         ],
+        'course_instance' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.course_instance',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int',
+            ],
+        ],
+        'submission' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.submission',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int',
+            ],
+        ],
+        'user_course_record' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.user_course_record',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int',
+            ],
+        ],
         'type' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.type',
             'config' => [
@@ -31,38 +52,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'default' => 'info',
             ],
         ],
-        'title' => [
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.title',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim,required',
-            ],
-        ],
-        'message' => [
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.message',
-            'config' => [
-                'type' => 'text',
-                'rows' => 4,
-                'cols' => 60,
-            ],
-        ],
-        'payload' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.payload',
-            'config' => [
-                'type' => 'text',
-            ],
-        ],
-        'related_model' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.related_model',
+        'status' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.status',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim',
-            ],
-        ],
-        'related_uid' => [
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.uid',
-            'config' => [
-                'type' => 'number',
             ],
         ],
         'is_read' => [
@@ -72,29 +66,17 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'default' => 0,
             ],
         ],
+        'is_archived' => [
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:label.archived',
+            'config' => [
+                'type' => 'check',
+                'default' => 0,
+            ],
+        ],
         'created_at' => [
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.creationDate',
             'config' => [
                 'type' => 'datetime',
-            ],
-        ],
-        'valid_until' => [
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-            'config' => [
-                'type' => 'datetime',
-            ],
-        ],
-        'priority' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.priority',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['Low', 'low'],
-                    ['Normal', 'normal'],
-                    ['High', 'high'],
-                    ['Urgent', 'urgent'],
-                ],
-                'default' => 'normal',
             ],
         ],
         'uuid' => [
@@ -112,39 +94,25 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'default' => 'en',
             ],
         ],
-        'send_email' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.send_email',
-            'config' => [
-                'type' => 'check',
-                'default' => 0,
-            ],
-        ],
-        'send_push' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.send_push',
-            'config' => [
-                'type' => 'check',
-                'default' => 0,
-            ],
-        ],
-        'channel' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.channel',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['In-App', 'in-app'],
-                    ['Email', 'email'],
-                    ['App Push', 'app'],
-                    ['SMS', 'sms'],
-                ],
-                'default' => 'in-app',
-            ],
-        ],
-        'sender' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.sender',
+        'title_key' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:notification.title_key',
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim',
-                'default' => 'system',
+            ],
+        ],
+        'custom_message' => [
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.message',
+            'config' => [
+                'type' => 'text',
+                'rows' => 4,
+                'cols' => 60,
+            ],
+        ],
+        'updated_at' => [
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.updated',
+            'config' => [
+                'type' => 'datetime',
             ],
         ],
     ]);
@@ -152,8 +120,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
     ExtensionManagementUtility::addToAllTCAtypes(
         'tx_equedlms_domain_model_notification',
         '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        recipient, type, title, message, payload, related_model, related_uid,
-        is_read, created_at, valid_until, priority, uuid, language,
-        send_email, send_push, channel, sender'
+        recipient, course_instance, submission, user_course_record, type, status,
+        is_read, is_archived, created_at, updated_at, uuid, language,
+        title_key, custom_message'
     );
 })();
