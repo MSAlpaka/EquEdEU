@@ -16,8 +16,8 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\BadgeAwardService;
 use Equed\EquedLms\Domain\Repository\BadgeAwardRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
-use Equed\EquedLms\Domain\Repository\LearningPathRepository;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\LearningPathRepositoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -45,9 +45,9 @@ class BadgeAwardServiceTest extends TestCase
         $awardRepo->addForCourse(1, 2, 'c')->shouldBeCalled();
         $awardRepo->addForLearningPath(1, 3, 'p')->shouldBeCalled();
 
-        $courseRepo = $this->prophesize(UserCourseRecordRepository::class);
+        $courseRepo = $this->prophesize(UserCourseRecordRepositoryInterface::class);
         $courseRepo->findCompletedWithoutBadge()->willReturn([$record]);
-        $lpRepo = $this->prophesize(LearningPathRepository::class);
+        $lpRepo = $this->prophesize(LearningPathRepositoryInterface::class);
         $lpRepo->findCompletedWithoutBadge()->willReturn([$path]);
 
         $translator = $this->prophesize(GptTranslationServiceInterface::class);
