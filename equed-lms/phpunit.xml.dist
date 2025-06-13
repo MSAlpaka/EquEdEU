@@ -20,6 +20,7 @@
             <file>./Tests/Unit/Service/CourseAccessServiceTest.php</file>
             <file>./Tests/Unit/Service/ProgressTrackingServiceTest.php</file>
             <file>./Tests/Unit/Service/RecognitionAwardServiceTest.php</file>
+            <file>./Tests/Unit/Service/QmsEscalationServiceTest.php</file>
             <file>./Tests/Unit/Service/SubmissionSyncServiceTest.php</file>
             <file>./Tests/Unit/Service/UserProgressSyncServiceTest.php</file>
         </testsuite>
