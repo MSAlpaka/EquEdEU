@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Repository\FrontendUserRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use Equed\EquedLms\Service\TokenGeneratorInterface;
 
 /**
  * Service for generating, validating, and invalidating API tokens for frontend users.
@@ -15,7 +16,8 @@ final class TokenService
 {
     public function __construct(
         private readonly FrontendUserRepositoryInterface $frontendUserRepository,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly TokenGeneratorInterface $tokenGenerator
     ) {
     }
 
@@ -27,7 +29,7 @@ final class TokenService
      */
     public function generateToken(FrontendUser $user): string
     {
-        $token = bin2hex(random_bytes(16));
+        $token = bin2hex($this->tokenGenerator->generate(16));
         $user->setApiToken($token);
         $this->frontendUserRepository->update($user);
         $this->persistenceManager->persistAll();
