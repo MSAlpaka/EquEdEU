@@ -9,7 +9,7 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Enum\CourseStatus;
 use Equed\EquedLms\Service\CertificateService;
-use Equed\EquedLms\Service\NotificationService;
+use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 
 /**
  * Service to finalize a user course record: mark validated, persist changes,
@@ -19,7 +19,7 @@ final class CourseStatusUpdaterService
 {
     public function __construct(
         private readonly CertificateService    $certificateService,
-        private readonly NotificationService   $notificationService,
+        private readonly NotificationServiceInterface   $notificationService,
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         private readonly ClockInterface        $clock
     ) {
