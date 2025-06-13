@@ -25,7 +25,7 @@ columns:
   eligible_future_courses:
     type: text
   created_at:
-    type: string
+    type: integer
   uuid:
     type: string
   updated_at:

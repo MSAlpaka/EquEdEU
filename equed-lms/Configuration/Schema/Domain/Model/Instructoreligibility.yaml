@@ -19,14 +19,14 @@ columns:
   is_active:
     type: boolean
   approved_at:
-    type: string
+    type: integer
   expires_at:
-    type: string
+    type: integer
   note:
     type: text
   uuid:
     type: string
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer

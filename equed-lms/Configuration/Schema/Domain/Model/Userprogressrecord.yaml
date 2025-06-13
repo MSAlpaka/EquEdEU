@@ -31,6 +31,6 @@ columns:
   uuid:
     type: string
   created_at:
-    type: string
+    type: integer
   updated_at:
-    type: string
+    type: integer

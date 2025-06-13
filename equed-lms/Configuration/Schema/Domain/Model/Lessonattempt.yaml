@@ -19,9 +19,9 @@ columns:
   passed:
     type: boolean
   start_time:
-    type: string
+    type: integer
   end_time:
-    type: string
+    type: integer
   duration_sec:
     type: string
   attempt_status:

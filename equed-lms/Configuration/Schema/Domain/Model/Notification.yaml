@@ -21,7 +21,7 @@ columns:
   is_archived:
     type: boolean
   created_at:
-    type: string
+    type: integer
   uuid:
     type: string
   language:
@@ -31,4 +31,4 @@ columns:
   custom_message:
     type: text
   updated_at:
-    type: string
+    type: integer

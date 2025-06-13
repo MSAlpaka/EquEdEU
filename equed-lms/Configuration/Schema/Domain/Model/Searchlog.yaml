@@ -19,7 +19,7 @@ columns:
   referer:
     type: string
   timestamp:
-    type: string
+    type: integer
   uuid:
     type: string
   created_at:
