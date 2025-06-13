@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Service;
 use Psr\Cache\CacheItemPoolInterface;
 use Equed\EquedLms\Service\LogService;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Equed\EquedLms\Domain\Service\TranslatorInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
 final class GptTranslationService implements GptTranslationServiceInterface
@@ -18,6 +18,7 @@ final class GptTranslationService implements GptTranslationServiceInterface
         private readonly HttpClientInterface $httpClient,
         private readonly CacheItemPoolInterface $cache,
         private readonly LogService $logService,
+        private readonly TranslatorInterface $translator,
         private readonly string $apiEndpoint,
         private readonly string $apiKey,
         private readonly string $defaultLanguage = 'en'
@@ -64,7 +65,7 @@ final class GptTranslationService implements GptTranslationServiceInterface
         }
 
         // 2) static XLIFF
-        $static = LocalizationUtility::translate($key, $extension ?? 'equed_lms', $arguments, $language);
+        $static = $this->translator->translate($key, $arguments, $extension ?? 'equed_lms');
         if ($static !== null) {
             $item->set($static)->expiresAfter(self::CACHE_TTL);
             $this->cache->save($item);

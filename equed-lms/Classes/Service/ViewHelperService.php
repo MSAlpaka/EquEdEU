@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use Equed\EquedLms\Domain\Service\TranslatorInterface;
 
 /**
  * Service for formatting view-related helpers.
@@ -16,6 +16,7 @@ final class ViewHelperService
 
     public function __construct(
         private readonly GptTranslationServiceInterface $translationService,
+        private readonly TranslatorInterface $translator,
         string $extensionKey = 'equed_lms'
     ) {
         $this->extensionKey = $extensionKey;
@@ -54,6 +55,6 @@ final class ViewHelperService
             }
         }
 
-        return LocalizationUtility::translate($key, $this->extensionKey) ?? $badgeIdentifier;
+        return $this->translator->translate($key, [], $this->extensionKey) ?? $badgeIdentifier;
     }
 }

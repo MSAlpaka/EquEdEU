@@ -18,6 +18,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\GptTranslationService;
 use Equed\EquedLms\Service\LogServiceInterface;
+use Equed\EquedLms\Domain\Service\TranslatorInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -42,10 +43,12 @@ class GptTranslationServiceTest extends TestCase
         $logger = $this->prophesize(LogServiceInterface::class);
         $logger->logWarning(Argument::cetera())->shouldNotBeCalled();
 
+        $translator = $this->createMock(TranslatorInterface::class);
         $service = new GptTranslationService(
             $httpClient,
             $cache,
             $logger->reveal(),
+            $translator,
             'https://example.com',
             'apikey',
             'en'
@@ -68,10 +71,12 @@ class GptTranslationServiceTest extends TestCase
         $logger = $this->prophesize(LogServiceInterface::class);
         $logger->logWarning('GPT translation failed', Argument::type('array'))->shouldBeCalledTimes(2);
 
+        $translator = $this->createMock(TranslatorInterface::class);
         $service = new GptTranslationService(
             $httpClient,
             $cache,
             $logger->reveal(),
+            $translator,
             'https://example.com',
             'apikey',
             'en'
