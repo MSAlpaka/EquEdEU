@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Domain\Model;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Domain\Model\LearningPath;
+use Equed\EquedLms\Domain\Model\CourseProgram;
 
 /**
  * Course
@@ -23,7 +24,9 @@ final class Course extends AbstractEntity
 
     protected string $description = '';
 
-    protected int $courseProgram = 0;
+    #[Extbase\ORM\ManyToOne]
+    #[Extbase\ORM\Lazy]
+    protected ?CourseProgram $courseProgram = null;
 
     protected int $startDate = 0;
 
@@ -59,12 +62,12 @@ final class Course extends AbstractEntity
         $this->description = $description;
     }
 
-    public function getCourseProgram(): int
+    public function getCourseProgram(): ?CourseProgram
     {
         return $this->courseProgram;
     }
 
-    public function setCourseProgram(int $courseProgram): void
+    public function setCourseProgram(?CourseProgram $courseProgram): void
     {
         $this->courseProgram = $courseProgram;
     }
