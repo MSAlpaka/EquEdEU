@@ -1,4 +1,3 @@
-
 <?php
 defined('TYPO3') or die();
 
@@ -6,91 +5,24 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 (function () {
     ExtensionManagementUtility::addTCAcolumns('tx_equedlms_domain_model_qmscase', [
-        'title' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.title',
+        'uuid' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.uuid',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required',
+                'eval' => 'trim,required,unique',
             ],
         ],
-        'description' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.description',
-            'config' => [
-                'type' => 'text',
-                'rows' => 6,
-                'cols' => 80,
-            ],
-        ],
-        'origin' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.origin',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['Submission', 'submission'],
-                    ['Feedback', 'feedback'],
-                    ['Zertifikat', 'certificate'],
-                    ['Manuell', 'manual'],
-                    ['Incident', 'incident'],
-                ],
-                'default' => 'manual',
-            ],
-        ],
-        'linked_submission' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.linked_submission',
+        'user_course_record' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.user_course_record',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
-                'allowed' => 'tx_equedlms_domain_model_usersubmission',
+                'allowed' => 'tx_equedlms_domain_model_usercourserecord',
                 'maxitems' => 1,
             ],
         ],
-        'linked_feedback' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.linked_feedback',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'tx_equedlms_domain_model_instructorfeedback',
-                'maxitems' => 1,
-            ],
-        ],
-        'linked_certificate' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.linked_certificate',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'tx_equedlms_domain_model_coursecertificate',
-                'maxitems' => 1,
-            ],
-        ],
-        'related_user' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.related_user',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'fe_users',
-                'maxitems' => 1,
-            ],
-        ],
-        'reported_by' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.reported_by',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'fe_users',
-                'maxitems' => 1,
-            ],
-        ],
-        'assigned_to' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.assigned_to',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'fe_users',
-                'maxitems' => 1,
-            ],
-        ],
-        'linked_course_instance' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.linked_course_instance',
+        'course_instance' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.course_instance',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -98,31 +30,133 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'maxitems' => 1,
             ],
         ],
+        'certifier' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.certifier',
+            'config' => [
+                'type' => 'group',
+                'internal_type' => 'db',
+                'allowed' => 'fe_users',
+                'maxitems' => 1,
+            ],
+        ],
+        'incident_report' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.incident_report',
+            'config' => [
+                'type' => 'group',
+                'internal_type' => 'db',
+                'allowed' => 'tx_equedlms_domain_model_incidentreport',
+                'maxitems' => 1,
+            ],
+        ],
+        'finalized_by' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.finalized_by',
+            'config' => [
+                'type' => 'group',
+                'internal_type' => 'db',
+                'allowed' => 'fe_users',
+                'maxitems' => 1,
+            ],
+        ],
+        'title' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.title',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim,required',
+            ],
+        ],
+        'title_key' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.title_key',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
+            ],
+        ],
+        'case_type' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.case_type',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
+            ],
+        ],
         'status' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.status',
             'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['Offen', 'open'],
-                    ['In Prüfung', 'in_review'],
-                    ['Gelöst', 'resolved'],
-                    ['Eskalation', 'escalated'],
-                    ['Geschlossen', 'closed'],
-                ],
-                'default' => 'open',
+                'type' => 'input',
+                'eval' => 'trim',
             ],
         ],
         'priority' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.priority',
             'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['Niedrig', 'low'],
-                    ['Mittel', 'medium'],
-                    ['Hoch', 'high'],
-                    ['Kritisch', 'critical'],
-                ],
-                'default' => 'medium',
+                'type' => 'input',
+                'eval' => 'trim',
+            ],
+        ],
+        'violates_standard' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.violates_standard',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'standard_reference' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.standard_reference',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
+            ],
+        ],
+        'comment' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.comment',
+            'config' => [
+                'type' => 'text',
+                'rows' => 4,
+                'cols' => 80,
+            ],
+        ],
+        'decision' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.decision',
+            'config' => [
+                'type' => 'text',
+                'rows' => 4,
+                'cols' => 80,
+            ],
+        ],
+        'attachment' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.attachment',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'int',
+            ],
+        ],
+        'visible_to_instructor' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.visible_to_instructor',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'visible_to_training_center' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.visible_to_training_center',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'visible_to_certifier' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.visible_to_certifier',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'is_archived' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.is_archived',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'language' => [
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.language',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
             ],
         ],
         'created_at' => [
@@ -137,94 +171,10 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'type' => 'datetime',
             ],
         ],
-        'resolved_at' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.resolved_at',
-            'config' => [
-                'type' => 'datetime',
-            ],
-        ],
-        'resolution_comment' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.resolution_comment',
-            'config' => [
-                'type' => 'text',
-                'rows' => 4,
-                'cols' => 80,
-            ],
-        ],
-        'resolution_upload' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.resolution_upload',
-            'config' => [
-                'type' => 'file',
-                'maxitems' => 1,
-            ],
-        ],
-        'escalated' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.escalated',
-            'config' => [
-                'type' => 'check',
-            ],
-        ],
-        'escalated_to' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.escalated_to',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'fe_users',
-                'maxitems' => 1,
-            ],
-        ],
-        'visibility' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.visibility',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['Nur Admins', 'admin'],
-                    ['Certifier', 'certifier'],
-                    ['Instructor', 'instructor'],
-                    ['User', 'user'],
-                ],
-                'default' => 'admin',
-            ],
-        ],
-        'tags' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.tags',
-            'config' => [
-                'type' => 'input',
-            ],
-        ],
-        'notes_json' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.notes_json',
-            'config' => [
-                'type' => 'text',
-                'rows' => 4,
-                'cols' => 80,
-            ],
-        ],
-        'related_qmscase' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.related_qmscase',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'db',
-                'allowed' => 'tx_equedlms_domain_model_qmscase',
-                'maxitems' => 1,
-            ],
-        ],
-        'uuid' => [
-            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.uuid',
-            'config' => [
-                'type' => 'input',
-                'eval' => 'trim,required,unique',
-            ],
-        ],
     ]);
 
     ExtensionManagementUtility::addToAllTCAtypes(
         'tx_equedlms_domain_model_qmscase',
-        '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-        title, description, origin, linked_submission, linked_feedback, linked_certificate,
-        related_user, reported_by, assigned_to, linked_course_instance,
-        status, priority, created_at, updated_at, resolved_at,
-        resolution_comment, resolution_upload, escalated, escalated_to,
-        visibility, tags, notes_json, related_qmscase, uuid'
+        '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, uuid, user_course_record, course_instance, certifier, incident_report, finalized_by, title, title_key, case_type, status, priority, violates_standard, standard_reference, comment, decision, attachment, visible_to_instructor, visible_to_training_center, visible_to_certifier, is_archived, language, created_at, updated_at'
     );
 })();
