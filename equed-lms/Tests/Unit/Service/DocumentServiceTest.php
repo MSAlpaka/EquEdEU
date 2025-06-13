@@ -31,4 +31,17 @@ final class DocumentServiceTest extends TestCase
         $this->assertSame('https://tpl.example.com/Danger123.pdf', $result);
     }
 
+    public function testCustomAllowedExtensionsOverrideDefaults(): void
+    {
+        $service = new DocumentService(
+            'https://files.example.com',
+            'https://tpl.example.com',
+            null,
+            ['txt']
+        );
+
+        $result = $service->generateDownloadLink('note.txt');
+        $this->assertSame('https://files.example.com/note.txt', $result);
+    }
+
 }
