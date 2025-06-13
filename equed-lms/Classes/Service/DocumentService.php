@@ -18,7 +18,8 @@ final class DocumentService implements DocumentServiceInterface
     public function __construct(
         private readonly string $documentsBaseUri,
         private readonly string $templatesBaseUri,
-        private readonly ?SettingsService $settingsService = null
+        private readonly ?SettingsService $settingsService = null,
+        private readonly array $allowedExtensions = self::ALLOWED_EXTENSIONS
     ) {
     }
 
@@ -61,6 +62,10 @@ final class DocumentService implements DocumentServiceInterface
      */
     private function getAllowedExtensions(): array
     {
+        if ($this->allowedExtensions !== self::ALLOWED_EXTENSIONS) {
+            return array_map('strtolower', $this->allowedExtensions);
+        }
+
         $custom = $this->settingsService?->get('allowedDocumentExtensions');
         if (is_string($custom)) {
             $custom = array_filter(array_map('trim', explode(',', $custom)));
