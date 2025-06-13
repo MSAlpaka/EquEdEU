@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Service\JwtServiceInterface;
 
 /**
@@ -19,7 +20,8 @@ final class JwtService implements JwtServiceInterface
      */
     public function __construct(
         private readonly string $jwtSecret,
-        private readonly int $tokenTtl
+        private readonly int $tokenTtl,
+        private readonly ClockInterface $clock
     ) {
     }
 
@@ -31,7 +33,7 @@ final class JwtService implements JwtServiceInterface
      */
     public function generateToken(array $userData): string
     {
-        $now     = time();
+        $now     = $this->clock->now()->getTimestamp();
         $payload = [
             'iat'   => $now,
             'exp'   => $now + $this->tokenTtl,
