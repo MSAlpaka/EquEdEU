@@ -10,6 +10,7 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
 use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
 use Equed\EquedLms\Service\CertificateService;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +24,7 @@ class CertificateServiceTest extends TestCase
     private $factory;
     private $translator;
     private $notifier;
+    private $clock;
 
     protected function setUp(): void
     {
@@ -30,12 +32,14 @@ class CertificateServiceTest extends TestCase
         $this->factory = $this->prophesize(CertificateDispatchFactoryInterface::class);
         $this->translator = $this->prophesize(GptTranslationServiceInterface::class);
         $this->notifier = $this->prophesize(NotificationServiceInterface::class);
+        $this->clock = $this->prophesize(ClockInterface::class);
 
         $this->subject = new CertificateService(
             $this->repository->reveal(),
             $this->factory->reveal(),
             $this->translator->reveal(),
             $this->notifier->reveal(),
+            $this->clock->reveal(),
             'https://example.com'
         );
     }
