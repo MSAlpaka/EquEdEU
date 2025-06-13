@@ -28,8 +28,8 @@ final class NotificationRepository extends Repository implements NotificationRep
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('instructor', $user),
-                $query->equals('read', false),
+                $query->equals('recipient', $user),
+                $query->equals('isRead', false),
             ])
         );
 
@@ -47,9 +47,9 @@ final class NotificationRepository extends Repository implements NotificationRep
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('instructor', $user)
+            $query->equals('recipient', $user)
         );
-        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        $query->setOrderings(['createdAt' => QueryInterface::ORDER_DESCENDING]);
         $query->setLimit($limit);
 
         return $query->execute()->toArray();
