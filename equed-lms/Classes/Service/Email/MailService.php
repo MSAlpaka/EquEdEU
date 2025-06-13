@@ -84,6 +84,26 @@ final class MailService implements MailServiceInterface
     }
 
     /**
+     * Send a reminder about an open QMS case.
+     */
+    public function sendQmsReminder(string $recipientEmail, string $caseId): void
+    {
+        $subject = $this->t(
+            'email.qms_reminder.subject',
+            ['caseId' => $caseId],
+            'Reminder: QMS case #{caseId} is still open'
+        );
+        $body = $this->t(
+            'email.qms_reminder.body',
+            ['caseId' => $caseId],
+            'Please review the open QMS case #{caseId}.'
+        );
+
+        $mail = $this->prepareMail($recipientEmail, $subject, $body);
+        $this->deliverMail($mail);
+    }
+
+    /**
      * Send a generic email with optional attachment.
      *
      * @param string[]    $recipients

@@ -15,6 +15,8 @@ interface MailServiceInterface
 
     public function sendQmsNotification(string $recipientEmail, string $caseId): void;
 
+    public function sendQmsReminder(string $recipientEmail, string $caseId): void;
+
     /**
      * @param string[]    $recipients
      * @param string      $subject
