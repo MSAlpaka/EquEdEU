@@ -5441,11 +5441,6 @@ parameters:
 			path: Classes/Service/DocumentService.php
 
 		-
-			message: "#^Call to method create\\(\\) on an unknown class Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailMessageFactoryInterface\\.$#"
-			count: 1
-			path: Classes/Service/Email/MailService.php
-
-		-
 			message: "#^Instantiated class Equed\\\\EquedLms\\\\Exception\\\\EmailException not found\\.$#"
 			count: 1
 			path: Classes/Service/Email/MailService.php
@@ -5474,17 +5469,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$body of method Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailService\\:\\:prepareMail\\(\\) expects string, string\\|null given\\.$#"
 			count: 2
 			path: Classes/Service/Email/MailService.php
-
-		-
-			message: "#^Parameter \\$mailFactory of method Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailService\\:\\:__construct\\(\\) has invalid type Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailMessageFactoryInterface\\.$#"
-			count: 1
-			path: Classes/Service/Email/MailService.php
-
-		-
-			message: "#^Property Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailService\\:\\:\\$mailFactory has unknown class Equed\\\\EquedLms\\\\Service\\\\Email\\\\MailMessageFactoryInterface as its type\\.$#"
-			count: 1
-			path: Classes/Service/Email/MailService.php
-
 		-
 			message: "#^Throwing object of an unknown class Equed\\\\EquedLms\\\\Exception\\\\EmailException\\.$#"
 			count: 1
