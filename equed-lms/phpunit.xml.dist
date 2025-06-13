@@ -20,9 +20,12 @@
             <file>./Tests/Unit/Service/CourseAccessServiceTest.php</file>
             <file>./Tests/Unit/Service/ProgressTrackingServiceTest.php</file>
             <file>./Tests/Unit/Service/RecognitionAwardServiceTest.php</file>
-            <file>./Tests/Unit/Service/QmsEscalationServiceTest.php</file>
-            <file>./Tests/Unit/Service/SubmissionSyncServiceTest.php</file>
-            <file>./Tests/Unit/Service/UserProgressSyncServiceTest.php</file>
+        <file>./Tests/Unit/Service/QmsEscalationServiceTest.php</file>
+        <file>./Tests/Unit/Service/SubmissionSyncServiceTest.php</file>
+        <file>./Tests/Unit/Service/UserProgressSyncServiceTest.php</file>
+        <file>./Tests/Unit/Service/DocumentServiceTest.php</file>
+        <file>./Tests/Unit/Service/NotificationServiceTest.php</file>
+        <file>./Tests/Unit/Service/QmsServiceTest.php</file>
         </testsuite>
         <testsuite name="functional">
             <directory>./Tests/Functional/</directory>
