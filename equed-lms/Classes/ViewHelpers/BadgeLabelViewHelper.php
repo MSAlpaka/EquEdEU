@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\ViewHelpers;
 
-use Equed\EquedLms\Service\LanguageServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**

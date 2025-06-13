@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use Equed\EquedLms\Service\LanguageServiceInterface;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 
 /**
  * ViewHelper to render a localized badge label based on its identifier.

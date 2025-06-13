@@ -61,6 +61,9 @@ services:
   Equed\EquedLms\Domain\Service\DocumentServiceInterface:
     class: Equed\EquedLms\Service\DocumentService
 
+  Equed\EquedLms\Domain\Service\LanguageServiceInterface:
+    class: Equed\EquedLms\Service\LanguageService
+
   Equed\EquedLms\Domain\Service\ClockInterface:
     class: Equed\EquedLms\Service\SystemClock
   Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface:
