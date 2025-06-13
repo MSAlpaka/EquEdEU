@@ -16,6 +16,7 @@
             <directory>./Tests/Unit/Domain/Model</directory>
             <directory>./Tests/Unit/Domain/Enum</directory>
             <file>./Tests/Unit/Service/LogServiceTest.php</file>
+            <file>./Tests/Unit/Service/TranslatedLoggerTraitTest.php</file>
             <file>./Tests/Unit/Service/GptTranslationServiceTest.php</file>
             <file>./Tests/Unit/Service/CourseAccessServiceTest.php</file>
             <file>./Tests/Unit/Service/ProgressTrackingServiceTest.php</file>

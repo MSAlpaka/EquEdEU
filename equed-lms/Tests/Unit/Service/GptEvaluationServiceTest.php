@@ -74,8 +74,8 @@ class GptEvaluationServiceTest extends TestCase
         $service = new GptEvaluationService(
             $repo->reveal(),
             $requestFactory->reveal(),
-            $logService,
             $translator->reveal(),
+            $logService,
             'key',
             true,
             'https://api',
@@ -101,8 +101,8 @@ class GptEvaluationServiceTest extends TestCase
         $service = new GptEvaluationService(
             $repo->reveal(),
             $requestFactory->reveal(),
-            $logService,
             $translator->reveal(),
+            $logService,
             'key',
             false,
             'https://api',

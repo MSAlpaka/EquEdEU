@@ -10,7 +10,7 @@ use Equed\EquedLms\Domain\Model\CourseFeedback;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use Psr\Log\NullLogger;
 use Equed\EquedLms\Service\LogService;
-use TYPO3\CMS\Core\Configuration\ConfigurationManager;
+use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
 class FeedbackAnalysisServiceTest extends TestCase
 {
@@ -44,11 +44,11 @@ class FeedbackAnalysisServiceTest extends TestCase
             }
         });
 
-        $mockConfigManager = $this->createMock(ConfigurationManager::class);
-        $mockConfigManager->method('getConfiguration')->willReturn([]);
+        $translator = $this->createMock(GptTranslationServiceInterface::class);
+        $translator->method('translate')->willReturn('prompt');
 
         $logService = new LogService(new NullLogger());
-        $service = new FeedbackAnalysisService($mockRequestFactory, $logService, $mockConfigManager);
+        $service = new FeedbackAnalysisService($mockRequestFactory, $translator, $logService, 'key', true);
         $result = $service->analyzeFeedback($feedback);
 
         $this->assertIsArray($result);

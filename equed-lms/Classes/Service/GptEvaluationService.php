@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Service\TranslatedLoggerTrait;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use Equed\EquedLms\Domain\Model\Submission;
 use Equed\EquedLms\Domain\Repository\SubmissionRepositoryInterface;
@@ -19,18 +20,20 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
  */
 final class GptEvaluationService
 {
+    use TranslatedLoggerTrait;
     private const MIN_TEXT_LENGTH = 20;
 
     public function __construct(
         private readonly SubmissionRepositoryInterface $submissionRepository,
-        private readonly RequestFactory                $requestFactory,
-        private readonly LogService           $logService,
-        private readonly GptTranslationServiceInterface $translationService,
-        private readonly string                        $openAiApiKey,
-        private readonly bool                          $evaluationEnabled,
-        private readonly string                        $openAiApiUrl,
-        private readonly ClockInterface                $clock
+        private readonly RequestFactory $requestFactory,
+        GptTranslationServiceInterface $translationService,
+        LogService $logService,
+        private readonly string $openAiApiKey,
+        private readonly bool $evaluationEnabled,
+        private readonly string $openAiApiUrl,
+        private readonly ClockInterface $clock
     ) {
+        $this->injectTranslatedLogger($translationService, $logService);
     }
 
     /**
@@ -121,12 +124,7 @@ final class GptEvaluationService
 
             return $analysis;
         } catch (ClientExceptionInterface | JsonException $e) {
-            $this->logService->logError(
-                $this->translationService->translate(
-                    'submission.evaluation.error',
-                    ['error' => $e->getMessage()]
-                )
-            );
+            $this->logTranslatedError('submission.evaluation.error', ['error' => $e->getMessage()]);
 
             return null;
         }
