@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -23,6 +24,7 @@ final class LessonProgress extends AbstractEntity
     /**
      * Associated lesson
      */
+    #[ManyToOne]
     #[Lazy]
     #[Cascade('remove')]
     protected Lesson $lesson;
