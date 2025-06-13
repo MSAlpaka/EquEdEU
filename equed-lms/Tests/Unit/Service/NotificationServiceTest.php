@@ -71,6 +71,14 @@ final class NotificationServiceTest extends TestCase
         $this->subject->sendCourseCompletedNotice($user, 1);
     }
 
+    public function testNotifySendsMailWhenEmailPresent(): void
+    {
+        $user = new FrontendUser('john@example.com');
+        $this->mail->sendMail('john@example.com', 'Hello', 'Body')->shouldBeCalled();
+
+        $this->subject->notify($user, 'Hello', 'Body');
+    }
+
     public function testSendCertificateIssuedInfoUsesTranslations(): void
     {
         $user = new FrontendUser('john@example.com');
