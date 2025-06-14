@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use Equed\Core\Service\UuidGeneratorInterface;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\EventBookingStatus;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -28,7 +29,7 @@ final class EventBooking extends AbstractEntity
 
     protected int $eventSchedule = 0;
 
-    protected int $bookingStatus = 0;
+    protected EventBookingStatus $bookingStatus = EventBookingStatus::Pending;
 
     protected string $comment = '';
 
@@ -82,13 +83,17 @@ final class EventBooking extends AbstractEntity
         $this->eventSchedule = $eventSchedule;
     }
 
-    public function getBookingStatus(): int
+    public function getBookingStatus(): EventBookingStatus
     {
         return $this->bookingStatus;
     }
 
-    public function setBookingStatus(int $bookingStatus): void
+    public function setBookingStatus(EventBookingStatus|string $bookingStatus): void
     {
+        if (is_string($bookingStatus)) {
+            $bookingStatus = EventBookingStatus::from($bookingStatus);
+        }
+
         $this->bookingStatus = $bookingStatus;
     }
 
