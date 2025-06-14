@@ -9,7 +9,7 @@ use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Service\TranslatedLoggerTrait;
-use TYPO3\CMS\Core\Http\RequestFactory;
+use Equed\EquedCore\Service\GptClientInterface;
 use Equed\EquedLms\Domain\Model\Submission;
 use Equed\EquedLms\Domain\Repository\SubmissionRepositoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
@@ -24,7 +24,7 @@ final class GptEvaluationService
 
     public function __construct(
         private readonly SubmissionRepositoryInterface $submissionRepository,
-        private readonly RequestFactory $requestFactory,
+        private readonly GptClientInterface $gptClient,
         GptTranslationServiceInterface $translationService,
         LogService $logService,
         private readonly string $openAiApiKey,
@@ -88,14 +88,10 @@ final class GptEvaluationService
         ];
 
         try {
-            $response = $this->requestFactory->request(
+            $response = $this->gptClient->postJson(
                 $this->openAiApiUrl,
-                'POST',
-                [
-                    'headers' => $headers,
-                    'body'    => json_encode($payload, JSON_THROW_ON_ERROR),
-                    'timeout' => 15,
-                ]
+                $headers,
+                $payload
             );
 
             $body   = $response->getBody()->getContents();

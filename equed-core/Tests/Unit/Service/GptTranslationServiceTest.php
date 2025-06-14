@@ -3,8 +3,8 @@
 namespace Equed\EquedCore\Tests\Unit\Service;
 
 use Equed\EquedCore\Service\GptTranslationService;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
+use Equed\EquedCore\Service\GptClientInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class GptTranslationServiceTest extends UnitTestCase
@@ -16,19 +16,18 @@ class GptTranslationServiceTest extends UnitTestCase
 
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->once())
-            ->method('toArray')
-            ->willReturn(['translation' => 'Hallo']);
+            ->method('getBody')
+            ->willReturn($this->createConfiguredMock(\Psr\Http\Message\StreamInterface::class, [
+                'getContents' => json_encode(['translation' => 'Hallo']),
+            ]));
 
-        $client = $this->createMock(HttpClientInterface::class);
+        $client = $this->createMock(GptClientInterface::class);
         $client->expects($this->once())
-            ->method('request')
+            ->method('postJson')
             ->with(
-                'POST',
                 'https://api.example.com/translate',
-                [
-                    'json' => ['text' => 'Hello', 'target' => 'de'],
-                    'headers' => ['Authorization' => 'Bearer secret'],
-                ]
+                ['Authorization' => 'Bearer secret'],
+                ['text' => 'Hello', 'target' => 'de']
             )
             ->willReturn($response);
 
@@ -45,19 +44,18 @@ class GptTranslationServiceTest extends UnitTestCase
     {
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->once())
-            ->method('toArray')
-            ->willReturn(['translation' => 'Hola']);
+            ->method('getBody')
+            ->willReturn($this->createConfiguredMock(\Psr\Http\Message\StreamInterface::class, [
+                'getContents' => json_encode(['translation' => 'Hola']),
+            ]));
 
-        $client = $this->createMock(HttpClientInterface::class);
+        $client = $this->createMock(GptClientInterface::class);
         $client->expects($this->once())
-            ->method('request')
+            ->method('postJson')
             ->with(
-                'POST',
                 'https://gpt.local/translate',
-                [
-                    'json' => ['text' => 'Hi', 'target' => 'es'],
-                    'headers' => ['Authorization' => 'Bearer key123'],
-                ]
+                ['Authorization' => 'Bearer key123'],
+                ['text' => 'Hi', 'target' => 'es']
             )
             ->willReturn($response);
 
