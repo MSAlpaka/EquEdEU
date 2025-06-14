@@ -12,6 +12,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
+use TYPO3\CMS\Extbase\Annotation\ORM\ManyToMany;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use Equed\EquedLms\Domain\Model\CourseProgram;
@@ -74,11 +75,13 @@ final class TrainingCenter extends AbstractEntity
     /**
      * @var ObjectStorage<CourseProgram>
      */
+    #[ManyToMany(targetEntity: CourseProgram::class, cascade: ['remove'], lazy: true)]
     protected ObjectStorage $allowedPrograms;
 
     /**
      * @var ObjectStorage<FrontendUser>
      */
+    #[ManyToMany(targetEntity: FrontendUser::class, cascade: ['remove'], lazy: true)]
     protected ObjectStorage $instructors;
 
     #[ManyToOne]
