@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Model;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
+use Equed\Core\Service\UuidGeneratorInterface;
 use Equed\EquedLms\Enum\LanguageCode;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -19,6 +20,9 @@ final class EventBooking extends AbstractEntity
 {
     #[Inject]
     protected ClockInterface $clock;
+
+    #[Inject]
+    protected UuidGeneratorInterface $uuidGenerator;
 
     protected int $user = 0;
 
@@ -44,6 +48,9 @@ final class EventBooking extends AbstractEntity
 
     public function initializeObject(): void
     {
+        if ($this->uuid === '') {
+            $this->uuid = $this->uuidGenerator->generate();
+        }
         $now = $this->clock->now();
 
         if (!isset($this->createdAt)) {
