@@ -9,13 +9,15 @@ use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Service\LogService;
 
 final class SyncService
 {
     public function __construct(
         private readonly UserProfileRepositoryInterface $profileRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private readonly LogService $logService
     ) {
     }
 
@@ -49,7 +51,19 @@ final class SyncService
         }
 
         // Conflict resolution via updatedAt timestamp
-        $remoteUpdated = isset($data['updatedAt']) ? new \DateTimeImmutable($data['updatedAt']) : null;
+        if (isset($data['updatedAt'])) {
+            try {
+                $remoteUpdated = new \DateTimeImmutable($data['updatedAt']);
+            } catch (\Exception $e) {
+                $this->logService->logWarning(
+                    'Invalid timestamp for profile sync',
+                    ['value' => $data['updatedAt'], 'userId' => $userId]
+                );
+                $remoteUpdated = null;
+            }
+        } else {
+            $remoteUpdated = null;
+        }
         $localUpdated = $profile->getUpdatedAt();
 
         if ($remoteUpdated && (!$localUpdated || $remoteUpdated > $localUpdated)) {
