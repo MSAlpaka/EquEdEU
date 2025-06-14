@@ -6,11 +6,8 @@ namespace Equed\EquedLms\Domain\Model;
 
 use DateTimeImmutable;
 use Equed\EquedLms\Enum\BadgeLevel;
-use Ramsey\Uuid\Uuid;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
-use TYPO3\CMS\Extbase\Annotation\Inject;
-use Equed\Core\Service\ClockInterface;
-use Equed\Core\Service\UuidGeneratorInterface;
 
 /**
  * BadgeDefinition
@@ -19,18 +16,7 @@ use Equed\Core\Service\UuidGeneratorInterface;
  */
 final class BadgeDefinition extends AbstractEntity
 {
-    /**
-     * Unique identifier
-     *
-     * @var string
-     */
-    protected string $uuid;
-
-    #[Inject]
-    protected UuidGeneratorInterface $uuidGenerator;
-
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
     /**
      * Badge level
@@ -66,16 +52,6 @@ final class BadgeDefinition extends AbstractEntity
      */
     protected string $defaultLang = 'en';
 
-    /**
-     * Creation timestamp
-     */
-    protected DateTimeImmutable $createdAt;
-
-    /**
-     * Last update timestamp
-     */
-    protected DateTimeImmutable $updatedAt;
-
     public function __construct(
         string $code,
         BadgeLevel $level,
@@ -84,10 +60,6 @@ final class BadgeDefinition extends AbstractEntity
         array $criteria,
         string $defaultLang = 'en'
     ) {
-        $now = new DateTimeImmutable();
-        $this->uuid           = Uuid::uuid4()->toString();
-        $this->createdAt      = $now;
-        $this->updatedAt      = $now;
         $this->code           = $code;
         $this->level          = $level;
         $this->labelKey       = $labelKey;
@@ -98,16 +70,7 @@ final class BadgeDefinition extends AbstractEntity
 
     public function initializeObject(): void
     {
-        if ($this->uuid === '') {
-            $this->uuid = $this->uuidGenerator->generate();
-        }
-        $now = $this->clock->now();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        }
+        $this->initializePersistenceTrait();
     }
 
     public function getUuid(): string

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use DateTimeImmutable;
-use Ramsey\Uuid\Uuid;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
@@ -21,12 +21,7 @@ use Equed\EquedLms\Enum\CertificateDesignType;
  */
 final class CertificateTemplate extends AbstractEntity
 {
-    /**
-     * Unique identifier
-     *
-     * @var string
-     */
-    protected string $uuid;
+    use PersistenceTrait;
 
     /**
      * Human readable title
@@ -89,19 +84,13 @@ final class CertificateTemplate extends AbstractEntity
     /**
      * Creation timestamp
      */
-    protected DateTimeImmutable $createdAt;
-
-    /**
-     * Last update timestamp
-     */
-    protected DateTimeImmutable $updatedAt;
-
     public function __construct()
     {
-        $now = new DateTimeImmutable();
-        $this->uuid = Uuid::uuid4()->toString();
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
+    }
+
+    public function initializeObject(): void
+    {
+        $this->initializePersistenceTrait();
     }
 
     public function getUuid(): string
