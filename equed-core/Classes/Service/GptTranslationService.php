@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedCore\Service;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Equed\EquedCore\Service\GptClientInterface;
 
 class GptTranslationService
 {
@@ -17,7 +17,7 @@ class GptTranslationService
     private string $endpoint;
 
     public function __construct(
-        private readonly HttpClientInterface $httpClient,
+        private readonly GptClientInterface $gptClient,
         ?string $apiKey = null,
         ?string $endpoint = null,
     ) {
@@ -37,17 +37,16 @@ class GptTranslationService
 
     public function translate(string $text, string $targetLang): string
     {
-        $response = $this->httpClient->request('POST', $this->endpoint, [
-            'json' => [
-                'text' => $text,
+        $response = $this->gptClient->postJson(
+            $this->endpoint,
+            ['Authorization' => 'Bearer ' . $this->apiKey],
+            [
+                'text'   => $text,
                 'target' => $targetLang,
-            ],
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey,
-            ],
-        ]);
+            ]
+        );
 
-        $data = $response->toArray();
+        $data = json_decode($response->getBody()->getContents(), true);
 
         return (string) ($data['translation'] ?? '');
     }

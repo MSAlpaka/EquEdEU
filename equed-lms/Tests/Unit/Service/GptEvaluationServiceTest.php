@@ -2,25 +2,6 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CMS\Core\Http {
-    if (!class_exists(RequestFactory::class)) {
-        class RequestFactory
-        {
-            public function request(string $url, string $method = 'GET', array $options = [])
-            {
-                return null;
-            }
-        }
-        class Response
-        {
-            public function __construct(private string $body) {}
-            public function getBody() { return new class($this->body) {
-                public function __construct(private string $b) {}
-                public function getContents() { return $this->b; }
-            }; }
-        }
-    }
-}
 
 namespace Psr\Log {
     if (!interface_exists(LoggerInterface::class)) {
@@ -42,8 +23,8 @@ use Equed\EquedLms\Service\LogService;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
-use TYPO3\CMS\Core\Http\RequestFactory;
-use TYPO3\CMS\Core\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+use Equed\EquedCore\Service\GptClientInterface;
 use Psr\Log\LoggerInterface;
 
 class GptEvaluationServiceTest extends TestCase
@@ -58,9 +39,18 @@ class GptEvaluationServiceTest extends TestCase
         $repo = $this->prophesize(SubmissionRepositoryInterface::class);
         $repo->update($submission)->shouldBeCalled();
 
-        $requestFactory = $this->prophesize(RequestFactory::class);
-        $body = json_encode(['choices' => [['message' => ['content' => json_encode(['suggestedScore' => 4.2, 'summary' => 'Sum', 'suggestion' => 'Sug'])]]]]);
-        $requestFactory->request(Argument::cetera())->willReturn(new Response($body));
+        $gptClient = $this->prophesize(GptClientInterface::class);
+        $body = json_encode([
+            'choices' => [[
+                'message' => ['content' => json_encode(['suggestedScore' => 4.2, 'summary' => 'Sum', 'suggestion' => 'Sug'])]
+            ]]
+        ]);
+        $response = $this->createConfiguredMock(ResponseInterface::class, [
+            'getBody' => $this->createConfiguredMock(\Psr\Http\Message\StreamInterface::class, [
+                'getContents' => $body,
+            ])
+        ]);
+        $gptClient->postJson(Argument::cetera())->willReturn($response);
 
         $translator = $this->prophesize(GptTranslationServiceInterface::class);
         $translator->translate('submission.evaluation.prompt', ['content' => $submission->getTextContent()])->willReturn('prompt');
@@ -73,7 +63,7 @@ class GptEvaluationServiceTest extends TestCase
 
         $service = new GptEvaluationService(
             $repo->reveal(),
-            $requestFactory->reveal(),
+            $gptClient->reveal(),
             $translator->reveal(),
             $logService,
             'key',
@@ -92,7 +82,7 @@ class GptEvaluationServiceTest extends TestCase
         $repo = $this->prophesize(SubmissionRepositoryInterface::class);
         $repo->findPendingForAnalysis()->shouldNotBeCalled();
 
-        $requestFactory = $this->prophesize(RequestFactory::class);
+        $gptClient = $this->prophesize(GptClientInterface::class);
         $translator = $this->prophesize(GptTranslationServiceInterface::class);
         $clock = $this->prophesize(ClockInterface::class);
         $logger = $this->prophesize(LoggerInterface::class);
@@ -100,7 +90,7 @@ class GptEvaluationServiceTest extends TestCase
 
         $service = new GptEvaluationService(
             $repo->reveal(),
-            $requestFactory->reveal(),
+            $gptClient->reveal(),
             $translator->reveal(),
             $logService,
             'key',
