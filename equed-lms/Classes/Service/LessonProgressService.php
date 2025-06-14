@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 /**
  * Service to manage lesson progress for users.
@@ -53,7 +54,7 @@ final class LessonProgressService
             $progress->setLesson($lesson);
         }
 
-        $progress->setStatus('completed');
+        $progress->setStatus(ProgressStatus::Completed);
         $progress->setCompleted(true);
         $progress->setCompletedAt($this->clock->now());
 

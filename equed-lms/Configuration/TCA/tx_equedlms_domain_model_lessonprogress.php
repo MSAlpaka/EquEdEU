@@ -137,7 +137,7 @@ return [
             'label'   => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_lessonprogress.status',
             'config'  => [
                 'type'    => 'input',
-                'default' => 'incomplete',
+                'default' => 'notStarted',
             ],
         ],
         'uuid' => [

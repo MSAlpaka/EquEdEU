@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Model\Lesson;
+use Equed\EquedLms\Enum\ProgressStatus;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 
@@ -30,7 +31,7 @@ final class LessonProgressSyncService
             $result[] = [
                 'lessonId'   => $entry->getLesson()->getUid(),
                 'progress'   => $entry->getProgress(),
-                'status'     => $entry->getStatus(),
+                'status'     => $entry->getStatus()->value,
                 'completed'  => $entry->isCompleted(),
                 'updatedAt'  => $entry->getUpdatedAt()?->format(DATE_ATOM),
             ];
@@ -55,7 +56,8 @@ final class LessonProgressSyncService
                 $entry->setFeUser($userId);
                 $entry->setLesson($lesson);
                 $entry->setProgress((int) $item['progress']);
-                $entry->setStatus($item['status'] ?? 'incomplete');
+                $statusValue = $item['status'] ?? 'notStarted';
+                $entry->setStatus(ProgressStatus::from($statusValue));
                 $entry->setCompleted((bool) $item['completed']);
                 $entry->setUpdatedAt($this->clock->now());
             }

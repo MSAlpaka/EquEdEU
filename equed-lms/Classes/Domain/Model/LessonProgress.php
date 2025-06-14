@@ -10,6 +10,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 /**
  * Represents the progress state of a user for a specific lesson.
@@ -35,9 +36,9 @@ final class LessonProgress extends AbstractEntity
     protected int $progress = 0;
 
     /**
-     * Status string (e.g. incomplete, completed)
+     * Status of the lesson progress.
      */
-    protected string $status = 'incomplete';
+    protected ProgressStatus $status = ProgressStatus::NotStarted;
 
     protected string $uuid;
 
@@ -137,13 +138,17 @@ final class LessonProgress extends AbstractEntity
         $this->progress = $progress;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ProgressStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(ProgressStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = ProgressStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

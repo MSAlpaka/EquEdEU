@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Tests\Unit\Domain\Model;
 
 use PHPUnit\Framework\TestCase;
 use Equed\EquedLms\Domain\Model\LessonProgress;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 class LessonProgressTest extends TestCase
 {
@@ -15,6 +16,7 @@ class LessonProgressTest extends TestCase
         $this->assertNotEmpty($progress->getUuid());
         $this->assertInstanceOf(\DateTimeImmutable::class, $progress->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $progress->getUpdatedAt());
+        $this->assertSame(ProgressStatus::NotStarted, $progress->getStatus());
     }
 
     public function testProgressAccessors(): void
