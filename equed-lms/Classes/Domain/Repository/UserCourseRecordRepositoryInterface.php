@@ -28,4 +28,11 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 interface UserCourseRecordRepositoryInterface
 {
     public function findByUuid(string $uuid): ?UserCourseRecord;
+
+    /**
+     * @return UserCourseRecord[]
+     */
+    public function findCompletedWithoutBadge(): array;
+
+    public function findOneByUserAndCourse(int $userId, int $courseUid): ?UserCourseRecord;
 }
