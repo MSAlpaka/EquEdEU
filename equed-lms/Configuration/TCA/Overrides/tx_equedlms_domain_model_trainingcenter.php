@@ -101,22 +101,26 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
         'allowed_programs' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:trainingcenter.allowed_programs',
             'config' => [
-                'type' => 'inline',
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'foreign_table' => 'tx_equedlms_domain_model_courseprogram',
-                'foreign_field' => 'training_center',
-                'maxitems' => 999,
+                'MM' => 'tx_equedlms_trainingcenter_program_mm',
+                'size' => 8,
+                'autoSizeMax' => 20,
+                'multiple' => 1,
             ],
         ],
         'instructors' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:trainingcenter.instructors',
             'config' => [
-                'type' => 'inline',
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
                 'foreign_table' => 'fe_users',
-                'foreign_sortby' => 'last_name',
-                'foreign_match_fields' => [
-                    'usergroup' => 'Instructor',
-                ],
-                'maxitems' => 999,
+                'foreign_table_where' => 'AND fe_users.is_instructor = 1',
+                'MM' => 'tx_equedlms_trainingcenter_instructor_mm',
+                'size' => 8,
+                'autoSizeMax' => 20,
+                'multiple' => 1,
             ],
         ],
         'uuid' => [

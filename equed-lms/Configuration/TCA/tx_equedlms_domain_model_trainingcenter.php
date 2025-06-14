@@ -101,16 +101,27 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_trainingcenter.allowed_programs',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_equedlms_domain_model_courseprogram',
+                'MM' => 'tx_equedlms_trainingcenter_program_mm',
+                'size' => 8,
+                'autoSizeMax' => 20,
+                'multiple' => 1,
             ]
         ],
         'instructors' => [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_trainingcenter.instructors',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'fe_users',
+                'foreign_table_where' => 'AND fe_users.is_instructor = 1',
+                'MM' => 'tx_equedlms_trainingcenter_instructor_mm',
+                'size' => 8,
+                'autoSizeMax' => 20,
+                'multiple' => 1,
             ]
         ],
         'uuid' => [
