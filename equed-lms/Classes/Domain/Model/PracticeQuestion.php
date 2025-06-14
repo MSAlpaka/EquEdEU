@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -59,7 +60,7 @@ final class PracticeQuestion extends AbstractEntity
     /**
      * Language code: en, de, fr, es, sw.
      */
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     /**
      * Optional difficulty or weight.
@@ -210,7 +211,7 @@ final class PracticeQuestion extends AbstractEntity
     /**
      * Gets the language code.
      */
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
@@ -218,7 +219,7 @@ final class PracticeQuestion extends AbstractEntity
     /**
      * Sets the language code.
      */
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

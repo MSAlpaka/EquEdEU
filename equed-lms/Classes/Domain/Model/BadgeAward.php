@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -72,7 +73,7 @@ final class BadgeAward extends AbstractEntity
      *
      * @var string
      */
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     /**
      * Flag if system automatically awarded the badge
@@ -190,12 +191,12 @@ final class BadgeAward extends AbstractEntity
         $this->descriptionKey = $descriptionKey;
     }
 
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

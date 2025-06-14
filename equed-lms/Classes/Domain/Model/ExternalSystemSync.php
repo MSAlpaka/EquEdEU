@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
@@ -67,7 +68,7 @@ final class ExternalSystemSync extends AbstractEntity
      *
      * @var string
      */
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     /**
      * Soft-delete flag
@@ -163,12 +164,12 @@ final class ExternalSystemSync extends AbstractEntity
         $this->errorMessage = $errorMessage;
     }
 
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Helper;
 
+use Equed\EquedLms\Enum\LanguageCode;
+
 /**
  * Provides language detection and simple translation messages
  * in accordance with project’s hybrid GPT‐translation requirements.
@@ -27,10 +29,10 @@ final class LanguageHelper
      * Returns a localized message for a given key and language.
      * Falls back to English if the language or key is missing.
      *
-     * @param string $key  Message identifier
-     * @param string $lang ISO 639-1 code, e.g. 'en', 'de', 'fr', 'es', 'sw'
+     * @param string       $key  Message identifier
+     * @param LanguageCode $lang Target language
      */
-    public static function translate(string $key, string $lang): string
+    public static function translate(string $key, LanguageCode $lang): string
     {
         static $messages = [
             'unauthorized' => [
@@ -60,8 +62,8 @@ final class LanguageHelper
             return 'Unknown error';
         }
 
-        return $messages[$key][$lang]
-            ?? $messages[$key]['en'];
+        return $messages[$key][$lang->value]
+            ?? $messages[$key][LanguageCode::EN->value];
     }
 }
 // EOF

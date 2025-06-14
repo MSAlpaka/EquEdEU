@@ -10,6 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Equed\EquedLms\Service\ApiTokenService;
 use Equed\EquedLms\Helper\LanguageHelper;
+use Equed\EquedLms\Enum\LanguageCode;
 use Laminas\Diactoros\Response\JsonResponse;
 
 /**
@@ -30,7 +31,7 @@ final class ApiTokenMiddleware implements MiddlewareInterface
         $token = $this->extractBearerToken($request);
         if ($token === null || !$this->tokenService->isValidToken($token)) {
             $lang    = LanguageHelper::detectLanguage($request->getServerParams());
-            $message = LanguageHelper::translate('unauthorized', $lang);
+            $message = LanguageHelper::translate('unauthorized', LanguageCode::from($lang));
 
             return new JsonResponse(
                 ['error' => $message],

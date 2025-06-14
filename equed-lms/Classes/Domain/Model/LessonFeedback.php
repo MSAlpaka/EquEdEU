@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
+use Equed\EquedLms\Enum\LanguageCode;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
@@ -29,7 +30,7 @@ final class LessonFeedback extends AbstractEntity
     protected ?string $courseWish = null;
     protected ?string $textFeedback = null;
     protected bool $releaseToInstructor = false;
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     protected DateTimeImmutable $createdAt;
     protected DateTimeImmutable $updatedAt;
@@ -137,12 +138,12 @@ final class LessonFeedback extends AbstractEntity
         $this->releaseToInstructor = $releaseToInstructor;
     }
 
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

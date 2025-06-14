@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -36,7 +37,7 @@ final class SubmissionComment extends AbstractEntity
 
     protected string $comment = '';
 
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     protected bool $visibleForUser = true;
 
@@ -127,7 +128,7 @@ final class SubmissionComment extends AbstractEntity
     /**
      * Gets the language code.
      */
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
@@ -135,7 +136,7 @@ final class SubmissionComment extends AbstractEntity
     /**
      * Sets the language code.
      */
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }
