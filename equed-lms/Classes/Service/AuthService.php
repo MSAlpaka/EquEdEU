@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
+use Equed\EquedLms\Enum\UserRole;
 
 final class AuthService
 {
@@ -18,23 +19,22 @@ final class AuthService
      * Get the role of a frontend user.
      *
      * @param int $frontendUserId
-     * @return string One of 'certifier', 'instructor' or 'learner'
      */
-    public function getUserRole(int $frontendUserId): string
+    public function getUserRole(int $frontendUserId): UserRole
     {
         $profile = $this->userProfileRepository->findByFeUser($frontendUserId);
 
         if ($profile instanceof UserProfile) {
             if ($profile->isCertifier()) {
-                return 'certifier';
+                return UserRole::Certifier;
             }
 
             if ($profile->isInstructor()) {
-                return 'instructor';
+                return UserRole::Instructor;
             }
         }
 
-        return 'learner';
+        return UserRole::Learner;
     }
 
     /**
@@ -45,7 +45,7 @@ final class AuthService
      */
     public function isCertifier(int $frontendUserId): bool
     {
-        return $this->getUserRole($frontendUserId) === 'certifier';
+        return $this->getUserRole($frontendUserId) === UserRole::Certifier;
     }
 
     /**
@@ -56,7 +56,7 @@ final class AuthService
      */
     public function isInstructor(int $frontendUserId): bool
     {
-        return $this->getUserRole($frontendUserId) === 'instructor';
+        return $this->getUserRole($frontendUserId) === UserRole::Instructor;
     }
 
     /**
@@ -67,6 +67,6 @@ final class AuthService
      */
     public function isLearner(int $frontendUserId): bool
     {
-        return $this->getUserRole($frontendUserId) === 'learner';
+        return $this->getUserRole($frontendUserId) === UserRole::Learner;
     }
 }
