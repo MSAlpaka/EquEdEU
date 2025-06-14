@@ -1,5 +1,6 @@
 parameters:
   equed_lms.training_record_output_path: '%kernel.project_dir%/var/training_records'
+  equed_lms.max_upload_size: 5242880
 
 services:
   _defaults:
@@ -78,6 +79,8 @@ services:
 
   Equed\EquedLms\Domain\Service\MediaUploadServiceInterface:
     class: Equed\EquedLms\Service\MediaUploadService
+    arguments:
+      $maxFileSize: '%equed_lms.max_upload_size%'
 
   Equed\EquedLms\Domain\Service\DocumentServiceInterface:
     class: Equed\EquedLms\Service\DocumentService
