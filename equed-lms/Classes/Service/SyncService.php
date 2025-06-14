@@ -34,7 +34,11 @@ final class SyncService
     public function pullFromApp(array $data): UserProfile
     {
         $userId = isset($data['userId']) ? (int) $data['userId'] : 0;
-        $profile = $this->profileRepository->findByUserId($userId) ?? new UserProfile();
+        $profile = $this->profileRepository->findByUserId($userId);
+        if ($profile === null) {
+            $profile = new UserProfile();
+            $profile->setUpdatedAt($this->clock->now());
+        }
 
         // Set user reference
         $profile->setFeUser($userId);
