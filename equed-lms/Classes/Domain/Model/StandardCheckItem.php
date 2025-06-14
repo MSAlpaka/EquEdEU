@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * Domain model for standard check items.
@@ -41,7 +42,7 @@ final class StandardCheckItem extends AbstractEntity
 
     protected bool $isArchived = false;
 
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected DateTimeImmutable $createdAt;
 
@@ -187,7 +188,7 @@ final class StandardCheckItem extends AbstractEntity
     /**
      * Gets the language code.
      */
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
@@ -195,7 +196,7 @@ final class StandardCheckItem extends AbstractEntity
     /**
      * Sets the language code.
      */
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

@@ -10,6 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Enum\LanguageCode;
 
 final class SyncService
 {
@@ -27,7 +28,7 @@ final class SyncService
             'userId'      => $profile->getFeUser(),
             'uuid'        => $profile->getUuid(),
             'displayName' => $profile->getDisplayName(),
-            'language'    => $profile->getLanguage(),
+            'language'    => $profile->getLanguage()->value,
             'country'     => $profile->getCountry(),
             'updatedAt'   => $profile->getUpdatedAt()?->format(DATE_ATOM),
         ];
@@ -71,7 +72,7 @@ final class SyncService
                 $profile->setDisplayName((string) $data['displayName']);
             }
             if (isset($data['language'])) {
-                $profile->setLanguage((string) $data['language']);
+                $profile->setLanguage(LanguageCode::from((string) $data['language']));
             }
             if (isset($data['country'])) {
                 $profile->setCountry((string) $data['country']);

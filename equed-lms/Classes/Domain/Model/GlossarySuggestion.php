@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * GlossarySuggestion
@@ -62,7 +63,7 @@ final class GlossarySuggestion extends AbstractEntity
      *
      * @var string
      */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /**
      * Current review status (pending | approved | rejected)
@@ -162,12 +163,12 @@ final class GlossarySuggestion extends AbstractEntity
         $this->submittedBy = $submittedBy;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

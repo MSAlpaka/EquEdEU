@@ -12,6 +12,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 final class CourseFeedback extends AbstractEntity
 {
@@ -50,7 +51,7 @@ final class CourseFeedback extends AbstractEntity
     protected bool $isVisibleToTrainingCenter = false;
 
     /** Language of free text fields */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /** Optional wishes for future courses */
     protected ?string $courseWishes = null;
@@ -170,12 +171,12 @@ final class CourseFeedback extends AbstractEntity
         $this->isVisibleToTrainingCenter = $visible;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

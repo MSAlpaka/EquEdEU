@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * FeedbackEntry
@@ -35,7 +36,7 @@ final class FeedbackEntry extends AbstractEntity
 
     protected bool $isRequired = false;
 
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected bool $isArchived = false;
 
@@ -126,12 +127,12 @@ final class FeedbackEntry extends AbstractEntity
         $this->isRequired = $isRequired;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

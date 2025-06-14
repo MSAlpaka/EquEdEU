@@ -89,7 +89,7 @@ class SyncControllerTest extends TestCase
         $profile->initializeObject();
         $profile->setFeUser(5);
         $profile->setDisplayName('John');
-        $profile->setLanguage('en');
+        $profile->setLanguage(\Equed\EquedLms\Enum\LanguageCode::EN);
         $profile->setCountry('US');
 
         $this->repo->findByUserId(5)->willReturn($profile)->shouldBeCalled();

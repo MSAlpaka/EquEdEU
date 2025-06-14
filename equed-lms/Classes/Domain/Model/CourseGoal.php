@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * CourseGoal
@@ -49,7 +50,7 @@ final class CourseGoal extends AbstractEntity
 
     protected string $notes = '';
 
-    protected string $language = '';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected string $uuid = '';
 
@@ -220,12 +221,12 @@ final class CourseGoal extends AbstractEntity
         $this->notes = $notes;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

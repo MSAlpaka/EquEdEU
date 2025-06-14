@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * GlossaryEntry
@@ -38,7 +39,7 @@ final class GlossaryEntry extends AbstractEntity
     protected ?CourseProgram $courseProgram = null;
 
     /** Language of the entry */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /** Archive flag */
     protected bool $isArchived = false;
@@ -112,12 +113,12 @@ final class GlossaryEntry extends AbstractEntity
         $this->courseProgram = $courseProgram;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

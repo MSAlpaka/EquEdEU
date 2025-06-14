@@ -16,6 +16,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * Domain model for QMS cases.
@@ -78,7 +79,7 @@ final class QmsCase extends AbstractEntity
 
     protected bool $isArchived = false;
 
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected DateTimeImmutable $createdAt;
 
@@ -421,7 +422,7 @@ final class QmsCase extends AbstractEntity
     /**
      * Gets the language code.
      */
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
@@ -429,7 +430,7 @@ final class QmsCase extends AbstractEntity
     /**
      * Sets the language code.
      */
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

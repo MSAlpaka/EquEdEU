@@ -10,6 +10,7 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Annotations\EventListener;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * Sends a notification when a certificate is issued.
@@ -57,7 +58,7 @@ final class CertificateNotificationListener
             'titleKey'       => $messageKey,
             'customMessage'  => $message,
             'type'           => 'certificate',
-            'language'       => $user->getUserProfile()?->getLanguage() ?? 'en',
+            'language'       => $user->getUserProfile()?->getLanguage() ?? LanguageCode::EN,
             'status'         => 'active',
             'isRead'         => false,
             'isArchived'     => false,

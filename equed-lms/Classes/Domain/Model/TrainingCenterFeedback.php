@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * Domain model for training center feedback.
@@ -49,7 +50,7 @@ final class TrainingCenterFeedback extends AbstractEntity
 
     protected bool $visibleToAdmin = true;
 
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected bool $isArchived = false;
 
@@ -235,7 +236,7 @@ final class TrainingCenterFeedback extends AbstractEntity
     /**
      * Gets the language code.
      */
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
@@ -243,7 +244,7 @@ final class TrainingCenterFeedback extends AbstractEntity
     /**
      * Sets the language code.
      */
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }
