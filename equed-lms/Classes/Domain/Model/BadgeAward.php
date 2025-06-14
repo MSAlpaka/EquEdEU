@@ -6,9 +6,7 @@ namespace Equed\EquedLms\Domain\Model;
 use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
-use Equed\Core\Service\ClockInterface;
-use TYPO3\CMS\Extbase\Annotation\Inject;
-use Ramsey\Uuid\Uuid;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -22,15 +20,9 @@ use Equed\EquedLms\Enum\BadgeLevel;
  */
 final class BadgeAward extends AbstractEntity
 {
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
-    /**
-     * Unique identifier
-     *
-     * @var string
-     */
-    protected string $uuid;
+
 
     /**
      * Awarded user
@@ -96,33 +88,16 @@ final class BadgeAward extends AbstractEntity
      */
     protected ?DateTimeImmutable $validUntil = null;
 
-    /**
-     * Creation timestamp
-     */
-    protected DateTimeImmutable $createdAt;
-
-    /**
-     * Last update timestamp
-     */
-    protected DateTimeImmutable $updatedAt;
-
     public function __construct(BadgeLevel $initialBadgeLevel)
     {
-        $this->uuid       = Uuid::uuid4()->toString();
         $this->badgeLevel = $initialBadgeLevel;
     }
 
     public function initializeObject(): void
     {
-        $now = $this->clock->now();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        }
+        $this->initializePersistenceTrait();
         if (!isset($this->awardedAt)) {
-            $this->awardedAt = $now;
+            $this->awardedAt = $this->clock->now();
         }
     }
 

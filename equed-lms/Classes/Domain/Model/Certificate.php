@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use DateTimeImmutable;
-use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Annotation\Inject;
-use Equed\Core\Service\ClockInterface;
-use Equed\Core\Service\UuidGeneratorInterface;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 
 /**
  * Certificate
@@ -21,14 +19,7 @@ use Equed\Core\Service\UuidGeneratorInterface;
  */
 final class Certificate extends AbstractEntity
 {
-    /** Unique identifier */
-    protected string $uuid;
-
-    #[Inject]
-    protected UuidGeneratorInterface $uuidGenerator;
-
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
     /** Receiving user */
     #[ManyToOne]
@@ -68,33 +59,15 @@ final class Certificate extends AbstractEntity
     #[Lazy]
     protected ?CourseCertificate $courseCertificate = null;
 
-    /** Creation timestamp */
-    protected DateTimeImmutable $createdAt;
-
-    /** Last update timestamp */
-    protected DateTimeImmutable $updatedAt;
-
     public function __construct()
     {
         $now = new DateTimeImmutable();
-        $this->uuid = Uuid::uuid4()->toString();
         $this->issuedAt = $now;
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
     }
 
     public function initializeObject(): void
     {
-        if ($this->uuid === '') {
-            $this->uuid = $this->uuidGenerator->generate();
-        }
-        $now = $this->clock->now();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        }
+        $this->initializePersistenceTrait();
     }
 
     public function getUuid(): string

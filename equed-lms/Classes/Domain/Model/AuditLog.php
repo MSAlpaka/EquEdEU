@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use DateTimeImmutable;
-use Equed\Core\Service\ClockInterface;
-use Equed\Core\Service\UuidGeneratorInterface;
-use TYPO3\CMS\Extbase\Annotation\Inject;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -17,13 +15,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class AuditLog extends AbstractEntity
 {
-    protected string $uuid;
-
-    #[Inject]
-    protected UuidGeneratorInterface $uuidGenerator;
-
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
     /** Hash of the user identifier */
     protected string $userHash = '';
@@ -34,30 +26,9 @@ final class AuditLog extends AbstractEntity
     /** Optional details (already sanitized) */
     protected ?string $details = null;
 
-    protected DateTimeImmutable $createdAt;
-
-    protected DateTimeImmutable $updatedAt;
-
-    public function __construct()
-    {
-        $now = new DateTimeImmutable();
-        $this->uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
-    }
-
     public function initializeObject(): void
     {
-        if (empty($this->uuid)) {
-            $this->uuid = $this->uuidGenerator->generate();
-        }
-        $now = $this->clock->now();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        }
+        $this->initializePersistenceTrait();
     }
 
     public function getUuid(): string
