@@ -9,7 +9,7 @@ columns:
   reviewed_by:
     type: integer
   status:
-    type: integer
+    type: string
   comment:
     type: text
   evaluation_document:

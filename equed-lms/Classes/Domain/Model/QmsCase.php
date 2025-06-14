@@ -7,6 +7,8 @@ namespace Equed\EquedLms\Domain\Model;
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use Equed\Core\Service\UuidGeneratorInterface;
+use Equed\EquedLms\Enum\QmsCaseStatus;
+use Equed\EquedLms\Enum\QmsCaseType;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
@@ -52,9 +54,9 @@ final class QmsCase extends AbstractEntity
 
     protected ?string $titleKey = null;
 
-    protected string $caseType = 'violation';
+    protected QmsCaseType $caseType = QmsCaseType::Violation;
 
-    protected string $status = 'open';
+    protected QmsCaseStatus $status = QmsCaseStatus::Open;
 
     protected string $priority = 'normal';
 
@@ -221,7 +223,7 @@ final class QmsCase extends AbstractEntity
     /**
      * Gets the case type.
      */
-    public function getCaseType(): string
+    public function getCaseType(): QmsCaseType
     {
         return $this->caseType;
     }
@@ -229,15 +231,18 @@ final class QmsCase extends AbstractEntity
     /**
      * Sets the case type.
      */
-    public function setCaseType(string $caseType): void
+    public function setCaseType(QmsCaseType|string $caseType): void
     {
+        if (is_string($caseType)) {
+            $caseType = QmsCaseType::from($caseType);
+        }
         $this->caseType = $caseType;
     }
 
     /**
      * Gets the case status.
      */
-    public function getStatus(): string
+    public function getStatus(): QmsCaseStatus
     {
         return $this->status;
     }
@@ -245,8 +250,11 @@ final class QmsCase extends AbstractEntity
     /**
      * Sets the case status.
      */
-    public function setStatus(string $status): void
+    public function setStatus(QmsCaseStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = QmsCaseStatus::from($status);
+        }
         $this->status = $status;
     }
 

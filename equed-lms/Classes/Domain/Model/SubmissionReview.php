@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Domain\Model;
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use Equed\Core\Service\UuidGeneratorInterface;
+use Equed\EquedLms\Enum\SubmissionReviewStatus;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
@@ -36,7 +37,7 @@ final class SubmissionReview extends AbstractEntity
     #[Lazy]
     protected ?FrontendUser $reviewedBy = null;
 
-    protected string $status = 'open';
+    protected SubmissionReviewStatus $status = SubmissionReviewStatus::Open;
 
     protected ?string $comment = null;
 
@@ -122,7 +123,7 @@ final class SubmissionReview extends AbstractEntity
     /**
      * Gets the review status.
      */
-    public function getStatus(): string
+    public function getStatus(): SubmissionReviewStatus
     {
         return $this->status;
     }
@@ -132,8 +133,11 @@ final class SubmissionReview extends AbstractEntity
      *
      * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(SubmissionReviewStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = SubmissionReviewStatus::from($status);
+        }
         $this->status = $status;
     }
 

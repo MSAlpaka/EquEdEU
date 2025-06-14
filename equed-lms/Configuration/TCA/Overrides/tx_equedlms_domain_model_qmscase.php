@@ -74,15 +74,27 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
         'case_type' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.case_type',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim',
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['Violation', \Equed\EquedLms\Enum\QmsCaseType::Violation->value],
+                    ['Complaint', \Equed\EquedLms\Enum\QmsCaseType::Complaint->value],
+                    ['Audit', \Equed\EquedLms\Enum\QmsCaseType::Audit->value],
+                ],
+                'default' => \Equed\EquedLms\Enum\QmsCaseType::Violation->value,
             ],
         ],
         'status' => [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:qmscase.status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim',
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['Open', \Equed\EquedLms\Enum\QmsCaseStatus::Open->value],
+                    ['In Progress', \Equed\EquedLms\Enum\QmsCaseStatus::InProgress->value],
+                    ['Closed', \Equed\EquedLms\Enum\QmsCaseStatus::Closed->value],
+                ],
+                'default' => \Equed\EquedLms\Enum\QmsCaseStatus::Open->value,
             ],
         ],
         'priority' => [

@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Service\MailServiceInterface;
 use Equed\EquedLms\Service\QmsEscalationService;
+use Equed\EquedLms\Enum\QmsCaseStatus;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -43,14 +44,14 @@ class QmsEscalationServiceTest extends TestCase
         $case = $this->prophesize(QmsCase::class);
         $case->getUid()->willReturn(5);
         $case->getIssue()->willReturn('issue');
-        $case->getStatus()->willReturn('open');
+        $case->getStatus()->willReturn(QmsCaseStatus::Open);
         $case->getFeUser()->willReturn(42);
 
         $this->language->translate('qms.escalation.subject', ['caseId' => 5], 'equed_lms')->willReturn('Subj');
         $this->language->translate('qms.escalation.body', [
             'caseId' => 5,
             'issue' => 'issue',
-            'status' => 'open',
+            'status' => QmsCaseStatus::Open->value,
             'userId' => 42,
         ], 'equed_lms')->willReturn('Body');
 
