@@ -6,6 +6,7 @@ namespace Equed\EquedLms\ViewHelpers;
 
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
+use Equed\EquedLms\Enum\UserRole;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -49,16 +50,23 @@ final class UserRoleViewHelper extends AbstractViewHelper
         $userId = (int)$this->arguments['userId'];
         $profile = $this->profileRepository->findByFeUser($userId);
 
-        $roleKey = 'role.unknown';
+        $role = null;
         if ($profile !== null) {
-            $roleKey = $profile->getIsCertifier()
-                ? 'role.certifier'
+            $role = $profile->getIsCertifier()
+                ? UserRole::Certifier
                 : (
                     $profile->isInstructor()
-                    ? 'role.instructor'
-                    : 'role.participant'
+                    ? UserRole::Instructor
+                    : UserRole::Learner
                 );
         }
+
+        $roleKey = match ($role) {
+            UserRole::Certifier   => 'role.certifier',
+            UserRole::Instructor  => 'role.instructor',
+            UserRole::Learner     => 'role.participant',
+            default               => 'role.unknown',
+        };
 
         return $this->translate($roleKey) ?? ucfirst(str_replace('role.', '', $roleKey));
     }

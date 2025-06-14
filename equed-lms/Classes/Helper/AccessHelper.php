@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\UserRole;
 
 /**
  * AccessHelper service for checking user roles and permissions.
@@ -28,7 +29,7 @@ final class AccessHelper
      */
     public function isInstructor(array|FrontendUser $user): bool
     {
-        return $this->hasRole($user, 'instructor');
+        return $this->hasRole($user, UserRole::Instructor);
     }
 
     /**
@@ -39,7 +40,7 @@ final class AccessHelper
      */
     public function isCertifier(array|FrontendUser $user): bool
     {
-        return $this->hasRole($user, 'certifier');
+        return $this->hasRole($user, UserRole::Certifier);
     }
 
     /**
@@ -50,7 +51,7 @@ final class AccessHelper
      */
     public function isServiceCenter(array|FrontendUser $user): bool
     {
-        return $this->hasRole($user, 'sc_user');
+        return $this->hasRole($user, UserRole::ServiceCenter);
     }
 
     /**
@@ -66,7 +67,7 @@ final class AccessHelper
      *
      * @param array<string, mixed>|FrontendUser $user
      */
-    public function hasRole(array|FrontendUser $user, string $targetRole): bool
+    public function hasRole(array|FrontendUser $user, UserRole $targetRole): bool
     {
         $rolesField = $user instanceof FrontendUser
             ? $user->getUsergroup()
@@ -81,7 +82,7 @@ final class AccessHelper
             }
         }
 
-        return in_array($targetRole, $roleList, true);
+        return in_array($targetRole->value, $roleList, true);
     }
 }
 // EOF
