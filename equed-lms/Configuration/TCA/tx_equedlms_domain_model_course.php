@@ -47,7 +47,7 @@ return [
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_course.start_date',
             'config' => [
                 'type' => 'input',
-                'eval' => 'int'
+                'eval' => 'date'
             ]
         ],
         'location' => [
