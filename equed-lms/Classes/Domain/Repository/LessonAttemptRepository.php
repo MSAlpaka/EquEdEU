@@ -35,7 +35,7 @@ final class LessonAttemptRepository extends Repository implements LessonAttemptR
                 $query->equals('lesson', $lesson),
             ])
         );
-        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        $query->setOrderings(['createdAt' => QueryInterface::ORDER_DESCENDING]);
         $query->setLimit(1);
 
         return $query->execute()->getFirst();
