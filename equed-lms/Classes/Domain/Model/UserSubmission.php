@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
-use DateTimeImmutable;
-use Equed\Core\Service\ClockInterface;
-use Equed\Core\Service\UuidGeneratorInterface;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use Equed\EquedLms\Enum\SubmissionStatus;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
@@ -20,13 +17,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class UserSubmission extends AbstractEntity
 {
-    protected string $uuid = '';
-
-    #[Inject]
-    protected UuidGeneratorInterface $uuidGenerator;
-
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
     #[ManyToOne]
     #[Lazy]
@@ -58,31 +49,14 @@ final class UserSubmission extends AbstractEntity
 
     protected ?float $score = null;
 
-    protected DateTimeImmutable $createdAt;
-    protected DateTimeImmutable $updatedAt;
-
     /**
      * Initializes UUID and timestamps.
      */
     public function initializeObject(): void
     {
-        if ($this->uuid === '') {
-            $this->uuid = $this->uuidGenerator->generate();
-        }
-        $now = $this->clock->now();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-            $this->updatedAt = $now;
-        }
+        $this->initializePersistenceTrait();
     }
 
-    /**
-     * Gets the UUID.
-     */
-    public function getUuid(): string
-    {
-        return $this->uuid;
-    }
 
     /**
      * Gets the related UserCourseRecord.
@@ -285,19 +259,4 @@ final class UserSubmission extends AbstractEntity
         $this->score = $score;
     }
 
-    /**
-     * Gets the creation timestamp.
-     */
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Gets the last update timestamp.
-     */
-    public function getUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
 }

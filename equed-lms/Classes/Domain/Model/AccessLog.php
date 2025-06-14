@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
-use DateTimeImmutable;
-use Equed\Core\Service\ClockInterface;
-use Equed\Core\Service\UuidGeneratorInterface;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -17,13 +15,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class AccessLog extends AbstractEntity
 {
-    protected string $uuid;
-
-    #[Inject]
-    protected UuidGeneratorInterface $uuidGenerator;
-
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
     /** Frontend user UID */
     protected int $feUser = 0;
@@ -40,36 +32,11 @@ final class AccessLog extends AbstractEntity
     /** Event context */
     protected string $eventContext = '';
 
-    protected DateTimeImmutable $createdAt;
-
-    protected DateTimeImmutable $updatedAt;
-
-    public function __construct()
-    {
-        $now = new DateTimeImmutable();
-        $this->uuid = \Ramsey\Uuid\Uuid::uuid4()->toString();
-        $this->createdAt = $now;
-        $this->updatedAt = $now;
-    }
-
     public function initializeObject(): void
     {
-        if (empty($this->uuid)) {
-            $this->uuid = $this->uuidGenerator->generate();
-        }
-        $now = $this->clock->now();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        }
+        $this->initializePersistenceTrait();
     }
 
-    public function getUuid(): string
-    {
-        return $this->uuid;
-    }
 
     public function getFeUser(): int
     {
@@ -121,23 +88,4 @@ final class AccessLog extends AbstractEntity
         $this->eventContext = $eventContext;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    public function getUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
 }
