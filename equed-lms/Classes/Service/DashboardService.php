@@ -8,14 +8,13 @@ use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
-use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
 use Equed\EquedLms\Service\ProgressServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\DashboardServiceInterface;
-use Equed\EquedLms\Enum\UserCourseStatus;
+use Equed\EquedLms\Service\Dashboard\TabsBuilder;
+use Equed\EquedLms\Service\Dashboard\FilterMetadataProvider;
 
 /**
  * Aggregates and prepares all data for the user dashboard,
@@ -27,15 +26,15 @@ final class DashboardService implements DashboardServiceInterface
     private const CACHE_TTL_SECONDS = 600;
 
     public function __construct(
-        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepo,
-        private readonly CourseInstanceRepositoryInterface      $courseInstanceRepo,
         private readonly CertificateDispatchRepositoryInterface $certificateRepo,
         private readonly NotificationRepositoryInterface        $notificationRepo,
         private readonly ProgressServiceInterface               $progressService,
-        private readonly GptTranslationServiceInterface                  $translationService,
+        private readonly GptTranslationServiceInterface         $translationService,
         private readonly CacheItemPoolInterface                 $cachePool,
         private readonly bool                                   $gptAnalysisEnabled,
-        private readonly ClockInterface                         $clock
+        private readonly ClockInterface                         $clock,
+        private readonly TabsBuilder                            $tabsBuilder,
+        private readonly FilterMetadataProvider                 $filterProvider,
     ) {
     }
 
@@ -74,8 +73,8 @@ final class DashboardService implements DashboardServiceInterface
 
         $data = [
             'user'          => $this->buildUserData($user),
-            'tabs'          => $this->buildTabsData($user, $latestCertificates),
-            'filters'       => $this->buildFilterMetadata(),
+            'tabs'          => $this->tabsBuilder->build($user, $latestCertificates),
+            'filters'       => $this->filterProvider->getMetadata(),
             'progress'      => $this->progressService->getProgressDataForUser($user),
             'notifications' => $this->buildNotificationsData($notificationList),
             'cacheMeta'     => [
@@ -112,50 +111,6 @@ final class DashboardService implements DashboardServiceInterface
         ];
     }
 
-    private function buildTabsData(FrontendUser $user, array $latestCertificates): array
-    {
-        $records = $this->userCourseRecordRepo->findByUser($user);
-        $tabs    = ['running' => [], 'completed' => []];
-
-        foreach ($records as $record) {
-            $ci     = $record->getCourseInstance();
-            $status = $record->getStatus();
-            $tabKey = match ($status) {
-                UserCourseStatus::Validated, UserCourseStatus::Passed => 'completed',
-                default                                            => 'running',
-            };
-            $ciId   = $ci->getUid();
-            $certUrl = $latestCertificates[$ciId]?->getQrCodeUrl() ?? null;
-
-            $tabs[$tabKey][] = [
-                'id'              => $ciId,
-                'title'           => $this->translationService->translate(
-                    'dashboard.course.title',
-                    ['title' => $ci->getTitle()]
-                ),
-                'status'          => $status,
-                'progressPercent' => $record->getProgressPercent(),
-                'participantCount' => $ci->getParticipantCount(),
-                'location'        => $ci->getLocation(),
-                'startDate'       => $ci->getStartDate()?->format('Y-m-d') ?? '',
-                'endDate'         => $ci->getEndDate()?->format('Y-m-d') ?? '',
-                'badgeIcon'       => $record->hasBadge() ? $record->getBadgeIconUrl() : null,
-                'certificateUrl'  => $certUrl,
-            ];
-        }
-
-        return $tabs;
-    }
-
-    private function buildFilterMetadata(): array
-    {
-        return [
-            'theme'       => $this->courseInstanceRepo->findDistinctField('theme'),
-            'language'    => $this->courseInstanceRepo->findDistinctField('language'),
-            'badgeStatus' => $this->userCourseRecordRepo->findDistinctField('badgeStatus'),
-            'eqfLevel'    => $this->courseInstanceRepo->findDistinctField('eqfLevel'),
-        ];
-    }
 
     private function buildNotificationsData(array $notifications): array
     {
