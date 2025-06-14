@@ -31,8 +31,14 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_submissionreview.status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int'
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['Open', \Equed\EquedLms\Enum\SubmissionReviewStatus::Open->value],
+                    ['Approved', \Equed\EquedLms\Enum\SubmissionReviewStatus::Approved->value],
+                    ['Rejected', \Equed\EquedLms\Enum\SubmissionReviewStatus::Rejected->value],
+                ],
+                'default' => \Equed\EquedLms\Enum\SubmissionReviewStatus::Open->value,
             ]
         ],
         'comment' => [

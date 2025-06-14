@@ -38,12 +38,11 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['Open', 'open'],
-                    ['Passed', 'passed'],
-                    ['Failed', 'failed'],
-                    ['Revision required', 'revision_required']
+                    ['Open', \Equed\EquedLms\Enum\SubmissionReviewStatus::Open->value],
+                    ['Approved', \Equed\EquedLms\Enum\SubmissionReviewStatus::Approved->value],
+                    ['Rejected', \Equed\EquedLms\Enum\SubmissionReviewStatus::Rejected->value],
                 ],
-                'default' => 'open'
+                'default' => \Equed\EquedLms\Enum\SubmissionReviewStatus::Open->value
             ]
         ],
         'comment' => [

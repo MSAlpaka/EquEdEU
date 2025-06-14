@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\QmsCase;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\QmsCaseStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -29,7 +30,7 @@ final class QmsCaseRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('status', 'open')
+            $query->equals('status', QmsCaseStatus::Open->value)
         );
 
         return $query->execute()->toArray();
