@@ -11,13 +11,15 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\SyncService;
+use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 
 final class SyncController extends ActionController
 {
     public function __construct(
-        private readonly SyncService                  $syncService,
+        private readonly SyncService                    $syncService,
+        private readonly UserProfileRepositoryInterface $profileRepository,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context                      $context,
+        private readonly Context                        $context,
     ) {
         parent::__construct();
     }
@@ -36,7 +38,13 @@ final class SyncController extends ActionController
         }
 
         try {
-            $data = $this->syncService->pushToApp($userId);
+            $profile = $this->profileRepository->findByUserId($userId);
+            if ($profile === null) {
+                return $this->createJsonResponse([
+                    'error' => $this->translationService->translate('api.sync.invalidUser')
+                ], 400);
+            }
+            $data = $this->syncService->pushToApp($profile);
             return $this->createJsonResponse($data);
         } catch (\Throwable $e) {
             return $this->createJsonResponse(['error' => $e->getMessage()], 500);
