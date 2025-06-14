@@ -13,6 +13,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use Equed\EquedLms\Enum\BadgeLevel;
 use Equed\EquedLms\Enum\CertificateDesignType;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * CertificateTemplate
@@ -50,9 +51,9 @@ final class CertificateTemplate extends AbstractEntity
     /**
      * Language ISO code
      *
-     * @var string
+     * @var LanguageCode
      */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /**
      * Required badge level to use this template
@@ -138,12 +139,12 @@ final class CertificateTemplate extends AbstractEntity
         $this->courseProgram = $courseProgram;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

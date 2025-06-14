@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * InstructorFeedback
@@ -47,7 +48,7 @@ final class InstructorFeedback extends AbstractEntity
 
     protected bool $isArchived = false;
 
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     #[ManyToOne]
     #[Lazy]
@@ -170,12 +171,12 @@ final class InstructorFeedback extends AbstractEntity
         $this->isArchived = $archived;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

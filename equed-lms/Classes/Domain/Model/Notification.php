@@ -12,6 +12,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * Domain model for system notifications.
@@ -78,9 +79,9 @@ final class Notification extends AbstractEntity
     protected bool $isArchived = false;
 
     /**
-     * @var string
+     * @var LanguageCode
      */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /**
      * @var string|null
@@ -256,15 +257,15 @@ final class Notification extends AbstractEntity
     /**
      * Returns the language of the notification.
      */
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
     /**
-     * @param string $language
+     * @param LanguageCode $language
      */
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

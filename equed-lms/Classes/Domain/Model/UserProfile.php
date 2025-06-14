@@ -13,6 +13,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\OneToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\BadgeLevel;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * Domain model for user profiles.
@@ -71,7 +72,7 @@ final class UserProfile extends AbstractEntity
      */
     protected bool $onboardingComplete = false;
 
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected ?DateTimeImmutable $lastLoginAt = null;
 
@@ -237,12 +238,12 @@ final class UserProfile extends AbstractEntity
         $this->hasProAccess = $hasAccess;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

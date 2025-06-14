@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\BadgeLevel;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * CourseCertificate
@@ -41,7 +42,7 @@ final class CourseCertificate extends AbstractEntity
     protected string $certificateNumber = '';
 
     /** Language for generated text */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /** Badge level represented by this certificate */
     protected BadgeLevel $badgeLevel = BadgeLevel::None;
@@ -121,12 +122,12 @@ final class CourseCertificate extends AbstractEntity
         $this->certificateNumber = $certificateNumber;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

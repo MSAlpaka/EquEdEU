@@ -13,6 +13,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Enum\ValidationMode;
+use Equed\EquedLms\Enum\LanguageCode;
 
 /**
  * CourseInstance Domain Model
@@ -55,9 +56,9 @@ final class CourseInstance extends AbstractEntity
     /**
      * Language of instruction
      *
-     * @var string
+     * @var LanguageCode
      */
-    protected string $language = 'en';
+    protected LanguageCode $language = LanguageCode::EN;
 
     /** @var int */
     protected int $seatsTotal = 0;
@@ -187,12 +188,12 @@ final class CourseInstance extends AbstractEntity
         $this->location = $location;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }

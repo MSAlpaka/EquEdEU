@@ -84,7 +84,7 @@ class SyncServiceTest extends TestCase
         $profile->initializeObject();
         $profile->setFeUser(5);
         $profile->setDisplayName('John');
-        $profile->setLanguage('de');
+        $profile->setLanguage(\Equed\EquedLms\Enum\LanguageCode::DE);
         $profile->setCountry('DE');
         $profile->setUpdatedAt(new \DateTimeImmutable('2024-01-01T00:00:00+00:00'));
 

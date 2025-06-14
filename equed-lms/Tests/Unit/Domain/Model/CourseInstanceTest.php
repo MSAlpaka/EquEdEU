@@ -48,10 +48,10 @@ namespace Equed\EquedLms\Tests\Unit\Domain\Model {
 
         public function testSetAndGetLanguageAndSeatsTotal(): void
         {
-            $this->subject->setLanguage('de');
+            $this->subject->setLanguage(\Equed\EquedLms\Enum\LanguageCode::DE);
             $this->subject->setSeatsTotal(10);
 
-            $this->assertSame('de', $this->subject->getLanguage());
+            $this->assertSame(\Equed\EquedLms\Enum\LanguageCode::DE, $this->subject->getLanguage());
             $this->assertSame(10, $this->subject->getSeatsTotal());
         }
 
