@@ -134,6 +134,8 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         $zip->addFile($pdfPath, basename($pdfPath));
         $zip->close();
 
+        $this->filesystem->remove($pdfPath);
+
         return $zipFilePath;
     }
 }
