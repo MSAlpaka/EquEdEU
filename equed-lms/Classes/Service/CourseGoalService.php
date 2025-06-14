@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\CourseGoal;
 use Equed\EquedLms\Domain\Repository\CourseGoalRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseGoalServiceInterface;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 /**
  * Service to manage course goals retrieval and evaluation.
@@ -80,7 +81,16 @@ final class CourseGoalService implements CourseGoalServiceInterface
             $lesson = $progress->getLesson();
             $goal = $lesson?->getCourseGoal();
 
-            if ($goal?->getUid() === $goalId && $progress->getStatus() === 'completed') {
+            if ($goal?->getUid() !== $goalId) {
+                continue;
+            }
+
+            $status = $progress->getStatus();
+            if ($status instanceof ProgressStatus) {
+                if ($status === ProgressStatus::Completed) {
+                    return true;
+                }
+            } elseif ($status === 'completed') {
                 return true;
             }
         }

@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Model\Lesson;
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\ProgressStatus;
 
 class LessonProgressServiceTest extends TestCase
 {
@@ -36,7 +37,7 @@ class LessonProgressServiceTest extends TestCase
         $this->repo->updateOrAdd(\Prophecy\Argument::type(LessonProgress::class))->shouldBeCalled();
 
         $progress = $this->subject->setProgressCompleted($user->reveal(), $lesson->reveal());
-        $this->assertSame('completed', $progress->getStatus());
+        $this->assertSame(ProgressStatus::Completed, $progress->getStatus());
         $this->assertTrue($progress->isCompleted());
     }
 }
