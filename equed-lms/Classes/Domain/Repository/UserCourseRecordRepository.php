@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Enum\UserCourseStatus;
+use Equed\EquedLms\Enum\BadgeLevel;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
@@ -164,6 +165,34 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     }
 
     /**
+     * Find completed course records without an assigned badge.
+     *
+     * @return UserCourseRecord[]
+     */
+    public function findCompletedWithoutBadge(): array
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select('ucr.uid')
+            ->from('tx_equedlms_domain_model_usercourserecord', 'ucr')
+            ->where(
+                $qb->expr()->isNotNull('ucr.completed_at'),
+                $qb->expr()->eq('ucr.badge_level', $qb->createNamedParameter(BadgeLevel::None->value))
+            );
+
+        $uids = $qb->executeQuery()->fetchFirstColumn();
+
+        if ($uids === []) {
+            return [];
+        }
+
+        $query = $this->createQuery();
+        $query->matching($query->in('uid', array_map('intval', $uids)));
+
+        return $query->execute()->toArray();
+    }
+
+    /**
      * Find the latest attempt record for a user and course instance.
      *
      * @param FrontendUser     $user
@@ -204,6 +233,32 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
         $query->setLimit(1);
 
         return $query->execute()->getFirst();
+    }
+
+    /**
+     * Find a course record for a user and course.
+     *
+     * @param int $userId    Frontend user UID
+     * @param int $courseUid Course UID
+     * @return UserCourseRecord|null
+     */
+    public function findOneByUserAndCourse(int $userId, int $courseUid): ?UserCourseRecord
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select('ucr.uid')
+            ->from('tx_equedlms_domain_model_usercourserecord', 'ucr')
+            ->join('ucr', 'tx_equedlms_domain_model_courseinstance', 'ci', 'ci.uid = ucr.course_instance')
+            ->join('ci', 'tx_equedlms_domain_model_course', 'c', 'c.courseprogram = ci.courseprogram')
+            ->where(
+                $qb->expr()->eq('ucr.fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('c.uid', $qb->createNamedParameter($courseUid, \PDO::PARAM_INT))
+            )
+            ->setMaxResults(1);
+
+        $uid = $qb->executeQuery()->fetchOne();
+
+        return is_numeric($uid) ? $this->findByUid((int) $uid) : null;
     }
 
     /**
