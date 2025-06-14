@@ -47,7 +47,7 @@ class MediaUploadServiceTest extends TestCase
         $logger->warning('Upload rejected due to MIME type', Argument::type('array'))->shouldBeCalled();
         $logService = new LogService($logger->reveal());
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $logService, $factory, 1024);
 
         $result = $service->handleUpload(['tmp_name'=>'t','name'=>'f','type'=>'text/plain'], new FrontendUser());
         $this->assertNull($result);
@@ -61,10 +61,27 @@ class MediaUploadServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logService = new LogService($logger->reveal());
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $logService, $factory, 1024);
 
         $file = ['tmp_name'=>'tmp','name'=>'file.jpg','type'=>'image/jpeg'];
         $ref = $service->handleUpload($file, new FrontendUser());
         $this->assertNotNull($ref);
+    }
+
+    public function testHandleUploadRejectsTooLargeFile(): void
+    {
+        $storageRepo = new StorageRepository(new ResourceStorage());
+        $factory = new ResourceFactory();
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->warning('Upload rejected due to file size', Argument::type('array'))->shouldBeCalled();
+        $logService = new LogService($logger->reveal());
+
+        $service = new MediaUploadService($storageRepo, $logService, $factory, 1);
+
+        $tmp = tempnam(sys_get_temp_dir(), 'u');
+        file_put_contents($tmp, str_repeat('x', 2));
+        $result = $service->handleUpload(['tmp_name'=>$tmp,'name'=>'file.jpg','type'=>'image/jpeg'], new FrontendUser());
+        unlink($tmp);
+        $this->assertNull($result);
     }
 }

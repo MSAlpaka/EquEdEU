@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Domain\Service\MediaUploadServiceInterface;
+use TYPO3\CMS\Core\Resource\Exception\FileOperationErrorException;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
@@ -28,7 +29,8 @@ final class MediaUploadService implements MediaUploadServiceInterface
     public function __construct(
         private readonly StorageRepository $storageRepository,
         private readonly LogService $logService,
-        private readonly ResourceFactory $resourceFactory
+        private readonly ResourceFactory $resourceFactory,
+        private readonly int $maxFileSize = 5242880
     ) {
     }
 
@@ -48,6 +50,12 @@ final class MediaUploadService implements MediaUploadServiceInterface
 
         if (!in_array($uploadedFile['type'], self::ALLOWED_MIME_TYPES, true)) {
             $this->logService->logWarning('Upload rejected due to MIME type', ['type' => $uploadedFile['type']]);
+            return null;
+        }
+
+        $size = @filesize($uploadedFile['tmp_name']);
+        if ($size === false || $size > $this->maxFileSize) {
+            $this->logService->logWarning('Upload rejected due to file size', ['size' => $size]);
             return null;
         }
 
@@ -76,7 +84,7 @@ final class MediaUploadService implements MediaUploadServiceInterface
             $fileRef->setDescription('Uploaded by user ID: ' . $user->getUid());
 
             return $fileRef;
-        } catch (\Throwable $e) {
+        } catch (FileOperationErrorException $e) {
             $this->logService->logError('Upload failed', ['exception' => $e]);
             return null;
         }
