@@ -84,4 +84,46 @@ class MediaUploadServiceTest extends TestCase
         unlink($tmp);
         $this->assertNull($result);
     }
+
+    public function testHandleUploadLogsWarningForIncompleteStructure(): void
+    {
+        $storageRepo = new StorageRepository(new ResourceStorage());
+        $factory = new ResourceFactory();
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->warning('Incomplete upload structure.')->shouldBeCalled();
+        $logService = new LogService($logger->reveal());
+
+        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $this->assertNull($service->handleUpload(['name' => 'file.jpg'], new FrontendUser()));
+    }
+
+    public function testHandleUploadLogsErrorWhenStorageMissing(): void
+    {
+        $storageRepo = new StorageRepository(null);
+        $factory = new ResourceFactory();
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->error('No valid storage available.')->shouldBeCalled();
+        $logService = new LogService($logger->reveal());
+
+        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $file = ['tmp_name' => 't', 'name' => 'file.jpg', 'type' => 'image/jpeg'];
+        $this->assertNull($service->handleUpload($file, new FrontendUser()));
+    }
+
+    public function testHandleUploadLogsErrorOnFailure(): void
+    {
+        $storage = new class {
+            public function addFile() { throw new \TYPO3\CMS\Core\Resource\Exception\FileOperationErrorException('fail'); }
+            public function getRootLevelFolder() { return 'root'; }
+        };
+        $storageRepo = new StorageRepository($storage);
+        $factory = new ResourceFactory();
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->error('Upload failed', Argument::type('array'))->shouldBeCalled();
+        $logService = new LogService($logger->reveal());
+
+        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $file = ['tmp_name' => 't', 'name' => 'file.jpg', 'type' => 'image/jpeg'];
+        $this->assertNull($service->handleUpload($file, new FrontendUser()));
+    }
 }

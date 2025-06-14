@@ -87,4 +87,19 @@ final class TokenServiceTest extends TestCase
         $this->subject->invalidateToken($user);
         $this->assertNull($user->getApiToken());
     }
+
+    public function testGenerateTokenUsesGenerator(): void
+    {
+        $gen = $this->prophesize(TokenGeneratorInterface::class);
+        $gen->generate(16)->willReturn(str_repeat('\x01', 16))->shouldBeCalled();
+
+        $service = new TokenService($this->repo->reveal(), $this->pm->reveal(), $gen->reveal());
+
+        $user = new FrontendUser();
+        $this->repo->update($user)->shouldBeCalled();
+        $this->pm->persistAll()->shouldBeCalled();
+
+        $token = $service->generateToken($user);
+        $this->assertSame(bin2hex(str_repeat('\x01', 16)), $token);
+    }
 }

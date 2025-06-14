@@ -69,4 +69,61 @@ class SubmissionSyncServiceTest extends TestCase
 
         $this->assertInstanceOf(UserSubmission::class, $result);
     }
+
+    public function testPullSkipsUpdateWhenLocalIsNewer(): void
+    {
+        $submission = $this->prophesize(UserSubmission::class);
+        $submission->getUuid()->willReturn('u1');
+        $submission->getUpdatedAt()->willReturn(new \DateTimeImmutable('2024-01-02'));
+        $submission->getUid()->willReturn(5);
+
+        $submission->setUser()->shouldNotBeCalled();
+        $submission->setCourseInstance()->shouldNotBeCalled();
+        $submission->setStatus()->shouldNotBeCalled();
+        $submission->setScore()->shouldNotBeCalled();
+        $submission->setGptFeedback()->shouldNotBeCalled();
+        $submission->setUpdatedAt()->shouldNotBeCalled();
+
+        $this->repo->findByUuid('u1')->willReturn($submission->reveal());
+        $this->repo->update($submission->reveal())->shouldBeCalled();
+        $this->persistence->persistAll()->shouldBeCalled();
+
+        $this->subject->pull([
+            'uuid' => 'u1',
+            'userId' => 1,
+            'course' => 2,
+            'status' => 'approved',
+            'updatedAt' => '2024-01-01',
+        ]);
+    }
+
+    public function testPullUpdatesWhenRemoteIsNewer(): void
+    {
+        $submission = $this->prophesize(UserSubmission::class);
+        $submission->getUuid()->willReturn('u3');
+        $submission->getUpdatedAt()->willReturn(new \DateTimeImmutable('2024-01-01'));
+        $submission->getUid()->willReturn(7);
+
+        $submission->setUser(4)->shouldBeCalled();
+        $submission->setCourseInstance(5)->shouldBeCalled();
+        $submission->setStatus('submitted')->shouldBeCalled();
+        $submission->setScore(2.0)->shouldBeCalled();
+        $submission->setGptFeedback('fb')->shouldBeCalled();
+        $this->clock->now()->willReturn(new \DateTimeImmutable('2024-02-01'));
+        $submission->setUpdatedAt(new \DateTimeImmutable('2024-02-01'))->shouldBeCalled();
+
+        $this->repo->findByUuid('u3')->willReturn($submission->reveal());
+        $this->repo->update($submission->reveal())->shouldBeCalled();
+        $this->persistence->persistAll()->shouldBeCalled();
+
+        $this->subject->pull([
+            'uuid' => 'u3',
+            'userId' => 4,
+            'course' => 5,
+            'status' => 'submitted',
+            'score' => 2.0,
+            'gptFeedback' => 'fb',
+            'updatedAt' => '2024-01-02',
+        ]);
+    }
 }
