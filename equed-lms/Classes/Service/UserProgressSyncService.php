@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use Equed\EquedLms\Service\LogService;
 
 /**
  * Handles progress synchronization between app and LMS.
@@ -15,7 +16,8 @@ final class UserProgressSyncService
 {
     public function __construct(
         private readonly UserCourseRecordRepositoryInterface $recordRepository,
-        private readonly PersistenceManagerInterface $persistenceManager
+        private readonly PersistenceManagerInterface $persistenceManager,
+        private readonly LogService $logService
     ) {
     }
 
@@ -55,7 +57,15 @@ final class UserProgressSyncService
                 continue;
             }
 
-            $remoteTime = new \DateTimeImmutable($data['updatedAt']);
+            try {
+                $remoteTime = new \DateTimeImmutable($data['updatedAt']);
+            } catch (\Exception $e) {
+                $this->logService->logWarning(
+                    'Invalid timestamp for progress sync',
+                    ['value' => $data['updatedAt'], 'recordId' => $data['recordId']]
+                );
+                continue;
+            }
             if ($record->getUpdatedAt() !== null && $remoteTime <= $record->getUpdatedAt()) {
                 continue;
             }
