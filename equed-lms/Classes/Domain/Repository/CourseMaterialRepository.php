@@ -52,11 +52,11 @@ final class CourseMaterialRepository extends Repository implements CourseMateria
      */
     public function findAllVisible(): array
     {
-        return $this->createQuery()
-            ->matching(
-                $this->createQuery()->equals('hidden', false)
-            )
-            ->execute()
-            ->toArray();
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('hidden', false)
+        );
+
+        return $query->execute()->toArray();
     }
 }
