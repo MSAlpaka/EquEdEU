@@ -9,7 +9,7 @@ use Equed\EquedLms\Enum\LanguageCode;
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use Equed\Core\Service\UuidGeneratorInterface;
-use TYPO3\CMS\Extbase\Annotation\Inject;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
@@ -21,13 +21,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class TrainingRecord extends AbstractEntity
 {
-    protected string $uuid = '';
-
-    #[Inject]
-    protected UuidGeneratorInterface $uuidGenerator;
-
-    #[Inject]
-    protected ClockInterface $clock;
+    use PersistenceTrait;
 
     #[ManyToOne]
     #[Lazy]
@@ -70,36 +64,18 @@ final class TrainingRecord extends AbstractEntity
 
     protected bool $feedbackReceived = false;
 
-    protected DateTimeImmutable $createdAt;
-    protected DateTimeImmutable $updatedAt;
-
     /**
      * Initializes UUID, date and timestamps.
      */
     public function initializeObject(): void
     {
-        if ($this->uuid === '') {
-            $this->uuid = $this->uuidGenerator->generate();
-        }
+        $this->initializePersistenceTrait();
         $now = $this->clock->now();
         if (!isset($this->date)) {
             $this->date = $now;
         }
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        }
     }
 
-    /**
-     * Gets the UUID.
-     */
-    public function getUuid(): string
-    {
-        return $this->uuid;
-    }
 
     /**
      * Gets the user course record.
@@ -389,35 +365,4 @@ final class TrainingRecord extends AbstractEntity
         $this->feedbackReceived = $feedbackReceived;
     }
 
-    /**
-     * Gets the creation timestamp.
-     */
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Sets the creation timestamp.
-     */
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * Gets the last update timestamp.
-     */
-    public function getUpdatedAt(): DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Sets the last update timestamp.
-     */
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
 }
