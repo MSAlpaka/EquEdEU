@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
-use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
