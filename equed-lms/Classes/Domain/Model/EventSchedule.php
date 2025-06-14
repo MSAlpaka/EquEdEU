@@ -34,7 +34,7 @@ final class EventSchedule extends AbstractEntity
 
     protected string $location = '';
 
-    protected string $maxParticipants = '';
+    protected int $maxParticipants = 0;
 
     protected string $notes = '';
 
@@ -139,12 +139,12 @@ final class EventSchedule extends AbstractEntity
         $this->location = $location;
     }
 
-    public function getMaxParticipants(): string
+    public function getMaxParticipants(): int
     {
         return $this->maxParticipants;
     }
 
-    public function setMaxParticipants(string $maxParticipants): void
+    public function setMaxParticipants(int $maxParticipants): void
     {
         $this->maxParticipants = $maxParticipants;
     }
