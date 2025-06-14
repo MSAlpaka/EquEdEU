@@ -71,7 +71,7 @@ final class TrainingCenterFeedbackRepository extends Repository
         $query->matching(
             $query->equals('trainingCenter', $trainingCenter)
         );
-        $query->setOrderings(['crdate' => QueryInterface::ORDER_DESCENDING]);
+        $query->setOrderings(['createdAt' => QueryInterface::ORDER_DESCENDING]);
         $query->setLimit(1);
 
         return $query->execute()->getFirst();
