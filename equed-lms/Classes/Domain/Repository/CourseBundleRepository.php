@@ -41,7 +41,7 @@ final class CourseBundleRepository extends Repository
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('hidden', 0)
+            $query->equals('hidden', false)
         );
 
         return $query->execute()->toArray();
