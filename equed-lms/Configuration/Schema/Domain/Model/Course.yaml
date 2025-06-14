@@ -13,6 +13,7 @@ columns:
   courseprogram:
     type: integer
   start_date:
+    # stored as UNIX timestamp
     type: integer
   location:
     type: string

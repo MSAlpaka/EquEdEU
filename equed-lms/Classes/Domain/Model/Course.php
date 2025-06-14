@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
+use DateTimeImmutable;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Domain\Model\LearningPath;
@@ -28,7 +29,7 @@ final class Course extends AbstractEntity
     #[Extbase\ORM\Lazy]
     protected ?CourseProgram $courseProgram = null;
 
-    protected int $startDate = 0;
+    protected ?DateTimeImmutable $startDate = null;
 
     protected string $location = '';
 
@@ -72,12 +73,12 @@ final class Course extends AbstractEntity
         $this->courseProgram = $courseProgram;
     }
 
-    public function getStartDate(): int
+    public function getStartDate(): ?DateTimeImmutable
     {
         return $this->startDate;
     }
 
-    public function setStartDate(int $startDate): void
+    public function setStartDate(?DateTimeImmutable $startDate): void
     {
         $this->startDate = $startDate;
     }
