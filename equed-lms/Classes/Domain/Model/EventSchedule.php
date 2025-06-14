@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Model;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
+use Equed\EquedLms\Enum\LanguageCode;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -39,7 +40,7 @@ final class EventSchedule extends AbstractEntity
 
     protected bool $isActive = false;
 
-    protected string $language = '';
+    protected LanguageCode $language = LanguageCode::EN;
 
     protected string $uuid = '';
 
@@ -168,12 +169,12 @@ final class EventSchedule extends AbstractEntity
         $this->isActive = $isActive;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): LanguageCode
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): void
+    public function setLanguage(LanguageCode $language): void
     {
         $this->language = $language;
     }
