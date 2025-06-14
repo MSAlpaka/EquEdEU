@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Scheduler;
 
-use Equed\EquedLms\Service\BadgeAwardService;
+use Equed\EquedLms\Domain\Service\BadgeAwardServiceInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -19,7 +19,7 @@ final class BadgeAwardTask extends AbstractTask implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     public function __construct(
-        private readonly BadgeAwardService $badgeAwardService,
+        private readonly BadgeAwardServiceInterface $badgeAwardService,
         ObjectManagerInterface $objectManager = null
     ) {
         parent::__construct($objectManager);
@@ -43,3 +43,4 @@ final class BadgeAwardTask extends AbstractTask implements LoggerAwareInterface
     }
 }
 // EOF
+

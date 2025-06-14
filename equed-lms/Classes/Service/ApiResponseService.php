@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
 /**
  * Provides standardized API responses with multilingual support.
  */
-final class ApiResponseService
+final class ApiResponseService implements ApiResponseServiceInterface
 {
     public function __construct(
         private readonly GptTranslationServiceInterface $translationService
@@ -58,3 +60,4 @@ final class ApiResponseService
         ];
     }
 }
+

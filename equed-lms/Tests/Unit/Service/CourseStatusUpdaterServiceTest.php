@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\CourseStatusUpdaterService;
-use Equed\EquedLms\Service\CertificateService;
+use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
@@ -30,7 +30,7 @@ class CourseStatusUpdaterServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->certificateService = $this->prophesize(CertificateService::class);
+        $this->certificateService = $this->prophesize(CertificateServiceInterface::class);
         $this->notificationService = $this->prophesize(NotificationServiceInterface::class);
         $this->repository = $this->prophesize(UserCourseRecordRepositoryInterface::class);
         $this->clock = $this->prophesize(ClockInterface::class);

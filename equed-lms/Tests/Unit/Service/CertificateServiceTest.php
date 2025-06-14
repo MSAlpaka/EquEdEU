@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepository;
 use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
 use Equed\EquedLms\Service\CertificateService;
+use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
@@ -19,7 +20,7 @@ class CertificateServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private CertificateService $subject;
+    private CertificateServiceInterface $subject;
     private $repository;
     private $factory;
     private $translator;

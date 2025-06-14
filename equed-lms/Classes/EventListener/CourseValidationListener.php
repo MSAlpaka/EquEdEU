@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\EventListener;
 
 use Equed\EquedLms\Event\Course\CourseValidatedEvent;
-use Equed\EquedLms\Service\CertificateService;
+use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Service\LogService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 final class CourseValidationListener implements EventSubscriberInterface, SingletonInterface
 {
     public function __construct(
-        protected readonly CertificateService $certificateService,
+        protected readonly CertificateServiceInterface $certificateService,
         protected readonly LogService $logService
     ) {
     }
@@ -50,3 +50,4 @@ final class CourseValidationListener implements EventSubscriberInterface, Single
     }
 }
 // EOF
+
