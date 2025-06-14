@@ -10,6 +10,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
 use Equed\EquedLms\Service\CourseAccessService;
+use Equed\EquedLms\Domain\Service\CourseAccessServiceInterface;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,7 @@ class CourseAccessServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private CourseAccessService $subject;
+    private CourseAccessServiceInterface $subject;
     private $repository;
 
     protected function setUp(): void

@@ -11,8 +11,9 @@ use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
 use Equed\EquedLms\Factory\CertificateDispatchFactoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
+use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 
-final class CertificateService
+final class CertificateService implements CertificateServiceInterface
 {
     private string $qrCodeBaseUrl;
 
@@ -76,3 +77,4 @@ final class CertificateService
         }
     }
 }
+

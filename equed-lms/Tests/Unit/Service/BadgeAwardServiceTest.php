@@ -15,6 +15,7 @@ namespace Equed\EquedLms\Domain\Repository {
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\BadgeAwardService;
+use Equed\EquedLms\Domain\Service\BadgeAwardServiceInterface;
 use Equed\EquedLms\Domain\Repository\BadgeAwardRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\LearningPathRepositoryInterface;
@@ -61,6 +62,7 @@ class BadgeAwardServiceTest extends TestCase
             $translator->reveal()
         );
 
+        /** @var BadgeAwardServiceInterface $service */
         $count = $service->awardPendingBadges();
         $this->assertSame(2, $count);
     }

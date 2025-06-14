@@ -8,7 +8,7 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Enum\CourseStatus;
-use Equed\EquedLms\Service\CertificateService;
+use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 
 /**
@@ -18,7 +18,7 @@ use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 final class CourseStatusUpdaterService
 {
     public function __construct(
-        private readonly CertificateService    $certificateService,
+        private readonly CertificateServiceInterface    $certificateService,
         private readonly NotificationServiceInterface   $notificationService,
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
         private readonly ClockInterface        $clock
@@ -54,3 +54,4 @@ final class CourseStatusUpdaterService
         );
     }
 }
+

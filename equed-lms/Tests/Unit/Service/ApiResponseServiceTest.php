@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\ApiResponseService;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
@@ -14,7 +15,7 @@ class ApiResponseServiceTest extends TestCase
 {
     use ProphecyTrait;
 
-    private ApiResponseService $subject;
+    private ApiResponseServiceInterface $subject;
     private $translationService;
 
     protected function setUp(): void

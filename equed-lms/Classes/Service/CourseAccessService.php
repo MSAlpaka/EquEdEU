@@ -7,11 +7,12 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use Equed\EquedLms\Domain\Service\CourseAccessServiceInterface;
 
 /**
  * Service to check access permissions for courses and lessons.
  */
-final class CourseAccessService
+final class CourseAccessService implements CourseAccessServiceInterface
 {
     private array $userRecordsCache = [];
 
@@ -75,3 +76,4 @@ final class CourseAccessService
         return $this->userRecordsCache[$feUserId];
     }
 }
+
