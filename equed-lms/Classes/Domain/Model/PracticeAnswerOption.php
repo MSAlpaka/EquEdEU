@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Equed\Core\Service\UuidGeneratorInterface;
@@ -53,7 +54,7 @@ final class PracticeAnswerOption extends AbstractEntity
     /**
      * Language code for text.
      */
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     /**
      * Who generated this option (e.g. 'human', 'gpt').
@@ -166,7 +167,7 @@ final class PracticeAnswerOption extends AbstractEntity
     /**
      * Gets the language code.
      */
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
@@ -174,7 +175,7 @@ final class PracticeAnswerOption extends AbstractEntity
     /**
      * Sets the language code.
      */
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

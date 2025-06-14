@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
@@ -57,7 +58,7 @@ final class GlossaryTerm extends AbstractEntity
      *
      * @var string
      */
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     /**
      * Optional icon reference
@@ -148,12 +149,12 @@ final class GlossaryTerm extends AbstractEntity
         $this->expertExplanation = $expertExplanation;
     }
 
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -47,7 +48,7 @@ final class CourseMaterial extends AbstractEntity
     #[Lazy]
     protected ?FrontendUser $uploadedBy = null;
 
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     protected string $requiredDocuLevel = 'none';
 
@@ -157,12 +158,12 @@ final class CourseMaterial extends AbstractEntity
         $this->uploadedBy = $uploadedBy;
     }
 
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }

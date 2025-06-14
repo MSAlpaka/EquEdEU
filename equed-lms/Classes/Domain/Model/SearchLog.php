@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
+use Equed\EquedLms\Enum\LanguageCode;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -32,7 +33,7 @@ final class SearchLog extends AbstractEntity
     protected string $termHash = '';
 
     /** Language used for the search */
-    protected string $lang = 'en';
+    protected LanguageCode $lang = LanguageCode::EN;
 
     protected DateTimeImmutable $createdAt;
 
@@ -85,12 +86,12 @@ final class SearchLog extends AbstractEntity
         $this->termHash = sha1($term);
     }
 
-    public function getLang(): string
+    public function getLang(): LanguageCode
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang): void
+    public function setLang(LanguageCode $lang): void
     {
         $this->lang = $lang;
     }
