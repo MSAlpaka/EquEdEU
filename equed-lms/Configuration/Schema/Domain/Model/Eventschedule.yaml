@@ -19,7 +19,7 @@ columns:
   location:
     type: string
   max_participants:
-    type: string
+    type: integer
   notes:
     type: text
   is_active:
