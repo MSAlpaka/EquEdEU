@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\AttachmentType;
+use Equed\EquedLms\Enum\AttachmentVisibility;
+use Equed\EquedLms\Enum\AttachmentStatus;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -38,11 +41,11 @@ final class SubmissionAttachment extends AbstractEntity
 
     protected string $title = '';
 
-    protected string $type = 'fallbericht';
+    protected AttachmentType $type = AttachmentType::Fallbericht;
 
-    protected string $visibility = 'instructor_only';
+    protected AttachmentVisibility $visibility = AttachmentVisibility::InstructorOnly;
 
-    protected string $status = 'active';
+    protected AttachmentStatus $status = AttachmentStatus::Active;
 
     protected LanguageCode $lang = LanguageCode::EN;
 
@@ -139,61 +142,58 @@ final class SubmissionAttachment extends AbstractEntity
 
     /**
      * Gets the type of attachment.
-     *
-     * @return string
      */
-    public function getType(): string
+    public function getType(): AttachmentType
     {
         return $this->type;
     }
 
     /**
      * Sets the type of attachment.
-     *
-     * @param string $type
      */
-    public function setType(string $type): void
+    public function setType(AttachmentType|string $type): void
     {
+        if (is_string($type)) {
+            $type = AttachmentType::from($type);
+        }
         $this->type = $type;
     }
 
     /**
      * Gets the visibility.
-     *
-     * @return string
      */
-    public function getVisibility(): string
+    public function getVisibility(): AttachmentVisibility
     {
         return $this->visibility;
     }
 
     /**
      * Sets the visibility.
-     *
-     * @param string $visibility
      */
-    public function setVisibility(string $visibility): void
+    public function setVisibility(AttachmentVisibility|string $visibility): void
     {
+        if (is_string($visibility)) {
+            $visibility = AttachmentVisibility::from($visibility);
+        }
         $this->visibility = $visibility;
     }
 
     /**
      * Gets the status of the attachment.
-     *
-     * @return string
      */
-    public function getStatus(): string
+    public function getStatus(): AttachmentStatus
     {
         return $this->status;
     }
 
     /**
      * Sets the status of the attachment.
-     *
-     * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(AttachmentStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = AttachmentStatus::from($status);
+        }
         $this->status = $status;
     }
 
