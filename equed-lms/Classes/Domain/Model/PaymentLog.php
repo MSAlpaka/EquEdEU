@@ -81,7 +81,7 @@ final class PaymentLog extends AbstractEntity
 
     public function setUserIdentifier(string|int $userIdentifier): void
     {
-        $this->userHash = sha1((string) $userIdentifier);
+        $this->userHash = hash('sha256', (string) $userIdentifier);
     }
 
     public function getAmount(): string
@@ -111,7 +111,7 @@ final class PaymentLog extends AbstractEntity
 
     public function setTransactionId(string $transactionId): void
     {
-        $this->transactionHash = sha1($transactionId);
+        $this->transactionHash = hash('sha256', $transactionId);
     }
 
     public function getStatus(): PaymentStatus
