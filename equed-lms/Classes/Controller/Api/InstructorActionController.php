@@ -6,7 +6,6 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\InstructorService;
@@ -25,7 +24,6 @@ final class InstructorActionController extends ActionController
         private readonly InstructorService        $instructorService,
         private readonly ConfigurationServiceInterface     $configurationService,
         private readonly GptTranslationServiceInterface    $translationService,
-        private readonly Context                           $context
     ) {
         parent::__construct();
     }
@@ -46,7 +44,7 @@ final class InstructorActionController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $instructorId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($instructorId === null) {
             return new JsonResponse(
@@ -94,7 +92,7 @@ final class InstructorActionController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $instructorId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($instructorId === null) {
             return new JsonResponse(

@@ -8,7 +8,6 @@ use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\AppSyncServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
 /**
@@ -23,8 +22,7 @@ final class AppSyncController
     public function __construct(
         private readonly AppSyncServiceInterface         $appSyncService,
         private readonly ConfigurationServiceInterface   $configurationService,
-        private readonly GptTranslationServiceInterface  $translationService,
-        private readonly Context                         $context
+        private readonly GptTranslationServiceInterface  $translationService
     ) {
     }
 
@@ -44,7 +42,7 @@ final class AppSyncController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(
@@ -88,7 +86,7 @@ final class AppSyncController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(

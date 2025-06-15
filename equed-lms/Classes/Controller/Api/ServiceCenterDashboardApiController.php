@@ -8,7 +8,6 @@ use Equed\EquedLms\Service\ServiceCenterDashboardService;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
@@ -24,7 +23,6 @@ final class ServiceCenterDashboardApiController extends ActionController
         private readonly ServiceCenterDashboardService $dashboardService,
         private readonly ConfigurationServiceInterface $configurationService,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context
     ) {
         parent::__construct();
     }
@@ -37,7 +35,7 @@ final class ServiceCenterDashboardApiController extends ActionController
             ], 403);
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userGroups = is_array($user) ? ($user['usergroup'] ?? []) : [];
 
         if (!is_array($userGroups) || !in_array('service_center', $userGroups)) {

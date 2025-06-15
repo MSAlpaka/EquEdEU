@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\SubmissionSyncService;
@@ -17,7 +16,7 @@ final class SubmissionRestController extends ActionController
     public function __construct(
         private readonly SubmissionSyncService           $submissionService,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context                        $context,
+
     ) {
         parent::__construct();
     }
@@ -26,7 +25,7 @@ final class SubmissionRestController extends ActionController
     {
         $userId = (int)($request->getQueryParams()['userId'] ?? 0);
         if ($userId <= 0) {
-            $user = $this->context->getAspect('frontend.user')->get('user');
+            $user = $request->getAttribute('user');
             $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
         }
         if ($userId <= 0) {
@@ -51,7 +50,7 @@ final class SubmissionRestController extends ActionController
     {
         $data = $request->getParsedBody();
         if (empty($data['userId'])) {
-            $user = $this->context->getAspect('frontend.user')->get('user');
+            $user = $request->getAttribute('user');
             $data['userId'] = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
         }
         if (empty($data['userId']) || !isset($data['submission'])) {

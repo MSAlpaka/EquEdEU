@@ -9,7 +9,6 @@ use Equed\EquedLms\Trait\ErrorResponseTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
@@ -25,7 +24,7 @@ final class UserProgressController extends ActionController
     public function __construct(
         private readonly ProgressService $progressService,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context,
+
     ) {
     }
 
@@ -36,7 +35,7 @@ final class UserProgressController extends ActionController
      */
     public function showAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         if ($user === null) {
             return new JsonResponse([
@@ -60,7 +59,7 @@ final class UserProgressController extends ActionController
      */
     public function courseAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         $params = $request->getQueryParams();
         $recordId = (int)($params['recordId'] ?? 0);

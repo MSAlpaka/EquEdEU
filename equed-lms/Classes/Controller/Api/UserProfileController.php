@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
@@ -25,7 +24,7 @@ final class UserProfileController extends ActionController
     public function __construct(
         private readonly ConnectionPool $connectionPool,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context,
+
     ) {
     }
 
@@ -34,7 +33,7 @@ final class UserProfileController extends ActionController
      */
     public function showAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         if ($user === null) {
             return new JsonResponse([
@@ -65,7 +64,7 @@ final class UserProfileController extends ActionController
      */
     public function updateAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         $body = $request->getParsedBody();
         if ($user === null) {

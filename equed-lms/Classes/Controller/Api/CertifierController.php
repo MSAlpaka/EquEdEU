@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\CertifierServiceInterface;
@@ -25,7 +24,6 @@ final class CertifierController
         private readonly CertifierServiceInterface        $certifierService,
         private readonly ConfigurationServiceInterface     $configurationService,
         private readonly GptTranslationServiceInterface    $translationService,
-        private readonly Context                           $context
     ) {
     }
 
@@ -45,7 +43,7 @@ final class CertifierController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $certifierId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($certifierId === null) {
             return new JsonResponse(
@@ -81,7 +79,7 @@ final class CertifierController
         $body = (array)$request->getParsedBody();
         $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $certifierId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
 
         if ($certifierId === null || $recordId <= 0) {
@@ -119,7 +117,7 @@ final class CertifierController
         $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
         $feedback = isset($body['feedback']) ? trim((string)$body['feedback']) : '';
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $certifierId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
 
         if ($certifierId === null || $recordId <= 0 || $feedback === '') {

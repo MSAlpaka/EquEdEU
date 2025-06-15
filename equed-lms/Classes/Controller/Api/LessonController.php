@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\LessonProgressSyncService;
 use Equed\Core\Service\ConfigurationServiceInterface;
@@ -24,7 +23,6 @@ final class LessonController extends ActionController
         private readonly LessonProgressSyncService $progressService,
         private readonly ConfigurationServiceInterface $configurationService,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context
     ) {
         parent::__construct();
     }
@@ -37,7 +35,7 @@ final class LessonController extends ActionController
             ], 403);
         }
 
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $userId = is_array($userContext) && isset($userContext['uid']) ? (int)$userContext['uid'] : null;
 
         if ($userId === null) {

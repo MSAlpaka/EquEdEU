@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
@@ -26,7 +25,6 @@ final class NotificationController extends ActionController
         private readonly NotificationServiceInterface    $notificationService,
         private readonly ConfigurationServiceInterface   $configurationService,
         private readonly GptTranslationServiceInterface  $translationService,
-        private readonly Context                         $context
     ) {
         parent::__construct();
     }
@@ -43,7 +41,7 @@ final class NotificationController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(
@@ -72,7 +70,7 @@ final class NotificationController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(

@@ -8,7 +8,6 @@ use Equed\EquedLms\Service\QuizManagerInterface;
 use Equed\EquedLms\Dto\QuizSubmissionRequest;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -22,8 +21,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class QuizController extends ActionController
 {
     public function __construct(
-        private readonly QuizManagerInterface $quizManager,
-        private readonly Context $context
+        private readonly QuizManagerInterface $quizManager
     ) {
         parent::__construct();
     }
@@ -36,7 +34,7 @@ final class QuizController extends ActionController
      */
     public function listAction(ServerRequestInterface $request): ResponseInterface
     {
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
 
         $data = $this->quizManager->listQuizzes($userId);
@@ -89,7 +87,7 @@ final class QuizController extends ActionController
     {
         $quizId = (int)($request->getParsedBody()['quiz'] ?? 0);
         $answers = (array)($request->getParsedBody()['answers'] ?? []);
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
 
         $dto = new QuizSubmissionRequest($quizId, $userId, $answers);

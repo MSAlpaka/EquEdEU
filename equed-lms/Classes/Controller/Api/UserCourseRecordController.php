@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
@@ -25,7 +24,7 @@ final class UserCourseRecordController extends ActionController
     public function __construct(
         private readonly ConnectionPool $connectionPool,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context,
+
     ) {
     }
 
@@ -34,7 +33,7 @@ final class UserCourseRecordController extends ActionController
      */
     public function listAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         if ($user === null) {
             return new JsonResponse([
@@ -61,7 +60,7 @@ final class UserCourseRecordController extends ActionController
      */
     public function showAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         $id = (int)($request->getQueryParams()['uid'] ?? 0);
         if ($user === null || $id <= 0) {
@@ -94,7 +93,7 @@ final class UserCourseRecordController extends ActionController
      */
     public function updateAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         $body = $request->getParsedBody();
         $id = (int)($body['uid'] ?? 0);
@@ -130,7 +129,7 @@ final class UserCourseRecordController extends ActionController
      */
     public function deleteAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         $id = (int)($request->getQueryParams()['uid'] ?? 0);
         if ($user === null || $id <= 0) {

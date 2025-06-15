@@ -10,7 +10,6 @@ use Equed\Core\Service\PasswordHasherInterface;
 use Equed\EquedLms\Domain\Repository\UserRepositoryInterface;
 use Equed\EquedLms\Domain\Service\JwtServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
 /**
@@ -28,7 +27,6 @@ final class AuthController
         private readonly PasswordHasherInterface        $passwordHasher,
         private readonly ConfigurationServiceInterface  $configurationService,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context                        $context
     ) {
     }
 
@@ -118,7 +116,7 @@ final class AuthController
             );
         }
 
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         if (!is_array($userContext) || !isset($userContext['uid'])) {
             return new JsonResponse(
                 ['error' => $this->translationService->translate('api.auth.unauthorized')],

@@ -21,17 +21,14 @@ return [
             'target' => \Equed\EquedLms\Middleware\LmsLoggingMiddleware::class,
             'after' => ['equed-lms/language'],
         ],
-        'equed-lms/token' => [
-            'target' => \Equed\EquedLms\Middleware\ApiTokenMiddleware::class,
-            'before' => ['equed-lms/user'],
-        ],
-        'equed-lms/user' => [
-            'target' => \Equed\EquedLms\Middleware\FrontendUserMiddleware::class,
-            'after' => ['equed-lms/token'],
+        // Validate bearer or API tokens and populate request user attribute
+        'equed-lms/auth' => [
+            'target' => \Equed\EquedLms\Middleware\TokenUserMiddleware::class,
+            'after'  => ['equed-lms/logging'],
         ],
         'equed-lms/course-access' => [
             'target' => \Equed\EquedLms\Middleware\CourseAccessMiddleware::class,
-            'after' => ['equed-lms/user'],
+            'after' => ['equed-lms/auth'],
         ],
     ],
 ];
