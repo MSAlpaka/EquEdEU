@@ -162,3 +162,6 @@ services:
   Equed\EquedLms\Service\QuizManagerInterface:
     class: Equed\EquedLms\Service\QuizManager
 
+  Equed\EquedLms\Domain\Service\CourseBundleServiceInterface:
+    class: Equed\EquedLms\Service\CourseBundleService
+
