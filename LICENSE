@@ -1,0 +1,37 @@
+# EquEdEU Licensing Overview
+
+Copyright (c) 2025 Equine Education Europe Ltd.
+All rights reserved.
+
+EquEdEU is a modular educational platform. This repository contains a mixture of proprietary and optionally open components.
+Unless a module explicitly includes its own license file, all source code, documentation and assets are proprietary.
+
+## Proprietary components
+The following modules and services were developed exclusively by Equine Education Europe Ltd. and **may not** be used, reproduced, distributed or modified without prior written permission:
+
+- `equed-lms`
+- `equed-cert`
+- `equed-auth`
+- `TranslationService`
+
+Commercial reproduction, derivative works and any unlicensed usage of these modules are strictly forbidden.
+They are provided for internal use only and may operate solely on infrastructure authorised by Equine Education Europe Ltd.
+
+## Open source modules
+Certain modules may be released separately under their own licenses (for example, MPL-2.0). When this applies, the module folder contains a dedicated `LICENSE` file. Example modules include:
+
+- `equed-demo`
+- `equed-utils`
+- `equed-qms` (optional)
+
+If a module does not contain its own license file, it is proprietary.
+
+## Trademarks
+EquEdEU and all related names and logos are trademarks of Equine Education Europe Ltd. Use of these marks is not permitted without authorisation.
+
+## Server-side components
+Some parts of the system are only provided as server-side services. Access to or use of these services does not grant any rights to the underlying source code.
+
+## Licensing enquiries
+For licence requests or partnership discussions please contact **legal@equed.eu**.
+
