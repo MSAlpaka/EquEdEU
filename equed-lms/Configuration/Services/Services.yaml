@@ -150,3 +150,6 @@ services:
   Equed\EquedLms\Service\MailServiceInterface:
     class: Equed\EquedLms\Service\Email\MailService
 
+  Equed\EquedLms\Domain\Service\MaterialListServiceInterface:
+    class: Equed\EquedLms\Service\MaterialListService
+
