@@ -10,7 +10,9 @@ use Equed\EquedLms\Enum\ProgressStatus;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Service\LessonProgressSyncService;
+use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Prophecy\Argument;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
@@ -24,6 +26,7 @@ class LessonProgressSyncServiceTest extends TestCase
     private $lessonRepo;
     private $pm;
     private $clock;
+    private $logger;
 
     protected function setUp(): void
     {
@@ -31,11 +34,14 @@ class LessonProgressSyncServiceTest extends TestCase
         $this->lessonRepo = $this->prophesize(LessonRepositoryInterface::class);
         $this->pm = $this->prophesize(PersistenceManagerInterface::class);
         $this->clock = $this->prophesize(ClockInterface::class);
+        $this->logger = $this->prophesize(\Psr\Log\LoggerInterface::class);
+        $logService = new LogService($this->logger->reveal());
         $this->subject = new LessonProgressSyncService(
             $this->progressRepo->reveal(),
             $this->lessonRepo->reveal(),
             $this->pm->reveal(),
-            $this->clock->reveal()
+            $this->clock->reveal(),
+            $logService
         );
     }
 
@@ -127,5 +133,30 @@ class LessonProgressSyncServiceTest extends TestCase
                 'updatedAt' => '2024-01-02T00:00:00+00:00',
             ]
         ], 2);
+    }
+
+    public function testSyncFromAppSkipsInvalidDate(): void
+    {
+        $lesson = $this->prophesize(Lesson::class);
+        $lesson->getUid()->willReturn(7);
+        $this->lessonRepo->findByUid(7)->willReturn($lesson->reveal());
+
+        $existing = $this->prophesize(LessonProgress::class);
+        $existing->getUpdatedAt()->willReturn(new \DateTimeImmutable('2024-01-01T00:00:00+00:00'));
+
+        $this->progressRepo->findByUserAndLesson(3, 7)->willReturn($existing->reveal());
+        $this->progressRepo->updateOrAdd($existing->reveal())->shouldNotBeCalled();
+        $this->pm->persistAll()->shouldNotBeCalled();
+        $this->logger->warning('Invalid timestamp for progress sync', Argument::type('array'))->shouldBeCalled();
+
+        $this->subject->syncFromApp([
+            [
+                'lessonId' => 7,
+                'progress' => 50,
+                'status' => 'inProgress',
+                'completed' => false,
+                'updatedAt' => 'not-a-date',
+            ]
+        ], 3);
     }
 }
