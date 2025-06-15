@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Controller;
 
-use Equed\EquedLms\Domain\Repository\MaterialRepository;
-use Equed\Core\Service\GptTranslationServiceInterface;
-use TYPO3\CMS\Core\Context\Context;
+use Equed\EquedLms\Domain\Service\MaterialListServiceInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -18,9 +17,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class MaterialController extends ActionController
 {
     public function __construct(
-        private readonly MaterialRepository          $materialRepository,
-        private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context                       $context
+        private readonly MaterialListServiceInterface $listService,
     ) {
         parent::__construct();
     }
@@ -30,31 +27,15 @@ final class MaterialController extends ActionController
      *
      * @return void
      */
-    public function listAction(): void
+    public function listAction(ServerRequestInterface $request): void
     {
-        // Determine UI language and mode
-        $language = (string)($this->context->getAspect('frontend.user')->get('language') ?? 'en');
-        $mode = $language === 'easy' ? 'simple' : 'expert';
+        $queryParams = $request->getQueryParams();
+        $type       = (string)($queryParams['type'] ?? '');
+        $category   = (string)($queryParams['category'] ?? '');
 
-        // Fetch filters from request
-        $type = (string)($this->request->getArgument('type') ?? '');
-        $category = (string)($this->request->getArgument('category') ?? '');
+        $data = $this->listService->getListData($type, $category);
 
-        // Retrieve materials via repository (uses QueryBuilder internally)
-        $materials = $this->materialRepository->findByTypeAndCategory($type, $category);
-
-        // Assign data to Fluid template
-        $this->view->assignMultiple([
-            'materials'      => $materials,
-            'type'           => $type,
-            'category'       => $category,
-            'mode'           => $mode,
-            'labels'         => [
-                'heading'        => $this->translationService->translate('material.list.heading', $language),
-                'filterType'     => $this->translationService->translate('material.filter.type', $language),
-                'filterCategory' => $this->translationService->translate('material.filter.category', $language),
-            ],
-        ]);
+        $this->view->assignMultiple($data);
     }
 }
 // End of file
