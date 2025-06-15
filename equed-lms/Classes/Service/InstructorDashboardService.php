@@ -32,11 +32,21 @@ final class InstructorDashboardService
         $instances = $this->courseInstanceRepository->findByInstructor($instructorId);
         $records   = $this->userCourseRecordRepository->findByInstructor($instructorId);
 
+        $validatedRecords = array_filter(
+            $records,
+            fn ($r) => $r->getStatus() === \Equed\EquedLms\Enum\UserCourseStatus::Validated
+        );
+
+        $openTasks = array_filter(
+            $records,
+            fn ($r) => $r->getStatus() === \Equed\EquedLms\Enum\UserCourseStatus::InProgress
+        );
+
         return [
             'courseInstanceCount' => count($instances),
             'participantCount'    => count($records),
-            'validatedRecords'    => array_filter($records, fn ($r) => $r->getStatus() === \Equed\EquedLms\Enum\UserCourseStatus::Validated),
-            'openTasks'           => array_filter($records, fn ($r) => $r->getStatus() === \Equed\EquedLms\Enum\UserCourseStatus::InProgress),
+            'validatedRecords'    => count($validatedRecords),
+            'openTasks'           => count($openTasks),
         ];
     }
 }
