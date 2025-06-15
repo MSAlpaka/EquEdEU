@@ -24,6 +24,12 @@ final class LessonProgressSyncService
     ) {
     }
 
+    /**
+     * Export progress entries for synchronisation with the mobile app.
+     *
+     * @param int $userId Frontend user identifier
+     * @return array<int, array<string, mixed>> Serializable progress data
+     */
     public function exportForApp(int $userId): array
     {
         $entries = $this->progressRepository->findByUserId($userId);
@@ -42,6 +48,13 @@ final class LessonProgressSyncService
         return $result;
     }
 
+    /**
+     * Import progress information from the mobile app.
+     *
+     * @param array<int, array<string, mixed>> $progressData Data from the app
+     * @param int                               $userId       Frontend user id
+     * @return void
+     */
     public function syncFromApp(array $progressData, int $userId): void
     {
         foreach ($progressData as $item) {

@@ -27,6 +27,12 @@ final class RecognitionAwardService
     ) {
     }
 
+    /**
+     * Determine whether the user qualifies for the advanced title badge.
+     *
+     * @param int $userId User identifier
+     * @return bool True when the user qualifies
+     */
     public function qualifiesForAdvancedTitle(int $userId): bool
     {
         $cacheKey = sprintf('qualifyAdvanced_%d', $userId);
@@ -44,6 +50,13 @@ final class RecognitionAwardService
         return $qualifies;
     }
 
+    /**
+     * Assign a recognition badge of the given type to a user.
+     *
+     * @param int    $userId User identifier
+     * @param string $type   Badge type
+     * @return UserBadge Newly created or existing badge entity
+     */
     public function assignRecognitionBadge(int $userId, string $type): UserBadge
     {
         $existing = $this->userBadgeRepository->findByUserAndType($userId, $type);

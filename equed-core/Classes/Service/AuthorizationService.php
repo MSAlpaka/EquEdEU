@@ -31,21 +31,42 @@ class AuthorizationService
         $this->roles = array_map('strtolower', $roles);
     }
 
+    /**
+     * Check if the current user has the given role.
+     *
+     * @param string $role Role identifier
+     * @return bool True if the user has the role
+     */
     private function hasRole(string $role): bool
     {
         return in_array(strtolower($role), $this->roles, true);
     }
 
+    /**
+     * Determine whether the current user is a certifier.
+     *
+     * @return bool True when the user has the certifier role
+     */
     public function isCertifier(): bool
     {
         return $this->hasRole('certifier');
     }
 
+    /**
+     * Determine whether the current user is a service center.
+     *
+     * @return bool True when the user has the service center role
+     */
     public function isServiceCenter(): bool
     {
         return $this->hasRole('servicecenter');
     }
 
+    /**
+     * Determine whether the current user is an instructor.
+     *
+     * @return bool True when the user has the instructor role
+     */
     public function isInstructor(): bool
     {
         return $this->hasRole('instructor');

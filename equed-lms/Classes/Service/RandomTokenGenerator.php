@@ -9,6 +9,11 @@ namespace Equed\EquedLms\Service;
  */
 final class RandomTokenGenerator implements TokenGeneratorInterface
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @return string Random token bytes
+     */
     public function generate(int $length): string
     {
         return random_bytes($length);

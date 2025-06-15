@@ -6,6 +6,9 @@ namespace Equed\EquedCore\Service;
 
 use Equed\EquedCore\Service\GptClientInterface;
 
+/**
+ * Basic GPT-based translation helper.
+ */
 class GptTranslationService
 {
     /** @internal */
@@ -25,16 +28,33 @@ class GptTranslationService
         $this->endpoint = $endpoint ?? (string) getenv(self::ENV_ENDPOINT);
     }
 
+    /**
+     * Retrieve the API key used for requests.
+     *
+     * @return string API key
+     */
     public function getApiKey(): string
     {
         return $this->apiKey;
     }
 
+    /**
+     * Retrieve the API endpoint URL.
+     *
+     * @return string Endpoint URL
+     */
     public function getEndpoint(): string
     {
         return $this->endpoint;
     }
 
+    /**
+     * Translate a string into the requested language.
+     *
+     * @param string $text       Text to translate
+     * @param string $targetLang Target ISO language code
+     * @return string Translated text (empty string on failure)
+     */
     public function translate(string $text, string $targetLang): string
     {
         $response = $this->gptClient->postJson(

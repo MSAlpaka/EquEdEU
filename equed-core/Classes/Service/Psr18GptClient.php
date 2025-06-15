@@ -21,6 +21,11 @@ final class Psr18GptClient implements GptClientInterface
     ) {
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return ResponseInterface Response from the HTTP client
+     */
     public function postJson(string $url, array $headers, array $payload): ResponseInterface
     {
         $headers['Content-Type'] = $headers['Content-Type'] ?? 'application/json';

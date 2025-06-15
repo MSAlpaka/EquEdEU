@@ -14,9 +14,11 @@ interface GptClientInterface
     /**
      * Send a POST request with a JSON payload.
      *
-     * @param string               $url     Request URL
-     * @param array<string,string> $headers HTTP headers
-     * @param array<string,mixed>  $payload JSON body payload
+    * @param string               $url     Request URL
+    * @param array<string,string> $headers HTTP headers
+    * @param array<string,mixed>  $payload JSON body payload
+     *
+     * @return ResponseInterface HTTP response from the GPT service
      */
     public function postJson(string $url, array $headers, array $payload): ResponseInterface;
 }

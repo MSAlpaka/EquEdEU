@@ -30,6 +30,8 @@ final class QmsEscalationService
 
     /**
      * Escaliert einen QMS-Eintrag basierend auf den übergebenen Daten.
+     *
+     * @return void
      */
     public function escalate(QmsCase $case): void
     {
