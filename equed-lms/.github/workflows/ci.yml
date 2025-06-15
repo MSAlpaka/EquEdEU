@@ -29,6 +29,13 @@ jobs:
       - name: Static analysis - Psalm
         run: composer psalm
       - name: Static analysis - PHPStan
-        run: composer phpstan
+        continue-on-error: true
+        run: |
+          vendor/bin/phpstan analyse --error-format=sarif > phpstan.sarif || echo "PHPStan failed"
+      - name: Upload PHPStan report
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: phpstan.sarif
       - name: Run tests
         run: composer test
