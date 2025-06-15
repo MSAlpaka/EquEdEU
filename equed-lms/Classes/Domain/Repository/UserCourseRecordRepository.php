@@ -332,17 +332,21 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     /**
      * Find course records for a user filtered by status.
      *
-     * @param int    $userId Frontend user UID
-     * @param string $status Status value from UserCourseStatus
+     * @param int                       $userId Frontend user UID
+     * @param UserCourseStatus|string    $status Status value from UserCourseStatus
      * @return UserCourseRecord[]
      */
-    public function findByUserAndStatus(int $userId, string $status): array
+    public function findByUserAndStatus(int $userId, UserCourseStatus|string $status): array
     {
+        if (is_string($status)) {
+            $status = UserCourseStatus::from($status);
+        }
+
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
                 $query->equals('user', $userId),
-                $query->equals('status', $status),
+                $query->equals('status', $status->value),
             ])
         );
 
