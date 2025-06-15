@@ -42,6 +42,7 @@
         <file>./Tests/Unit/Service/TrainingRecordGeneratorServiceTest.php</file>
         <file>./Tests/Unit/Service/TabsBuilderTest.php</file>
         <file>./Tests/Unit/Service/FilterMetadataProviderTest.php</file>
+        <file>./Tests/Unit/Service/InstructorDashboardServiceTest.php</file>
         </testsuite>
         <testsuite name="functional">
             <directory>./Tests/Functional/</directory>
