@@ -1,0 +1,54 @@
+name: Extension CI
+
+on:
+  push:
+    paths:
+      - 'equed-*/**'
+  pull_request:
+    paths:
+      - 'equed-*/**'
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        run: |
+          EXTENSIONS=$(find . -maxdepth 1 -type d -name 'equed-*' -printf '%f\n' | jq -R -s -c 'split("\n") | map(select(length>0))')
+          echo "matrix=$EXTENSIONS" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        extension: ${{ fromJson(needs.discover.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: xml, gd
+          coverage: none
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+        working-directory: ${{ matrix.extension }}
+      - name: Run phpstan
+        run: |
+          if [ -f vendor/bin/phpstan ]; then
+            vendor/bin/phpstan analyse
+          else
+            echo 'phpstan not installed'
+          fi
+        working-directory: ${{ matrix.extension }}
+      - name: Run PHPUnit
+        run: |
+          if [ -f phpunit.xml ] || [ -f phpunit.xml.dist ]; then
+            vendor/bin/phpunit
+          else
+            echo 'No PHPUnit tests found'
+          fi
+        working-directory: ${{ matrix.extension }}
