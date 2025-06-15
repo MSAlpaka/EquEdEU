@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 use Equed\EquedLms\Domain\Service\CourseAccessMapServiceInterface;
 
 /**
@@ -18,35 +19,33 @@ use Equed\EquedLms\Domain\Service\CourseAccessMapServiceInterface;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <course_access_map_api> feature toggle.
  */
-final class CourseAccessMapController
+final class CourseAccessMapController extends BaseApiController
 {
     public function __construct(
-        private readonly CourseAccessMapServiceInterface    $accessMapService,
-        private readonly ConfigurationServiceInterface      $configurationService,
-        private readonly GptTranslationServiceInterface     $translationService
+        private readonly CourseAccessMapServiceInterface $accessMapService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
      * Returns the course-access map as JSON.
      *
      * @param ServerRequestInterface $request
-     * @return ResponseInterface
+     * @return JsonResponse
      * @throws \Throwable
      */
-    public function mapAction(ServerRequestInterface $request): ResponseInterface
+    public function mapAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('course_access_map_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseAccessMap.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('course_access_map_api')) !== null) {
+            return $check;
         }
 
         $map = $this->accessMapService->getCourseAccessMap();
 
-        return new JsonResponse([
-            'status'    => 'success',
+        return $this->jsonSuccess([
             'accessMap' => $map,
         ]);
     }
