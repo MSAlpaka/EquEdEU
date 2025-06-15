@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Controller\Api;
 
-use Equed\EquedLms\Trait\ErrorResponseTrait;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+use Equed\EquedLms\Domain\Service\UserAccountServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
 /**
@@ -17,62 +17,54 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
  *
  * Manages user profile retrieval and updates via API.
  */
-final class UserProfileController extends ActionController
+final class UserProfileController extends BaseApiController
 {
-    use ErrorResponseTrait;
-
     public function __construct(
-        private readonly ConnectionPool $connectionPool,
-        private readonly GptTranslationServiceInterface $translationService,
-
+        private readonly UserAccountServiceInterface $accountService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
      * Get current user profile.
      */
-    public function showAction(ServerRequestInterface $request): ResponseInterface
+    public function showAction(ServerRequestInterface $request): JsonResponse
     {
-        $userContext = $request->getAttribute('user');
-        $user = is_array($userContext) ? $userContext : null;
-        if ($user === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userProfile.unauthorized'),
-            ], 401);
+        if (($check = $this->requireFeature('user_profile_api')) !== null) {
+            return $check;
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('fe_users');
-        $qb->select('uid', 'username', 'name', 'email', 'usergroup')
-            ->from('fe_users')
-            ->where(
-                $qb->expr()->eq('uid', $qb->createNamedParameter((int)$user['uid'], \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            );
-
-        $profile = $qb->executeQuery()->fetchAssociative();
-        if ($profile === false) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userProfile.notFound'),
-            ], 404);
+        $userId = $this->getCurrentUserId($request);
+        if ($userId === null) {
+            return $this->jsonError('api.userProfile.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        return new JsonResponse(['status' => 'success', 'profile' => $profile]);
+        $profile = $this->accountService->getProfile($userId);
+        if ($profile === null) {
+            return $this->jsonError('api.userProfile.notFound', JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        return $this->jsonSuccess(['profile' => $profile]);
     }
 
     /**
      * Update current user profile.
      */
-    public function updateAction(ServerRequestInterface $request): ResponseInterface
+    public function updateAction(ServerRequestInterface $request): JsonResponse
     {
-        $userContext = $request->getAttribute('user');
-        $user = is_array($userContext) ? $userContext : null;
-        $body = $request->getParsedBody();
-        if ($user === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userProfile.unauthorized'),
-            ], 401);
+        if (($check = $this->requireFeature('user_profile_api')) !== null) {
+            return $check;
         }
 
+        $userId = $this->getCurrentUserId($request);
+        if ($userId === null) {
+            return $this->jsonError('api.userProfile.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $body   = (array) $request->getParsedBody();
         $fields = [];
         $allowed = ['name', 'email'];
         foreach ($allowed as $field) {
@@ -81,24 +73,13 @@ final class UserProfileController extends ActionController
             }
         }
 
-        if (empty($fields)) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userProfile.noFields'),
-            ], 400);
+        if ($fields === []) {
+            return $this->jsonError('api.userProfile.noFields', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $fields['tstamp'] = time();
-        $connection = $this->connectionPool->getConnectionForTable('fe_users');
-        $connection->update(
-            'fe_users',
-            $fields,
-            ['uid' => (int)$user['uid']]
-        );
+        $this->accountService->updateProfile($userId, $fields);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.userProfile.updated'),
-        ]);
+        return $this->jsonSuccess([], 'api.userProfile.updated');
     }
 }
 // End of file
