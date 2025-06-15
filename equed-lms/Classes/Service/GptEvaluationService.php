@@ -71,10 +71,10 @@ final class GptEvaluationService
             return null;
         }
 
-        $prompt = $this->translationService->translate(
+        $prompt = (string) ($this->translationService->translate(
             'submission.evaluation.prompt',
             ['content' => $content]
-        );
+        ) ?? '');
 
         $payload = [
             'model'       => 'gpt-3.5-turbo',

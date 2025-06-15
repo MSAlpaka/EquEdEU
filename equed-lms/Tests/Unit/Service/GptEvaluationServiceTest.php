@@ -77,6 +77,52 @@ class GptEvaluationServiceTest extends TestCase
         $this->assertSame(4.2, $result['suggestedScore']);
     }
 
+    public function testEvaluateSubmissionHandlesNullTranslation(): void
+    {
+        $submission = new Submission();
+        $submission->setTextContent(str_repeat('A', 30));
+
+        $repo = $this->prophesize(SubmissionRepositoryInterface::class);
+        $repo->update($submission)->shouldBeCalled();
+
+        $gptClient = $this->prophesize(GptClientInterface::class);
+        $body = json_encode([
+            'choices' => [[
+                'message' => ['content' => json_encode(['suggestedScore' => 3.5])]
+            ]]
+        ]);
+        $response = $this->createConfiguredMock(ResponseInterface::class, [
+            'getBody' => $this->createConfiguredMock(\Psr\Http\Message\StreamInterface::class, [
+                'getContents' => $body,
+            ])
+        ]);
+        $gptClient->postJson(Argument::cetera())->willReturn($response);
+
+        $translator = $this->prophesize(GptTranslationServiceInterface::class);
+        $translator->translate('submission.evaluation.prompt', ['content' => $submission->getTextContent()])->willReturn(null);
+
+        $clock = $this->prophesize(ClockInterface::class);
+        $clock->now()->willReturn(new DateTimeImmutable('2024-01-01'));
+
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logService = new LogService($logger->reveal());
+
+        $service = new GptEvaluationService(
+            $repo->reveal(),
+            $gptClient->reveal(),
+            $translator->reveal(),
+            $logService,
+            'key',
+            true,
+            'https://api',
+            $clock->reveal()
+        );
+
+        $result = $service->evaluateSubmission($submission);
+        $this->assertIsArray($result);
+        $this->assertSame(3.5, $result['suggestedScore']);
+    }
+
     public function testEvaluatePendingDisabled(): void
     {
         $repo = $this->prophesize(SubmissionRepositoryInterface::class);
