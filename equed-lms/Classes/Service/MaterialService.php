@@ -6,11 +6,12 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\CourseMaterial;
 use Equed\EquedLms\Domain\Repository\CourseMaterialRepositoryInterface;
+use Equed\EquedLms\Domain\Service\MaterialServiceInterface;
 
 /**
  * Service to retrieve course materials for lessons and content pages.
  */
-final class MaterialService
+final class MaterialService implements MaterialServiceInterface
 {
     public function __construct(
         private readonly CourseMaterialRepositoryInterface $materialRepository
@@ -47,5 +48,13 @@ final class MaterialService
     public function getAllVisibleMaterials(): array
     {
         return $this->materialRepository->findAllVisible();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMaterialsByType(string $type): array
+    {
+        return $this->materialRepository->findByType($type);
     }
 }

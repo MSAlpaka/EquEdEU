@@ -37,4 +37,17 @@ final class MaterialServiceTest extends TestCase
 
         $this->assertSame([$visible], $result);
     }
+
+    public function testReturnsMaterialsByType(): void
+    {
+        $material = new CourseMaterial();
+
+        $this->repository->findByType('pdf')->willReturn([
+            $material,
+        ]);
+
+        $result = $this->subject->getMaterialsByType('pdf');
+
+        $this->assertSame([$material], $result);
+    }
 }
