@@ -14,11 +14,9 @@ jobs:
         with:
           php-version: '8.2'
       - name: Composer validate
-        run: composer validate --strict
-      - name: Additional structure check
         run: |
-          if [ -x ./scripts/check-monorepo-structure.sh ]; then
-            ./scripts/check-monorepo-structure.sh
-          else
-            echo 'No monorepo structure script found'
-          fi
+          for dir in equed-*; do
+            if [ -f "$dir/composer.json" ]; then
+              composer validate --strict --working-dir "$dir"
+            fi
+          done
