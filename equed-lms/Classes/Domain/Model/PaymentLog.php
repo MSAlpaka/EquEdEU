@@ -9,6 +9,7 @@ use Equed\Core\Service\ClockInterface;
 use Equed\Core\Service\UuidGeneratorInterface;
 use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\PaymentStatus;
 
 /**
  * PaymentLog
@@ -38,7 +39,7 @@ final class PaymentLog extends AbstractEntity
     protected string $transactionHash = '';
 
     /** Payment status */
-    protected int $status = 0;
+    protected PaymentStatus $status = PaymentStatus::Pending;
 
     protected DateTimeImmutable $createdAt;
 
@@ -113,13 +114,26 @@ final class PaymentLog extends AbstractEntity
         $this->transactionHash = sha1($transactionId);
     }
 
-    public function getStatus(): int
+    public function getStatus(): PaymentStatus
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): void
+    public function setStatus(PaymentStatus|int|string $status): void
     {
+        if (!$status instanceof PaymentStatus) {
+            if (is_int($status)) {
+                $status = match ($status) {
+                    0 => PaymentStatus::Pending,
+                    1 => PaymentStatus::Successful,
+                    2 => PaymentStatus::Failed,
+                    default => PaymentStatus::Pending,
+                };
+            } else {
+                $status = PaymentStatus::from((string) $status);
+            }
+        }
+
         $this->status = $status;
     }
 
