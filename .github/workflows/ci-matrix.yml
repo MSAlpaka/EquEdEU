@@ -8,6 +8,10 @@ on:
     paths:
       - 'equed-*/**'
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   discover:
     runs-on: ubuntu-latest
