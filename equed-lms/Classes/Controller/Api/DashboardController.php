@@ -6,7 +6,6 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\DashboardServiceInterface;
@@ -25,7 +24,6 @@ final class DashboardController extends ActionController
         private readonly DashboardServiceInterface         $dashboardService,
         private readonly ConfigurationServiceInterface     $configurationService,
         private readonly GptTranslationServiceInterface    $translationService,
-        private readonly Context                           $context
     ) {
         parent::__construct();
     }
@@ -46,7 +44,7 @@ final class DashboardController extends ActionController
             );
         }
 
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $userId = is_array($userContext) && isset($userContext['uid'])
             ? (int)$userContext['uid']
             : null;

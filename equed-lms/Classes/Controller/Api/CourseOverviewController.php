@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface;
-use TYPO3\CMS\Core\Context\Context;
 
 /**
  * API controller for providing course overview data:
@@ -25,7 +24,6 @@ final class CourseOverviewController
         private readonly CourseOverviewServiceInterface    $overviewService,
         private readonly ConfigurationServiceInterface     $configurationService,
         private readonly GptTranslationServiceInterface    $translationService,
-        private readonly Context                           $context
     ) {
     }
 
@@ -45,7 +43,7 @@ final class CourseOverviewController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid'])
             ? (int)$user['uid']
             : null;

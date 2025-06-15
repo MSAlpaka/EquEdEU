@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -23,7 +22,6 @@ final class QmsController extends ActionController
 {
     public function __construct(
         private readonly ConnectionPool                    $connectionPool,
-        private readonly Context                           $context,
         private readonly ConfigurationServiceInterface     $configurationService,
         private readonly GptTranslationServiceInterface    $translationService
     ) {
@@ -42,7 +40,7 @@ final class QmsController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(
@@ -77,7 +75,7 @@ final class QmsController extends ActionController
                 JsonResponse::HTTP_FORBIDDEN
             );
         }
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
         $body = (array)$request->getParsedBody();
         $recordId = (int)($body['recordId'] ?? 0);
@@ -124,7 +122,7 @@ final class QmsController extends ActionController
                 JsonResponse::HTTP_FORBIDDEN
             );
         }
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
         $body = (array)$request->getParsedBody();
         $qmsId    = (int)($body['qmsId'] ?? 0);
@@ -170,7 +168,7 @@ final class QmsController extends ActionController
                 JsonResponse::HTTP_FORBIDDEN
             );
         }
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
         $body = (array)$request->getParsedBody();
         $qmsId = (int)($body['qmsId'] ?? 0);

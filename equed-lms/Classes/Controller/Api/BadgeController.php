@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller\Api;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\BadgeAwardRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -21,7 +20,7 @@ final class BadgeController extends ActionController
     public function __construct(
         private readonly BadgeAwardRepositoryInterface  $awardRepository,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context                        $context,
+
     ) {
         parent::__construct();
     }
@@ -34,7 +33,7 @@ final class BadgeController extends ActionController
      */
     public function listAction(): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $this->request->getAttribute('user');
         $userId = is_array($userContext) && isset($userContext['uid'])
             ? (int)$userContext['uid']
             : 0;

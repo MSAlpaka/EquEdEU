@@ -6,7 +6,6 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\InstructorDashboardServiceInterface;
@@ -27,7 +26,6 @@ final class InstructorDashboardController extends ActionController
         private readonly InstructorDashboardServiceInterface $dashboardService,
         private readonly ConfigurationServiceInterface       $configurationService,
         private readonly GptTranslationServiceInterface      $translationService,
-        private readonly Context                             $context
     ) {
         parent::__construct();
     }
@@ -48,7 +46,7 @@ final class InstructorDashboardController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $instructorId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($instructorId === null || ! $this->dashboardService->isInstructor($instructorId)) {
             return new JsonResponse(

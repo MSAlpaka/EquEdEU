@@ -6,7 +6,6 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ProgressCalculationServiceInterface;
@@ -25,7 +24,6 @@ final class ProgressController extends ActionController
         private readonly ProgressCalculationServiceInterface $progressService,
         private readonly ConfigurationServiceInterface       $configurationService,
         private readonly GptTranslationServiceInterface      $translationService,
-        private readonly Context                             $context
     ) {
         parent::__construct();
     }
@@ -45,7 +43,7 @@ final class ProgressController extends ActionController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $request->getAttribute('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(

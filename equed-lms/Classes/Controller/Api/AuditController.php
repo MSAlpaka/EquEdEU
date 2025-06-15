@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller\Api;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\AuditLogRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -22,7 +21,6 @@ final class AuditController extends ActionController
     public function __construct(
         private readonly AuditLogRepositoryInterface     $auditLogRepository,
         private readonly GptTranslationServiceInterface  $translationService,
-        private readonly Context                         $context
     ) {
         parent::__construct();
     }
@@ -35,7 +33,7 @@ final class AuditController extends ActionController
      */
     public function listAction(): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $this->request->getAttribute('user');
         $userId = is_array($userContext) && isset($userContext['uid'])
             ? (int)$userContext['uid']
             : 0;

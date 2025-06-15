@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ExamServiceInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -25,7 +24,6 @@ final class ExamController extends ActionController
         private readonly ExamServiceInterface              $examService,
         private readonly ConfigurationServiceInterface     $configurationService,
         private readonly GptTranslationServiceInterface    $translationService,
-        private readonly Context                           $context
     ) {
         parent::__construct();
     }
@@ -83,7 +81,7 @@ final class ExamController extends ActionController
             );
         }
 
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $userId      = is_array($userContext) && isset($userContext['uid']) ? (int)$userContext['uid'] : null;
         if ($userId === null) {
             return new JsonResponse(

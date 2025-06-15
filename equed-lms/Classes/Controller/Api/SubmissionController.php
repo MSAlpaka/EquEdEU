@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Helper\AccessHelper;
@@ -26,7 +25,7 @@ final class SubmissionController extends ActionController
     public function __construct(
         private readonly ConnectionPool $connectionPool,
         private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context,
+
         private readonly AccessHelper $accessHelper,
     ) {
     }
@@ -36,7 +35,7 @@ final class SubmissionController extends ActionController
      */
     public function submitAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         if (!is_array($userContext)) {
             return new JsonResponse([
                 'error' => $this->translationService->translate('api.submission.unauthorized'),
@@ -89,7 +88,7 @@ final class SubmissionController extends ActionController
      */
     public function listMineAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         if ($user === null) {
             return new JsonResponse([
@@ -116,7 +115,7 @@ final class SubmissionController extends ActionController
      */
     public function listByRecordAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         $recordId = (int)($request->getQueryParams()['recordId'] ?? 0);
 
@@ -145,7 +144,7 @@ final class SubmissionController extends ActionController
      */
     public function evaluateAction(ServerRequestInterface $request): ResponseInterface
     {
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         $user = is_array($userContext) ? $userContext : null;
         if ($user === null) {
             return new JsonResponse([

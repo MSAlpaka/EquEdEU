@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller;
 use Equed\EquedLms\Service\CourseProgressServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -19,8 +18,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class CourseController extends ActionController
 {
     public function __construct(
-        private readonly CourseProgressServiceInterface $courseProgressService,
-        private readonly Context $context
+        private readonly CourseProgressServiceInterface $courseProgressService
     ) {
         parent::__construct();
     }
@@ -31,7 +29,8 @@ final class CourseController extends ActionController
     public function showAction(ServerRequestInterface $request): ResponseInterface
     {
         $courseUid = (int)($this->settings['course'] ?? 0);
-        $userId = (int)$this->context->getAspect('frontend.user')->get('id');
+        $userAttr = $request->getAttribute('user');
+        $userId   = is_array($userAttr) && isset($userAttr['uid']) ? (int)$userAttr['uid'] : 0;
 
         $data = $this->courseProgressService->getCourseViewModel($courseUid, $userId);
 

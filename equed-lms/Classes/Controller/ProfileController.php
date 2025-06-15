@@ -7,7 +7,6 @@ namespace Equed\EquedLms\Controller;
 use Equed\Core\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\ProfileService;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -22,8 +21,7 @@ final class ProfileController extends ActionController
 {
     public function __construct(
         private readonly ProfileService                 $profileService,
-        private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context                        $context
+        private readonly GptTranslationServiceInterface $translationService
     ) {
         parent::__construct();
     }
@@ -36,7 +34,7 @@ final class ProfileController extends ActionController
      */
     public function showAction(): ResponseInterface
     {
-        $user = $this->context->getAspect('frontend.user')->get('user');
+        $user = $this->request->getAttribute('user');
         if (!is_array($user) || !isset($user['uid'])) {
             $message = $this->translationService->translate('controller.profile.unauthenticated');
             $accept = $this->request->getHeaderLine('Accept');

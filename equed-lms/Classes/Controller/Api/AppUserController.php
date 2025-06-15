@@ -8,7 +8,6 @@ use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserRepositoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
 /**
@@ -24,7 +23,6 @@ final class AppUserController
         private readonly UserRepositoryInterface         $userRepository,
         private readonly ConfigurationServiceInterface   $configurationService,
         private readonly GptTranslationServiceInterface  $translationService,
-        private readonly Context                         $context
     ) {
     }
 
@@ -44,7 +42,7 @@ final class AppUserController
             );
         }
 
-        $userContext = $this->context->getAspect('frontend.user')->get('user');
+        $userContext = $request->getAttribute('user');
         if (!is_array($userContext) || !isset($userContext['uid'])) {
             return new JsonResponse(
                 ['error' => $this->translationService->translate('api.userProfile.unauthorized')],
