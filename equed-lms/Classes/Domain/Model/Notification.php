@@ -13,6 +13,8 @@ use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\NotificationType;
+use Equed\EquedLms\Enum\NotificationStatus;
 
 /**
  * Domain model for system notifications.
@@ -59,14 +61,14 @@ final class Notification extends AbstractEntity
     protected ?UserCourseRecord $userCourseRecord = null;
 
     /**
-     * @var string
+     * @var NotificationType
      */
-    protected string $type = 'system';
+    protected NotificationType $type = NotificationType::System;
 
     /**
-     * @var string
+     * @var NotificationStatus
      */
-    protected string $status = 'active';
+    protected NotificationStatus $status = NotificationStatus::Active;
 
     /**
      * @var bool
@@ -193,32 +195,40 @@ final class Notification extends AbstractEntity
     /**
      * Returns notification type.
      */
-    public function getType(): string
+    public function getType(): NotificationType
     {
         return $this->type;
     }
 
     /**
-     * @param string $type
+     * @param NotificationType|string $type
      */
-    public function setType(string $type): void
+    public function setType(NotificationType|string $type): void
     {
+        if (is_string($type)) {
+            $type = NotificationType::from($type);
+        }
+
         $this->type = $type;
     }
 
     /**
      * Returns notification status.
      */
-    public function getStatus(): string
+    public function getStatus(): NotificationStatus
     {
         return $this->status;
     }
 
     /**
-     * @param string $status
+     * @param NotificationStatus|string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(NotificationStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = NotificationStatus::from($status);
+        }
+
         $this->status = $status;
     }
 
