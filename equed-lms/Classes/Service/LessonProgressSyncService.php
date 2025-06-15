@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Enum\ProgressStatus;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Service\LogService;
 
 final class LessonProgressSyncService
 {
@@ -18,7 +19,8 @@ final class LessonProgressSyncService
         private readonly LessonProgressRepositoryInterface $progressRepository,
         private readonly LessonRepositoryInterface $lessonRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private readonly LogService $logService
     ) {
     }
 
@@ -49,7 +51,15 @@ final class LessonProgressSyncService
             }
 
             $entry = $this->progressRepository->findByUserAndLesson($userId, $lesson->getUid()) ?? new LessonProgress();
-            $remoteUpdated = new \DateTimeImmutable($item['updatedAt'] ?? 'now');
+            try {
+                $remoteUpdated = new \DateTimeImmutable($item['updatedAt'] ?? 'now');
+            } catch (\Exception $e) {
+                $this->logService->logWarning(
+                    'Invalid timestamp for progress sync',
+                    ['value' => $item['updatedAt'] ?? null, 'lessonId' => $item['lessonId'] ?? null]
+                );
+                continue;
+            }
             $localUpdated = $entry->getUpdatedAt();
 
             if (!$localUpdated || $remoteUpdated > $localUpdated) {
