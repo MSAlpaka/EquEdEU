@@ -8,10 +8,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\CourseAccessServiceInterface;
 use Equed\EquedLms\Dto\CourseAccessRequest;
-use Equed\EquedLms\Dto\CourseAccessResult;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for checking user eligibility for a course program.
@@ -20,14 +21,16 @@ use Equed\EquedLms\Dto\CourseAccessResult;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <course_access_api> feature toggle.
  */
-final class CourseAccessController
+final class CourseAccessController extends BaseApiController
 {
     public function __construct(
-        private readonly CourseAccessServiceInterface     $accessService,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface   $translationService,
-        private readonly Context                          $context
+        private readonly CourseAccessServiceInterface $accessService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
+        private readonly Context $context,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -39,33 +42,23 @@ final class CourseAccessController
      */
     public function checkAccessAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('course_access_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseAccess.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('course_access_api')) !== null) {
+            return $check;
         }
 
         $dto = CourseAccessRequest::fromRequest($request);
 
         if ($dto->getUserId() <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseAccess.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.courseAccess.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         if ($dto->getCourseProgramId() <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseAccess.invalidProgram')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.courseAccess.invalidProgram', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $result = $this->accessService->checkCourseProgramAccess($dto);
 
-        return new JsonResponse([
-            'status' => 'success',
+        return $this->jsonSuccess([
             'access' => $result->isGranted(),
         ]);
     }
