@@ -13,6 +13,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
+use Equed\EquedLms\Helper\ProgressCacheKeyHelper;
 
 /**
  * Service for tracking and persisting user course progress.
@@ -99,7 +100,7 @@ final class ProgressTrackingService
      */
     private function clearCache(int $userId, int $courseInstanceId): void
     {
-        $cacheKey = sprintf('progress_%d_%d', $userId, $courseInstanceId);
+        $cacheKey = ProgressCacheKeyHelper::courseInstance($userId, $courseInstanceId);
         $this->cachePool->deleteItem($cacheKey);
     }
 

@@ -15,6 +15,7 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\DashboardServiceInterface;
 use Equed\EquedLms\Service\Dashboard\TabsBuilder;
 use Equed\EquedLms\Service\Dashboard\FilterMetadataProvider;
+use Equed\EquedLms\Dto\DashboardData;
 
 /**
  * Aggregates and prepares all data for the user dashboard,
@@ -42,9 +43,8 @@ final class DashboardService implements DashboardServiceInterface
      * Get all dashboard data for a frontend user.
      *
      * @param FrontendUser $user Frontend user model
-     * @return array<string,mixed> Dashboard payload
      */
-    public function getDashboardDataForUser(FrontendUser $user): array
+    public function getDashboardDataForUser(FrontendUser $user): DashboardData
     {
         $userId    = $user->getUid();
         $cacheKey  = 'dashboard_user_' . $userId;
@@ -71,20 +71,20 @@ final class DashboardService implements DashboardServiceInterface
             }
         }
 
-        $data = [
-            'user'          => $this->buildUserData($user),
-            'tabs'          => $this->tabsBuilder->build($user, $latestCertificates),
-            'filters'       => $this->filterProvider->getMetadata(),
-            'progress'      => $this->progressService->getProgressDataForUser($user),
-            'notifications' => $this->buildNotificationsData($notificationList),
-            'cacheMeta'     => [
+        $data = new DashboardData(
+            $this->buildUserData($user),
+            $this->tabsBuilder->build($user, $latestCertificates),
+            $this->filterProvider->getMetadata(),
+            $this->progressService->getProgressDataForUser($user),
+            $this->buildNotificationsData($notificationList),
+            [
                 'ttl'       => self::CACHE_TTL_SECONDS,
                 'fetchedAt' => $this->clock->now()->format(DateTimeImmutable::ATOM),
             ],
-            'features'      => [
+            [
                 'gptAnalysis' => $this->gptAnalysisEnabled,
             ],
-        ];
+        );
 
         $cacheItem->set($data)->expiresAfter(self::CACHE_TTL_SECONDS);
         $this->cachePool->save($cacheItem);
