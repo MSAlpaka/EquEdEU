@@ -165,3 +165,6 @@ services:
   Equed\EquedLms\Domain\Service\CourseBundleServiceInterface:
     class: Equed\EquedLms\Service\CourseBundleService
 
+
+  Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface:
+    class: Equed\EquedLms\Service\CourseOverviewService

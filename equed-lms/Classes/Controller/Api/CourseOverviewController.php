@@ -7,6 +7,8 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface;
 
@@ -18,13 +20,15 @@ use Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <course_overview_api> feature toggle.
  */
-final class CourseOverviewController
+final class CourseOverviewController extends BaseApiController
 {
     public function __construct(
-        private readonly CourseOverviewServiceInterface    $overviewService,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface    $translationService,
+        private readonly CourseOverviewServiceInterface $overviewService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -36,35 +40,18 @@ final class CourseOverviewController
      */
     public function indexAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('course_overview_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseOverview.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('course_overview_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid'])
-            ? (int)$user['uid']
-            : null;
-
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseOverview.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.courseOverview.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $availablePrograms = $this->overviewService->getAvailablePrograms();
-        $activeInstances   = $this->overviewService->getActiveInstances();
-        $myCourses         = $this->overviewService->getMyCourses($userId);
+        $overview = $this->overviewService->getCourseOverview($userId);
 
-        return new JsonResponse([
-            'status'            => 'success',
-            'availablePrograms' => $availablePrograms,
-            'activeInstances'   => $activeInstances,
-            'myCourses'         => $myCourses,
-        ]);
+        return $this->jsonSuccess($overview);
     }
 }
 // End of file
