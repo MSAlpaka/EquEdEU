@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Controller;
 
-use Equed\Core\Service\ConfigurationServiceInterface;
-use Equed\Core\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Repository\QuizRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\QuestionRepositoryInterface;
-use Equed\EquedLms\Domain\Service\QuizSubmissionServiceInterface;
+use Equed\EquedLms\Service\QuizManagerInterface;
+use Equed\EquedLms\Dto\QuizSubmissionRequest;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -24,12 +22,8 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class QuizController extends ActionController
 {
     public function __construct(
-        private readonly QuizRepositoryInterface            $quizRepository,
-        private readonly QuestionRepositoryInterface        $questionRepository,
-        private readonly QuizSubmissionServiceInterface     $quizSubmissionService,
-        private readonly ConfigurationServiceInterface      $configurationService,
-        private readonly GptTranslationServiceInterface     $translationService,
-        private readonly Context                            $context
+        private readonly QuizManagerInterface $quizManager,
+        private readonly Context $context
     ) {
         parent::__construct();
     }
@@ -40,23 +34,22 @@ final class QuizController extends ActionController
      * @return ResponseInterface
      * @throws \Throwable
      */
-    public function listAction(): ResponseInterface
+    public function listAction(ServerRequestInterface $request): ResponseInterface
     {
-        if (!$this->configurationService->isFeatureEnabled('quiz_module')) {
-            $message = $this->translationService->translate('controller.quiz.list.disabled');
-            $this->addFlashMessage($message, '', AbstractMessage::WARNING);
-            $this->view->assign('quizzes', []);
-            return $this->htmlResponse();
-        }
-
         $user = $this->context->getAspect('frontend.user')->get('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
 
-        $quizzes = $this->quizRepository->findAvailableByUser($userId);
+        $data = $this->quizManager->listQuizzes($userId);
 
-        $this->view->assignMultiple([
-            'quizzes' => $quizzes,
-        ]);
+        if ($data->hasMessage()) {
+            $this->addFlashMessage(
+                $data->getMessage(),
+                '',
+                $data->getSeverity()
+            );
+        }
+
+        $this->view->assign('quizzes', $data->getQuizzes());
 
         return $this->htmlResponse();
     }
@@ -67,27 +60,20 @@ final class QuizController extends ActionController
      * @return ResponseInterface
      * @throws \Throwable
      */
-    public function showAction(): ResponseInterface
+    public function showAction(ServerRequestInterface $request): ResponseInterface
     {
-        $quizId = (int)($this->request->getArgument('quiz') ?? 0);
-        if ($quizId <= 0) {
-            $message = $this->translationService->translate('controller.quiz.show.invalid');
-            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
+        $quizId = (int)($request->getQueryParams()['quiz'] ?? $request->getParsedBody()['quiz'] ?? 0);
+
+        $data = $this->quizManager->getQuiz($quizId);
+
+        if ($data->hasError()) {
+            $this->addFlashMessage($data->getError(), '', AbstractMessage::ERROR);
             return $this->redirect('list');
         }
-
-        $quiz = $this->quizRepository->findByUid($quizId);
-        if ($quiz === null) {
-            $message = $this->translationService->translate('controller.quiz.show.notFound');
-            $this->addFlashMessage($message, '', AbstractMessage::ERROR);
-            return $this->redirect('list');
-        }
-
-        $questions = $this->questionRepository->findByQuiz($quiz);
 
         $this->view->assignMultiple([
-            'quiz' => $quiz,
-            'questions' => $questions,
+            'quiz' => $data->getQuiz(),
+            'questions' => $data->getQuestions(),
         ]);
 
         return $this->htmlResponse();
@@ -99,25 +85,23 @@ final class QuizController extends ActionController
      * @return ResponseInterface
      * @throws \Throwable
      */
-    public function submitAction(): ResponseInterface
+    public function submitAction(ServerRequestInterface $request): ResponseInterface
     {
-        $quizId = (int)($this->request->getArgument('quiz') ?? 0);
-        $answers = (array)($this->request->getArgument('answers') ?? []);
+        $quizId = (int)($request->getParsedBody()['quiz'] ?? 0);
+        $answers = (array)($request->getParsedBody()['answers'] ?? []);
         $user = $this->context->getAspect('frontend.user')->get('user');
         $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
 
-        $result = $this->quizSubmissionService->submitAnswers($quizId, $userId, $answers);
+        $dto = new QuizSubmissionRequest($quizId, $userId, $answers);
+        $data = $this->quizManager->submit($dto);
 
-        $this->view->assignMultiple([
-            'result' => $result,
-        ]);
+        $this->view->assign('result', $data->getResult());
 
-        $message = $this->translationService->translate(
-            'controller.quiz.submit.processed',
-            null,
-            ['{score}' => (string)$result->getScore()]
+        $this->addFlashMessage(
+            $data->getMessage(),
+            '',
+            $data->getSeverity()
         );
-        $this->addFlashMessage($message);
 
         return $this->htmlResponse();
     }
