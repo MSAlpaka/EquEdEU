@@ -8,6 +8,8 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseAccessServiceInterface;
+use Equed\EquedLms\Dto\CourseAccessRequest;
+use Equed\EquedLms\Dto\CourseAccessResult;
 
 /**
  * Service to check access permissions for courses and lessons.
@@ -59,6 +61,21 @@ final class CourseAccessService implements CourseAccessServiceInterface
         }
 
         return false;
+    }
+
+    public function checkCourseProgramAccess(CourseAccessRequest $request): CourseAccessResult
+    {
+        $programId = $request->getCourseProgramId();
+        $userId = $request->getUserId();
+
+        foreach ($this->getUserCourseRecords($userId) as $record) {
+            $courseProgram = $record->getCourseInstance()?->getCourseProgram();
+            if ($courseProgram?->getUid() === $programId) {
+                return new CourseAccessResult(true);
+            }
+        }
+
+        return new CourseAccessResult(false);
     }
 
     /**

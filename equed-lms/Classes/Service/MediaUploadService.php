@@ -13,6 +13,8 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Dto\UploadFileRequest;
+use Equed\EquedLms\Dto\UploadFileResult;
 
 /**
  * Service to securely handle media file uploads.
@@ -88,5 +90,33 @@ final class MediaUploadService implements MediaUploadServiceInterface
             $this->logService->logError('Upload failed', ['exception' => $e]);
             return null;
         }
+    }
+
+    public function upload(UploadFileRequest $request): UploadFileResult
+    {
+        $file = $request->getFile();
+        $tmpPath = $file->getStream()->getMetadata('uri');
+        if (!is_string($tmpPath)) {
+            return new UploadFileResult(null, 'invalid_file');
+        }
+
+        $payload = [
+            'tmp_name' => $tmpPath,
+            'name' => $file->getClientFilename() ?? 'upload',
+            'type' => $file->getClientMediaType() ?? ''
+        ];
+
+        $user = new FrontendUser();
+        if (method_exists($user, 'setUid')) {
+            $user->setUid($request->getUserId());
+        }
+
+        $result = $this->handleUpload($payload, $user);
+
+        if ($result === null) {
+            return new UploadFileResult(null, 'upload_failed');
+        }
+
+        return new UploadFileResult($result);
     }
 }
