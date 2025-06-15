@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Controller;
 
-use Equed\Core\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Repository\GlossaryEntryRepository;
+use Equed\EquedLms\Service\GlossaryServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -19,9 +17,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class GlossaryController extends ActionController
 {
     public function __construct(
-        private readonly GlossaryEntryRepository $glossaryEntryRepository,
-        private readonly GptTranslationServiceInterface $translationService,
-        private readonly Context $context
+        private readonly GlossaryServiceInterface $glossaryService
     ) {
         parent::__construct();
     }
@@ -30,10 +26,8 @@ final class GlossaryController extends ActionController
     {
         $queryParams = $request->getQueryParams();
         $search = trim((string)($queryParams['search'] ?? ''));
-        $language = $this->getCurrentLanguage();
 
-        $glossaryEntries = $this->glossaryEntryRepository->findFiltered($language, $search);
-        $groupedTerms = $this->groupByInitial($glossaryEntries);
+        $groupedTerms = $this->glossaryService->getGroupedTerms($search);
 
         return $this->htmlResponse([
             'groupedTerms' => $groupedTerms,
@@ -41,19 +35,5 @@ final class GlossaryController extends ActionController
         ]);
     }
 
-    protected function groupByInitial(array $entries): array
-    {
-        $grouped = [];
-        foreach ($entries as $entry) {
-            $initial = strtoupper(mb_substr($entry->getTerm(), 0, 1));
-            $grouped[$initial][] = $entry;
-        }
-        ksort($grouped);
-        return $grouped;
-    }
-
-    protected function getCurrentLanguage(): string
-    {
-        return (string)($this->context->getAspect('language')->get('languageId') ?? 'en');
-    }
+    
 }
