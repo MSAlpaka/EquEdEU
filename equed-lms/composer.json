@@ -43,7 +43,7 @@
       "doctrine/orm": "^3.3",
       "ext-json": "*",
       "stripe/stripe-php": "^11.0",
-      "openai-php/client": "^0.7",
+      "openai-php/client": "^0.13",
       "firebase/php-jwt": "^6.10",
       "equed/equed-core": "^1.0"
     },
