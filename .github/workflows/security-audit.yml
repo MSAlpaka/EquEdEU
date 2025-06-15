@@ -13,7 +13,13 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
       - name: Run Composer audit
-        run: composer audit
+        run: |
+          for dir in equed-*; do
+            if [ -f "$dir/composer.lock" ]; then
+              echo "Auditing $dir"
+              composer audit --working-dir "$dir"
+            else
+              echo "Skipping $dir: composer.lock not found"
+            fi
+          done
