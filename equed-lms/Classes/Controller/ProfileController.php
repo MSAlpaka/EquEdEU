@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller;
 
 use Equed\Core\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Repository\CertificateRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\BadgeRepositoryInterface;
+use Equed\EquedLms\Service\ProfileService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -22,10 +21,9 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class ProfileController extends ActionController
 {
     public function __construct(
-        private readonly CertificateRepositoryInterface   $certificateRepository,
-        private readonly BadgeRepositoryInterface         $badgeRepository,
-        private readonly GptTranslationServiceInterface   $translationService,
-        private readonly Context                          $context
+        private readonly ProfileService                 $profileService,
+        private readonly GptTranslationServiceInterface $translationService,
+        private readonly Context                        $context
     ) {
         parent::__construct();
     }
@@ -41,18 +39,24 @@ final class ProfileController extends ActionController
         $user = $this->context->getAspect('frontend.user')->get('user');
         if (!is_array($user) || !isset($user['uid'])) {
             $message = $this->translationService->translate('controller.profile.unauthenticated');
+            $accept = $this->request->getHeaderLine('Accept');
+            if (str_contains($accept, 'application/json')) {
+                return new \TYPO3\CMS\Core\Http\JsonResponse([
+                    'error' => $message,
+                ], 401);
+            }
+
             $this->addFlashMessage($message, '', AbstractMessage::WARNING);
             return $this->redirect('login');
         }
 
         $userId = (int)$user['uid'];
-        $certificates = $this->certificateRepository->findByUser($userId);
-        $badges = $this->badgeRepository->findByUser($userId);
+        $data = $this->profileService->getProfileData($userId);
 
         $this->view->assignMultiple([
             'user'         => $user,
-            'certificates' => $certificates,
-            'badges'       => $badges,
+            'certificates' => $data['certificates'],
+            'badges'       => $data['badges'],
         ]);
 
         return $this->htmlResponse();
