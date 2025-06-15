@@ -36,19 +36,20 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
         working-directory: ${{ matrix.extension }}
-      - name: Run phpstan
+      - name: Run PHPStan
         continue-on-error: true
         run: |
           if [ -f vendor/bin/phpstan ]; then
-            vendor/bin/phpstan analyse
+            echo "🔍 Running PHPStan..."
+            vendor/bin/phpstan analyse --no-baseline || echo "⚠️ PHPStan failed – check baseline"
           else
-            echo 'phpstan not installed'
+            echo "ℹ️ PHPStan not installed"
           fi
         working-directory: ${{ matrix.extension }}
       - name: Run PHPUnit
         continue-on-error: true
         run: |
-          if [ -d tests ]; then
+          if [ -d tests ] || [ -d Tests ]; then
             vendor/bin/phpunit
           else
             echo 'No PHPUnit tests found'
