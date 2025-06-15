@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Equed\Core\Service\ConfigurationServiceInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Service\AuthenticationServiceInterface;
-use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+use Equed\EquedLms\Domain\Service\AuthenticationServiceInterface;
+use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
@@ -51,12 +51,12 @@ final class AuthController extends BaseApiController
             return $this->jsonError('api.auth.missingCredentials', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $user = $this->authService->validateCredentials($email, $password);
-        if ($user === null) {
+        $result = $this->authService->login($email, $password);
+        if ($result === null) {
             return $this->jsonError('api.auth.invalidCredentials', JsonResponse::HTTP_UNAUTHORIZED);
         }
-
-        $token = $this->authService->createToken($user);
+        $token = $result['token'];
+        $user  = $result['user'];
 
         return $this->jsonSuccess([
             'token'  => $token,
@@ -80,6 +80,8 @@ final class AuthController extends BaseApiController
         if (($check = $this->requireFeature('login_api')) !== null) {
             return $check;
         }
+
+        $this->authService->logout();
 
         return $this->jsonSuccess([
             'message' => $this->translationService->translate('api.auth.loggedOut'),
