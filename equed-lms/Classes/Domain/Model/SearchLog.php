@@ -73,7 +73,7 @@ final class SearchLog extends AbstractEntity
 
     public function setUserIdentifier(string|int $userIdentifier): void
     {
-        $this->userHash = sha1((string) $userIdentifier);
+        $this->userHash = hash('sha256', (string) $userIdentifier);
     }
 
     public function getTermHash(): string
@@ -83,7 +83,7 @@ final class SearchLog extends AbstractEntity
 
     public function setSearchTerm(string $term): void
     {
-        $this->termHash = sha1($term);
+        $this->termHash = hash('sha256', $term);
     }
 
     public function getLang(): LanguageCode
