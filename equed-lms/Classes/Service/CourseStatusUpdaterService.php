@@ -28,7 +28,8 @@ final class CourseStatusUpdaterService
     /**
      * Finalize the given UserCourseRecord.
      *
-     * @param UserCourseRecord $record
+     * @param UserCourseRecord $record Course record to finalize
+     * @return void
      */
     public function finalize(UserCourseRecord $record): void
     {

@@ -28,6 +28,12 @@ final class CertificateService implements CertificateServiceInterface
         $this->qrCodeBaseUrl = rtrim($qrCodeBaseUrl, '/') . '/';
     }
 
+    /**
+     * Issue a certificate for the given user course record if none exists yet.
+     *
+     * @param UserCourseRecord $userCourseRecord Course participation record
+     * @return CertificateDispatch Newly created or existing dispatch entity
+     */
     public function issueCertificate(UserCourseRecord $userCourseRecord): CertificateDispatch
     {
         $existing = $this->certificateDispatchRepository->findByUserCourseRecord($userCourseRecord);
@@ -49,6 +55,12 @@ final class CertificateService implements CertificateServiceInterface
         return $dispatch;
     }
 
+    /**
+     * Build an absolute QR code URL for the certificate.
+     *
+     * @param UserCourseRecord|CertificateDispatch $source Source entity
+     * @return string QR code URL
+     */
     private function generateQrCodeUrl(UserCourseRecord|CertificateDispatch $source): string
     {
         $userId = $source->getFeUser()?->getUid() ?? 0;
@@ -57,6 +69,12 @@ final class CertificateService implements CertificateServiceInterface
         return sprintf('%s%s/%s', $this->qrCodeBaseUrl, $userId, $timestamp);
     }
 
+    /**
+     * Send a notification to the user that a certificate was issued.
+     *
+     * @param CertificateDispatch $dispatch Certificate dispatch record
+     * @return void
+     */
     public function sendCertificateNotification(CertificateDispatch $dispatch): void
     {
         $subject = (string)$this->translationService->translate(

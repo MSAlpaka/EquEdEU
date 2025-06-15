@@ -26,6 +26,12 @@ final class ServiceCenterDashboardService
     ) {
     }
 
+    /**
+     * Build dashboard data for a given Service Center.
+     *
+     * @param int $centerId UID of the Service Center
+     * @return array<string, mixed> Structured dashboard information
+     */
     public function getDashboardDataForServiceCenter(int $centerId): array
     {
         $certificates = $this->certificateRepository->findPendingByServiceCenter($centerId);
@@ -40,6 +46,12 @@ final class ServiceCenterDashboardService
         ];
     }
 
+    /**
+     * Map certificate entities to simple arrays for output.
+     *
+     * @param Certificate[] $certificates
+     * @return array<int, array<string, mixed>>
+     */
     private function mapCertificates(array $certificates): array
     {
         return array_map(
@@ -52,6 +64,12 @@ final class ServiceCenterDashboardService
         );
     }
 
+    /**
+     * Map submission entities for dashboard output.
+     *
+     * @param UserSubmission[] $submissions
+     * @return array<int, array<string, mixed>>
+     */
     private function mapSubmissions(array $submissions): array
     {
         return array_map(
@@ -71,6 +89,12 @@ final class ServiceCenterDashboardService
         );
     }
 
+    /**
+     * Map QMS cases for dashboard output.
+     *
+     * @param QmsCase[] $cases
+     * @return array<int, array<string, mixed>>
+     */
     private function mapQmsCases(array $cases): array
     {
         return array_map(

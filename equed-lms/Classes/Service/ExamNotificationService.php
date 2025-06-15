@@ -24,6 +24,11 @@ final class ExamNotificationService implements ExamNotificationServiceInterface
     ) {
     }
 
+    /**
+     * Notify all upcoming examiners about their assigned course instances.
+     *
+     * @return int Number of notifications sent
+     */
     public function notifyAll(): int
     {
         $instances = $this->courseInstanceRepository->findAllRequiringExternalExaminer();

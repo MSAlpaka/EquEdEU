@@ -24,6 +24,13 @@ final class ProgressCalculationService
     ) {
     }
 
+    /**
+     * Calculate the overall progress for a course program.
+     *
+     * @param int $userId          Frontend user id
+     * @param int $courseProgramId Course program uid
+     * @return float Progress percentage between 0 and 100
+     */
     public function calculateCourseProgramProgress(int $userId, int $courseProgramId): float
     {
         $instances = $this->courseInstanceRepository->findByCourseProgram($courseProgramId);
@@ -41,6 +48,13 @@ final class ProgressCalculationService
         return $sum / $total;
     }
 
+    /**
+     * Calculate progress for a single course instance.
+     *
+     * @param int $userId          User identifier
+     * @param int $courseInstanceId Course instance uid
+     * @return float Progress percentage
+     */
     public function calculateCourseInstanceProgress(int $userId, int $courseInstanceId): float
     {
         $cacheKey = sprintf('progress_%d_%d', $userId, $courseInstanceId);
@@ -69,6 +83,12 @@ final class ProgressCalculationService
         return $progress;
     }
 
+    /**
+     * Translate a human readable label for a progress value.
+     *
+     * @param float $progress Progress percent
+     * @return string Localized label
+     */
     public function getProgressLabel(float $progress): string
     {
         $status = match (true) {

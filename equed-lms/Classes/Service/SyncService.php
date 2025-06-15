@@ -22,6 +22,12 @@ final class SyncService
     ) {
     }
 
+    /**
+     * Convert a user profile into the array structure used by the app.
+     *
+     * @param UserProfile $profile Profile entity
+     * @return array<string, mixed> Serializable representation
+     */
     public function pushToApp(UserProfile $profile): array
     {
         return [
@@ -34,6 +40,12 @@ final class SyncService
         ];
     }
 
+    /**
+     * Merge profile data coming from the app.
+     *
+     * @param array<string, mixed> $data Incoming app payload
+     * @return UserProfile Updated profile entity
+     */
     public function pullFromApp(array $data): UserProfile
     {
         $userId = isset($data['userId']) ? (int) $data['userId'] : 0;

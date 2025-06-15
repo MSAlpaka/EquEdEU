@@ -12,6 +12,11 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
  */
 final class SystemClock implements ClockInterface
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @return DateTimeImmutable Current immutable datetime instance
+     */
     public function now(): DateTimeImmutable
     {
         return new DateTimeImmutable();

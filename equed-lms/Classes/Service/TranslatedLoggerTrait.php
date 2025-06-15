@@ -16,6 +16,13 @@ trait TranslatedLoggerTrait
     protected GptTranslationServiceInterface|LanguageServiceInterface $translationService;
     protected LogService $logService;
 
+    /**
+     * Inject services used for translated logging.
+     *
+     * @param GptTranslationServiceInterface|LanguageServiceInterface $translationService Service used for translations
+     * @param LogService                                              $logService         Logger instance
+     * @return void
+     */
     public function injectTranslatedLogger(
         GptTranslationServiceInterface|LanguageServiceInterface $translationService,
         LogService $logService
