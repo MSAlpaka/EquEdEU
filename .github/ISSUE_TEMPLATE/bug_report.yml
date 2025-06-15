@@ -1,0 +1,62 @@
+name: "\ud83d\udc1b Bug Report"
+description: "Report problems or unexpected behavior"
+title: "\ud83d\udc1b Bug Report"
+labels: [bug]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: "Module / Extension"
+      description: "Select the affected module or extension"
+      options:
+        - equed-core
+        - equed-lms
+        - equed-cert
+        - equed-auth
+        - equed-qms
+        - equed-instructor
+        - equed-center
+        - equed-admin
+        - equed-app
+        - equed-shop
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Problem Description"
+      description: "Provide a clear and concise description of the problem."
+      placeholder: "What happened?"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Reproduction Steps"
+      description: "How can we reproduce the issue?"
+      placeholder: "1. Go to ...\n2. Click ...\n3. See error"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected Behavior"
+      description: "Describe what you expected to happen."
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "Screenshots"
+      description: "Add screenshots to help explain your problem (optional)."
+    validations:
+      required: false
+  - type: input
+    id: environment
+    attributes:
+      label: "System Environment"
+      description: "TYPO3 version, PHP version, etc."
+      placeholder: "e.g. TYPO3 13, PHP 8.2"
+    validations:
+      required: true
+

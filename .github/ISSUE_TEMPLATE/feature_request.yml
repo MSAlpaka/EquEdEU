@@ -1,0 +1,51 @@
+name: "\u2728 Feature Request"
+description: "Suggest an idea or improvement"
+title: "\u2728 Feature Request"
+labels: [enhancement]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: "Module / Extension"
+      description: "Where should this feature be implemented?"
+      options:
+        - equed-core
+        - equed-lms
+        - equed-cert
+        - equed-auth
+        - equed-qms
+        - equed-instructor
+        - equed-center
+        - equed-admin
+        - equed-app
+        - equed-shop
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Feature Description"
+      description: "Describe the feature in detail."
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: "Goal or Benefit"
+      description: "What problem does this feature solve or what value does it add?"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives"
+      description: "Are there any alternative solutions?"
+    validations:
+      required: false
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "Dependencies / Notes"
+      description: "Mention any technical notes or dependencies."
+    validations:
+      required: false

@@ -1,0 +1,32 @@
+name: "\ud83d\udee0 Internal Task (Core/Cert/QMS)"
+description: "Tasks for refactoring, docs, tests or architecture"
+title: "\ud83d\udee0 Internal Task"
+labels: [chore]
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Category"
+      description: "Select the type of internal task"
+      options:
+        - Refactoring
+        - Docs
+        - Tests
+        - Architecture
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe the task"
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptance Criteria"
+      description: "What are the acceptance criteria?"
+      render: markdown
+    validations:
+      required: false
