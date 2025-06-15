@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\Asset;
 use Equed\EquedLms\Domain\Model\Page;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
+use Equed\EquedLms\Service\LessonServiceInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
@@ -15,7 +16,7 @@ use Psr\Cache\CacheItemPoolInterface;
  *
  * Caches result using PSR-6 cache pool to improve performance.
  */
-final class LessonService
+final class LessonService implements LessonServiceInterface
 {
     private const CACHE_TTL_SECONDS = 86400;
     public function __construct(
@@ -67,5 +68,18 @@ final class LessonService
         $this->cachePool->save($cacheItem);
 
         return $data;
+    }
+
+    /**
+     * Finds a lesson by UID and returns its data array.
+     */
+    public function getLessonDataById(int $lessonId): ?array
+    {
+        $lesson = $this->lessonRepository->findByUid($lessonId);
+        if ($lesson === null) {
+            return null;
+        }
+
+        return $this->getLessonDataArray($lesson);
     }
 }

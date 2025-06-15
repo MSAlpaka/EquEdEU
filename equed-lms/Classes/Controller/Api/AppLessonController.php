@@ -6,7 +6,9 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+use Equed\EquedLms\Service\LessonServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
@@ -17,13 +19,15 @@ use TYPO3\CMS\Core\Http\JsonResponse;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <lesson_api> feature toggle.
  */
-final class AppLessonController
+final class AppLessonController extends BaseApiController
 {
     public function __construct(
-        private readonly LessonRepositoryInterface      $lessonRepository,
-        private readonly ConfigurationServiceInterface  $configurationService,
-        private readonly GptTranslationServiceInterface $translationService
+        private readonly LessonServiceInterface        $lessonService,
+        ConfigurationServiceInterface                 $configurationService,
+        ApiResponseServiceInterface                   $apiResponseService,
+        GptTranslationServiceInterface                $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -35,39 +39,21 @@ final class AppLessonController
      */
     public function listAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('lesson_api')) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.lesson.disabled'),
-            ], 403);
+        if (($check = $this->requireFeature('lesson_api')) !== null) {
+            return $check;
         }
 
         $queryParams = $request->getQueryParams();
         $lessonId = isset($queryParams['lessonId']) ? (int)$queryParams['lessonId'] : null;
         if ($lessonId === null || $lessonId <= 0) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.lesson.missingLessonId'),
-            ], 400);
+            return $this->jsonError('api.lesson.missingLessonId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $lesson = $this->lessonRepository->findByUid($lessonId);
-        if ($lesson === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.lesson.notFound'),
-            ], 404);
+        $data = $this->lessonService->getLessonDataById($lessonId);
+        if ($data === null) {
+            return $this->jsonError('api.lesson.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
-
-        $data = [
-            'uid'         => $lesson->getUid(),
-            'title'       => $lesson->getTitle(),
-            'description' => $lesson->getDescription(),
-            'content'     => $lesson->getContent(),
-            'downloadUrl' => $lesson->getDownloadUrl(),
-        ];
-
-        return new JsonResponse([
-            'status' => 'success',
-            'lesson' => $data,
-        ]);
+        return $this->jsonSuccess(['lesson' => $data]);
     }
 }
 // EOF
