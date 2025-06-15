@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\CertificateRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Domain\Service\BadgeServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for listing certificates, providing download links,
@@ -21,15 +22,17 @@ use Equed\EquedLms\Domain\Service\BadgeServiceInterface;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <certificate_api> feature toggle.
  */
-final class CertificateController
+final class CertificateController extends BaseApiController
 {
     public function __construct(
         private readonly CertificateRepositoryInterface $certificateRepository,
         private readonly CertificateServiceInterface    $certificateService,
         private readonly BadgeServiceInterface          $badgeService,
-        private readonly ConfigurationServiceInterface  $configurationService,
-        private readonly GptTranslationServiceInterface $translationService,
+        ConfigurationServiceInterface                  $configurationService,
+        ApiResponseServiceInterface                    $apiResponseService,
+        GptTranslationServiceInterface                 $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -41,23 +44,13 @@ final class CertificateController
      */
     public function listAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('certificate_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('certificate_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid'])
-            ? (int)$user['uid']
-            : null;
-
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.certificate.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $certificates = $this->certificateRepository->findByUser($userId);
@@ -72,8 +65,7 @@ final class CertificateController
             'badgeUrl'     => '/api/certificate/badge?certificateId=' . $cert->getUid(),
         ], $certificates);
 
-        return new JsonResponse([
-            'status'       => 'success',
+        return $this->jsonSuccess([
             'certificates' => $data,
         ]);
     }
@@ -87,47 +79,30 @@ final class CertificateController
      */
     public function downloadAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('certificate_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('certificate_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid'])
-            ? (int)$user['uid']
-            : null;
-
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.certificate.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $params = $request->getQueryParams();
         $certificateId = isset($params['certificateId']) ? (int)$params['certificateId'] : 0;
 
         if ($certificateId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.invalidId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.certificate.invalidId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $filePath = $this->certificateService->getCertificateFilePath($certificateId, $userId);
         if ($filePath === null || !file_exists($filePath)) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.notFound')],
-                JsonResponse::HTTP_NOT_FOUND
-            );
+            return $this->jsonError('api.certificate.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
         $downloadUrl = $this->certificateService->getCertificateDownloadUrl($filePath);
 
-        return new JsonResponse([
-            'status'      => 'success',
+        return $this->jsonSuccess([
             'downloadUrl' => $downloadUrl,
         ]);
     }
@@ -141,40 +116,26 @@ final class CertificateController
      */
     public function badgeAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('certificate_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('certificate_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid'])
-            ? (int)$user['uid']
-            : null;
-
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.certificate.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $params = $request->getQueryParams();
         $certificateId = isset($params['certificateId']) ? (int)$params['certificateId'] : 0;
 
         if ($certificateId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.certificate.invalidId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.certificate.invalidId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $badgeData = $this->badgeService->getBadgeData($certificateId, $userId);
 
-        return new JsonResponse([
-            'status' => 'success',
-            'badge'  => $badgeData,
+        return $this->jsonSuccess([
+            'badge' => $badgeData,
         ]);
     }
 }
