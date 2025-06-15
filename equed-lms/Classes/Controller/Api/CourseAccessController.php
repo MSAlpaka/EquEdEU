@@ -10,6 +10,8 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\CourseAccessServiceInterface;
+use Equed\EquedLms\Dto\CourseAccessRequest;
+use Equed\EquedLms\Dto\CourseAccessResult;
 
 /**
  * API controller for checking user eligibility for a course program.
@@ -44,29 +46,27 @@ final class CourseAccessController
             );
         }
 
-        $user = $this->context->getAspect('frontend.user')->get('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
-        if ($userId === null) {
+        $dto = CourseAccessRequest::fromRequest($request);
+
+        if ($dto->getUserId() <= 0) {
             return new JsonResponse(
                 ['error' => $this->translationService->translate('api.courseAccess.unauthorized')],
                 JsonResponse::HTTP_UNAUTHORIZED
             );
         }
 
-        $params = $request->getQueryParams();
-        $programId = isset($params['programId']) ? (int)$params['programId'] : 0;
-        if ($programId <= 0) {
+        if ($dto->getCourseProgramId() <= 0) {
             return new JsonResponse(
                 ['error' => $this->translationService->translate('api.courseAccess.invalidProgram')],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
 
-        $accessData = $this->accessService->checkAccess($userId, $programId);
+        $result = $this->accessService->checkCourseProgramAccess($dto);
 
         return new JsonResponse([
             'status' => 'success',
-            'access' => $accessData,
+            'access' => $result->isGranted(),
         ]);
     }
 }
