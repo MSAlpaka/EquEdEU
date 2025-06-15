@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller;
 
 use Equed\EquedLms\Domain\Service\MaterialListServiceInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -25,9 +26,9 @@ final class MaterialController extends ActionController
     /**
      * ListAction
      *
-     * @return void
+     * @return ResponseInterface
      */
-    public function listAction(ServerRequestInterface $request): void
+    public function listAction(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
         $type       = (string)($queryParams['type'] ?? '');
@@ -36,6 +37,8 @@ final class MaterialController extends ActionController
         $data = $this->listService->getListData($type, $category);
 
         $this->view->assignMultiple($data);
+
+        return $this->htmlResponse();
     }
 }
 // End of file
