@@ -3,6 +3,8 @@
 defined('TYPO3') or die();
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use Equed\EquedLms\Enum\NotificationType;
+use Equed\EquedLms\Enum\NotificationStatus;
 
 (function () {
     ExtensionManagementUtility::addTCAcolumns('tx_equedlms_domain_model_notification', [
@@ -41,15 +43,15 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
             'config' => [
                 'type' => 'select',
                 'items' => [
-                    ['Info', 'info'],
-                    ['Success', 'success'],
-                    ['Warning', 'warning'],
-                    ['Alert', 'alert'],
-                    ['Certificate', 'certificate'],
-                    ['Submission', 'submission'],
-                    ['System', 'system'],
+                    ['Info', NotificationType::Info->value],
+                    ['Success', NotificationType::Success->value],
+                    ['Warning', NotificationType::Warning->value],
+                    ['Alert', NotificationType::Alert->value],
+                    ['Certificate', NotificationType::Certificate->value],
+                    ['Submission', NotificationType::Submission->value],
+                    ['System', NotificationType::System->value],
                 ],
-                'default' => 'info',
+                'default' => NotificationType::Info->value,
             ],
         ],
         'status' => [
@@ -57,6 +59,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
             'config' => [
                 'type' => 'input',
                 'eval' => 'trim',
+                'default' => NotificationStatus::Active->value,
             ],
         ],
         'is_read' => [

@@ -11,6 +11,8 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Annotations\EventListener;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\NotificationType;
+use Equed\EquedLms\Enum\NotificationStatus;
 
 /**
  * Sends a notification when a certificate is issued.
@@ -57,9 +59,9 @@ final class CertificateNotificationListener
             'recipient'      => $user,
             'titleKey'       => $messageKey,
             'customMessage'  => $message,
-            'type'           => 'certificate',
+            'type'           => NotificationType::Certificate,
             'language'       => $user->getUserProfile()?->getLanguage() ?? LanguageCode::EN,
-            'status'         => 'active',
+            'status'         => NotificationStatus::Active,
             'isRead'         => false,
             'isArchived'     => false,
             'createdAt'      => new \DateTimeImmutable(),
