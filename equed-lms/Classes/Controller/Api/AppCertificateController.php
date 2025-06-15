@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Controller\Api;
 
-use Equed\Core\Service\ConfigurationServiceInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+use Equed\EquedLms\Dto\GenerateTrainingRecordRequest;
+use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\Core\Service\ConfigurationServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for generating training-record certificates.
@@ -18,14 +21,16 @@ use TYPO3\CMS\Core\Http\JsonResponse;
  * to leverage hybrid live-translation with fallback logic.
  * Execution is guarded by the <training_record_generation> feature toggle.
  */
-final class AppCertificateController
+final class AppCertificateController extends BaseApiController
 {
     public function __construct(
-        private readonly TrainingRecordGeneratorInterface       $trainingRecordGenerator,
-        private readonly UserCourseRecordRepositoryInterface    $userCourseRecordRepository,
-        private readonly ConfigurationServiceInterface          $configurationService,
-        private readonly GptTranslationServiceInterface         $translationService,
+        private readonly TrainingRecordGeneratorInterface $trainingRecordGenerator,
+        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -38,34 +43,26 @@ final class AppCertificateController
      */
     public function generateTrainingRecordAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('training_record_generation')) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.trainingRecord.disabled'),
-            ], 403);
+        if (($check = $this->requireFeature('training_record_generation')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        if ($user === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.trainingRecord.unauthorized'),
-            ], 401);
+        $userId = $this->getCurrentUserId($request);
+        if ($userId === null) {
+            return $this->jsonError('api.trainingRecord.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $body = (array)$request->getParsedBody();
-        $courseInstanceId = isset($body['courseInstanceId']) ? (int)$body['courseInstanceId'] : null;
+        $dto = GenerateTrainingRecordRequest::fromRequest($request);
+        $courseInstanceId = $dto->getCourseInstanceId();
         if ($courseInstanceId === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.trainingRecord.missingCourseId'),
-            ], 400);
+            return $this->jsonError('api.trainingRecord.missingCourseId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $record = $this->userCourseRecordRepository
-            ->findOneByUserAndCourseInstance((int)$user['uid'], $courseInstanceId);
+            ->findOneByUserAndCourseInstance($userId, $courseInstanceId);
 
-        if ($record === null || !$record->isCompleted()) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.trainingRecord.notFound'),
-            ], 404);
+        if ($record === null || ! $record->isCompleted()) {
+            return $this->jsonError('api.trainingRecord.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
         $program = $record->getCourseInstance()->getCourseProgram();
@@ -77,10 +74,7 @@ final class AppCertificateController
 
         $filePath = $this->trainingRecordGenerator->generateZip($certificateData);
 
-        return new JsonResponse([
-            'status'    => 'success',
-            'file_path' => $filePath,
-        ]);
+        return $this->jsonSuccess(['file_path' => $filePath]);
     }
 }
 // End of file
