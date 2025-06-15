@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Repository\CertificateRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\QmsCaseRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Dto\ServiceCenterDashboardData;
 
 /**
  * Service to gather dashboard data for a Service Center.
@@ -30,20 +31,19 @@ final class ServiceCenterDashboardService
      * Build dashboard data for a given Service Center.
      *
      * @param int $centerId UID of the Service Center
-     * @return array<string, mixed> Structured dashboard information
      */
-    public function getDashboardDataForServiceCenter(int $centerId): array
+    public function getDashboardDataForServiceCenter(int $centerId): ServiceCenterDashboardData
     {
         $certificates = $this->certificateRepository->findPendingByServiceCenter($centerId);
         $submissions  = $this->userSubmissionRepository->findPendingByServiceCenter($centerId);
         $qmsCases     = $this->qmsCaseRepository->findOpenByServiceCenter($centerId);
 
-        return [
-            'centerId'     => $centerId,
-            'certificates' => $this->mapCertificates($certificates),
-            'submissions'  => $this->mapSubmissions($submissions),
-            'qmsCases'     => $this->mapQmsCases($qmsCases),
-        ];
+        return new ServiceCenterDashboardData(
+            $centerId,
+            $this->mapCertificates($certificates),
+            $this->mapSubmissions($submissions),
+            $this->mapQmsCases($qmsCases),
+        );
     }
 
     /**

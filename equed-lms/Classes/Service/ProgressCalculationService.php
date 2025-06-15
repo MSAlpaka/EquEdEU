@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
+use Equed\EquedLms\Helper\ProgressCacheKeyHelper;
 
 /**
  * Service for calculating user progress in courses.
@@ -57,7 +58,7 @@ final class ProgressCalculationService
      */
     public function calculateCourseInstanceProgress(int $userId, int $courseInstanceId): float
     {
-        $cacheKey = sprintf('progress_%d_%d', $userId, $courseInstanceId);
+        $cacheKey = ProgressCacheKeyHelper::courseInstance($userId, $courseInstanceId);
         $cacheItem = $this->cachePool->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {

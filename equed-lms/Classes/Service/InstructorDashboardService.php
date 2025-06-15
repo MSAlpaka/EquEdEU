@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Dto\InstructorDashboardData;
 
 /**
  * Provides instructor-specific dashboard statistics and metrics.
@@ -23,9 +24,8 @@ final class InstructorDashboardService
      * Get aggregated dashboard data for the given instructor.
      *
      * @param FrontendUser $instructor
-     * @return array<string,mixed>
      */
-    public function getDashboardDataForInstructor(FrontendUser $instructor): array
+    public function getDashboardDataForInstructor(FrontendUser $instructor): InstructorDashboardData
     {
         $instructorId = (int)$instructor->getUid();
 
@@ -42,11 +42,11 @@ final class InstructorDashboardService
             fn ($r) => $r->getStatus() === \Equed\EquedLms\Enum\UserCourseStatus::InProgress
         );
 
-        return [
-            'courseInstanceCount' => count($instances),
-            'participantCount'    => count($records),
-            'validatedRecords'    => count($validatedRecords),
-            'openTasks'           => count($openTasks),
-        ];
+        return new InstructorDashboardData(
+            count($instances),
+            count($records),
+            count($validatedRecords),
+            count($openTasks),
+        );
     }
 }
