@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Domain\Service\ExamServiceInterface;
 use Equed\EquedLms\Domain\Model\ExamAttempt;
 use Equed\EquedLms\Domain\Repository\ExamAttemptRepositoryInterface;
 use Equed\EquedLms\Factory\ExamAttemptFactoryInterface;
@@ -12,7 +13,7 @@ use Equed\EquedLms\Factory\ExamAttemptFactoryInterface;
 /**
  * Service to create and manage exam attempts.
  */
-final class ExamService
+final class ExamService implements ExamServiceInterface
 {
     public function __construct(
         private readonly ExamAttemptRepositoryInterface  $examAttemptRepository,

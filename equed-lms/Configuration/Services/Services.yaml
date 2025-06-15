@@ -138,6 +138,9 @@ services:
   Equed\EquedLms\Domain\Service\ExamNotificationServiceInterface:
     class: Equed\EquedLms\Service\ExamNotificationService
 
+  Equed\EquedLms\Domain\Service\ExamServiceInterface:
+    class: Equed\EquedLms\Service\ExamService
+
   Equed\EquedLms\Service\ProgressServiceInterface:
     class: Equed\EquedLms\Service\ProgressService
 
