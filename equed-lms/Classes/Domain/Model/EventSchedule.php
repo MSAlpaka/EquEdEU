@@ -8,6 +8,8 @@ use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use Equed\EquedLms\Enum\LanguageCode;
 use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -24,7 +26,9 @@ final class EventSchedule extends AbstractEntity
 
     protected string $description = '';
 
-    protected int $courseInstance = 0;
+    #[ManyToOne]
+    #[Lazy]
+    protected ?CourseInstance $courseInstance = null;
 
     protected DateTimeImmutable $startDatetime;
 
@@ -89,12 +93,12 @@ final class EventSchedule extends AbstractEntity
         $this->description = $description;
     }
 
-    public function getCourseInstance(): int
+    public function getCourseInstance(): ?CourseInstance
     {
         return $this->courseInstance;
     }
 
-    public function setCourseInstance(int $courseInstance): void
+    public function setCourseInstance(?CourseInstance $courseInstance): void
     {
         $this->courseInstance = $courseInstance;
     }
