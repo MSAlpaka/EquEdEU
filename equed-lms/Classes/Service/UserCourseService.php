@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use Equed\EquedLms\Enum\UserCourseStatus;
 
 /**
  * Service for retrieving user course records and statuses.
@@ -29,7 +30,7 @@ final class UserCourseService
         return $this->userCourseRecordRepository->countByUserAndInstanceAndStatus(
             $userId,
             $courseInstanceId,
-            'active'
+            UserCourseStatus::InProgress
         ) > 0;
     }
 
@@ -43,7 +44,7 @@ final class UserCourseService
     {
         return $this->userCourseRecordRepository->findByUserAndStatus(
             $userId,
-            'active'
+            UserCourseStatus::InProgress
         );
     }
 
@@ -57,7 +58,7 @@ final class UserCourseService
     {
         return $this->userCourseRecordRepository->findByUserAndStatus(
             $userId,
-            'completed'
+            UserCourseStatus::Passed
         );
     }
 }
