@@ -7,8 +7,10 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\CourseBookingServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for processing course bookings.
@@ -16,13 +18,15 @@ use Equed\EquedLms\Domain\Service\CourseBookingServiceInterface;
  * Utilizes hybrid live-translation via {@see GptTranslationServiceInterface}
  * with fallback chain. Execution is guarded by the <course_booking_api> feature toggle.
  */
-final class CourseBookingController
+final class CourseBookingController extends BaseApiController
 {
     public function __construct(
-        private readonly CourseBookingServiceInterface    $bookingService,
-        private readonly ConfigurationServiceInterface    $configurationService,
-        private readonly GptTranslationServiceInterface   $translationService
+        private readonly CourseBookingServiceInterface $bookingService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -34,39 +38,26 @@ final class CourseBookingController
      */
     public function bookAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('course_booking_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseBooking.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('course_booking_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
 
         $body = (array)$request->getParsedBody();
         $courseInstanceId = isset($body['courseInstance']) ? (int)$body['courseInstance'] : 0;
 
         if ($userId === null || $courseInstanceId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseBooking.missingParameters')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.courseBooking.missingParameters', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         if ($this->bookingService->isAlreadyBooked($userId, $courseInstanceId)) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.courseBooking.alreadyBooked')],
-                JsonResponse::HTTP_CONFLICT
-            );
+            return $this->jsonError('api.courseBooking.alreadyBooked', JsonResponse::HTTP_CONFLICT);
         }
 
         $this->bookingService->bookCourse($userId, $courseInstanceId);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.courseBooking.success'),
-        ]);
+        return $this->jsonSuccess([], 'api.courseBooking.success');
     }
 }
 // End of file
