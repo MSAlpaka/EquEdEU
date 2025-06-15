@@ -48,10 +48,10 @@ final class FeedbackAnalysisService
             return null;
         }
 
-        $prompt = $this->translationService->translate(
+        $prompt = (string) ($this->translationService->translate(
             'feedback.analysis.prompt',
             ['feedback' => $text]
-        );
+        ) ?? '');
 
         $payload = [
             'model'       => 'gpt-3.5-turbo',
