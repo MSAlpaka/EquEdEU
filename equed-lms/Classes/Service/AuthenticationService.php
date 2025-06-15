@@ -49,4 +49,21 @@ final class AuthenticationService implements AuthenticationServiceInterface
 
         return $this->jwtService->generateToken($payload);
     }
+
+    public function login(string $email, string $password): ?array
+    {
+        $user = $this->validateCredentials($email, $password);
+        if ($user === null) {
+            return null;
+        }
+
+        $token = $this->createToken($user);
+
+        return ['token' => $token, 'user' => $user];
+    }
+
+    public function logout(): void
+    {
+        // Stateless JWT logout - no action required currently
+    }
 }
