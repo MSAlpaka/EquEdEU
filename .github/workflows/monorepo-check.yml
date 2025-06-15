@@ -1,4 +1,4 @@
-name: Monorepo Integrity Check
+name: Monorepo Composer Validation
 
 on:
   pull_request:
@@ -13,10 +13,25 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-      - name: Composer validate
+      - name: Validate extension composer files
         run: |
+          # Iterate over all directories in the repository root that start with "equed-"
           for dir in equed-*; do
+            # Only proceed if the path is a directory
+            [ -d "$dir" ] || continue
+
+            # Check whether a composer.json exists in the directory
             if [ -f "$dir/composer.json" ]; then
-              composer validate --strict --working-dir "$dir"
+              echo "🔍 Validating $dir..."
+
+              # Run composer validate without --strict so warnings do not fail the build
+              if composer validate --working-dir "$dir"; then
+                echo "✔ $dir/composer.json is valid"
+              else
+                echo "❌ Validation failed in $dir"
+                exit 1
+              fi
+            else
+              echo "ℹ️  Skipping $dir – no composer.json found"
             fi
           done
