@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Equed\Core\Service\ConfigurationServiceInterface;
-use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\AppSyncServiceInterface;
+use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for queueing and fetching app sync data.
@@ -17,13 +19,15 @@ use TYPO3\CMS\Core\Http\JsonResponse;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <app_sync> feature toggle.
  */
-final class AppSyncController
+final class AppSyncController extends BaseApiController
 {
     public function __construct(
-        private readonly AppSyncServiceInterface         $appSyncService,
-        private readonly ConfigurationServiceInterface   $configurationService,
-        private readonly GptTranslationServiceInterface  $translationService
+        private readonly AppSyncServiceInterface $appSyncService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -35,39 +39,26 @@ final class AppSyncController
      */
     public function queueDataAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('app_sync')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.sync.queue.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('app_sync')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.sync.queue.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.sync.queue.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $body = (array)$request->getParsedBody();
-        $type = isset($body['type']) ? (string)$body['type'] : '';
+        $body    = (array) $request->getParsedBody();
+        $type    = isset($body['type']) ? (string) $body['type'] : '';
         $payload = $body['payload'] ?? null;
 
         if ($type === '' || !is_array($payload)) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.sync.queue.invalidData')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.sync.queue.invalidData', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->appSyncService->queueData($userId, $type, $payload);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.sync.queue.processed'),
-        ]);
+        return $this->jsonSuccess([], 'api.sync.queue.processed');
     }
 
     /**
@@ -79,27 +70,19 @@ final class AppSyncController
      */
     public function fetchPendingSyncsAction(ServerRequestInterface $request): JsonResponse
     {
-        if (!$this->configurationService->isFeatureEnabled('app_sync')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.sync.fetch.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('app_sync')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.sync.fetch.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.sync.fetch.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $records = $this->appSyncService->fetchPending($userId);
 
-        return new JsonResponse([
-            'status' => 'success',
-            'syncs'  => $records,
+        return $this->jsonSuccess([
+            'syncs' => $records,
         ]);
     }
 }
