@@ -122,6 +122,9 @@ services:
     arguments:
       $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
 
+  Equed\EquedLms\Domain\Service\AuthenticationServiceInterface:
+    class: Equed\EquedLms\Service\AuthenticationService
+
   Equed\EquedLms\Domain\Service\NotificationServiceInterface:
     class: Equed\EquedLms\Service\NotificationService
 
