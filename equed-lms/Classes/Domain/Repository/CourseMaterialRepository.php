@@ -59,4 +59,23 @@ final class CourseMaterialRepository extends Repository implements CourseMateria
 
         return $query->execute()->toArray();
     }
+
+    /**
+     * Find all CourseMaterial records by type.
+     *
+     * @param string $type
+     * @return CourseMaterial[]
+     */
+    public function findByType(string $type): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('type', $type),
+                $query->equals('hidden', false)
+            )
+        );
+
+        return $query->execute()->toArray();
+    }
 }

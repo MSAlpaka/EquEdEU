@@ -156,6 +156,9 @@ services:
   Equed\EquedLms\Domain\Service\MaterialListServiceInterface:
     class: Equed\EquedLms\Service\MaterialListService
 
+  Equed\EquedLms\Domain\Service\MaterialServiceInterface:
+    class: Equed\EquedLms\Service\MaterialService
+
   Equed\EquedLms\Service\QuizManagerInterface:
     class: Equed\EquedLms\Service\QuizManager
 

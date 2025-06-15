@@ -29,4 +29,12 @@ interface CourseMaterialRepositoryInterface
      * @return CourseMaterial[]
      */
     public function findAllVisible(): array;
+
+    /**
+     * Find all CourseMaterial records by type.
+     *
+     * @param string $type
+     * @return CourseMaterial[]
+     */
+    public function findByType(string $type): array;
 }
