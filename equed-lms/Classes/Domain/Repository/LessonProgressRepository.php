@@ -45,7 +45,7 @@ final class LessonProgressRepository extends Repository implements LessonProgres
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
-                $query->equals('feUser', $userId),
+                $query->equals('userCourseRecord.user', $userId),
                 $query->equals('lesson', $lessonId),
             ])
         );
@@ -64,7 +64,7 @@ final class LessonProgressRepository extends Repository implements LessonProgres
     {
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('feUser', $userId)
+            $query->equals('userCourseRecord.user', $userId)
         );
 
         return $query->execute()->toArray();
@@ -87,23 +87,24 @@ final class LessonProgressRepository extends Repository implements LessonProgres
     /**
      * Counts completed lessons for a user within a given list of lesson UIDs.
      *
-     * @param int   $feUserId   Frontend user UID
+     * @param int   $userId     Frontend user UID
      * @param int[] $lessonUids Array of lesson UIDs
      */
-    public function countCompletedByUserAndLessons(int $feUserId, array $lessonUids): int
+    public function countCompletedByUserAndLessons(int $userId, array $lessonUids): int
     {
-        if ($feUserId <= 0 || $lessonUids === []) {
+        if ($userId <= 0 || $lessonUids === []) {
             return 0;
         }
 
         $qb = $this->connection->createQueryBuilder();
         $qb
-            ->select($qb->expr()->count('uid'))
-            ->from('tx_equedlms_domain_model_lessonprogress')
+            ->select($qb->expr()->count('lp.uid'))
+            ->from('tx_equedlms_domain_model_lessonprogress', 'lp')
+            ->join('lp', 'tx_equedlms_domain_model_usercourserecord', 'ucr', 'ucr.uid = lp.user_course_record')
             ->where(
-                $qb->expr()->eq('fe_user', $qb->createNamedParameter($feUserId, \PDO::PARAM_INT)),
-                $qb->expr()->in('lesson', $qb->createNamedParameter($lessonUids, Connection::PARAM_INT_ARRAY)),
-                $qb->expr()->eq('completed', $qb->createNamedParameter(1, \PDO::PARAM_INT))
+                $qb->expr()->eq('ucr.fe_user', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
+                $qb->expr()->in('lp.lesson', $qb->createNamedParameter($lessonUids, Connection::PARAM_INT_ARRAY)),
+                $qb->expr()->eq('lp.completed', $qb->createNamedParameter(1, \PDO::PARAM_INT))
             );
 
         $result = $qb->executeQuery()->fetchOne();

@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\ProgressStatus;
+use Equed\EquedLms\Domain\Model\UserCourseRecord;
 
 /**
  * Represents the progress state of a user for a specific lesson.
@@ -19,8 +20,14 @@ final class LessonProgress extends AbstractEntity
 {
     /**
      * Frontend user identifier
+     *
+     * @deprecated Use $userCourseRecord instead
      */
     protected int $feUser = 0;
+
+    #[ManyToOne]
+    #[Lazy]
+    protected ?UserCourseRecord $userCourseRecord = null;
 
     /**
      * Associated lesson
@@ -78,6 +85,16 @@ final class LessonProgress extends AbstractEntity
     public function setFeUser(int $feUser): void
     {
         $this->feUser = $feUser;
+    }
+
+    public function getUserCourseRecord(): ?UserCourseRecord
+    {
+        return $this->userCourseRecord;
+    }
+
+    public function setUserCourseRecord(?UserCourseRecord $userCourseRecord): void
+    {
+        $this->userCourseRecord = $userCourseRecord;
     }
 
     /**
