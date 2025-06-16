@@ -110,10 +110,10 @@ class SyncServiceTest extends TestCase
         $clock->now()->willReturn(new \DateTimeImmutable('2024-01-02T00:00:00+00:00'));
 
         $service = new SyncService($repo->reveal(), $pm->reveal(), $clock->reveal());
-        $result = $service->pullFromApp([
-            'userId' => 5,
+        $dto = new \Equed\EquedLms\Dto\SyncRequest(5, [
             'updatedAt' => '2024-01-01T00:00:00+00:00'
         ]);
+        $result = $service->pullFromApp($dto);
         $this->assertInstanceOf(UserProfile::class, $result);
     }
 }
