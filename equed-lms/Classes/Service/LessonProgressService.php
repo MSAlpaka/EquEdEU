@@ -8,16 +8,19 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Domain\Service\LessonProgressServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
 
 /**
  * Service to manage lesson progress for users.
  */
-final class LessonProgressService
+final class LessonProgressService implements LessonProgressServiceInterface
 {
     public function __construct(
         private readonly LessonProgressRepositoryInterface $progressRepository,
+        private readonly LessonRepositoryInterface $lessonRepository,
         private readonly ClockInterface $clock
     ) {
     }
@@ -29,7 +32,7 @@ final class LessonProgressService
      * @param Lesson       $lesson
      * @return LessonProgress|null
      */
-    public function getProgress(FrontendUser $user, Lesson $lesson): ?LessonProgress
+    public function getProgressEntity(FrontendUser $user, Lesson $lesson): ?LessonProgress
     {
         return $this->progressRepository->findByUserAndLesson(
             (int) $user->getUid(),
@@ -46,7 +49,7 @@ final class LessonProgressService
      */
     public function setProgressCompleted(FrontendUser $user, Lesson $lesson): LessonProgress
     {
-        $progress = $this->getProgress($user, $lesson);
+        $progress = $this->getProgressEntity($user, $lesson);
 
         if ($progress === null) {
             $progress = new LessonProgress();
@@ -57,6 +60,35 @@ final class LessonProgressService
         $progress->setStatus(ProgressStatus::Completed);
         $progress->setCompleted(true);
         $progress->setCompletedAt($this->clock->now());
+
+        $this->progressRepository->updateOrAdd($progress);
+
+        return $progress;
+    }
+
+    public function getProgress(int $userId, int $lessonId): ?LessonProgress
+    {
+        return $this->progressRepository->findByUserAndLesson($userId, $lessonId);
+    }
+
+    public function setProgress(int $userId, int $lessonId, bool $completed): LessonProgress
+    {
+        $progress = $this->progressRepository->findByUserAndLesson($userId, $lessonId);
+
+        if ($progress === null) {
+            $lesson = $this->lessonRepository->findByUid($lessonId);
+            $progress = new LessonProgress();
+            $progress->setFeUser($userId);
+            if ($lesson instanceof Lesson) {
+                $progress->setLesson($lesson);
+            }
+        }
+
+        $progress->setStatus($completed ? ProgressStatus::Completed : ProgressStatus::InProgress);
+        $progress->setCompleted($completed);
+        if ($completed) {
+            $progress->setCompletedAt($this->clock->now());
+        }
 
         $this->progressRepository->updateOrAdd($progress);
 
