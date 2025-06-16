@@ -240,21 +240,6 @@
       <code><![CDATA[AppMaterialController]]></code>
     </UnusedClass>
   </file>
-  <file src="Classes/Controller/Api/AppMaterialFilterController.php">
-    <UndefinedClass>
-      <code><![CDATA[$this->configurationService]]></code>
-      <code><![CDATA[$this->materialService]]></code>
-      <code><![CDATA[private]]></code>
-      <code><![CDATA[private]]></code>
-    </UndefinedClass>
-    <UndefinedConstant>
-      <code><![CDATA[JsonResponse::HTTP_BAD_REQUEST]]></code>
-      <code><![CDATA[JsonResponse::HTTP_FORBIDDEN]]></code>
-    </UndefinedConstant>
-    <UnusedClass>
-      <code><![CDATA[AppMaterialFilterController]]></code>
-    </UnusedClass>
-  </file>
   <file src="Classes/Controller/Api/AppSyncController.php">
     <UndefinedClass>
       <code><![CDATA[$this->appSyncService]]></code>

@@ -53,3 +53,7 @@ routes:
     controller: Equed\EquedLms\Controller\Api\DashboardApiController::showAction
     methods: [GET]
     auth: true
+  - path: /api/materials
+    controller: Equed\EquedLms\Controller\Api\AppMaterialController::listAction
+    methods: [GET]
+    auth: true
