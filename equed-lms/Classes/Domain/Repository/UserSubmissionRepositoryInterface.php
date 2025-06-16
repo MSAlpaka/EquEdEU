@@ -29,9 +29,25 @@ interface UserSubmissionRepositoryInterface
     public function findByFeUser(int $feUserId): array;
 
     /**
+     * Fetch submissions for a frontend user as associative arrays.
+     *
+     * @param int $feUserId
+     * @return array<int, array<string, mixed>>
+     */
+    public function fetchAllByFeUser(int $feUserId): array;
+
+    /**
      * @return UserSubmission[]
      */
     public function findByCourseInstance(int $courseInstanceId): array;
+
+    /**
+     * Fetch submissions for a user course record as associative arrays.
+     *
+     * @param int $recordId
+     * @return array<int, array<string, mixed>>
+     */
+    public function fetchAllByRecord(int $recordId): array;
 
     /**
      * @param int $uid
