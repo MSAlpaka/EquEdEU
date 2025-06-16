@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Middleware;
 
-use Equed\EquedLms\Domain\Repository\CourseAccessMapRepository;
+use Equed\EquedLms\Domain\Repository\CourseAccessMapRepositoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Helper\LanguageHelper;
 use Psr\Http\Message\ResponseInterface;
@@ -19,7 +19,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 final class CourseAccessMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly CourseAccessMapRepository $accessMapRepository,
+        private readonly CourseAccessMapRepositoryInterface $accessMapRepository,
         private readonly GptTranslationServiceInterface $translationService
     ) {
     }

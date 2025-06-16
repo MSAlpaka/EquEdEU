@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
-use Equed\EquedLms\Domain\Repository\CourseProgramRepository;
+use Equed\EquedLms\Domain\Repository\CourseProgramRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface;
@@ -16,7 +16,7 @@ use Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface;
 final class CourseOverviewService implements CourseOverviewServiceInterface
 {
     public function __construct(
-        private readonly CourseProgramRepository $programRepository,
+        private readonly CourseProgramRepositoryInterface $programRepository,
         private readonly CourseInstanceRepositoryInterface $instanceRepository,
         private readonly UserCourseRecordRepositoryInterface $recordRepository,
     ) {

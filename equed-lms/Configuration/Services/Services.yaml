@@ -111,6 +111,21 @@ services:
   Equed\EquedLms\Domain\Repository\SubmissionRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\SubmissionRepository
 
+  Equed\EquedLms\Domain\Repository\InstructorFeedbackRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\InstructorFeedbackRepository
+
+  Equed\EquedLms\Domain\Repository\GlossaryEntryRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\GlossaryEntryRepository
+
+  Equed\EquedLms\Domain\Repository\CourseProgramRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\CourseProgramRepository
+
+  Equed\EquedLms\Domain\Repository\CourseBundleRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\CourseBundleRepository
+
+  Equed\EquedLms\Domain\Repository\CourseAccessMapRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\CourseAccessMapRepository
+
   Equed\EquedLms\Factory\FrontendUserFactoryInterface:
     class: Equed\EquedLms\Factory\DefaultFrontendUserFactory
 

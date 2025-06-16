@@ -9,7 +9,7 @@ use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Model\InstructorFeedback;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\InstructorFeedbackRepository;
+use Equed\EquedLms\Domain\Repository\InstructorFeedbackRepositoryInterface;
 use Equed\EquedLms\Enum\UserCourseStatus;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
@@ -21,7 +21,7 @@ final class InstructorService
     public function __construct(
         private readonly UserProfileRepositoryInterface   $userProfileRepository,
         private readonly UserCourseRecordRepositoryInterface $recordRepository,
-        private readonly InstructorFeedbackRepository     $feedbackRepository,
+        private readonly InstructorFeedbackRepositoryInterface $feedbackRepository,
         private readonly PersistenceManagerInterface      $persistenceManager,
     ) {
     }
