@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Domain\Service\InstructorServiceInterface;
 use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Model\InstructorFeedback;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
@@ -16,7 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 /**
  * Service to retrieve instructors and check instructor-course assignments.
  */
-final class InstructorService
+final class InstructorService implements InstructorServiceInterface
 {
     public function __construct(
         private readonly UserProfileRepositoryInterface   $userProfileRepository,

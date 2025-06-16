@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use Equed\EquedLms\Domain\Service\UserAccessServiceInterface;
 
 /**
  * Service for checking user access and instructor validation.
  */
-final class UserAccessService
+final class UserAccessService implements UserAccessServiceInterface
 {
     public function __construct(
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository

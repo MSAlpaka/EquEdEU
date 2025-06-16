@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Service\InstructorService;
+use Equed\EquedLms\Domain\Service\InstructorServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
@@ -22,7 +22,7 @@ use Equed\EquedLms\Controller\Api\BaseApiController;
 final class InstructorActionController extends BaseApiController
 {
     public function __construct(
-        private readonly InstructorService      $instructorService,
+        private readonly InstructorServiceInterface      $instructorService,
         ConfigurationServiceInterface           $configurationService,
         ApiResponseServiceInterface             $apiResponseService,
         GptTranslationServiceInterface          $translationService,
