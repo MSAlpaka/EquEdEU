@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\EventListener;
 
 use Equed\EquedLms\Event\Submission\SubmissionUploadedEvent;
+use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 use Equed\EquedLms\Service\NotificationService;
 use Equed\EquedLms\Service\LogService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -28,6 +29,7 @@ final class SubmissionNotificationListener implements EventSubscriberInterface, 
     {
         return [
             SubmissionUploadedEvent::class => 'onSubmissionUploaded',
+            SubmissionReviewedEvent::class => 'onSubmissionReviewed',
         ];
     }
 
@@ -67,6 +69,30 @@ final class SubmissionNotificationListener implements EventSubscriberInterface, 
                 'submission'      => $submission->getUid(),
                 'instructors'     => $instructorIds,
             ],
+        );
+    }
+
+    /**
+     * Handle the event when a submission has been reviewed.
+     */
+    public function onSubmissionReviewed(SubmissionReviewedEvent $event): void
+    {
+        $submission = $event->getSubmission();
+        $user = $submission->getUserCourseRecord()?->getUser();
+        if ($user !== null) {
+            $this->notificationService->notify(
+                $user,
+                'Submission reviewed',
+                'Your submission has been reviewed.'
+            );
+        }
+
+        $this->logService->logInfo(
+            'Submission reviewed',
+            [
+                'submission' => $submission->getUid(),
+                'user'       => $user?->getUid(),
+            ]
         );
     }
 }

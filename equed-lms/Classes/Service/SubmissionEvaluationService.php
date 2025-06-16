@@ -9,6 +9,8 @@ use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Service to evaluate user submissions manually or assisted by GPT.
@@ -19,7 +21,8 @@ final class SubmissionEvaluationService
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly GptTranslationServiceInterface $translationService,
         private readonly PersistenceManagerInterface $persistenceManager,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -40,6 +43,7 @@ final class SubmissionEvaluationService
 
         $this->submissionRepository->update($submission);
         $this->persistenceManager->persistAll();
+        $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission));
     }
 
     /**

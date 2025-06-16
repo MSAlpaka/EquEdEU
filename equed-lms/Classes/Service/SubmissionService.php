@@ -8,6 +8,8 @@ use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 
 /**
  * Service for managing user submissions.
@@ -17,6 +19,7 @@ final class SubmissionService
     public function __construct(
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly ConnectionPool $connectionPool,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -88,6 +91,11 @@ final class SubmissionService
             ],
             ['uid' => $submissionId]
         );
+
+        $submission = $this->submissionRepository->findByUid($submissionId);
+        if ($submission instanceof UserSubmission) {
+            $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission));
+        }
     }
 
     private function getConnection(): Connection

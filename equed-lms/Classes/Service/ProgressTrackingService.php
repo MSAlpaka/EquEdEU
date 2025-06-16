@@ -10,6 +10,8 @@ use Equed\EquedLms\Factory\UserCourseRecordFactoryInterface;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Event\Progress\UserCourseProgressUpdatedEvent;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
@@ -26,7 +28,8 @@ final class ProgressTrackingService
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly CacheItemPoolInterface $cachePool,
         private readonly LanguageServiceInterface $languageService,
-        private readonly UserCourseRecordFactoryInterface $recordFactory
+        private readonly UserCourseRecordFactoryInterface $recordFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -57,6 +60,7 @@ final class ProgressTrackingService
         $this->recordRepository->update($record);
         $this->persistenceManager->persistAll();
         $this->clearCache($userId, $courseInstanceId);
+        $this->eventDispatcher->dispatch(new UserCourseProgressUpdatedEvent($record));
 
         return $record;
     }
