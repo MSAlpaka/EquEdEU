@@ -16,12 +16,12 @@ interface CertifierServiceInterface
     /**
      * Approve the specified validation record.
      */
-    public function approveValidation(int $recordId, int $certifierId): void;
+    public function approveValidation(\Equed\EquedLms\Dto\ValidationApproveRequest $request): void;
 
     /**
      * Reject the specified validation record with feedback.
      */
-    public function rejectValidation(int $recordId, string $feedback, int $certifierId): void;
+    public function rejectValidation(\Equed\EquedLms\Dto\ValidationRejectRequest $request): void;
 }
 
 // EOF
