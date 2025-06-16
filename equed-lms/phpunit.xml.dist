@@ -46,6 +46,7 @@
         <file>./Tests/Unit/Service/InstructorDashboardServiceTest.php</file>
         <file>./Tests/Unit/Service/NotificationAggregatorTest.php</file>
         <file>./Tests/Unit/Service/CacheManagerTest.php</file>
+        <file>./Tests/Unit/Service/DashboardServiceTest.php</file>
         </testsuite>
         <testsuite name="functional">
             <directory>./Tests/Functional/</directory>
