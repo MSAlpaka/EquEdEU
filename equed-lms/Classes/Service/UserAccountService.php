@@ -7,14 +7,17 @@ namespace Equed\EquedLms\Service;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use Equed\EquedLms\Domain\Service\UserAccountServiceInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 /**
  * Default implementation for retrieving and updating frontend user profiles.
  */
 final class UserAccountService implements UserAccountServiceInterface
 {
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
+    public function __construct(
+        private readonly ConnectionPool $connectionPool,
+        private readonly ClockInterface $clock
+    ) {
     }
 
     public function getProfile(int $userId): ?array
@@ -34,7 +37,7 @@ final class UserAccountService implements UserAccountServiceInterface
 
     public function updateProfile(int $userId, array $fields): void
     {
-        $fields['tstamp'] = time();
+        $fields['tstamp'] = $this->clock->now()->getTimestamp();
         $connection = $this->connectionPool->getConnectionForTable('fe_users');
         $connection->update('fe_users', $fields, ['uid' => $userId]);
     }

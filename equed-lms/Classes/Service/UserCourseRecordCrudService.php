@@ -7,14 +7,17 @@ namespace Equed\EquedLms\Service;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use Equed\EquedLms\Domain\Service\UserCourseRecordCrudServiceInterface;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 /**
  * DB-backed implementation for managing user course records.
  */
 final class UserCourseRecordCrudService implements UserCourseRecordCrudServiceInterface
 {
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
+    public function __construct(
+        private readonly ConnectionPool $connectionPool,
+        private readonly ClockInterface $clock
+    ) {
     }
 
     public function listForUser(int $userId): array
@@ -49,7 +52,7 @@ final class UserCourseRecordCrudService implements UserCourseRecordCrudServiceIn
 
     public function updateRecord(int $userId, int $recordId, array $fields): void
     {
-        $fields['tstamp'] = time();
+        $fields['tstamp'] = $this->clock->now()->getTimestamp();
         $this->connectionPool
             ->getConnectionForTable('tx_equedlms_domain_model_usercourserecord')
             ->update(

@@ -6,6 +6,9 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\SubmissionService;
+use Equed\EquedLms\Domain\Service\ClockInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -15,11 +18,23 @@ class SubmissionServiceTest extends TestCase
 
     private SubmissionService $subject;
     private $repository;
+    private $connectionPool;
+    private $eventDispatcher;
+    private $clock;
 
     protected function setUp(): void
     {
-        $this->repository = $this->prophesize(UserSubmissionRepositoryInterface::class);
-        $this->subject = new SubmissionService($this->repository->reveal());
+        $this->repository      = $this->prophesize(UserSubmissionRepositoryInterface::class);
+        $this->connectionPool  = $this->prophesize(ConnectionPool::class);
+        $this->eventDispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $this->clock           = $this->prophesize(ClockInterface::class);
+
+        $this->subject = new SubmissionService(
+            $this->repository->reveal(),
+            $this->connectionPool->reveal(),
+            $this->eventDispatcher->reveal(),
+            $this->clock->reveal()
+        );
     }
 
     public function testGetPendingSubmissionsDelegatesToRepository(): void
