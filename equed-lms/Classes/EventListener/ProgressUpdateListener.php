@@ -7,6 +7,7 @@ namespace Equed\EquedLms\EventListener;
 use Equed\EquedLms\Event\Progress\LessonProgressUpdatedEvent;
 use Equed\EquedLms\Event\Progress\UserCourseProgressUpdatedEvent;
 use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Application\Assembler\LessonProgressDtoAssembler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TYPO3\CMS\Core\SingletonInterface;
 
@@ -30,10 +31,9 @@ final class ProgressUpdateListener implements EventSubscriberInterface, Singleto
     public function onLessonProgressUpdated(LessonProgressUpdatedEvent $event): void
     {
         $progress = $event->getLessonProgress();
+        $dto = LessonProgressDtoAssembler::fromEntity($progress);
         $this->logService->logInfo('Lesson progress updated', [
-            'lesson'   => $progress->getLesson()->getUid(),
-            'user'     => $progress->getUserCourseRecord()?->getUser()?->getUid(),
-            'progress' => $progress->getProgress(),
+            'progress' => $dto->jsonSerialize(),
         ]);
     }
 

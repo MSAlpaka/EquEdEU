@@ -11,6 +11,7 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\LessonProgressServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Application\Assembler\LessonProgressDtoAssembler;
 
 /**
  * API controller for lesson progress: get and set progress for lessons.
@@ -54,8 +55,9 @@ final class LessonProgressController extends BaseApiController
         }
 
         $progress = $this->lessonProgressService->getProgress($userId, $lessonId);
+        $dto = $progress !== null ? LessonProgressDtoAssembler::fromEntity($progress) : null;
 
-        return $this->jsonSuccess(['progress' => $progress]);
+        return $this->jsonSuccess(['progress' => $dto]);
     }
 
     /**
