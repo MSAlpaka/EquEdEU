@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
-use Equed\EquedLms\Enum\LanguageCode;
 
+use Equed\EquedLms\Enum\LanguageCode;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
@@ -12,8 +12,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
- * GlossaryTerm
- *
  * Represents a term in the glossary with multilingual support and course tagging.
  */
 final class GlossaryTerm extends AbstractEntity

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use Equed\EquedLms\Enum\LanguageCode;
-
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
 use Equed\Core\Service\UuidGeneratorInterface;
