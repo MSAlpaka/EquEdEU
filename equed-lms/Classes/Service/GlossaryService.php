@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use Equed\EquedLms\Domain\Repository\GlossaryEntryRepository;
+use Equed\EquedLms\Domain\Repository\GlossaryEntryRepositoryInterface;
 use TYPO3\CMS\Core\Context\Context;
 
 final class GlossaryService implements GlossaryServiceInterface
 {
     public function __construct(
-        private readonly GlossaryEntryRepository $glossaryEntryRepository,
+        private readonly GlossaryEntryRepositoryInterface $glossaryEntryRepository,
         private readonly Context $context
     ) {
     }

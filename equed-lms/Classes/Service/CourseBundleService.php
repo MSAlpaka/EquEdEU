@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\CourseBundle;
-use Equed\EquedLms\Domain\Repository\CourseBundleRepository;
+use Equed\EquedLms\Domain\Repository\CourseBundleRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseBundleServiceInterface;
 
 /**
@@ -14,7 +14,7 @@ use Equed\EquedLms\Domain\Service\CourseBundleServiceInterface;
 final class CourseBundleService implements CourseBundleServiceInterface
 {
     public function __construct(
-        private readonly CourseBundleRepository $bundleRepository,
+        private readonly CourseBundleRepositoryInterface $bundleRepository,
     ) {
     }
 
