@@ -8,6 +8,7 @@ use Equed\EquedLms\Enum\LanguageCode;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Enum\ExternalSyncStatus;
 
 /**
  * ExternalSystemSync
@@ -37,10 +38,8 @@ final class ExternalSystemSync extends AbstractEntity
 
     /**
      * Current status (pending | success | failed)
-     *
-     * @var string
      */
-    protected string $status = 'pending';
+    protected ExternalSyncStatus $status = ExternalSyncStatus::Pending;
 
     /**
      * Optional JSON payload
@@ -124,13 +123,17 @@ final class ExternalSystemSync extends AbstractEntity
         $this->action = $action;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ExternalSyncStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(ExternalSyncStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = ExternalSyncStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

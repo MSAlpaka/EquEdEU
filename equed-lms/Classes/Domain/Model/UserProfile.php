@@ -13,6 +13,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\OneToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\BadgeLevel;
+use Equed\EquedLms\Enum\UserProfileStatus;
 use Equed\EquedLms\Enum\LanguageCode;
 
 /**
@@ -45,7 +46,7 @@ final class UserProfile extends AbstractEntity
     protected BadgeLevel $badgeLevel = BadgeLevel::None;
     protected ?string $badgeLevelKey = null;
 
-    protected string $profileStatus = 'active';
+    protected UserProfileStatus $profileStatus = UserProfileStatus::Active;
     protected ?string $profileStatusKey = null;
 
     protected bool $isVisibleInSearch = false;
@@ -198,13 +199,17 @@ final class UserProfile extends AbstractEntity
         $this->badgeLevelKey = $badgeLevelKey;
     }
 
-    public function getProfileStatus(): string
+    public function getProfileStatus(): UserProfileStatus
     {
         return $this->profileStatus;
     }
 
-    public function setProfileStatus(string $status): void
+    public function setProfileStatus(UserProfileStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = UserProfileStatus::from($status);
+        }
+
         $this->profileStatus = $status;
     }
 

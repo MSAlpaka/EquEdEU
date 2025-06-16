@@ -84,8 +84,13 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_glossarysuggestion.status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int'
+                'type' => 'select',
+                'items' => [
+                    ['Pending', 'pending'],
+                    ['Approved', 'approved'],
+                    ['Rejected', 'rejected'],
+                ],
+                'default' => 'pending',
             ]
         ],
         'admin_comment' => [

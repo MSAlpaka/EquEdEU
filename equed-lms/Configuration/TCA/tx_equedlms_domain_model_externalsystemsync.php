@@ -62,8 +62,13 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_externalsystemsync.sync_status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'int'
+                'type' => 'select',
+                'items' => [
+                    ['OK', 'ok'],
+                    ['Failed', 'failed'],
+                    ['Pending', 'pending'],
+                ],
+                'default' => 'pending',
             ]
         ],
         'is_active' => [

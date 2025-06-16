@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\UserProgressRecord;
+use Equed\EquedLms\Enum\ProgressRecordStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -62,11 +63,14 @@ final class UserProgressRecordRepository extends Repository
      * @param string $status One of 'incomplete', 'complete', 'passed'
      * @return UserProgressRecord[]
      */
-    public function findByStatus(string $status): array
+    public function findByStatus(ProgressRecordStatus|string $status): array
     {
+        if (is_string($status)) {
+            $status = ProgressRecordStatus::from($status);
+        }
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('status', $status)
+            $query->equals('status', $status->value)
         );
 
         return $query->execute()->toArray();

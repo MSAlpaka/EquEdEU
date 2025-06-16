@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\IncidentReport;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Enum\IncidentReportStatus;
 
 /**
  * Repository for IncidentReport entities.
@@ -72,11 +73,14 @@ final class IncidentReportRepository extends Repository
      * @param string $status
      * @return IncidentReport[]
      */
-    public function findByStatus(string $status): array
+    public function findByStatus(IncidentReportStatus|string $status): array
     {
+        if (is_string($status)) {
+            $status = IncidentReportStatus::from($status);
+        }
         $query = $this->createQuery();
         $query->matching(
-            $query->equals('status', $status)
+            $query->equals('status', $status->value)
         );
 
         return $query->execute()->toArray();
