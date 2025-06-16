@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
+use DateTimeImmutable;
 use Equed\EquedLms\Domain\Model\UserProfile;
+use Equed\EquedLms\Domain\Model\InstructorFeedback;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\InstructorFeedbackRepository;
+use Equed\EquedLms\Enum\UserCourseStatus;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 /**
  * Service to retrieve instructors and check instructor-course assignments.
@@ -13,7 +19,10 @@ use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 final class InstructorService
 {
     public function __construct(
-        private readonly UserProfileRepositoryInterface $userProfileRepository
+        private readonly UserProfileRepositoryInterface   $userProfileRepository,
+        private readonly UserCourseRecordRepositoryInterface $recordRepository,
+        private readonly InstructorFeedbackRepository     $feedbackRepository,
+        private readonly PersistenceManagerInterface      $persistenceManager,
     ) {
     }
 
@@ -39,5 +48,58 @@ final class InstructorService
         $profile = $this->userProfileRepository->findByFeUser($instructorFeUserId);
 
         return $profile?->isAssignedToCourseInstance($courseInstanceId) ?? false;
+    }
+
+    /**
+     * Mark a user course record as completed by the instructor if allowed.
+     */
+    public function completeCourse(int $recordId, int $instructorId): bool
+    {
+        $record = $this->recordRepository->findByUid($recordId);
+        if ($record === null) {
+            return false;
+        }
+
+        $instanceInstructor = $record->getCourseInstance()->getInstructor();
+        if ($instanceInstructor === null || (int)$instanceInstructor->getUid() !== $instructorId) {
+            return false;
+        }
+
+        if (! $record->isCompleted()) {
+            $record->setStatus(UserCourseStatus::Passed);
+            $record->setCompletedAt(new DateTimeImmutable());
+            $this->recordRepository->update($record);
+            $this->persistenceManager->persistAll();
+        }
+
+        return true;
+    }
+
+    /**
+     * Store an evaluation note for a user course record.
+     */
+    public function uploadEvaluation(int $recordId, int $instructorId, string $note): bool
+    {
+        $record = $this->recordRepository->findByUid($recordId);
+        if ($record === null) {
+            return false;
+        }
+
+        $instanceInstructor = $record->getCourseInstance()->getInstructor();
+        if ($instanceInstructor === null || (int)$instanceInstructor->getUid() !== $instructorId) {
+            return false;
+        }
+
+        $feedback = new InstructorFeedback();
+        $feedback->setUserCourseRecord($record);
+        $feedback->setInstructor($instanceInstructor);
+        $feedback->setComment($note);
+        $feedback->setCreatedAt(new DateTimeImmutable());
+        $feedback->setUpdatedAt(new DateTimeImmutable());
+
+        $this->feedbackRepository->add($feedback);
+        $this->persistenceManager->persistAll();
+
+        return true;
     }
 }

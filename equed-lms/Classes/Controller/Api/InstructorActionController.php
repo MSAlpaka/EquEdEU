@@ -7,9 +7,10 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\InstructorService;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for instructor-only actions: completing courses and uploading evaluations.
@@ -18,14 +19,15 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <instructor_actions_api> feature toggle.
  */
-final class InstructorActionController extends ActionController
+final class InstructorActionController extends BaseApiController
 {
     public function __construct(
-        private readonly InstructorService        $instructorService,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface    $translationService,
+        private readonly InstructorService      $instructorService,
+        ConfigurationServiceInterface           $configurationService,
+        ApiResponseServiceInterface             $apiResponseService,
+        GptTranslationServiceInterface          $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -37,43 +39,27 @@ final class InstructorActionController extends ActionController
      */
     public function completeCourseAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('instructor_actions_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('instructor_actions_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $instructorId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $instructorId = $this->getCurrentUserId($request);
         if ($instructorId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.instructor.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $body = (array)$request->getParsedBody();
         $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
         if ($recordId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.invalidRecordId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.instructor.invalidRecordId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $success = $this->instructorService->completeCourse($recordId, $instructorId);
         if (! $success) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.accessDenied')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+            return $this->jsonError('api.instructor.accessDenied', JsonResponse::HTTP_FORBIDDEN);
         }
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.instructor.courseCompleted'),
-        ]);
+        return $this->jsonSuccess([], 'api.instructor.courseCompleted');
     }
 
     /**
@@ -85,44 +71,28 @@ final class InstructorActionController extends ActionController
      */
     public function uploadEvaluationAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('instructor_actions_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('instructor_actions_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $instructorId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $instructorId = $this->getCurrentUserId($request);
         if ($instructorId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.instructor.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $body = (array)$request->getParsedBody();
         $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
         $note = isset($body['evaluationNote']) ? trim((string)$body['evaluationNote']) : '';
         if ($recordId <= 0 || $note === '') {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.invalidInput')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.instructor.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $success = $this->instructorService->uploadEvaluation($recordId, $instructorId, $note);
         if (! $success) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructor.accessDenied')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+            return $this->jsonError('api.instructor.accessDenied', JsonResponse::HTTP_FORBIDDEN);
         }
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.instructor.evaluationUploaded'),
-        ]);
+        return $this->jsonSuccess([], 'api.instructor.evaluationUploaded');
     }
 }
 // EOF
