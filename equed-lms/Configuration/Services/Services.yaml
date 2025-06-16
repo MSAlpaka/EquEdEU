@@ -85,6 +85,12 @@ services:
   Equed\EquedLms\Domain\Service\DocumentServiceInterface:
     class: Equed\EquedLms\Service\DocumentService
 
+  Equed\EquedLms\Domain\Service\InstructorServiceInterface:
+    class: Equed\EquedLms\Service\InstructorService
+
+  Equed\EquedLms\Domain\Service\UserAccessServiceInterface:
+    class: Equed\EquedLms\Service\UserAccessService
+
   Equed\EquedLms\Domain\Service\LanguageServiceInterface:
     class: Equed\EquedLms\Service\LanguageService
 
