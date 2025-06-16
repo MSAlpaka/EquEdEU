@@ -4,151 +4,107 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Controller\Api;
 
-use Equed\EquedLms\Trait\ErrorResponseTrait;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+use Equed\EquedLms\Domain\Service\UserCourseRecordCrudServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * UserCourseRecordController
  *
  * Manages UserCourseRecord CRUD and status updates via API.
  */
-final class UserCourseRecordController extends ActionController
+final class UserCourseRecordController extends BaseApiController
 {
-    use ErrorResponseTrait;
-
     public function __construct(
-        private readonly ConnectionPool $connectionPool,
-        private readonly GptTranslationServiceInterface $translationService,
-
+        private readonly UserCourseRecordCrudServiceInterface $recordService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
      * List all course records for current user.
      */
-    public function listAction(ServerRequestInterface $request): ResponseInterface
+    public function listAction(ServerRequestInterface $request): JsonResponse
     {
-        $userContext = $request->getAttribute('user');
-        $user = is_array($userContext) ? $userContext : null;
-        if ($user === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userCourseRecord.unauthorized'),
-            ], 401);
+        $userId = $this->getCurrentUserId($request);
+        if ($userId === null) {
+            return $this->jsonError('api.userCourseRecord.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_usercourserecord');
-        $qb->select('uid', 'course_instance', 'status', 'progress', 'validated', 'feedback_submitted')
-            ->from('tx_equedlms_domain_model_usercourserecord')
-            ->where(
-                $qb->expr()->eq('fe_user', $qb->createNamedParameter($user['uid'], \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            )
-            ->orderBy('tstamp', 'DESC');
+        $records = $this->recordService->listForUser($userId);
 
-        $records = $qb->executeQuery()->fetchAllAssociative();
-
-        return new JsonResponse(['status' => 'success', 'records' => $records]);
+        return $this->jsonSuccess([
+            'records' => $records,
+        ]);
     }
 
     /**
      * View single course record details.
      */
-    public function showAction(ServerRequestInterface $request): ResponseInterface
+    public function showAction(ServerRequestInterface $request): JsonResponse
     {
-        $userContext = $request->getAttribute('user');
-        $user = is_array($userContext) ? $userContext : null;
+        $userId = $this->getCurrentUserId($request);
         $id = (int)($request->getQueryParams()['uid'] ?? 0);
-        if ($user === null || $id <= 0) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userCourseRecord.invalidParameters'),
-            ], 400);
+        if ($userId === null || $id <= 0) {
+            return $this->jsonError('api.userCourseRecord.invalidParameters', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_usercourserecord');
-        $qb->select('*')
-            ->from('tx_equedlms_domain_model_usercourserecord')
-            ->where(
-                $qb->expr()->eq('uid', $qb->createNamedParameter($id, \PDO::PARAM_INT)),
-                $qb->expr()->eq('fe_user', $qb->createNamedParameter($user['uid'], \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            );
-
-        $record = $qb->executeQuery()->fetchAssociative();
-        if ($record === false) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userCourseRecord.notFound'),
-            ], 404);
+        $record = $this->recordService->getForUser($userId, $id);
+        if ($record === null) {
+            return $this->jsonError('api.userCourseRecord.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        return new JsonResponse(['status' => 'success', 'record' => $record]);
+        return $this->jsonSuccess([
+            'record' => $record,
+        ]);
     }
 
     /**
      * Update status/progress of a course record.
      */
-    public function updateAction(ServerRequestInterface $request): ResponseInterface
+    public function updateAction(ServerRequestInterface $request): JsonResponse
     {
-        $userContext = $request->getAttribute('user');
-        $user = is_array($userContext) ? $userContext : null;
+        $userId = $this->getCurrentUserId($request);
         $body = $request->getParsedBody();
         $id = (int)($body['uid'] ?? 0);
         $status = trim((string)($body['status'] ?? ''));
         $progress = isset($body['progress']) ? (int)$body['progress'] : null;
 
-        if ($user === null || $id <= 0 || $status === '') {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userCourseRecord.invalidInput'),
-            ], 400);
+        if ($userId === null || $id <= 0 || $status === '') {
+            return $this->jsonError('api.userCourseRecord.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $data = ['status' => $status, 'tstamp' => time()];
+        $data = ['status' => $status];
         if ($progress !== null) {
             $data['progress'] = $progress;
         }
 
-        $connection = $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_usercourserecord');
-        $connection->update(
-            'tx_equedlms_domain_model_usercourserecord',
-            $data,
-            ['uid' => $id, 'fe_user' => $user['uid']]
-        );
+        $this->recordService->updateRecord($userId, $id, $data);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.userCourseRecord.updated'),
-        ]);
+        return $this->jsonSuccess([], 'api.userCourseRecord.updated');
     }
 
     /**
      * Delete a course record (soft-delete).
      */
-    public function deleteAction(ServerRequestInterface $request): ResponseInterface
+    public function deleteAction(ServerRequestInterface $request): JsonResponse
     {
-        $userContext = $request->getAttribute('user');
-        $user = is_array($userContext) ? $userContext : null;
+        $userId = $this->getCurrentUserId($request);
         $id = (int)($request->getQueryParams()['uid'] ?? 0);
-        if ($user === null || $id <= 0) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.userCourseRecord.invalidParameters'),
-            ], 400);
+        if ($userId === null || $id <= 0) {
+            return $this->jsonError('api.userCourseRecord.invalidParameters', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $connection = $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_usercourserecord');
-        $connection->update(
-            'tx_equedlms_domain_model_usercourserecord',
-            ['deleted' => 1, 'tstamp' => time()],
-            ['uid' => $id, 'fe_user' => $user['uid']]
-        );
+        $this->recordService->deleteRecord($userId, $id);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.userCourseRecord.deleted'),
-        ]);
+        return $this->jsonSuccess([], 'api.userCourseRecord.deleted');
     }
 }
 // End of file
