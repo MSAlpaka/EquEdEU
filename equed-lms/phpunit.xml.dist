@@ -26,6 +26,7 @@
         <file>./Tests/Unit/Service/SubmissionSyncServiceTest.php</file>
         <file>./Tests/Unit/Service/UserProgressSyncServiceTest.php</file>
         <file>./Tests/Unit/Service/DocumentServiceTest.php</file>
+        <file>./Tests/Unit/Service/MaterialListServiceTest.php</file>
         <file>./Tests/Unit/Service/NotificationServiceTest.php</file>
         <file>./Tests/Unit/Service/QmsServiceTest.php</file>
         <file>./Tests/Unit/Service/CourseCompletionServiceTest.php</file>

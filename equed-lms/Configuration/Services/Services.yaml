@@ -126,6 +126,9 @@ services:
   Equed\EquedLms\Domain\Repository\CourseAccessMapRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\CourseAccessMapRepository
 
+  Equed\EquedLms\Domain\Repository\MaterialRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\MaterialRepository
+
   Equed\EquedLms\Factory\FrontendUserFactoryInterface:
     class: Equed\EquedLms\Factory\DefaultFrontendUserFactory
 
