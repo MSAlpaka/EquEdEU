@@ -7,41 +7,50 @@ on:
   pull_request:
     paths:
       - 'equed-lms/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
 
 jobs:
   phpstan:
-    name: Run PHPStan and upload SARIF
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: ⚙️ Set up PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: xml, gd
+          coverage: none
+          tools: composer
 
-      - name: 📦 Install dependencies
-        run: composer install --no-progress --no-scripts --prefer-dist
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          working-directory: ./equed-lms
+          composer-options: --no-interaction --no-progress --prefer-dist
+
+      - name: Run PHPStan (SARIF output)
+        shell: bash
         working-directory: ./equed-lms
-
-      - name: 🧪 Run PHPStan (SARIF output)
         run: |
-          mkdir -p equed-lms/build/reports
-          vendor/bin/phpstan analyse ./equed-lms \
+          mkdir -p build/reports
+          vendor/bin/phpstan analyse \
             --no-progress \
-            --error-format=sarif > equed-lms/build/reports/phpstan.sarif || echo "⚠️ PHPStan completed with issues"
+            --error-format=sarif > build/reports/phpstan.sarif || echo "⚠️ PHPStan completed with issues"
 
-      - name: 🧾 Validate SARIF (optional)
+      - name: Validate SARIF
+        shell: bash
         run: |
           if ! jq empty equed-lms/build/reports/phpstan.sarif 2>/dev/null; then
             echo "⚠️ Invalid SARIF JSON detected. Upload skipped."
-            exit 0
+            echo '{}' > equed-lms/build/reports/phpstan.sarif
           fi
 
-      - name: 🐙 Upload SARIF to GitHub
+      - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: equed-lms/build/reports/phpstan.sarif
