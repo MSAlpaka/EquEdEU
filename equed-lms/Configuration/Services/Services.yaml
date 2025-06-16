@@ -144,6 +144,9 @@ services:
   Equed\EquedLms\Domain\Service\ExamServiceInterface:
     class: Equed\EquedLms\Service\ExamService
 
+  Equed\EquedLms\Domain\Service\LessonProgressServiceInterface:
+    class: Equed\EquedLms\Service\LessonProgressService
+
   Equed\EquedLms\Service\CourseProgressServiceInterface:
     class: Equed\EquedLms\Service\CourseProgressService
 

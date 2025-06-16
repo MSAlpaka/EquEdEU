@@ -8,8 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\LessonProgressServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for lesson progress: get and set progress for lessons.
@@ -18,14 +19,15 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <lesson_progress_api> feature toggle.
  */
-final class LessonProgressController extends ActionController
+final class LessonProgressController extends BaseApiController
 {
     public function __construct(
-        private readonly LessonProgressServiceInterface  $lessonProgressService,
-        private readonly ConfigurationServiceInterface   $configurationService,
-        private readonly GptTranslationServiceInterface $translationService,
+        private readonly LessonProgressServiceInterface $lessonProgressService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -36,37 +38,24 @@ final class LessonProgressController extends ActionController
      */
     public function getAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('lesson_progress_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.lessonProgress.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('lesson_progress_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.lessonProgress.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.lessonProgress.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $params = $request->getQueryParams();
         $lessonId = isset($params['lessonId']) ? (int)$params['lessonId'] : 0;
         if ($lessonId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.lessonProgress.invalidLessonId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.lessonProgress.invalidLessonId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $progress = $this->lessonProgressService->getProgress($userId, $lessonId);
 
-        return new JsonResponse([
-            'status'   => 'success',
-            'progress' => $progress,
-        ]);
+        return $this->jsonSuccess(['progress' => $progress]);
     }
 
     /**
@@ -77,36 +66,25 @@ final class LessonProgressController extends ActionController
      */
     public function setAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('lesson_progress_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.lessonProgress.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('lesson_progress_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.lessonProgress.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.lessonProgress.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $body = (array)$request->getParsedBody();
         $lessonId = isset($body['lessonId']) ? (int)$body['lessonId'] : 0;
         $completed = isset($body['completed']) ? (bool)$body['completed'] : null;
         if ($lessonId <= 0 || $completed === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.lessonProgress.invalidInput')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.lessonProgress.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->lessonProgressService->setProgress($userId, $lessonId, $completed);
 
-        return new JsonResponse([
-            'status'  => 'success',
+        return $this->jsonSuccess([
             'message' => $this->translationService->translate('api.lessonProgress.saved'),
         ]);
     }
