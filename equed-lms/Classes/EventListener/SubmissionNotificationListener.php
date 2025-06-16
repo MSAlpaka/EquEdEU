@@ -8,6 +8,7 @@ use Equed\EquedLms\Event\Submission\SubmissionUploadedEvent;
 use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 use Equed\EquedLms\Service\NotificationService;
 use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Application\Assembler\SubmissionReviewDtoAssembler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TYPO3\CMS\Core\SingletonInterface;
 
@@ -79,6 +80,8 @@ final class SubmissionNotificationListener implements EventSubscriberInterface, 
     {
         $submission = $event->getSubmission();
         $user = $submission->getUserCourseRecord()?->getUser();
+        $dto = SubmissionReviewDtoAssembler::fromSubmission($submission);
+
         if ($user !== null) {
             $this->notificationService->notify(
                 $user,
@@ -90,8 +93,7 @@ final class SubmissionNotificationListener implements EventSubscriberInterface, 
         $this->logService->logInfo(
             'Submission reviewed',
             [
-                'submission' => $submission->getUid(),
-                'user'       => $user?->getUid(),
+                'submissionReview' => $dto->jsonSerialize(),
             ]
         );
     }
