@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\SyncService;
+use Equed\EquedLms\Helper\AccessHelper;
 
 final class SyncController extends BaseApiController
 {
@@ -19,19 +20,31 @@ final class SyncController extends BaseApiController
         ConfigurationServiceInterface $configurationService,
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
+        private readonly AccessHelper $accessHelper,
     ) {
         parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     public function pushAction(ServerRequestInterface $request): JsonResponse
     {
-        $userId = (int)($request->getQueryParams()['userId'] ?? 0);
-        if ($userId <= 0) {
-            $user = $request->getAttribute('user');
-            $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
+        if (($check = $this->requireFeature('sync_api')) !== null) {
+            return $check;
         }
+
+        $currentUserId = $this->getCurrentUserId($request);
+        $params   = $request->getQueryParams();
+        $userId   = isset($params['userId']) ? (int)$params['userId'] : ($currentUserId ?? 0);
+
+        if ($currentUserId === null) {
+            return $this->jsonError('api.sync.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
         if ($userId <= 0) {
             return $this->jsonError('api.sync.invalidUser', JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if ($userId !== $currentUserId && ! $this->accessHelper->isAdmin()) {
+            return $this->jsonError('api.sync.forbidden', JsonResponse::HTTP_FORBIDDEN);
         }
 
         try {
@@ -44,14 +57,27 @@ final class SyncController extends BaseApiController
 
     public function pullAction(ServerRequestInterface $request): JsonResponse
     {
-        $data = $request->getParsedBody();
+        if (($check = $this->requireFeature('sync_api')) !== null) {
+            return $check;
+        }
+
+        $currentUserId = $this->getCurrentUserId($request);
+        $data          = (array) $request->getParsedBody();
+
         if (empty($data['userId'])) {
-            $user = $request->getAttribute('user');
-            $data['userId'] = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
+            $data['userId'] = $currentUserId ?? 0;
+        }
+
+        if ($currentUserId === null) {
+            return $this->jsonError('api.sync.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         if (empty($data['userId'])) {
             return $this->jsonError('api.sync.missingUser', JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if ((int)$data['userId'] !== $currentUserId && ! $this->accessHelper->isAdmin()) {
+            return $this->jsonError('api.sync.forbidden', JsonResponse::HTTP_FORBIDDEN);
         }
 
         try {
