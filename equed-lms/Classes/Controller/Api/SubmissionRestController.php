@@ -5,73 +5,71 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\SubmissionSyncService;
 
-final class SubmissionRestController extends ActionController
+final class SubmissionRestController extends BaseApiController
 {
     public function __construct(
-        private readonly SubmissionSyncService           $submissionService,
-        private readonly GptTranslationServiceInterface $translationService,
-
+        private readonly SubmissionSyncService $submissionService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
-    public function exportAction(ServerRequestInterface $request): ResponseInterface
+    public function exportAction(ServerRequestInterface $request): JsonResponse
     {
-        $userId = (int)($request->getQueryParams()['userId'] ?? 0);
-        if ($userId <= 0) {
-            $user = $request->getAttribute('user');
-            $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
+        $params  = $request->getQueryParams();
+        $userId = isset($params['userId']) ? (int) $params['userId'] : null;
+
+        if ($userId === null) {
+            $userId = $this->getCurrentUserId($request);
         }
-        if ($userId <= 0) {
-            return $this->createJsonResponse([
-                'error' => $this->translationService->translate('api.submission.invalidUser')
-            ], 400);
+
+        if ($userId === null || $userId <= 0) {
+            return $this->jsonError('api.submission.invalidUser', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
-            $submissions = $this->submissionService->findByUserId($userId);
-            $data = [];
-            foreach ($submissions as $submission) {
-                $data[] = $this->submissionService->push($submission);
+            $data = $this->submissionService->exportForApp($userId);
+
+            return $this->jsonSuccess([
+                'submissions' => $data,
+            ]);
+        } catch (\Throwable $e) {
+            return $this->jsonError('api.submission.exportFailed', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function importAction(ServerRequestInterface $request): JsonResponse
+    {
+        $payload = (array) $request->getParsedBody();
+
+        if (!isset($payload['userId']) || (int) $payload['userId'] <= 0) {
+            $userId = $this->getCurrentUserId($request);
+            if ($userId !== null) {
+                $payload['userId'] = $userId;
             }
-            return $this->createJsonResponse($data);
-        } catch (\Throwable $e) {
-            return $this->createJsonResponse(['error' => $e->getMessage()], 500);
         }
-    }
 
-    public function importAction(ServerRequestInterface $request): ResponseInterface
-    {
-        $data = $request->getParsedBody();
-        if (empty($data['userId'])) {
-            $user = $request->getAttribute('user');
-            $data['userId'] = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
-        }
-        if (empty($data['userId']) || !isset($data['submission'])) {
-            return $this->createJsonResponse([
-                'error' => $this->translationService->translate('api.submission.invalidPayload')
-            ], 400);
+        if (empty($payload['userId']) || !isset($payload['submission'])) {
+            return $this->jsonError('api.submission.invalidPayload', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
-            $submission = $this->submissionService->pull($data['submission']);
-            return $this->createJsonResponse(['status' => 'ok', 'uuid' => $submission->getUuid()]);
-        } catch (\Throwable $e) {
-            return $this->createJsonResponse(['error' => $e->getMessage()], 500);
-        }
-    }
+            $submission = $this->submissionService->importFromApp($payload);
 
-    /**
-     * @param array<int|string, mixed> $data
-     */
-    protected function createJsonResponse(array $data, int $status = 200): ResponseInterface
-    {
-        return new JsonResponse($data, $status);
+            return $this->jsonSuccess([
+                'uuid' => $submission->getUuid(),
+            ]);
+        } catch (\Throwable $e) {
+            return $this->jsonError('api.submission.importFailed', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
