@@ -546,29 +546,7 @@
       <code><![CDATA[$request]]></code>
     </UnusedParam>
   </file>
-  <file src="Classes/Controller/Api/DashboardController.php">
-    <UndefinedClass>
-      <code><![CDATA[$this->configurationService]]></code>
-      <code><![CDATA[$this->dashboardService]]></code>
-      <code><![CDATA[$this->dashboardService]]></code>
-      <code><![CDATA[$this->dashboardService]]></code>
-      <code><![CDATA[$this->dashboardService]]></code>
-      <code><![CDATA[$this->dashboardService]]></code>
-      <code><![CDATA[private]]></code>
-      <code><![CDATA[private]]></code>
-    </UndefinedClass>
-    <UndefinedConstant>
-      <code><![CDATA[JsonResponse::HTTP_FORBIDDEN]]></code>
-      <code><![CDATA[JsonResponse::HTTP_UNAUTHORIZED]]></code>
-    </UndefinedConstant>
-    <UnusedClass>
-      <code><![CDATA[DashboardController]]></code>
-    </UnusedClass>
-    <UnusedParam>
-      <code><![CDATA[$request]]></code>
-    </UnusedParam>
-  </file>
-  <file src="Classes/Controller/Api/ExamController.php">
+    <file src="Classes/Controller/Api/ExamController.php">
     <UndefinedClass>
       <code><![CDATA[$this->configurationService]]></code>
       <code><![CDATA[$this->configurationService]]></code>
