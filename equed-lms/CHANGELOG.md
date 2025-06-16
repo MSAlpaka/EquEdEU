@@ -1,5 +1,10 @@
 ## 📦 CHANGELOG – EquEd LMS Extension
 
+### [1.1.1] – Lesson progress updates
+
+- Lesson progress now references the related `UserCourseRecord`.
+- Database migration drops the obsolete `fe_user` column.
+
 ### [1.1.0] – Erweiterungen & Vollintegration (SSO, App, QMS)
 
 #### ✅ Neue Features

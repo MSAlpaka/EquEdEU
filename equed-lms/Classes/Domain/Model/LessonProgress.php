@@ -18,12 +18,6 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
  */
 final class LessonProgress extends AbstractEntity
 {
-    /**
-     * Frontend user identifier
-     *
-     * @deprecated Use $userCourseRecord instead
-     */
-    protected int $feUser = 0;
 
     #[ManyToOne]
     #[Lazy]
@@ -71,21 +65,6 @@ final class LessonProgress extends AbstractEntity
         $this->updatedAt = $now;
     }
 
-    /**
-     * Returns the frontend user UID.
-     */
-    public function getFeUser(): int
-    {
-        return $this->feUser;
-    }
-
-    /**
-     * Sets the frontend user UID.
-     */
-    public function setFeUser(int $feUser): void
-    {
-        $this->feUser = $feUser;
-    }
 
     public function getUserCourseRecord(): ?UserCourseRecord
     {

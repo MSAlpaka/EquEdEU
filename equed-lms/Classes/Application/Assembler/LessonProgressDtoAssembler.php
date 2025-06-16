@@ -13,7 +13,7 @@ final class LessonProgressDtoAssembler
     {
         return new LessonProgressDto(
             $progress->getUuid(),
-            $progress->getUserCourseRecord()?->getUser()?->getUid() ?? $progress->getFeUser() ?: null,
+            $progress->getUserCourseRecord()?->getUser()?->getUid(),
             $progress->getLesson()->getUid(),
             $progress->getProgress(),
             $progress->getStatus()->value,

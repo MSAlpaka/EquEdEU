@@ -458,7 +458,7 @@
 - updatedAt
 
 ## LessonProgress
-- feUser
+- userCourseRecord
 - lesson
 - progress
 - status
