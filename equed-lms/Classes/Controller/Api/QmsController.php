@@ -11,6 +11,9 @@ use Equed\EquedLms\Controller\Api\BaseApiController;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\QmsApiService;
+use Equed\EquedLms\Dto\QmsSubmitRequest;
+use Equed\EquedLms\Dto\QmsRespondRequest;
+use Equed\EquedLms\Dto\QmsCloseRequest;
 
 /**
  * API controller for managing QMS cases.
@@ -58,17 +61,13 @@ final class QmsController extends BaseApiController
             return $check;
         }
 
-        $userId = $this->getCurrentUserId($request);
-        $body = (array)$request->getParsedBody();
-        $recordId = (int)($body['recordId'] ?? 0);
-        $message  = trim((string)($body['message'] ?? ''));
-        $type     = trim((string)($body['type'] ?? 'general'));
-
-        if ($userId === null || $recordId <= 0 || $message === '') {
+        try {
+            $dto = QmsSubmitRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.qms.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->qmsService->submitCase($userId, $recordId, $message, $type);
+        $this->qmsService->submitCase($dto);
 
         return $this->jsonSuccess([], 'api.qms.submitted');
     }
@@ -82,17 +81,13 @@ final class QmsController extends BaseApiController
             return $check;
         }
 
-        $userId = $this->getCurrentUserId($request);
-        $body = (array)$request->getParsedBody();
-        $qmsId    = (int)($body['qmsId'] ?? 0);
-        $response = trim((string)($body['response'] ?? ''));
-        $role     = trim((string)($body['role'] ?? 'certifier'));
-
-        if ($userId === null || $qmsId <= 0 || $response === '') {
+        try {
+            $dto = QmsRespondRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.qms.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->qmsService->respondToCase($userId, $qmsId, $response, $role);
+        $this->qmsService->respondToCase($dto);
 
         return $this->jsonSuccess([], 'api.qms.responded');
     }
@@ -106,15 +101,13 @@ final class QmsController extends BaseApiController
             return $check;
         }
 
-        $userId = $this->getCurrentUserId($request);
-        $body = (array)$request->getParsedBody();
-        $qmsId = (int)($body['qmsId'] ?? 0);
-
-        if ($userId === null || $qmsId <= 0) {
+        try {
+            $dto = QmsCloseRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.qms.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->qmsService->closeCase($userId, $qmsId);
+        $this->qmsService->closeCase($dto);
 
         return $this->jsonSuccess([], 'api.qms.closed');
     }

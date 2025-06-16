@@ -7,6 +7,9 @@ namespace Equed\EquedLms\Service;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Dto\QmsSubmitRequest;
+use Equed\EquedLms\Dto\QmsRespondRequest;
+use Equed\EquedLms\Dto\QmsCloseRequest;
 
 /**
  * Simple DB-driven operations for QMS API endpoints.
@@ -38,17 +41,17 @@ final class QmsApiService
         return $qb->executeQuery()->fetchAllAssociative();
     }
 
-    public function submitCase(int $userId, int $recordId, string $message, string $type = 'general'): void
+    public function submitCase(QmsSubmitRequest $dto): void
     {
         $now = $this->clock->now()->getTimestamp();
         $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
             ->insert(
                 'tx_equedlms_domain_model_qms',
                 [
-                    'usercourserecord' => $recordId,
-                    'submitted_by'     => $userId,
-                    'type'             => $type,
-                    'message'          => $message,
+                    'usercourserecord' => $dto->getRecordId(),
+                    'submitted_by'     => $dto->getUserId(),
+                    'type'             => $dto->getType(),
+                    'message'          => $dto->getMessage(),
                     'status'           => 'open',
                     'submitted_at'     => $now,
                     'tstamp'           => $now,
@@ -57,25 +60,25 @@ final class QmsApiService
             );
     }
 
-    public function respondToCase(int $userId, int $caseId, string $response, string $role = 'certifier'): void
+    public function respondToCase(QmsRespondRequest $dto): void
     {
         $now = $this->clock->now()->getTimestamp();
         $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
             ->update(
                 'tx_equedlms_domain_model_qms',
                 [
-                    'response'       => $response,
-                    'responded_by'   => $userId,
-                    'responded_role' => $role,
+                    'response'       => $dto->getResponse(),
+                    'responded_by'   => $dto->getUserId(),
+                    'responded_role' => $dto->getRole(),
                     'responded_at'   => $now,
                     'status'         => 'responded',
                     'tstamp'         => $now,
                 ],
-                ['uid' => $caseId]
+                ['uid' => $dto->getCaseId()]
             );
     }
 
-    public function closeCase(int $userId, int $caseId): void
+    public function closeCase(QmsCloseRequest $dto): void
     {
         $now = $this->clock->now()->getTimestamp();
         $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
@@ -83,11 +86,11 @@ final class QmsApiService
                 'tx_equedlms_domain_model_qms',
                 [
                     'status'    => 'closed',
-                    'closed_by' => $userId,
+                    'closed_by' => $dto->getUserId(),
                     'closed_at' => $now,
                     'tstamp'    => $now,
                 ],
-                ['uid' => $caseId]
+                ['uid' => $dto->getCaseId()]
             );
     }
 
