@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
+use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\SyncService;
-use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 
-final class SyncController extends ActionController
+final class SyncController extends BaseApiController
 {
     public function __construct(
-        private readonly SyncService                    $syncService,
-        private readonly UserProfileRepositoryInterface $profileRepository,
-        private readonly GptTranslationServiceInterface $translationService,
-
+        private readonly SyncService $syncService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
-    public function pushAction(ServerRequestInterface $request): ResponseInterface
+    public function pushAction(ServerRequestInterface $request): JsonResponse
     {
         $userId = (int)($request->getQueryParams()['userId'] ?? 0);
         if ($userId <= 0) {
@@ -31,26 +31,18 @@ final class SyncController extends ActionController
             $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : 0;
         }
         if ($userId <= 0) {
-            return $this->createJsonResponse([
-                'error' => $this->translationService->translate('api.sync.invalidUser')
-            ], 400);
+            return $this->jsonError('api.sync.invalidUser', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
-            $profile = $this->profileRepository->findByUserId($userId);
-            if ($profile === null) {
-                return $this->createJsonResponse([
-                    'error' => $this->translationService->translate('api.sync.invalidUser')
-                ], 400);
-            }
-            $data = $this->syncService->pushToApp($profile);
-            return $this->createJsonResponse($data);
+            $data = $this->syncService->exportProfile($userId);
+            return $this->jsonSuccess($data);
         } catch (\Throwable $e) {
-            return $this->createJsonResponse(['error' => $e->getMessage()], 500);
+            return $this->jsonError('api.sync.failed', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function pullAction(ServerRequestInterface $request): ResponseInterface
+    public function pullAction(ServerRequestInterface $request): JsonResponse
     {
         $data = $request->getParsedBody();
         if (empty($data['userId'])) {
@@ -59,24 +51,14 @@ final class SyncController extends ActionController
         }
 
         if (empty($data['userId'])) {
-            return $this->createJsonResponse([
-                'error' => $this->translationService->translate('api.sync.missingUser')
-            ], 400);
+            return $this->jsonError('api.sync.missingUser', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
             $profile = $this->syncService->pullFromApp($data);
-            return $this->createJsonResponse(['status' => 'ok', 'uuid' => $profile->getUuid()]);
+            return $this->jsonSuccess(['uuid' => $profile->getUuid()]);
         } catch (\Throwable $e) {
-            return $this->createJsonResponse(['error' => $e->getMessage()], 500);
+            return $this->jsonError('api.sync.failed', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * @param array<int|string, mixed> $data
-     */
-    protected function createJsonResponse(array $data, int $status = 200): ResponseInterface
-    {
-        return new JsonResponse($data, $status);
     }
 }

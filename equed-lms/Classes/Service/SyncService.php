@@ -23,6 +23,19 @@ final class SyncService
     }
 
     /**
+     * Returns profile data for the given user in the app format.
+     */
+    public function exportProfile(int $userId): array
+    {
+        $profile = $this->profileRepository->findByUserId($userId);
+        if ($profile === null) {
+            throw new \InvalidArgumentException('Profile not found');
+        }
+
+        return $this->pushToApp($profile);
+    }
+
+    /**
      * Convert a user profile into the array structure used by the app.
      *
      * @param UserProfile $profile Profile entity
