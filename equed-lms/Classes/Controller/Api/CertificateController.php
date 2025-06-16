@@ -12,6 +12,7 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\CertificateRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Domain\Service\BadgeServiceInterface;
+use Equed\EquedLms\Application\Assembler\CertificateDtoAssembler;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
@@ -54,16 +55,7 @@ final class CertificateController extends BaseApiController
         }
 
         $certificates = $this->certificateRepository->findByUser($userId);
-        $data = array_map(static fn ($cert): array => [
-            'id'           => $cert->getUid(),
-            'title'        => $cert->getCourseInstance()->getCourseProgram()->getTitle(),
-            'issuedAt'     => $cert->getIssuedAt()->format(DATE_ATOM),
-            'validUntil'   => $cert->getValidUntil()?->format(DATE_ATOM),
-            'code'         => $cert->getCertificateCode(),
-            'publicUrl'    => $cert->getPublicUrl(),
-            'downloadUrl'  => '/api/certificate/download?certificateId=' . $cert->getUid(),
-            'badgeUrl'     => '/api/certificate/badge?certificateId=' . $cert->getUid(),
-        ], $certificates);
+        $data = CertificateDtoAssembler::fromEntities($certificates);
 
         return $this->jsonSuccess([
             'certificates' => $data,

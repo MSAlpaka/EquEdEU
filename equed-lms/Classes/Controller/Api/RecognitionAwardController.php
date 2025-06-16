@@ -10,6 +10,7 @@ use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\RecognitionAwardRepositoryInterface;
+use Equed\EquedLms\Application\Assembler\RecognitionAwardDtoAssembler;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
@@ -40,16 +41,7 @@ final class RecognitionAwardController extends BaseApiController
         }
         $awards = $this->awardRepository->findByFeUser($userId);
 
-        $data = array_map(static function ($award) {
-            return [
-                'id' => $award->getUid(),
-                'type' => $award->getAwardType(),
-                'typeKey' => $award->getAwardTypeKey(),
-                'summary' => $award->getCriteriaSummary(),
-                'summaryKey' => $award->getCriteriaSummaryKey(),
-                'grantedAt' => $award->getGrantedAt()?->format(DATE_ATOM),
-            ];
-        }, $awards);
+        $data = RecognitionAwardDtoAssembler::fromEntities($awards);
 
         return $this->jsonSuccess([
             'awards' => $data,
