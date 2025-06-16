@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Service\SyncService;
+use Equed\EquedLms\Dto\SyncRequest;
 use Equed\EquedLms\Helper\AccessHelper;
 
 final class SyncController extends BaseApiController
@@ -61,27 +62,23 @@ final class SyncController extends BaseApiController
             return $check;
         }
 
-        $currentUserId = $this->getCurrentUserId($request);
-        $data          = (array) $request->getParsedBody();
-
-        if (empty($data['userId'])) {
-            $data['userId'] = $currentUserId ?? 0;
+        try {
+            $dto = SyncRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
+            return $this->jsonError('api.sync.missingUser', JsonResponse::HTTP_BAD_REQUEST);
         }
 
+        $currentUserId = $this->getCurrentUserId($request);
         if ($currentUserId === null) {
             return $this->jsonError('api.sync.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        if (empty($data['userId'])) {
-            return $this->jsonError('api.sync.missingUser', JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        if ((int)$data['userId'] !== $currentUserId && ! $this->accessHelper->isAdmin()) {
+        if ($dto->getUserId() !== $currentUserId && ! $this->accessHelper->isAdmin()) {
             return $this->jsonError('api.sync.forbidden', JsonResponse::HTTP_FORBIDDEN);
         }
 
         try {
-            $profile = $this->syncService->pullFromApp($data);
+            $profile = $this->syncService->pullFromApp($dto);
             return $this->jsonSuccess(['uuid' => $profile->getUuid()]);
         } catch (\Throwable $e) {
             return $this->jsonError('api.sync.failed', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

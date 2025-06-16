@@ -11,6 +11,7 @@ use Ramsey\Uuid\Uuid;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Dto\SyncRequest;
 
 final class SyncService
 {
@@ -55,13 +56,11 @@ final class SyncService
 
     /**
      * Merge profile data coming from the app.
-     *
-     * @param array<string, mixed> $data Incoming app payload
-     * @return UserProfile Updated profile entity
      */
-    public function pullFromApp(array $data): UserProfile
+    public function pullFromApp(SyncRequest $request): UserProfile
     {
-        $userId = isset($data['userId']) ? (int) $data['userId'] : 0;
+        $data = $request->getPayload();
+        $userId = $request->getUserId();
         $profile = $this->profileRepository->findByUserId($userId);
         if ($profile === null) {
             $profile = new UserProfile();
