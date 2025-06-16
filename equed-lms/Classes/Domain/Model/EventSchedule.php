@@ -1,13 +1,11 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Equed\EquedLms\Domain\Model;
-use DateTimeImmutable;
-use Ramsey\Uuid\Uuid;
-use Equed\EquedLms\Enum\LanguageCode;
-use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
-use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
+
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * EventSchedule
  *
@@ -16,88 +14,170 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 final class EventSchedule extends AbstractEntity
 {
     protected string $title = '';
+
     protected string $description = '';
-    #[ManyToOne]
-    #[Lazy]
-    protected ?CourseInstance $courseInstance = null;
-    protected DateTimeImmutable $startDatetime;
-    protected DateTimeImmutable $endDatetime;
+
+    protected int $courseInstance = 0;
+
+    protected string $startDatetime = '';
+
+    protected string $endDatetime = '';
+
     protected int $eventType = 0;
+
     protected string $location = '';
-    protected int $maxParticipants = 0;
+
+    protected string $maxParticipants = '';
+
     protected string $notes = '';
+
     protected bool $isActive = false;
-    protected LanguageCode $language = LanguageCode::EN;
+
+    protected string $language = '';
+
     protected string $uuid = '';
-    protected DateTimeImmutable $createdAt;
-    protected DateTimeImmutable $updatedAt;
-    public function initializeObject(): void
-    {
-        $now = new DateTimeImmutable();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        }
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-        if (!isset($this->startDatetime)) {
-            $this->startDatetime = $now;
-        if (!isset($this->endDatetime)) {
-            $this->endDatetime = $now;
-    }
+
+    protected string $createdAt = '';
+
+    protected string $updatedAt = '';
+
     public function getTitle(): string
+    {
         return $this->title;
+    }
+
     public function setTitle(string $title): void
+    {
         $this->title = $title;
+    }
+
     public function getDescription(): string
+    {
         return $this->description;
+    }
+
     public function setDescription(string $description): void
+    {
         $this->description = $description;
-    public function getCourseInstance(): ?CourseInstance
+    }
+
+    public function getCourseInstance(): int
+    {
         return $this->courseInstance;
-    public function setCourseInstance(?CourseInstance $courseInstance): void
+    }
+
+    public function setCourseInstance(int $courseInstance): void
+    {
         $this->courseInstance = $courseInstance;
-    public function getStartDatetime(): DateTimeImmutable
+    }
+
+    public function getStartDatetime(): string
+    {
         return $this->startDatetime;
-    public function setStartDatetime(DateTimeImmutable $startDatetime): void
+    }
+
+    public function setStartDatetime(string $startDatetime): void
+    {
         $this->startDatetime = $startDatetime;
-    public function getEndDatetime(): DateTimeImmutable
+    }
+
+    public function getEndDatetime(): string
+    {
         return $this->endDatetime;
-    public function setEndDatetime(DateTimeImmutable $endDatetime): void
+    }
+
+    public function setEndDatetime(string $endDatetime): void
+    {
         $this->endDatetime = $endDatetime;
+    }
+
     public function getEventType(): int
+    {
         return $this->eventType;
+    }
+
     public function setEventType(int $eventType): void
+    {
         $this->eventType = $eventType;
+    }
+
     public function getLocation(): string
+    {
         return $this->location;
+    }
+
     public function setLocation(string $location): void
+    {
         $this->location = $location;
-    public function getMaxParticipants(): int
+    }
+
+    public function getMaxParticipants(): string
+    {
         return $this->maxParticipants;
-    public function setMaxParticipants(int $maxParticipants): void
+    }
+
+    public function setMaxParticipants(string $maxParticipants): void
+    {
         $this->maxParticipants = $maxParticipants;
+    }
+
     public function getNotes(): string
+    {
         return $this->notes;
+    }
+
     public function setNotes(string $notes): void
+    {
         $this->notes = $notes;
+    }
+
     public function isActive(): bool
+    {
         return $this->isActive;
+    }
+
     public function setIsActive(bool $isActive): void
+    {
         $this->isActive = $isActive;
-    public function getLanguage(): LanguageCode
+    }
+
+    public function getLanguage(): string
+    {
         return $this->language;
-    public function setLanguage(LanguageCode $language): void
+    }
+
+    public function setLanguage(string $language): void
+    {
         $this->language = $language;
+    }
+
     public function getUuid(): string
+    {
         return $this->uuid;
+    }
+
     public function setUuid(string $uuid): void
+    {
         $this->uuid = $uuid;
-    public function getCreatedAt(): DateTimeImmutable
+    }
+
+    public function getCreatedAt(): string
+    {
         return $this->createdAt;
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    }
+
+    public function setCreatedAt(string $createdAt): void
+    {
         $this->createdAt = $createdAt;
-    public function getUpdatedAt(): DateTimeImmutable
+    }
+
+    public function getUpdatedAt(): string
+    {
         return $this->updatedAt;
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
+    }
+
+    public function setUpdatedAt(string $updatedAt): void
+    {
         $this->updatedAt = $updatedAt;
+    }
 }
