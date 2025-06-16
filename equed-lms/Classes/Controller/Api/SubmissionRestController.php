@@ -25,12 +25,17 @@ final class SubmissionRestController extends BaseApiController
 
     public function exportAction(ServerRequestInterface $request): JsonResponse
     {
-        $params  = $request->getQueryParams();
-        $userId = isset($params['userId']) ? (int) $params['userId'] : null;
-
-        if ($userId === null) {
-            $userId = $this->getCurrentUserId($request);
+        if (($check = $this->requireFeature('submission_sync_api')) !== null) {
+            return $check;
         }
+
+        $currentUserId = $this->getCurrentUserId($request);
+        if ($currentUserId === null) {
+            return $this->jsonError('api.submission.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        $params  = $request->getQueryParams();
+        $userId  = isset($params['userId']) ? (int) $params['userId'] : $currentUserId;
 
         if ($userId === null || $userId <= 0) {
             return $this->jsonError('api.submission.invalidUser', JsonResponse::HTTP_BAD_REQUEST);
@@ -49,13 +54,19 @@ final class SubmissionRestController extends BaseApiController
 
     public function importAction(ServerRequestInterface $request): JsonResponse
     {
+        if (($check = $this->requireFeature('submission_sync_api')) !== null) {
+            return $check;
+        }
+
+        $currentUserId = $this->getCurrentUserId($request);
+        if ($currentUserId === null) {
+            return $this->jsonError('api.submission.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
         $payload = (array) $request->getParsedBody();
 
         if (!isset($payload['userId']) || (int) $payload['userId'] <= 0) {
-            $userId = $this->getCurrentUserId($request);
-            if ($userId !== null) {
-                $payload['userId'] = $userId;
-            }
+            $payload['userId'] = $currentUserId;
         }
 
         if (empty($payload['userId']) || !isset($payload['submission'])) {
