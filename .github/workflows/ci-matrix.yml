@@ -51,7 +51,7 @@ jobs:
             vendor/bin/phpstan analyse --error-format=sarif > "$REPORT_DIR/phpstan.sarif" || echo "⚠️ PHPStan failed – check baseline"
           else
             echo "ℹ️ PHPStan not installed"
-            echo '{}' > "$REPORT_DIR/phpstan.sarif"
+            echo '{"version":"2.1.0","runs":[{"tool":{"driver":{"name":"phpstan"}},"results":[]}]}' > "$REPORT_DIR/phpstan.sarif"
           fi
         working-directory: ${{ matrix.extension }}
       - name: Validate SARIF
@@ -60,7 +60,7 @@ jobs:
           SARIF_FILE="${{ github.workspace }}/${{ matrix.extension }}/build/reports/phpstan.sarif"
           if [ ! -s "$SARIF_FILE" ] || ! jq empty "$SARIF_FILE" >/dev/null 2>&1; then
             echo "⚠️ SARIF report missing or invalid. Generating minimal report."
-            echo '{"version":"2.1.0","runs":[]}' > "$SARIF_FILE"
+            echo '{"version":"2.1.0","runs":[{"tool":{"driver":{"name":"phpstan"}},"results":[]}]}' > "$SARIF_FILE"
           fi
       - name: Upload PHPStan report
         if: always()
