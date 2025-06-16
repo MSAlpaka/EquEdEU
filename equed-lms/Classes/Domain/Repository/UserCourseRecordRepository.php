@@ -12,6 +12,7 @@ use Equed\EquedLms\Enum\BadgeLevel;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use InvalidArgumentException;
 
 /**
  * Repository for UserCourseRecord entities.
@@ -20,6 +21,13 @@ use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
  */
 final class UserCourseRecordRepository extends Repository implements UserCourseRecordRepositoryInterface
 {
+    /**
+     * List of columns allowed for distinct lookup.
+     *
+     * @var string[]
+     */
+    private const ALLOWED_COLUMNS = ['badgeStatus'];
+
     /**
      * Default ordering: newest records first.
      *
@@ -479,9 +487,14 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
      */
     public function findDistinctField(string $field): array
     {
+        if (!in_array($field, self::ALLOWED_COLUMNS, true)) {
+            throw new InvalidArgumentException(sprintf('Column "%s" is not allowed', $field));
+        }
+
+        $column = $field;
         $queryBuilder = $this->createQuery()->getQueryBuilder();
         $rows = $queryBuilder
-            ->selectDistinct($field)
+            ->selectDistinct($column)
             ->from('tx_equedlms_domain_model_usercourserecord')
             ->executeQuery()
             ->fetchFirstColumn();
