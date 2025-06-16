@@ -15,7 +15,7 @@ use Equed\EquedLms\Domain\Repository\FeedbackRepositoryInterface;
  * Repository for CourseFeedback entities.
 
  *
- * @extends Repository<Feedback>
+ * @extends Repository<CourseFeedback>
  */
 final class FeedbackRepository extends Repository implements FeedbackRepositoryInterface
 {

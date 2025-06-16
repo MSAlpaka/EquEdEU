@@ -28,6 +28,8 @@ final class LearningPathRepository extends Repository implements LearningPathRep
 
     /**
      * {@inheritDoc}
+     *
+     * @return LearningPath[]
      */
     public function findCompletedWithoutBadge(): array
     {

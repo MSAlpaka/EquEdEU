@@ -26,6 +26,9 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
 
     /**
      * {@inheritDoc}
+     *
+     * @param int $uid
+     * @return Submission|null
      */
     public function findByUid(int $uid): ?Submission
     {
@@ -37,6 +40,8 @@ final class SubmissionRepository extends Repository implements SubmissionReposit
 
     /**
      * {@inheritDoc}
+     *
+     * @return Submission[]
      */
     public function findPendingForAnalysis(): array
     {

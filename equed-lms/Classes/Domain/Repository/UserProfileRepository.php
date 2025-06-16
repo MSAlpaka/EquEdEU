@@ -138,6 +138,12 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
             ->toArray();
     }
 
+    /**
+     * Find a profile by frontend user UID.
+     *
+     * @param int $feUserId
+     * @return UserProfile|null
+     */
     public function findByFeUser(int $feUserId): ?UserProfile
     {
         $query = $this->createQuery();
@@ -165,6 +171,12 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
             ->toArray();
     }
 
+    /**
+     * Find a profile by user ID.
+     *
+     * @param int $userId
+     * @return UserProfile|null
+     */
     public function findByUserId(int $userId): ?UserProfile
     {
         return $this->findByFeUser($userId);

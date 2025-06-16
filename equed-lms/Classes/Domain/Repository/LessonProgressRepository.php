@@ -74,6 +74,7 @@ final class LessonProgressRepository extends Repository implements LessonProgres
      * Add or update a LessonProgress model.
      *
      * @param LessonProgress $progress Progress entity
+     * @return void
      */
     public function updateOrAdd(LessonProgress $progress): void
     {
@@ -89,6 +90,7 @@ final class LessonProgressRepository extends Repository implements LessonProgres
      *
      * @param int   $userId     Frontend user UID
      * @param int[] $lessonUids Array of lesson UIDs
+     * @return int
      */
     public function countCompletedByUserAndLessons(int $userId, array $lessonUids): int
     {
