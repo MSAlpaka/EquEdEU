@@ -14,6 +14,8 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Helper\AccessHelper;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\SubmissionService;
+use Equed\EquedLms\Dto\SubmissionCreateRequest;
+use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
 
 /**
  * SubmissionController
@@ -53,17 +55,13 @@ final class SubmissionController extends BaseApiController
             return $this->jsonError('api.submission.accessDenied', JsonResponse::HTTP_FORBIDDEN);
         }
 
-        $body = $request->getParsedBody();
-        $recordId = (int)($body['userCourseRecord'] ?? 0);
-        $note = trim((string)($body['note'] ?? ''));
-        $file = trim((string)($body['file'] ?? ''));
-        $type = trim((string)($body['type'] ?? 'general'));
+        $dto = SubmissionCreateRequest::fromRequest($request);
 
-        if ($recordId <= 0 || $file === '') {
+        try {
+            $this->submissionService->createSubmission($dto);
+        } catch (\InvalidArgumentException $e) {
             return $this->jsonError('api.submission.missingFields', JsonResponse::HTTP_BAD_REQUEST);
         }
-
-        $this->submissionService->createSubmission($user['uid'], $recordId, $note, $file, $type);
 
         return $this->jsonSuccess([], 'api.submission.uploaded');
     }
@@ -125,17 +123,13 @@ final class SubmissionController extends BaseApiController
             return $this->jsonError('api.submission.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $body = $request->getParsedBody();
-        $submissionId = (int)($body['submissionId'] ?? 0);
-        $evaluationNote = trim((string)($body['evaluationNote'] ?? ''));
-        $comment = trim((string)($body['instructorComment'] ?? ''));
-        $evaluationFile = trim((string)($body['evaluationFile'] ?? ''));
+        $dto = SubmissionEvaluateRequest::fromRequest($request);
 
-        if ($submissionId <= 0 || $evaluationNote === '') {
+        try {
+            $this->submissionService->evaluateSubmission($dto);
+        } catch (\InvalidArgumentException $e) {
             return $this->jsonError('api.submission.missingInput', JsonResponse::HTTP_BAD_REQUEST);
         }
-
-        $this->submissionService->evaluateSubmission($submissionId, $evaluationNote, $evaluationFile, $comment, $user['uid']);
 
         return $this->jsonSuccess([], 'api.submission.evaluated');
     }

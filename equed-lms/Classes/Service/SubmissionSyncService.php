@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use InvalidArgumentException;
 
 final class SubmissionSyncService
 {
@@ -27,6 +28,10 @@ final class SubmissionSyncService
      */
     public function exportForApp(int $userId): array
     {
+        if ($userId <= 0) {
+            throw new InvalidArgumentException('Invalid userId');
+        }
+
         $submissions = $this->submissionRepository->findByFeUser($userId);
         $result      = [];
 
@@ -44,9 +49,13 @@ final class SubmissionSyncService
      */
     public function importFromApp(array $payload): UserSubmission
     {
-        $data = $payload['submission'] ?? $payload;
+        if (empty($payload['userId']) || !isset($payload['submission'])) {
+            throw new InvalidArgumentException('Invalid payload');
+        }
 
-        if (!isset($data['userId']) && isset($payload['userId'])) {
+        $data = $payload['submission'];
+
+        if (!isset($data['userId'])) {
             $data['userId'] = (int) $payload['userId'];
         }
 

@@ -10,6 +10,9 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Dto\SubmissionCreateRequest;
+use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
+use InvalidArgumentException;
 
 /**
  * Service for managing user submissions.
@@ -57,34 +60,42 @@ final class SubmissionService
         return $this->submissionRepository->findByFeUser($feUser);
     }
 
-    public function createSubmission(int $userId, int $recordId, string $note, string $file, string $type): void
+    public function createSubmission(SubmissionCreateRequest $request): void
     {
+        if ($request->getRecordId() <= 0 || $request->getFile() === '') {
+            throw new InvalidArgumentException('Missing required fields');
+        }
+
         $now = $this->clock->now()->getTimestamp();
         $this->submissionRepository->createSubmission(
-            $userId,
-            $recordId,
-            $note,
-            $file,
-            $type,
+            $request->getUserId(),
+            $request->getRecordId(),
+            $request->getNote(),
+            $request->getFile(),
+            $request->getType(),
             $now
         );
         $this->persistenceManager->persistAll();
     }
 
-    public function evaluateSubmission(int $submissionId, string $evaluationNote, string $evaluationFile, string $comment, int $evaluatorId): void
+    public function evaluateSubmission(SubmissionEvaluateRequest $request): void
     {
+        if ($request->getSubmissionId() <= 0 || $request->getEvaluationNote() === '') {
+            throw new InvalidArgumentException('Missing required fields');
+        }
+
         $now = $this->clock->now()->getTimestamp();
         $this->submissionRepository->updateSubmission(
-            $submissionId,
-            $evaluationNote,
-            $evaluationFile,
-            $comment,
-            $evaluatorId,
+            $request->getSubmissionId(),
+            $request->getEvaluationNote(),
+            $request->getEvaluationFile(),
+            $request->getComment(),
+            $request->getEvaluatorId(),
             $now
         );
         $this->persistenceManager->persistAll();
 
-        $submission = $this->submissionRepository->findByUid($submissionId);
+        $submission = $this->submissionRepository->findByUid($request->getSubmissionId());
         if ($submission instanceof UserSubmission) {
             $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission));
         }

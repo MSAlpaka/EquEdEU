@@ -6,6 +6,8 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\SubmissionService;
+use Equed\EquedLms\Dto\SubmissionCreateRequest;
+use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -70,7 +72,8 @@ class SubmissionServiceTest extends TestCase
         $this->repository->createSubmission(1, 2, 'n', 'f', 't', $timestamp)->shouldBeCalled();
         $this->persistence->persistAll()->shouldBeCalled();
 
-        $this->subject->createSubmission(1, 2, 'n', 'f', 't');
+        $dto = new SubmissionCreateRequest(1, 2, 'n', 'f', 't');
+        $this->subject->createSubmission($dto);
     }
 
     public function testEvaluateSubmissionUpdatesAndDispatches(): void
@@ -85,6 +88,7 @@ class SubmissionServiceTest extends TestCase
         $this->repository->findByUid(5)->willReturn($submission);
         $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission))->shouldBeCalled();
 
-        $this->subject->evaluateSubmission(5, 'e', 'f', 'c', 9);
+        $dto = new SubmissionEvaluateRequest(5, 9, 'e', 'f', 'c');
+        $this->subject->evaluateSubmission($dto);
     }
 }
