@@ -65,14 +65,8 @@ final class AppCertificateController extends BaseApiController
             return $this->jsonError('api.trainingRecord.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        $program = $record->getCourseInstance()->getCourseProgram();
-        $certificateData = [
-            'cert_number' => $record->getCertificateNumber(),
-            'course'      => $program?->getTitle() ?? '',
-            'issued_on'   => $record->getCompletionDate()?->format('Y-m-d') ?? '',
-        ];
-
-        $filePath = $this->trainingRecordGenerator->generateZip($certificateData);
+        $data = $this->trainingRecordGenerator->createCertificateData($record);
+        $filePath = $this->trainingRecordGenerator->generateZip($data);
 
         return $this->jsonSuccess(['file_path' => $filePath]);
     }

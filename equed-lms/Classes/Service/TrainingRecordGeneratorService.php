@@ -11,6 +11,7 @@ use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface;
+use Equed\EquedLms\Domain\Model\UserCourseRecord;
 
 /**
  * Service for generating training record documents (PDF and ZIP).
@@ -67,6 +68,23 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
                 $e
             );
         }
+    }
+
+    /**
+     * Collects certificate data from a user course record.
+     *
+     * @param UserCourseRecord $record
+     * @return array{course:string,cert_number:string,issued_on:string}
+     */
+    public function createCertificateData(UserCourseRecord $record): array
+    {
+        $program = $record->getCourseInstance()->getCourseProgram();
+
+        return [
+            'cert_number' => $record->getCertificateNumber(),
+            'course'      => $program?->getTitle() ?? '',
+            'issued_on'   => $record->getCompletionDate()?->format('Y-m-d') ?? '',
+        ];
     }
 
     /**
