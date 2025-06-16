@@ -4,8 +4,18 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Service;
 
+use Equed\EquedLms\Domain\Model\UserCourseRecord;
+
 interface TrainingRecordGeneratorInterface
 {
+    /**
+     * Builds the certificate data array from a course record.
+     *
+     * @param UserCourseRecord $record
+     * @return array{course:string,cert_number:string,issued_on:string}
+     */
+    public function createCertificateData(UserCourseRecord $record): array;
+
     /**
      * Generates a PDF certificate document.
      *

@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use TCPDF;
 use ZipArchive;
+use DateTimeImmutable;
 
 class TrainingRecordGeneratorServiceTest extends TestCase
 {
@@ -54,5 +55,31 @@ class TrainingRecordGeneratorServiceTest extends TestCase
         $this->assertStringEndsWith('.pdf', $pdfPath);
         $this->assertStringEndsWith('.zip', $zipPath);
         $this->assertContains('/tmp/n4.pdf', $fs->removed);
+    }
+
+    public function testCreateCertificateData(): void
+    {
+        $record = new class {
+            public function getCertificateNumber() { return 'ABC'; }
+            public function getCompletionDate() { return new DateTimeImmutable('2024-01-02'); }
+            public function getCourseInstance() {
+                return new class {
+                    public function getCourseProgram() {
+                        return new class {
+                            public function getTitle() { return 'Prog'; }
+                        };
+                    }
+                };
+            }
+        };
+
+        $service = new TrainingRecordGeneratorService('/tmp', new Filesystem(), fn() => new TCPDF(), fn() => new ZipArchive());
+        $data = $service->createCertificateData($record);
+
+        $this->assertSame([
+            'cert_number' => 'ABC',
+            'course' => 'Prog',
+            'issued_on' => '2024-01-02',
+        ], $data);
     }
 }
