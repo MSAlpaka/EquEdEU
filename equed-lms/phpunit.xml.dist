@@ -44,6 +44,8 @@
         <file>./Tests/Unit/Service/TabsBuilderTest.php</file>
         <file>./Tests/Unit/Service/FilterMetadataProviderTest.php</file>
         <file>./Tests/Unit/Service/InstructorDashboardServiceTest.php</file>
+        <file>./Tests/Unit/Service/NotificationAggregatorTest.php</file>
+        <file>./Tests/Unit/Service/CacheManagerTest.php</file>
         </testsuite>
         <testsuite name="functional">
             <directory>./Tests/Functional/</directory>
