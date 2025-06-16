@@ -82,6 +82,16 @@ final class ProgressService implements ProgressServiceInterface
         ];
     }
 
+    public function getCourseProgress(int $userId, int $recordId): float
+    {
+        $record = $this->userCourseRecordRepository->findByUid($recordId);
+        if ($record === null || (int)$record->getUser()->getUid() !== $userId) {
+            return 0.0;
+        }
+
+        return (float)$record->getProgressPercent();
+    }
+
     public function cleanupAbandonedCourseProgress(int $days): void
     {
         $cutoff = $this->clock->now()

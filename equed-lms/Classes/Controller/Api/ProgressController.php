@@ -8,8 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Service\ProgressCalculationServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Service\ProgressServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 
 /**
  * API controller for calculating course progress.
@@ -18,14 +19,15 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <progress_api> feature toggle.
  */
-final class ProgressController extends ActionController
+final class ProgressController extends BaseApiController
 {
     public function __construct(
-        private readonly ProgressCalculationServiceInterface $progressService,
-        private readonly ConfigurationServiceInterface       $configurationService,
-        private readonly GptTranslationServiceInterface      $translationService,
+        private readonly ProgressServiceInterface $progressService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -36,37 +38,24 @@ final class ProgressController extends ActionController
      */
     public function getCourseProgressAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('progress_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.progress.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('progress_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.progress.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.progress.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $params   = $request->getQueryParams();
         $recordId = isset($params['recordId']) ? (int)$params['recordId'] : 0;
         if ($recordId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.progress.invalidRecordId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.progress.invalidRecordId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $progress = $this->progressService->calculateProgress($userId, $recordId);
+        $progress = $this->progressService->getCourseProgress($userId, $recordId);
 
-        return new JsonResponse([
-            'status'   => 'success',
-            'progress' => $progress,
-        ]);
+        return $this->jsonSuccess(['progress' => $progress]);
     }
 }
 // EOF
