@@ -10,6 +10,7 @@ use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\FeedbackServiceInterface;
+use Equed\EquedLms\Dto\FeedbackRequest;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
@@ -47,27 +48,13 @@ final class FeedbackController extends BaseApiController
             return $this->jsonError('api.feedback.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $body = (array)$request->getParsedBody();
-        $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
-        $feedback = isset($body['feedback']) ? trim((string)$body['feedback']) : '';
-        $standardsOk = isset($body['standardsOk']) ? (bool)$body['standardsOk'] : false;
-        $suggestedCourses = isset($body['suggestedCourses']) ? (string)$body['suggestedCourses'] : '';
-        $ratingInstructor = isset($body['ratingInstructor']) ? (int)$body['ratingInstructor'] : 0;
-        $ratingLocation = isset($body['ratingLocation']) ? (int)$body['ratingLocation'] : 0;
-
-        if ($recordId <= 0 || $feedback === '') {
+        try {
+            $dto = FeedbackRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.feedback.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->feedbackService->submitFeedback(
-            userId: $userId,
-            recordId: $recordId,
-            feedbackText: $feedback,
-            standardsOk: $standardsOk,
-            suggestedCourses: $suggestedCourses,
-            ratingInstructor: $ratingInstructor,
-            ratingLocation: $ratingLocation
-        );
+        $this->feedbackService->submitFeedback($dto);
 
         return $this->jsonSuccess([
             'message' => $this->translationService->translate('api.feedback.submitted'),
