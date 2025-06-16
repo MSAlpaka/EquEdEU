@@ -7,9 +7,10 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\InstructorDashboardServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for instructor dashboard data:
@@ -20,14 +21,15 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <instructor_dashboard_api> feature toggle.
  */
-final class InstructorDashboardController extends ActionController
+final class InstructorDashboardController extends BaseApiController
 {
     public function __construct(
         private readonly InstructorDashboardServiceInterface $dashboardService,
-        private readonly ConfigurationServiceInterface       $configurationService,
-        private readonly GptTranslationServiceInterface      $translationService,
+        ConfigurationServiceInterface       $configurationService,
+        ApiResponseServiceInterface         $apiResponseService,
+        GptTranslationServiceInterface      $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -39,29 +41,20 @@ final class InstructorDashboardController extends ActionController
      */
     public function indexAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('instructor_dashboard_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructorDashboard.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('instructor_dashboard_api')) !== null) {
+            return $check;
         }
-
-        $user = $request->getAttribute('user');
-        $instructorId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $instructorId = $this->getCurrentUserId($request);
         if ($instructorId === null || ! $this->dashboardService->isInstructor($instructorId)) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.instructorDashboard.accessDenied')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+            return $this->jsonError('api.instructorDashboard.accessDenied', JsonResponse::HTTP_FORBIDDEN);
         }
 
         $courseInstances = $this->dashboardService->getInstructorInstances($instructorId);
         $participants     = $this->dashboardService->getInstructorParticipants($instructorId);
 
-        return new JsonResponse([
-            'status'           => 'success',
-            'courseInstances'  => $courseInstances,
-            'participants'     => $participants,
+        return $this->jsonSuccess([
+            'courseInstances' => $courseInstances,
+            'participants'    => $participants,
         ]);
     }
 }
