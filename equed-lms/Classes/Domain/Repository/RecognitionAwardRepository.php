@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\RecognitionAward;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\RecognitionAwardRepositoryInterface;
 
 /**
  * Repository for RecognitionAward entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<RecognitionAward>
  */
-final class RecognitionAwardRepository extends Repository
+final class RecognitionAwardRepository extends Repository implements RecognitionAwardRepositoryInterface
 {
     /**
      * Default ordering: newest first.
@@ -49,6 +50,22 @@ final class RecognitionAwardRepository extends Repository
         $query = $this->createQuery();
         $query->matching(
             $query->equals('instructor', $user)
+        );
+
+        return $query->execute()->toArray();
+    }
+
+    /**
+     * Finds all recognition awards for a frontend user by ID.
+     *
+     * @param int $feUserId
+     * @return RecognitionAward[]
+     */
+    public function findByFeUser(int $feUserId): array
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('feUser', $feUserId)
         );
 
         return $query->execute()->toArray();
