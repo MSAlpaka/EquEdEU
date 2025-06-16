@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Domain\Repository\RecognitionAwardRepositoryInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for recognition awards.
@@ -18,48 +18,41 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
  * Retrieves recognitions for the authenticated user.
  * Feature toggle: <recognition_api>
  */
-final class RecognitionAwardController extends ActionController
+final class RecognitionAwardController extends BaseApiController
 {
     public function __construct(
-        private readonly ConnectionPool $connectionPool,
-        private readonly ConfigurationServiceInterface $configurationService,
-        private readonly GptTranslationServiceInterface $translationService,
+        private readonly RecognitionAwardRepositoryInterface $awardRepository,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
-    public function listMyAwardsAction(ServerRequestInterface $request): ResponseInterface
+    public function listMyAwardsAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('recognition_api')) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.recognition.disabled'),
-            ], 403);
+        if (($check = $this->requireFeature('recognition_api')) !== null) {
+            return $check;
         }
-
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
-
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.recognition.unauthorized'),
-            ], 401);
+            return $this->jsonError('api.recognition.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
+        $awards = $this->awardRepository->findByFeUser($userId);
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_recognitionaward');
-        $results = $qb
-            ->select('uid', 'title', 'issued_at', 'level', 'description')
-            ->from('tx_equedlms_domain_model_recognitionaward')
-            ->where(
-                $qb->expr()->eq('user_id', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            )
-            ->orderBy('issued_at', 'DESC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        $data = array_map(static function ($award) {
+            return [
+                'id' => $award->getUid(),
+                'type' => $award->getAwardType(),
+                'typeKey' => $award->getAwardTypeKey(),
+                'summary' => $award->getCriteriaSummary(),
+                'summaryKey' => $award->getCriteriaSummaryKey(),
+                'grantedAt' => $award->getGrantedAt()?->format(DATE_ATOM),
+            ];
+        }, $awards);
 
-        return new JsonResponse([
-            'status' => 'success',
-            'awards' => $results,
+        return $this->jsonSuccess([
+            'awards' => $data,
         ]);
     }
 }
