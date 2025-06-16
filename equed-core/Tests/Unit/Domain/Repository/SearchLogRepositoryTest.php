@@ -33,6 +33,6 @@ class SearchLogRepositoryTest extends UnitTestCase
     }
 }
 
-/*
+/**
  * Mocked Services: AuthorizationService
  */

@@ -44,6 +44,6 @@ class AuditLogRepositoryTest extends UnitTestCase
     }
 }
 
-/*
+/**
  * Mocked Services: AuthorizationService
  */
