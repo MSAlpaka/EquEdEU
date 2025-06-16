@@ -36,6 +36,12 @@ final class LessonContentPage extends AbstractEntity
 
     protected string $pageType = 'text'; // e.g. text, video, quiz
 
+    protected ?string $accessibilityNotes = null;
+
+    protected ?string $mediaAltText = null;
+
+    protected ?string $transcript = null;
+
     protected DateTimeImmutable $createdAt;
 
     protected DateTimeImmutable $updatedAt;
@@ -160,6 +166,36 @@ final class LessonContentPage extends AbstractEntity
     public function setPageType(string $pageType): void
     {
         $this->pageType = $pageType;
+    }
+
+    public function getAccessibilityNotes(): ?string
+    {
+        return $this->accessibilityNotes;
+    }
+
+    public function setAccessibilityNotes(?string $accessibilityNotes): void
+    {
+        $this->accessibilityNotes = $accessibilityNotes;
+    }
+
+    public function getMediaAltText(): ?string
+    {
+        return $this->mediaAltText;
+    }
+
+    public function setMediaAltText(?string $mediaAltText): void
+    {
+        $this->mediaAltText = $mediaAltText;
+    }
+
+    public function getTranscript(): ?string
+    {
+        return $this->transcript;
+    }
+
+    public function setTranscript(?string $transcript): void
+    {
+        $this->transcript = $transcript;
     }
 
     /**

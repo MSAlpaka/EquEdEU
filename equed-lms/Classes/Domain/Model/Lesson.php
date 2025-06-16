@@ -56,6 +56,12 @@ final class Lesson extends AbstractEntity
     #[Extbase\ORM\OneToMany(mappedBy: 'lesson', cascade: ['remove'])]
     protected ObjectStorage $materials;
 
+    protected ?string $accessibilityNotes = null;
+
+    protected ?string $mediaAltText = null;
+
+    protected ?string $transcript = null;
+
     protected DateTimeImmutable $createdAt;
 
     protected DateTimeImmutable $updatedAt;
@@ -221,6 +227,36 @@ final class Lesson extends AbstractEntity
         if ($this->materials->contains($material)) {
             $this->materials->detach($material);
         }
+    }
+
+    public function getAccessibilityNotes(): ?string
+    {
+        return $this->accessibilityNotes;
+    }
+
+    public function setAccessibilityNotes(?string $accessibilityNotes): void
+    {
+        $this->accessibilityNotes = $accessibilityNotes;
+    }
+
+    public function getMediaAltText(): ?string
+    {
+        return $this->mediaAltText;
+    }
+
+    public function setMediaAltText(?string $mediaAltText): void
+    {
+        $this->mediaAltText = $mediaAltText;
+    }
+
+    public function getTranscript(): ?string
+    {
+        return $this->transcript;
+    }
+
+    public function setTranscript(?string $transcript): void
+    {
+        $this->transcript = $transcript;
     }
 
     public function getCreatedAt(): DateTimeImmutable

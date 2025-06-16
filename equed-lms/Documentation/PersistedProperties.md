@@ -394,6 +394,9 @@
 - pages
 - quiz
 - materials
+- accessibilityNotes
+- mediaAltText
+- transcript
 - createdAt
 - updatedAt
 
@@ -432,6 +435,9 @@
 - content
 - sorting
 - media
+- accessibilityNotes
+- mediaAltText
+- transcript
 - pageType
 - createdAt
 - updatedAt
