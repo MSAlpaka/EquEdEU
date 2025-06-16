@@ -19,6 +19,37 @@ return [
                 'eval' => 'int'
             ]
         ],
+        'title' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_courseprogram.title',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'title_key' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_courseprogram.title_key',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
+        'description' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_courseprogram.description',
+            'config' => [
+                'type' => 'text'
+            ]
+        ],
+        'description_key' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_courseprogram.description_key',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
         'badge_icon' => [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_courseprogram.badge_icon',
@@ -66,10 +97,10 @@ return [
     ],
     'types' => [
         1 => [
-            'showitem' => 'training_center, badge_icon, requires_external_examiner, certifier_must_validate, recertification_required, recertification_interval_years, visible_in_catalog'
+            'showitem' => 'title, title_key, description, description_key, training_center, badge_icon, requires_external_examiner, certifier_must_validate, recertification_required, recertification_interval_years, visible_in_catalog'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'training_center,badge_icon,requires_external_examiner,certifier_must_validate,recertification_required,recertification_interval_years,visible_in_catalog'
+        'showRecordFieldList' => 'title,title_key,description,description_key,training_center,badge_icon,requires_external_examiner,certifier_must_validate,recertification_required,recertification_interval_years,visible_in_catalog'
     ]
 ];

@@ -19,11 +19,27 @@ return [
                 'eval' => 'trim'
             ]
         ],
+        'title_key' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_module.title_key',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
+            ]
+        ],
         'description' => [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_module.description',
             'config' => [
                 'type' => 'text'
+            ]
+        ],
+        'description_key' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_module.description_key',
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim'
             ]
         ],
         'identifier' => [
@@ -59,10 +75,10 @@ return [
     ],
     'types' => [
         1 => [
-            'showitem' => 'title, description, identifier, course_program, lessons'
+            'showitem' => 'title, title_key, description, description_key, identifier, course_program, lessons'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,description,identifier,course_program,lessons'
+        'showRecordFieldList' => 'title,title_key,description,description_key,identifier,course_program,lessons'
     ]
 ];

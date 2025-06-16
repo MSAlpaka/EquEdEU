@@ -187,7 +187,9 @@
 ## CourseProgram
 - uuid
 - title
+- titleKey
 - description
+- descriptionKey
 - category
 - availableFrom
 - isVisible
