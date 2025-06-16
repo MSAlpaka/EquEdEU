@@ -89,6 +89,11 @@ interface UserSubmissionRepositoryInterface
     public function countSubmittedByLesson(Lesson $lesson): int;
 
     /**
+     * Count all submissions with status "submitted".
+     */
+    public function countSubmitted(): int;
+
+    /**
      * Count pending submissions for a specific course instance.
      *
      * @param int $courseInstanceId
