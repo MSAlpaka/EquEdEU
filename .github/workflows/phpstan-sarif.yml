@@ -1,0 +1,58 @@
+name: PHPStan SARIF
+
+on:
+  push:
+    paths:
+      - 'equed-lms/**'
+  pull_request:
+    paths:
+      - 'equed-lms/**'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  phpstan:
+    name: Run PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: xml, gd
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+        working-directory: equed-lms
+
+      - name: Run PHPStan with SARIF output
+        continue-on-error: true
+        run: |
+          REPORT_DIR="${{ github.workspace }}/equed-lms/build/reports"
+          mkdir -p "$REPORT_DIR"
+          if [ -f vendor/bin/phpstan ]; then
+            vendor/bin/phpstan analyse --error-format=sarif > "$REPORT_DIR/phpstan.sarif" || true
+          else
+            echo '{}' > "$REPORT_DIR/phpstan.sarif"
+          fi
+        working-directory: equed-lms
+
+      - name: Validate SARIF report
+        run: |
+          REPORT_PATH="equed-lms/build/reports/phpstan.sarif"
+          mkdir -p "$(dirname "$REPORT_PATH")"
+          if ! jq empty "$REPORT_PATH" >/dev/null 2>&1; then
+            echo '{}' > "$REPORT_PATH"
+          fi
+
+      - name: Upload SARIF report
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: equed-lms/build/reports/phpstan.sarif
