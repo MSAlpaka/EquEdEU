@@ -23,11 +23,23 @@ class CourseProgramTest extends TestCase
         $this->assertSame('HoofCare Basic', $this->subject->getTitle());
     }
 
+    public function testSetAndGetTitleKey(): void
+    {
+        $this->subject->setTitleKey('program.title');
+        $this->assertSame('program.title', $this->subject->getTitleKey());
+    }
+
     public function testSetAndGetDescription(): void
     {
         $desc = 'Foundation-level course in barefoot trimming.';
         $this->subject->setDescription($desc);
         $this->assertSame($desc, $this->subject->getDescription());
+    }
+
+    public function testSetAndGetDescriptionKey(): void
+    {
+        $this->subject->setDescriptionKey('program.desc');
+        $this->assertSame('program.desc', $this->subject->getDescriptionKey());
     }
 
     public function testSetAndGetCategory(): void

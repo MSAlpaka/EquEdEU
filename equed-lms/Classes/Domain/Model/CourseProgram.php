@@ -34,11 +34,21 @@ final class CourseProgram extends AbstractEntity
     protected string $title = '';
 
     /**
+     * Translation key for the program title
+     */
+    protected ?string $titleKey = null;
+
+    /**
      * Optional description
      *
      * @var string|null
      */
     protected ?string $description = null;
+
+    /**
+     * Translation key for the description
+     */
+    protected ?string $descriptionKey = null;
 
     /**
      * Category identifier
@@ -144,6 +154,16 @@ final class CourseProgram extends AbstractEntity
         $this->title = $title;
     }
 
+    public function getTitleKey(): ?string
+    {
+        return $this->titleKey;
+    }
+
+    public function setTitleKey(?string $titleKey): void
+    {
+        $this->titleKey = $titleKey;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -152,6 +172,16 @@ final class CourseProgram extends AbstractEntity
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getDescriptionKey(): ?string
+    {
+        return $this->descriptionKey;
+    }
+
+    public function setDescriptionKey(?string $descriptionKey): void
+    {
+        $this->descriptionKey = $descriptionKey;
     }
 
     public function getCategory(): string

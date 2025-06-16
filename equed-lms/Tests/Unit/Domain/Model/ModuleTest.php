@@ -15,7 +15,9 @@ class ModuleTest extends TestCase
     {
         $module = new Module();
         $module->setTitle('Intro');
+        $module->setTitleKey('module.intro');
         $module->setDescription('Basics');
+        $module->setDescriptionKey('module.desc');
         $module->setIdentifier('M1');
 
         $lesson = new Lesson();
@@ -23,7 +25,9 @@ class ModuleTest extends TestCase
 
         $this->assertNotEmpty($module->getUuid());
         $this->assertSame('Intro', $module->getTitle());
+        $this->assertSame('module.intro', $module->getTitleKey());
         $this->assertSame('Basics', $module->getDescription());
+        $this->assertSame('module.desc', $module->getDescriptionKey());
         $this->assertSame('M1', $module->getIdentifier());
         $this->assertInstanceOf(ObjectStorage::class, $module->getLessons());
         $this->assertTrue($module->getLessons()->contains($lesson));

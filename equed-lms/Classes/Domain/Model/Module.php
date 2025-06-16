@@ -18,7 +18,17 @@ final class Module extends AbstractEntity
 
     protected string $title = '';
 
+    /**
+     * Translation key for the module title
+     */
+    protected ?string $titleKey = null;
+
     protected ?string $description = null;
+
+    /**
+     * Translation key for the description
+     */
+    protected ?string $descriptionKey = null;
 
     protected string $identifier = '';
 
@@ -50,6 +60,16 @@ final class Module extends AbstractEntity
         $this->title = $title;
     }
 
+    public function getTitleKey(): ?string
+    {
+        return $this->titleKey;
+    }
+
+    public function setTitleKey(?string $titleKey): void
+    {
+        $this->titleKey = $titleKey;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -58,6 +78,16 @@ final class Module extends AbstractEntity
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getDescriptionKey(): ?string
+    {
+        return $this->descriptionKey;
+    }
+
+    public function setDescriptionKey(?string $descriptionKey): void
+    {
+        $this->descriptionKey = $descriptionKey;
     }
 
     public function getIdentifier(): string
