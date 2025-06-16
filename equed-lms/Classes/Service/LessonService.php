@@ -7,6 +7,8 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\Asset;
 use Equed\EquedLms\Domain\Model\Page;
+use Equed\EquedLms\Application\Dto\LessonDto;
+use Equed\EquedLms\Application\Assembler\LessonDtoAssembler;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Service\LessonServiceInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -81,5 +83,15 @@ final class LessonService implements LessonServiceInterface
         }
 
         return $this->getLessonDataArray($lesson);
+    }
+
+    public function getLessonDtoById(int $lessonId): ?LessonDto
+    {
+        $lesson = $this->lessonRepository->findByUid($lessonId);
+        if ($lesson === null) {
+            return null;
+        }
+
+        return LessonDtoAssembler::fromEntity($lesson);
     }
 }

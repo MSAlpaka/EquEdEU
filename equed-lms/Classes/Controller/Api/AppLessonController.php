@@ -49,7 +49,7 @@ final class AppLessonController extends BaseApiController
             return $this->jsonError('api.lesson.missingLessonId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $data = $this->lessonService->getLessonDataById($lessonId);
+        $data = $this->lessonService->getLessonDtoById($lessonId);
         if ($data === null) {
             return $this->jsonError('api.lesson.notFound', JsonResponse::HTTP_NOT_FOUND);
         }

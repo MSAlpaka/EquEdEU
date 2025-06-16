@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\Lesson;
+use Equed\EquedLms\Application\Dto\LessonDto;
 
 /**
  * Contract for lesson related data retrieval.
@@ -26,4 +27,9 @@ interface LessonServiceInterface
      * @return array<string, mixed>|null
      */
     public function getLessonDataById(int $lessonId): ?array;
+
+    /**
+     * Retrieves a DTO for the lesson by identifier.
+     */
+    public function getLessonDtoById(int $lessonId): ?LessonDto;
 }
