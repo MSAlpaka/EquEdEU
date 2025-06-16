@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CourseInstance;
+use InvalidArgumentException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -15,6 +16,13 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 final class CourseInstanceRepository extends Repository implements CourseInstanceRepositoryInterface
 {
+    /**
+     * List of columns allowed for distinct lookup.
+     *
+     * @var string[]
+     */
+    private const ALLOWED_COLUMNS = ['theme', 'language', 'eqfLevel'];
+
     /**
      * Find instances that require an external examiner but don't have one yet.
      *
@@ -41,9 +49,14 @@ final class CourseInstanceRepository extends Repository implements CourseInstanc
      */
     public function findDistinctField(string $field): array
     {
+        if (!in_array($field, self::ALLOWED_COLUMNS, true)) {
+            throw new InvalidArgumentException(sprintf('Column "%s" is not allowed', $field));
+        }
+
+        $column = $field;
         $queryBuilder = $this->createQuery()->getQueryBuilder();
         $rows = $queryBuilder
-            ->selectDistinct($field)
+            ->selectDistinct($column)
             ->from('tx_equedlms_domain_model_courseinstance')
             ->executeQuery()
             ->fetchFirstColumn();
