@@ -173,6 +173,10 @@ services:
   Equed\EquedLms\Domain\Service\ExamServiceInterface:
     class: Equed\EquedLms\Service\ExamService
 
+  Equed\EquedLms\Service\ExamService:
+    arguments:
+      $templateBasePath: '@=service("Equed\\\\EquedLms\\\\Service\\\\SettingsService").get("examTemplatePath")'
+
   Equed\EquedLms\Domain\Service\LessonProgressServiceInterface:
     class: Equed\EquedLms\Service\LessonProgressService
 
