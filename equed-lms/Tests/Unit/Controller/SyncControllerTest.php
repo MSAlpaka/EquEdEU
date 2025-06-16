@@ -32,9 +32,7 @@ namespace Equed\EquedLms\Tests\Unit\Controller;
 use Equed\EquedLms\Controller\Api\SyncController;
 use Equed\EquedLms\Service\SyncService;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 use Equed\EquedLms\Domain\Model\UserProfile;
-use TYPO3\CMS\Core\Context\Context;
 use Psr\Http\Message\ServerRequestInterface;
 use PHPUnit\Framework\TestCase;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
@@ -51,21 +49,28 @@ class SyncControllerTest extends TestCase
     private $service;
     private $repo;
     private $translator;
-    private $context;
+    private $config;
+    private $apiResponse;
 
     protected function setUp(): void
     {
-        $this->repo = $this->prophesize(UserProfileRepositoryInterface::class);
+        $this->repo = $this->prophesize(\Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface::class);
         $pm = $this->prophesize(PersistenceManagerInterface::class);
         $clock = $this->prophesize(DomainClockInterface::class);
         $this->service = new SyncService($this->repo->reveal(), $pm->reveal(), $clock->reveal());
         $this->translator = $this->prophesize(GptTranslationServiceInterface::class);
-        $this->context = $this->prophesize(Context::class);
+        $this->config = $this->prophesize(\Equed\Core\Service\ConfigurationServiceInterface::class);
+        $this->apiResponse = $this->prophesize(\Equed\EquedLms\Domain\Service\ApiResponseServiceInterface::class);
 
         $ref = new \ReflectionClass(SyncController::class);
         $this->subject = $ref->newInstanceWithoutConstructor();
 
-        foreach (['syncService' => $this->service, 'profileRepository' => $this->repo->reveal(), 'translationService' => $this->translator->reveal(), 'context' => $this->context->reveal()] as $prop => $value) {
+        foreach ([
+            'syncService' => $this->service,
+            'translationService' => $this->translator->reveal(),
+            'configurationService' => $this->config->reveal(),
+            'apiResponseService' => $this->apiResponse->reveal(),
+        ] as $prop => $value) {
             $p = new \ReflectionProperty($this->subject, $prop);
             $p->setAccessible(true);
             $p->setValue($this->subject, $value);
