@@ -12,6 +12,8 @@ use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Service\LessonProgressServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
+use Equed\EquedLms\Event\Progress\LessonProgressUpdatedEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Service to manage lesson progress for users.
@@ -21,7 +23,8 @@ final class LessonProgressService implements LessonProgressServiceInterface
     public function __construct(
         private readonly LessonProgressRepositoryInterface $progressRepository,
         private readonly LessonRepositoryInterface $lessonRepository,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -62,6 +65,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
         $progress->setCompletedAt($this->clock->now());
 
         $this->progressRepository->updateOrAdd($progress);
+        $this->eventDispatcher->dispatch(new LessonProgressUpdatedEvent($progress));
 
         return $progress;
     }
@@ -91,6 +95,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
         }
 
         $this->progressRepository->updateOrAdd($progress);
+        $this->eventDispatcher->dispatch(new LessonProgressUpdatedEvent($progress));
 
         return $progress;
     }
