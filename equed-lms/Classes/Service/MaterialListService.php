@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use Equed\EquedLms\Domain\Repository\MaterialRepository;
+use Equed\EquedLms\Domain\Repository\MaterialRepositoryInterface;
 use Equed\EquedLms\Domain\Service\MaterialListServiceInterface;
 use Equed\Core\Service\GptTranslationServiceInterface;
 use TYPO3\CMS\Core\Context\Context;
@@ -15,7 +15,7 @@ use TYPO3\CMS\Core\Context\Context;
 final class MaterialListService implements MaterialListServiceInterface
 {
     public function __construct(
-        private readonly MaterialRepository          $materialRepository,
+        private readonly MaterialRepositoryInterface $materialRepository,
         private readonly GptTranslationServiceInterface $translationService,
         private readonly Context                       $context,
     ) {
