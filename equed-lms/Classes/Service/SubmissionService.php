@@ -6,8 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 use Equed\EquedLms\Domain\Service\ClockInterface;
@@ -19,7 +18,7 @@ final class SubmissionService
 {
     public function __construct(
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
-        private readonly ConnectionPool $connectionPool,
+        private readonly PersistenceManagerInterface $persistenceManager,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ClockInterface $clock,
     ) {
@@ -61,38 +60,29 @@ final class SubmissionService
     public function createSubmission(int $userId, int $recordId, string $note, string $file, string $type): void
     {
         $now = $this->clock->now()->getTimestamp();
-        $this->getConnection()->insert(
-            'tx_equedlms_domain_model_usersubmission',
-            [
-                'fe_user'          => $userId,
-                'usercourserecord' => $recordId,
-                'note'             => $note,
-                'file'             => $file,
-                'type'             => $type,
-                'submitted_at'     => $now,
-                'status'           => 'submitted',
-                'crdate'           => $now,
-                'tstamp'           => $now,
-            ]
+        $this->submissionRepository->createSubmission(
+            $userId,
+            $recordId,
+            $note,
+            $file,
+            $type,
+            $now
         );
+        $this->persistenceManager->persistAll();
     }
 
     public function evaluateSubmission(int $submissionId, string $evaluationNote, string $evaluationFile, string $comment, int $evaluatorId): void
     {
         $now = $this->clock->now()->getTimestamp();
-        $this->getConnection()->update(
-            'tx_equedlms_domain_model_usersubmission',
-            [
-                'evaluation_note'    => $evaluationNote,
-                'evaluation_file'    => $evaluationFile,
-                'instructor_comment' => $comment,
-                'evaluated_by'       => $evaluatorId,
-                'evaluated_at'       => $now,
-                'status'             => 'evaluated',
-                'tstamp'             => $now,
-            ],
-            ['uid' => $submissionId]
+        $this->submissionRepository->updateSubmission(
+            $submissionId,
+            $evaluationNote,
+            $evaluationFile,
+            $comment,
+            $evaluatorId,
+            $now
         );
+        $this->persistenceManager->persistAll();
 
         $submission = $this->submissionRepository->findByUid($submissionId);
         if ($submission instanceof UserSubmission) {
@@ -100,8 +90,4 @@ final class SubmissionService
         }
     }
 
-    private function getConnection(): Connection
-    {
-        return $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_usersubmission');
-    }
 }
