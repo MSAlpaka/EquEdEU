@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 /**
  * Service to retrieve instructors and check instructor-course assignments.
  */
-final class InstructorService
+final class InstructorService implements \Equed\EquedLms\Domain\Service\InstructorServiceInterface
 {
     public function __construct(
         private readonly UserProfileRepositoryInterface   $userProfileRepository,

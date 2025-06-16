@@ -9,7 +9,7 @@ use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 /**
  * Service for checking user access and instructor validation.
  */
-final class UserAccessService
+final class UserAccessService implements \Equed\EquedLms\Domain\Service\UserAccessServiceInterface
 {
     public function __construct(
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository

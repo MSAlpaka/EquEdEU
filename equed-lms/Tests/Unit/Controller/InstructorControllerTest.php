@@ -7,7 +7,7 @@ namespace Equed\EquedLms\Tests\Unit\Controller;
 use PHPUnit\Framework\TestCase;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use Equed\EquedLms\Controller\InstructorController;
-use Equed\EquedLms\Service\InstructorServiceInterface;
+use Equed\EquedLms\Domain\Service\InstructorServiceInterface;
 use TYPO3\CMS\Core\View\ViewInterface;
 use Psr\Log\LoggerInterface;
 

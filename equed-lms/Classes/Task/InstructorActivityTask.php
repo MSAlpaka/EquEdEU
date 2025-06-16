@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Task;
 
-use Equed\EquedLms\Service\InstructorService;
+use Equed\EquedLms\Domain\Service\InstructorServiceInterface;
 use Equed\EquedLms\Service\LogService;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
@@ -16,7 +16,7 @@ final class InstructorActivityTask extends AbstractTask
     private const INACTIVITY_THRESHOLD_DAYS = 90;
 
     public function __construct(
-        private readonly InstructorService $instructorService,
+        private readonly InstructorServiceInterface $instructorService,
         private readonly LogService $logService
     ) {
     }

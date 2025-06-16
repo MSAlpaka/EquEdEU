@@ -148,6 +148,9 @@ services:
   Equed\EquedLms\Domain\Service\AuthenticationServiceInterface:
     class: Equed\EquedLms\Service\AuthenticationService
 
+  Equed\EquedLms\Domain\Service\UserAccessServiceInterface:
+    class: Equed\EquedLms\Service\UserAccessService
+
   Equed\EquedLms\Domain\Service\NotificationServiceInterface:
     class: Equed\EquedLms\Service\NotificationService
 
@@ -210,7 +213,8 @@ services:
   Equed\EquedLms\Domain\Service\CourseBundleServiceInterface:
     class: Equed\EquedLms\Service\CourseBundleService
 
-  Equed\EquedLms\Service\InstructorService:
+  Equed\EquedLms\Domain\Service\InstructorServiceInterface:
+    class: Equed\EquedLms\Service\InstructorService
     arguments:
       $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
 
