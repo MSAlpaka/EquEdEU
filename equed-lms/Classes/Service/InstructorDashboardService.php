@@ -6,17 +6,20 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
+use Equed\EquedLms\Domain\Service\InstructorDashboardServiceInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Dto\InstructorDashboardData;
 
 /**
  * Provides instructor-specific dashboard statistics and metrics.
  */
-final class InstructorDashboardService
+final class InstructorDashboardService implements InstructorDashboardServiceInterface
 {
     public function __construct(
         private readonly CourseInstanceRepositoryInterface $courseInstanceRepository,
-        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository
+        private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
+        private readonly UserProfileRepositoryInterface $userProfileRepository,
     ) {
     }
 
@@ -48,5 +51,20 @@ final class InstructorDashboardService
             count($validatedRecords),
             count($openTasks),
         );
+    }
+
+    public function isInstructor(int $userId): bool
+    {
+        return $this->userProfileRepository->findByUserId($userId)?->isInstructor() ?? false;
+    }
+
+    public function getInstructorInstances(int $instructorId): array
+    {
+        return $this->courseInstanceRepository->findByInstructor($instructorId);
+    }
+
+    public function getInstructorParticipants(int $instructorId): array
+    {
+        return $this->userCourseRecordRepository->findByInstructor($instructorId);
     }
 }
