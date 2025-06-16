@@ -43,14 +43,18 @@ jobs:
             --error-format=sarif > build/reports/phpstan.sarif || echo "⚠️ PHPStan completed with issues"
 
       - name: Validate SARIF
+        id: validate_sarif
         shell: bash
         run: |
-          if ! jq empty equed-lms/build/reports/phpstan.sarif 2>/dev/null; then
+          if jq empty equed-lms/build/reports/phpstan.sarif 2>/dev/null; then
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+          else
             echo "⚠️ Invalid SARIF JSON detected. Upload skipped."
-            echo '{}' > equed-lms/build/reports/phpstan.sarif
+            echo "valid=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Upload SARIF to GitHub
+        if: steps.validate_sarif.outputs.valid == 'true'
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: equed-lms/build/reports/phpstan.sarif
