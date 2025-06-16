@@ -15,6 +15,8 @@ use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Event\Course\UserCourseRecordUpdatedEvent;
 
 /**
  * Domain model for user course records.
@@ -29,6 +31,9 @@ final class UserCourseRecord extends AbstractEntity
 
     #[Inject]
     protected ClockInterface $clock;
+
+    #[Inject]
+    protected EventDispatcherInterface $eventDispatcher;
 
     #[ManyToOne]
     #[Lazy]
@@ -254,6 +259,9 @@ final class UserCourseRecord extends AbstractEntity
     public function setCompletedAt(?DateTimeImmutable $completedAt): void
     {
         $this->completedAt = $completedAt;
+        $this->eventDispatcher->dispatch(
+            new UserCourseRecordUpdatedEvent($this, 'completedAt')
+        );
     }
 
     /**
@@ -326,6 +334,9 @@ final class UserCourseRecord extends AbstractEntity
     public function setBadgeLevel(BadgeLevel $badgeLevel): void
     {
         $this->badgeLevel = $badgeLevel;
+        $this->eventDispatcher->dispatch(
+            new UserCourseRecordUpdatedEvent($this, 'badgeLevel')
+        );
     }
 
     public function getProgressPercent(): float
@@ -336,6 +347,9 @@ final class UserCourseRecord extends AbstractEntity
     public function setProgressPercent(float $progressPercent): void
     {
         $this->progressPercent = $progressPercent;
+        $this->eventDispatcher->dispatch(
+            new UserCourseRecordUpdatedEvent($this, 'progressPercent')
+        );
     }
 
     public function getLastActivity(): ?DateTimeImmutable
@@ -346,6 +360,9 @@ final class UserCourseRecord extends AbstractEntity
     public function setLastActivity(?DateTimeImmutable $lastActivity): void
     {
         $this->lastActivity = $lastActivity;
+        $this->eventDispatcher->dispatch(
+            new UserCourseRecordUpdatedEvent($this, 'lastActivity')
+        );
     }
 
     public function hasBadge(): bool

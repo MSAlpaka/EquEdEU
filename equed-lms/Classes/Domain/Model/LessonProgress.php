@@ -10,6 +10,9 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Annotation\Inject;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Event\Lesson\LessonCompletedEvent;
 use Equed\EquedLms\Enum\ProgressStatus;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 
@@ -28,6 +31,9 @@ final class LessonProgress extends AbstractEntity
     #[ManyToOne]
     #[Lazy]
     protected ?UserCourseRecord $userCourseRecord = null;
+
+    #[Inject]
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * Associated lesson
@@ -143,6 +149,10 @@ final class LessonProgress extends AbstractEntity
     public function setCompletedAt(?DateTimeImmutable $completedAt): void
     {
         $this->completedAt = $completedAt;
+        if ($completedAt !== null) {
+            $this->completed = true;
+            $this->eventDispatcher->dispatch(new LessonCompletedEvent($this));
+        }
     }
 
     public function getProgress(): int
@@ -153,6 +163,11 @@ final class LessonProgress extends AbstractEntity
     public function setProgress(int $progress): void
     {
         $this->progress = $progress;
+        if ($progress >= 100 && !$this->completed) {
+            $this->completed = true;
+            $this->completedAt = $this->completedAt ?? new DateTimeImmutable();
+            $this->eventDispatcher->dispatch(new LessonCompletedEvent($this));
+        }
     }
 
     public function getStatus(): ProgressStatus
