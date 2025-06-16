@@ -30,7 +30,6 @@ parameters:
     - '#Class Symfony\\Component\\Dotenv\\Dotenv not found#'
     - '#Instantiated class Symfony\\Component\\Dotenv\\Dotenv not found#'
     - '#Call to method usePutenv\(\) on an unknown class Symfony\\Component\\Dotenv\\Dotenv#'
-    - '#Class Equed\\EquedLms\\Controller\\DashboardController not found#'
     - '#Class Equed\\EquedLms\\Middleware\\ApiAuthenticationMiddleware not found#'
     - '#Class Equed\\EquedLms\\Task\\CertificateRenewalReminderTask not found#'
   reportUnmatchedIgnoredErrors: false

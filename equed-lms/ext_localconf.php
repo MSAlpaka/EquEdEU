@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Equed\EquedLms\Controller\CourseController;
-use Equed\EquedLms\Controller\DashboardController;
+use Equed\EquedLms\Controller\Api\DashboardApiController;
 use Equed\EquedLms\Controller\GlossaryController;
 use Symfony\Component\Dotenv\Dotenv;
 use TYPO3\CMS\Core\Core\Environment;
@@ -32,7 +32,7 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'EquedLms',
     'Dashboard',
-    [DashboardController::class => 'overview'],
+    [DashboardApiController::class => 'show'],
     []
 );
 

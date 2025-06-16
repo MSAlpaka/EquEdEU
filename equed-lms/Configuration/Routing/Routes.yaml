@@ -48,3 +48,8 @@ routes:
     controller: Equed\EquedLms\Controller\Api\LessonController::submitAction
     methods: [POST]
     auth: true
+
+  - path: /api/dashboard
+    controller: Equed\EquedLms\Controller\Api\DashboardApiController::showAction
+    methods: [GET]
+    auth: true
