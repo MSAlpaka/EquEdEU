@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Model\InstructorFeedback;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
@@ -23,6 +23,7 @@ final class InstructorService
         private readonly UserCourseRecordRepositoryInterface $recordRepository,
         private readonly InstructorFeedbackRepositoryInterface $feedbackRepository,
         private readonly PersistenceManagerInterface      $persistenceManager,
+        private readonly ClockInterface                   $clock,
     ) {
     }
 
@@ -67,7 +68,7 @@ final class InstructorService
 
         if (! $record->isCompleted()) {
             $record->setStatus(UserCourseStatus::Passed);
-            $record->setCompletedAt(new DateTimeImmutable());
+            $record->setCompletedAt($this->clock->now());
             $this->recordRepository->update($record);
             $this->persistenceManager->persistAll();
         }
@@ -94,8 +95,8 @@ final class InstructorService
         $feedback->setUserCourseRecord($record);
         $feedback->setInstructor($instanceInstructor);
         $feedback->setComment($note);
-        $feedback->setCreatedAt(new DateTimeImmutable());
-        $feedback->setUpdatedAt(new DateTimeImmutable());
+        $feedback->setCreatedAt($this->clock->now());
+        $feedback->setUpdatedAt($this->clock->now());
 
         $this->feedbackRepository->add($feedback);
         $this->persistenceManager->persistAll();

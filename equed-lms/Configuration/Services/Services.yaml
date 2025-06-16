@@ -208,6 +208,11 @@ services:
   Equed\EquedLms\Domain\Service\CourseBundleServiceInterface:
     class: Equed\EquedLms\Service\CourseBundleService
 
+  Equed\EquedLms\Service\InstructorService:
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
 
   Equed\EquedLms\Domain\Service\CourseOverviewServiceInterface:
     class: Equed\EquedLms\Service\CourseOverviewService
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'

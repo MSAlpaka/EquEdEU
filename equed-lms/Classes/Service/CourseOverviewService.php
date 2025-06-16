@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use DateTimeImmutable;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Repository\CourseProgramRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
@@ -19,6 +19,7 @@ final class CourseOverviewService implements CourseOverviewServiceInterface
         private readonly CourseProgramRepositoryInterface $programRepository,
         private readonly CourseInstanceRepositoryInterface $instanceRepository,
         private readonly UserCourseRecordRepositoryInterface $recordRepository,
+        private readonly ClockInterface                   $clock,
     ) {
     }
 
@@ -35,7 +36,7 @@ final class CourseOverviewService implements CourseOverviewServiceInterface
      */
     public function getActiveInstances(): array
     {
-        $now = new DateTimeImmutable();
+        $now = $this->clock->now();
 
         $query = $this->instanceRepository->createQuery();
         $query->matching(
