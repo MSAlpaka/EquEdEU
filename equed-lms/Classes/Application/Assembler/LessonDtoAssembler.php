@@ -26,6 +26,9 @@ final class LessonDtoAssembler
                 'type' => $p->getPageType(),
                 'value' => $p->getContent(),
                 'titleKey' => $p->getTitleKey(),
+                'accessibilityNotes' => $p->getAccessibilityNotes(),
+                'mediaAltText' => $p->getMediaAltText(),
+                'transcript' => $p->getTranscript(),
             ],
             $lesson->getPages()->toArray()
         );
@@ -38,6 +41,9 @@ final class LessonDtoAssembler
             $lesson->getModule()?->getCourseProgram()?->getUid(),
             $assets,
             $content,
+            $lesson->getAccessibilityNotes(),
+            $lesson->getMediaAltText(),
+            $lesson->getTranscript(),
         );
     }
 }

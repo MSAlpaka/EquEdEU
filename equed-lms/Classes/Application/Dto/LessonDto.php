@@ -21,6 +21,9 @@ final class LessonDto implements \JsonSerializable
         private readonly ?int $courseId,
         private readonly array $assets,
         private readonly array $content,
+        private readonly ?string $accessibilityNotes,
+        private readonly ?string $mediaAltText,
+        private readonly ?string $transcript,
     ) {
     }
 
@@ -49,6 +52,21 @@ final class LessonDto implements \JsonSerializable
         return $this->courseId;
     }
 
+    public function getAccessibilityNotes(): ?string
+    {
+        return $this->accessibilityNotes;
+    }
+
+    public function getMediaAltText(): ?string
+    {
+        return $this->mediaAltText;
+    }
+
+    public function getTranscript(): ?string
+    {
+        return $this->transcript;
+    }
+
     /** @return array<int,array<string,mixed>> */
     public function getAssets(): array
     {
@@ -71,6 +89,9 @@ final class LessonDto implements \JsonSerializable
             'courseId' => $this->courseId,
             'assets' => $this->assets,
             'content' => $this->content,
+            'accessibilityNotes' => $this->accessibilityNotes,
+            'mediaAltText' => $this->mediaAltText,
+            'transcript' => $this->transcript,
         ];
     }
 }
