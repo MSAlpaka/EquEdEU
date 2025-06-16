@@ -20,6 +20,40 @@ final class SubmissionSyncService
     }
 
     /**
+     * Export all submissions for the given frontend user.
+     *
+     * @param int $userId Frontend user identifier
+     * @return array<int, array<string, mixed>>
+     */
+    public function exportForApp(int $userId): array
+    {
+        $submissions = $this->submissionRepository->findByFeUser($userId);
+        $result      = [];
+
+        foreach ($submissions as $submission) {
+            $result[] = $this->push($submission);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Import a submission payload coming from the app.
+     *
+     * @param array<string, mixed> $payload
+     */
+    public function importFromApp(array $payload): UserSubmission
+    {
+        $data = $payload['submission'] ?? $payload;
+
+        if (!isset($data['userId']) && isset($payload['userId'])) {
+            $data['userId'] = (int) $payload['userId'];
+        }
+
+        return $this->pull($data);
+    }
+
+    /**
      * Export a submission into an associative array for API transfer.
      *
      * @return array{uuid:string,userId:int,course:int,status:string,score:float|null,updatedAt:?string,gptFeedback:string|null}
