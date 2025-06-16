@@ -1,4 +1,4 @@
-name: PHPStan SARIF
+name: PHPStan SARIF Analysis (equed-lms)
 
 on:
   push:
@@ -8,51 +8,41 @@ on:
     paths:
       - 'equed-lms/**'
 
-permissions:
-  contents: read
-  security-events: write
-
 jobs:
   phpstan:
-    name: Run PHPStan
+    name: Run PHPStan and upload SARIF
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up PHP 8.2
+      - name: ⚙️ Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: xml, gd
-          coverage: none
 
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist
-        working-directory: equed-lms
+      - name: 📦 Install dependencies
+        run: composer install --no-progress --no-scripts --prefer-dist
+        working-directory: ./equed-lms
 
-      - name: Run PHPStan with SARIF output
-        continue-on-error: true
+      - name: 🧪 Run PHPStan (SARIF output)
         run: |
-          REPORT_DIR="${{ github.workspace }}/equed-lms/build/reports"
-          mkdir -p "$REPORT_DIR"
-          if [ -f vendor/bin/phpstan ]; then
-            vendor/bin/phpstan analyse --error-format=sarif > "$REPORT_DIR/phpstan.sarif" || true
-          else
-            echo '{}' > "$REPORT_DIR/phpstan.sarif"
-          fi
-        working-directory: equed-lms
+          mkdir -p equed-lms/build/reports
+          vendor/bin/phpstan analyse ./equed-lms \
+            --no-progress \
+            --error-format=sarif > equed-lms/build/reports/phpstan.sarif || echo "⚠️ PHPStan completed with issues"
 
-      - name: Validate SARIF report
+      - name: 🧾 Validate SARIF (optional)
         run: |
-          REPORT_PATH="equed-lms/build/reports/phpstan.sarif"
-          mkdir -p "$(dirname "$REPORT_PATH")"
-          if ! jq empty "$REPORT_PATH" >/dev/null 2>&1; then
-            echo '{}' > "$REPORT_PATH"
+          if ! jq empty equed-lms/build/reports/phpstan.sarif 2>/dev/null; then
+            echo "⚠️ Invalid SARIF JSON detected. Upload skipped."
+            exit 0
           fi
 
-      - name: Upload SARIF report
-        if: always()
+      - name: 🐙 Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: equed-lms/build/reports/phpstan.sarif
+          wait-for-processing: true
