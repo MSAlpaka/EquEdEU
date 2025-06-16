@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use Equed\EquedLms\Domain\Service\UserCourseRecordCrudServiceInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Dto\UserCourseRecordUpdateRequest;
 
 /**
  * DB-backed implementation for managing user course records.
@@ -50,21 +51,38 @@ final class UserCourseRecordCrudService implements UserCourseRecordCrudServiceIn
         return $record === false ? null : $record;
     }
 
-    public function updateRecord(int $userId, int $recordId, array $fields): void
+    public function updateRecord(int $userId, UserCourseRecordUpdateRequest $request): void
     {
-        $fields['tstamp'] = $this->clock->now()->getTimestamp();
+        $fields = [
+            'status' => $request->getStatus(),
+            'tstamp' => $this->clock->now()->getTimestamp(),
+        ];
+
+        if ($request->getProgress() !== null) {
+            $fields['progress'] = $request->getProgress();
+        }
+
         $this->connectionPool
             ->getConnectionForTable('tx_equedlms_domain_model_usercourserecord')
             ->update(
                 'tx_equedlms_domain_model_usercourserecord',
                 $fields,
-                ['uid' => $recordId, 'fe_user' => $userId]
+                ['uid' => $request->getUid(), 'fe_user' => $userId]
             );
     }
 
     public function deleteRecord(int $userId, int $recordId): void
     {
-        $this->updateRecord($userId, $recordId, ['deleted' => 1]);
+        $this->connectionPool
+            ->getConnectionForTable('tx_equedlms_domain_model_usercourserecord')
+            ->update(
+                'tx_equedlms_domain_model_usercourserecord',
+                [
+                    'deleted' => 1,
+                    'tstamp' => $this->clock->now()->getTimestamp(),
+                ],
+                ['uid' => $recordId, 'fe_user' => $userId]
+            );
     }
 
     private function getQueryBuilder(): QueryBuilder
