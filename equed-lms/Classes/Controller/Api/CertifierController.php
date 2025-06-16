@@ -9,6 +9,8 @@ use Equed\EquedLms\Controller\Api\BaseApiController;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\CertifierServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Dto\ValidationApproveRequest;
+use Equed\EquedLms\Dto\ValidationRejectRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 
@@ -68,16 +70,13 @@ final class CertifierController extends BaseApiController
             return $check;
         }
 
-        $body = (array)$request->getParsedBody();
-        $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
-
-        $certifierId = $this->getCurrentUserId($request);
-
-        if ($certifierId === null || $recordId <= 0) {
+        try {
+            $dto = ValidationApproveRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.certifier.invalidParameters', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->certifierService->approveValidation($recordId, $certifierId);
+        $this->certifierService->approveValidation($dto);
 
         return $this->jsonSuccess([
             'message' => $this->translationService->translate('api.certifier.approved'),
@@ -97,17 +96,13 @@ final class CertifierController extends BaseApiController
             return $check;
         }
 
-        $body = (array)$request->getParsedBody();
-        $recordId = isset($body['recordId']) ? (int)$body['recordId'] : 0;
-        $feedback = isset($body['feedback']) ? trim((string)$body['feedback']) : '';
-
-        $certifierId = $this->getCurrentUserId($request);
-
-        if ($certifierId === null || $recordId <= 0 || $feedback === '') {
+        try {
+            $dto = ValidationRejectRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.certifier.invalidParameters', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->certifierService->rejectValidation($recordId, $feedback, $certifierId);
+        $this->certifierService->rejectValidation($dto);
 
         return $this->jsonSuccess([
             'message' => $this->translationService->translate('api.certifier.rejected'),
