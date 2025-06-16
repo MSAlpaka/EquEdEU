@@ -126,6 +126,24 @@ interface UserSubmissionRepositoryInterface
      */
     public function findLatestByUserCourseRecord(int $userCourseRecordUid): ?UserSubmission;
 
+    public function createSubmission(
+        int $userId,
+        int $recordId,
+        string $note,
+        string $file,
+        string $type,
+        int $timestamp
+    ): void;
+
+    public function updateSubmission(
+        int $submissionId,
+        string $evaluationNote,
+        string $evaluationFile,
+        string $comment,
+        int $evaluatorId,
+        int $timestamp
+    ): void;
+
     /**
      * @return QueryInterface<UserSubmission>
      */

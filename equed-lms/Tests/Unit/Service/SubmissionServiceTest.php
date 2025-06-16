@@ -7,8 +7,9 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\SubmissionService;
 use Equed\EquedLms\Domain\Service\ClockInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -18,20 +19,20 @@ class SubmissionServiceTest extends TestCase
 
     private SubmissionService $subject;
     private $repository;
-    private $connectionPool;
+    private $persistence;
     private $eventDispatcher;
     private $clock;
 
     protected function setUp(): void
     {
         $this->repository      = $this->prophesize(UserSubmissionRepositoryInterface::class);
-        $this->connectionPool  = $this->prophesize(ConnectionPool::class);
+        $this->persistence     = $this->prophesize(PersistenceManagerInterface::class);
         $this->eventDispatcher = $this->prophesize(EventDispatcherInterface::class);
         $this->clock           = $this->prophesize(ClockInterface::class);
 
         $this->subject = new SubmissionService(
             $this->repository->reveal(),
-            $this->connectionPool->reveal(),
+            $this->persistence->reveal(),
             $this->eventDispatcher->reveal(),
             $this->clock->reveal()
         );
@@ -58,5 +59,32 @@ class SubmissionServiceTest extends TestCase
         $this->repository->findByFeUser(9)->willReturn($expected);
 
         $this->assertSame($expected, $this->subject->getAllForUser(9));
+    }
+
+    public function testCreateSubmissionPersistsViaRepository(): void
+    {
+        $now = new \DateTimeImmutable('2024-01-01');
+        $this->clock->now()->willReturn($now);
+        $timestamp = $now->getTimestamp();
+
+        $this->repository->createSubmission(1, 2, 'n', 'f', 't', $timestamp)->shouldBeCalled();
+        $this->persistence->persistAll()->shouldBeCalled();
+
+        $this->subject->createSubmission(1, 2, 'n', 'f', 't');
+    }
+
+    public function testEvaluateSubmissionUpdatesAndDispatches(): void
+    {
+        $now = new \DateTimeImmutable('2024-02-01');
+        $this->clock->now()->willReturn($now);
+        $timestamp = $now->getTimestamp();
+
+        $submission = new \stdClass();
+        $this->repository->updateSubmission(5, 'e', 'f', 'c', 9, $timestamp)->shouldBeCalled();
+        $this->persistence->persistAll()->shouldBeCalled();
+        $this->repository->findByUid(5)->willReturn($submission);
+        $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission))->shouldBeCalled();
+
+        $this->subject->evaluateSubmission(5, 'e', 'f', 'c', 9);
     }
 }

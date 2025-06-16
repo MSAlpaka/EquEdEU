@@ -8,6 +8,8 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\PracticeTest;
 use Equed\EquedLms\Domain\Model\UserSubmission;
 use Equed\EquedLms\Enum\SubmissionStatus;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -18,6 +20,15 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 final class UserSubmissionRepository extends Repository implements UserSubmissionRepositoryInterface
 {
+    private Connection $connection;
+
+    public function __construct(ConnectionPool $connectionPool)
+    {
+        parent::__construct();
+        $this->connection = $connectionPool->getConnectionForTable(
+            'tx_equedlms_domain_model_usersubmission'
+        );
+    }
     /**
      * Default ordering: newest submissions first.
      *
@@ -381,5 +392,52 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
         $result = parent::findByUid($uid);
 
         return $result;
+    }
+
+    public function createSubmission(
+        int $userId,
+        int $recordId,
+        string $note,
+        string $file,
+        string $type,
+        int $timestamp
+    ): void {
+        $this->connection->insert(
+            'tx_equedlms_domain_model_usersubmission',
+            [
+                'fe_user'          => $userId,
+                'usercourserecord' => $recordId,
+                'note'             => $note,
+                'file'             => $file,
+                'type'             => $type,
+                'submitted_at'     => $timestamp,
+                'status'           => 'submitted',
+                'crdate'           => $timestamp,
+                'tstamp'           => $timestamp,
+            ]
+        );
+    }
+
+    public function updateSubmission(
+        int $submissionId,
+        string $evaluationNote,
+        string $evaluationFile,
+        string $comment,
+        int $evaluatorId,
+        int $timestamp
+    ): void {
+        $this->connection->update(
+            'tx_equedlms_domain_model_usersubmission',
+            [
+                'evaluation_note'    => $evaluationNote,
+                'evaluation_file'    => $evaluationFile,
+                'instructor_comment' => $comment,
+                'evaluated_by'       => $evaluatorId,
+                'evaluated_at'       => $timestamp,
+                'status'             => 'evaluated',
+                'tstamp'             => $timestamp,
+            ],
+            ['uid' => $submissionId]
+        );
     }
 }
