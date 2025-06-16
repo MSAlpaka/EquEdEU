@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for managing notifications for all roles.
@@ -19,41 +19,34 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <notifications_api> feature toggle.
  */
-final class NotificationController extends ActionController
+final class NotificationController extends BaseApiController
 {
     public function __construct(
         private readonly NotificationServiceInterface    $notificationService,
-        private readonly ConfigurationServiceInterface   $configurationService,
-        private readonly GptTranslationServiceInterface  $translationService,
+        ConfigurationServiceInterface   $configurationService,
+        ApiResponseServiceInterface     $apiResponseService,
+        GptTranslationServiceInterface  $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
      * Lists notifications for the authenticated user.
      */
-    public function listAction(ServerRequestInterface $request): ResponseInterface
+    public function listAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('notifications_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.notifications.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('notifications_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.notifications.unauthenticated')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.notifications.unauthenticated', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $notifications = $this->notificationService->getNotificationsForUser($userId);
 
-        return new JsonResponse([
-            'status'        => 'success',
+        return $this->jsonSuccess([
             'notifications' => $notifications,
         ]);
     }
@@ -61,39 +54,26 @@ final class NotificationController extends ActionController
     /**
      * Marks a notification as read for the authenticated user.
      */
-    public function markAsReadAction(ServerRequestInterface $request): ResponseInterface
+    public function markAsReadAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('notifications_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.notifications.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('notifications_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = is_array($user) && isset($user['uid']) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.notifications.unauthenticated')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.notifications.unauthenticated', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $body = (array)$request->getParsedBody();
         $notificationId = isset($body['notificationId']) ? (int)$body['notificationId'] : 0;
         if ($notificationId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.notifications.invalidId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.notifications.invalidId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $this->notificationService->markAsRead($userId, $notificationId);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.notifications.markedAsRead'),
-        ]);
+        return $this->jsonSuccess([], 'api.notifications.markedAsRead');
     }
 }
 // End of file
