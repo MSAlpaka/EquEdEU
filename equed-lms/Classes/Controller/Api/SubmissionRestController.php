@@ -37,10 +37,6 @@ final class SubmissionRestController extends BaseApiController
         $params  = $request->getQueryParams();
         $userId  = isset($params['userId']) ? (int) $params['userId'] : $currentUserId;
 
-        if ($userId === null || $userId <= 0) {
-            return $this->jsonError('api.submission.invalidUser', JsonResponse::HTTP_BAD_REQUEST);
-        }
-
         try {
             $data = $this->submissionService->exportForApp($userId);
 
@@ -64,13 +60,8 @@ final class SubmissionRestController extends BaseApiController
         }
 
         $payload = (array) $request->getParsedBody();
-
         if (!isset($payload['userId']) || (int) $payload['userId'] <= 0) {
             $payload['userId'] = $currentUserId;
-        }
-
-        if (empty($payload['userId']) || !isset($payload['submission'])) {
-            return $this->jsonError('api.submission.invalidPayload', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         try {
