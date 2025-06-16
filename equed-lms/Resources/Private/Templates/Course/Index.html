@@ -23,16 +23,16 @@
 
         <div class="progress-bar"
              role="progressbar"
-             aria-valuenow="{progressPercent}"
+             aria-valuenow="{progress}"
              aria-valuemin="0"
              aria-valuemax="100"
              aria-label="{f:translate(key: 'course.progress')}">
-          <div class="progress-fill" style="width: {progressPercent}%;">
-            <span class="sr-only">{progressPercent}%</span>
+          <div class="progress-fill" style="width: {progress}%;">
+            <span class="sr-only">{progress}%</span>
           </div>
         </div>
 
-        <f:if condition="{progressPercent} == 100">
+        <f:if condition="{progress} == 100">
           <div class="course-complete" role="status" aria-live="polite">
             <span aria-hidden="true">✔</span>
             <span><f:translate key="course.completed" /></span>

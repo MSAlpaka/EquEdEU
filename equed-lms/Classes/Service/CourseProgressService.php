@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Service;
 use Equed\EquedLms\Domain\Repository\CourseRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseCompletionServiceInterface;
+use Equed\EquedLms\Dto\CourseViewModel;
 
 /**
  * Service responsible for preparing the view model for course progress pages.
@@ -21,15 +22,15 @@ final class CourseProgressService implements CourseProgressServiceInterface
     ) {
     }
 
-    public function getCourseViewModel(int $courseUid, int $userId): array
+    public function getCourseViewModel(int $courseUid, int $userId): CourseViewModel
     {
         if ($courseUid <= 0) {
-            return ['error' => $this->translationService->translate('error.noCourseSelected')];
+            return new CourseViewModel(error: $this->translationService->translate('error.noCourseSelected'));
         }
 
         $course = $this->courseRepository->findByUid($courseUid);
         if ($course === null) {
-            return ['error' => $this->translationService->translate('error.courseNotFound')];
+            return new CourseViewModel(error: $this->translationService->translate('error.courseNotFound'));
         }
 
         $lessons = $course->getLessons();
@@ -46,11 +47,9 @@ final class CourseProgressService implements CourseProgressServiceInterface
             }
         }
 
-        return [
-            'course' => $course,
-            'lessons' => $lessons,
-            'progressPercent' => $progressPercent,
-            'userId' => $userId,
-        ];
+        return new CourseViewModel(
+            course: $course,
+            progress: $progressPercent,
+        );
     }
 }

@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\CourseProgressService;
 use Equed\EquedLms\Service\CourseProgressServiceInterface;
+use Equed\EquedLms\Dto\CourseViewModel;
 use Equed\EquedLms\Domain\Repository\CourseRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Service\CourseCompletionServiceInterface;
@@ -48,7 +49,9 @@ final class CourseProgressServiceTest extends TestCase
         $this->courseRepo->findByUid(5)->willReturn(null);
 
         $result = $this->subject->getCourseViewModel(5, 3);
-        $this->assertSame(['error' => 'err'], $result);
+        $this->assertInstanceOf(CourseViewModel::class, $result);
+        $this->assertTrue($result->hasError());
+        $this->assertSame('err', $result->getError());
     }
 
     public function testCalculatesProgressAndMarksCompletion(): void
@@ -64,7 +67,9 @@ final class CourseProgressServiceTest extends TestCase
         $this->completion->markCompletedIfNotYet(3, 7)->shouldBeCalled();
 
         $result = $this->subject->getCourseViewModel(7, 3);
-        $this->assertSame(100, $result['progressPercent']);
-        $this->assertSame($course->reveal(), $result['course']);
+        $this->assertInstanceOf(CourseViewModel::class, $result);
+        $this->assertFalse($result->hasError());
+        $this->assertSame(100, $result->getProgress());
+        $this->assertSame($course->reveal(), $result->getCourse());
     }
 }
