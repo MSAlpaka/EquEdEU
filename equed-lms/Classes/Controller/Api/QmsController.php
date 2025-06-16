@@ -6,10 +6,11 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Service\QmsApiService;
 
 /**
  * API controller for managing QMS cases.
@@ -18,14 +19,15 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
  * - ServiceCenter/Certifier respond and close cases
  * - Full audit logging via QMS domain model
  */
-final class QmsController extends ActionController
+final class QmsController extends BaseApiController
 {
     public function __construct(
-        private readonly ConnectionPool                    $connectionPool,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface    $translationService
+        private readonly QmsApiService $qmsService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -33,35 +35,18 @@ final class QmsController extends ActionController
      */
     public function listAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('qms_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('qms_api')) !== null) {
+            return $check;
         }
 
-        $user = $request->getAttribute('user');
-        $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.qms.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_qms');
-        $cases = $qb
-            ->select('uid', 'usercourserecord', 'type', 'message', 'status', 'submitted_at', 'responded_at', 'closed_at')
-            ->from('tx_equedlms_domain_model_qms')
-            ->where(
-                $qb->expr()->eq('submitted_by', $qb->createNamedParameter($userId, \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            )
-            ->orderBy('submitted_at', 'DESC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        $cases = $this->qmsService->getCasesForUser($userId);
 
-        return new JsonResponse(['status' => 'success', 'cases' => $cases]);
+        return $this->jsonSuccess(['cases' => $cases]);
     }
 
     /**
@@ -69,46 +54,23 @@ final class QmsController extends ActionController
      */
     public function submitAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('qms_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('qms_api')) !== null) {
+            return $check;
         }
-        $user = $request->getAttribute('user');
-        $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
+
+        $userId = $this->getCurrentUserId($request);
         $body = (array)$request->getParsedBody();
         $recordId = (int)($body['recordId'] ?? 0);
         $message  = trim((string)($body['message'] ?? ''));
         $type     = trim((string)($body['type'] ?? 'general'));
 
         if ($userId === null || $recordId <= 0 || $message === '') {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.invalidInput')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.qms.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $now = time();
-        $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
-            ->insert(
-                'tx_equedlms_domain_model_qms',
-                [
-                    'usercourserecord' => $recordId,
-                    'submitted_by'     => $userId,
-                    'type'             => $type,
-                    'message'          => $message,
-                    'status'           => 'open',
-                    'submitted_at'     => $now,
-                    'tstamp'           => $now,
-                    'crdate'           => $now
-                ]
-            );
+        $this->qmsService->submitCase($userId, $recordId, $message, $type);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.qms.submitted')
-        ]);
+        return $this->jsonSuccess([], 'api.qms.submitted');
     }
 
     /**
@@ -116,45 +78,23 @@ final class QmsController extends ActionController
      */
     public function respondAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('qms_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('qms_api')) !== null) {
+            return $check;
         }
-        $user = $request->getAttribute('user');
-        $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
+
+        $userId = $this->getCurrentUserId($request);
         $body = (array)$request->getParsedBody();
         $qmsId    = (int)($body['qmsId'] ?? 0);
         $response = trim((string)($body['response'] ?? ''));
         $role     = trim((string)($body['role'] ?? 'certifier'));
 
         if ($userId === null || $qmsId <= 0 || $response === '') {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.invalidInput')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.qms.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $now = time();
-        $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
-            ->update(
-                'tx_equedlms_domain_model_qms',
-                [
-                    'response'       => $response,
-                    'responded_by'   => $userId,
-                    'responded_role' => $role,
-                    'responded_at'   => $now,
-                    'status'         => 'responded',
-                    'tstamp'         => $now
-                ],
-                ['uid' => $qmsId]
-            );
+        $this->qmsService->respondToCase($userId, $qmsId, $response, $role);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.qms.responded')
-        ]);
+        return $this->jsonSuccess([], 'api.qms.responded');
     }
 
     /**
@@ -162,41 +102,21 @@ final class QmsController extends ActionController
      */
     public function closeAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('qms_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('qms_api')) !== null) {
+            return $check;
         }
-        $user = $request->getAttribute('user');
-        $userId = (is_array($user) && isset($user['uid'])) ? (int)$user['uid'] : null;
+
+        $userId = $this->getCurrentUserId($request);
         $body = (array)$request->getParsedBody();
         $qmsId = (int)($body['qmsId'] ?? 0);
 
         if ($userId === null || $qmsId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.qms.invalidInput')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.qms.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $now = time();
-        $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
-            ->update(
-                'tx_equedlms_domain_model_qms',
-                [
-                    'status'    => 'closed',
-                    'closed_by' => $userId,
-                    'closed_at' => $now,
-                    'tstamp'    => $now
-                ],
-                ['uid' => $qmsId]
-            );
+        $this->qmsService->closeCase($userId, $qmsId);
 
-        return new JsonResponse([
-            'status'  => 'success',
-            'message' => $this->translationService->translate('api.qms.closed')
-        ]);
+        return $this->jsonSuccess([], 'api.qms.closed');
     }
 }
 // EOF
