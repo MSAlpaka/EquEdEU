@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\CourseAccessMap;
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CourseAccessMapRepositoryInterface;
 
 /**
  * Repository for CourseAccessMap entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<CourseAccessMap>
  */
-final class CourseAccessMapRepository extends Repository
+final class CourseAccessMapRepository extends Repository implements CourseAccessMapRepositoryInterface
 {
     /**
      * Finds all access maps for a specific instructor.

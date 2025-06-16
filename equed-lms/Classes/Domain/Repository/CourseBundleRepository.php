@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CourseBundle;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CourseBundleRepositoryInterface;
 
 /**
  * Repository for CourseBundle entities.
@@ -13,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<CourseBundle>
  */
-final class CourseBundleRepository extends Repository
+final class CourseBundleRepository extends Repository implements CourseBundleRepositoryInterface
 {
     /**
      * Finds a CourseBundle by its slug.

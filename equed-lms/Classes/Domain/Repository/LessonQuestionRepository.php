@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\LessonQuestion;
 use Equed\EquedLms\Domain\Model\LessonQuiz;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\LessonQuestionRepositoryInterface;
 
 /**
  * Repository for LessonQuestion entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<LessonQuestion>
  */
-final class LessonQuestionRepository extends Repository
+final class LessonQuestionRepository extends Repository implements LessonQuestionRepositoryInterface
 {
     /**
      * Finds all questions for a given lesson quiz.

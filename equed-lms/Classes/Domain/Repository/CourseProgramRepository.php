@@ -6,13 +6,14 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CourseProgramRepositoryInterface;
 
 /**
  * Repository for CourseProgram entities.
  *
  * @extends Repository<CourseProgram>
  */
-final class CourseProgramRepository extends Repository
+final class CourseProgramRepository extends Repository implements CourseProgramRepositoryInterface
 {
     /**
      * Find a course program by UID.

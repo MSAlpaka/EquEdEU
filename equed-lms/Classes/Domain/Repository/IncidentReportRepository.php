@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Enum\IncidentReportStatus;
+use Equed\EquedLms\Domain\Repository\IncidentReportRepositoryInterface;
 
 /**
  * Repository for IncidentReport entities.
@@ -16,7 +17,7 @@ use Equed\EquedLms\Enum\IncidentReportStatus;
  *
  * @extends Repository<IncidentReport>
  */
-final class IncidentReportRepository extends Repository
+final class IncidentReportRepository extends Repository implements IncidentReportRepositoryInterface
 {
     /**
      * Finds all incident reports for a specific instructor.

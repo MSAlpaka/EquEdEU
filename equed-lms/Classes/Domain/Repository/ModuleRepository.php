@@ -7,13 +7,14 @@ namespace Equed\EquedLms\Domain\Repository;
 use Equed\EquedLms\Domain\Model\Module;
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\ModuleRepositoryInterface;
 
 /**
  * Repository for Module entities.
  *
  * @extends Repository<Module>
  */
-final class ModuleRepository extends Repository
+final class ModuleRepository extends Repository implements ModuleRepositoryInterface
 {
     /**
      * Find modules for the given course program.

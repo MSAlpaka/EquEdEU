@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Domain\Repository;
 use Equed\EquedLms\Domain\Model\CourseFeedback;
 use Equed\EquedLms\Domain\Model\FeedbackEntry;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\FeedbackEntryRepositoryInterface;
 
 /**
  * Repository for FeedbackEntry entities.
@@ -14,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<FeedbackEntry>
  */
-final class FeedbackEntryRepository extends Repository
+final class FeedbackEntryRepository extends Repository implements FeedbackEntryRepositoryInterface
 {
     /**
      * Finds all feedback entries belonging to a course feedback.

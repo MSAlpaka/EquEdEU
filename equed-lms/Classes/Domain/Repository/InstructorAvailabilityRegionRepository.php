@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\InstructorAvailabilityRegion;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\InstructorAvailabilityRegionRepositoryInterface;
 
 /**
  * Repository for InstructorAvailabilityRegion entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<InstructorAvailabilityRegion>
  */
-final class InstructorAvailabilityRegionRepository extends Repository
+final class InstructorAvailabilityRegionRepository extends Repository implements InstructorAvailabilityRegionRepositoryInterface
 {
     /**
      * Finds all availability regions for a given instructor.

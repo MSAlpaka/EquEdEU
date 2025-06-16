@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\ObservationTemplate;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\ObservationTemplateRepositoryInterface;
 
 /**
  * Repository for ObservationTemplate entities.
@@ -13,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<ObservationTemplate>
  */
-final class ObservationTemplateRepository extends Repository
+final class ObservationTemplateRepository extends Repository implements ObservationTemplateRepositoryInterface
 {
     /**
      * Finds all active templates (deleted flag is false).

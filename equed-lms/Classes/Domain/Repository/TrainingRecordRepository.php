@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\TrainingRecord;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\TrainingRecordRepositoryInterface;
 
 /**
  * Repository for TrainingRecord entities.
@@ -18,7 +19,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<TrainingRecord>
  */
-final class TrainingRecordRepository extends Repository
+final class TrainingRecordRepository extends Repository implements TrainingRecordRepositoryInterface
 {
     /**
      * Default ordering: newest first by creation date.

@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\CourseBookingRequest;
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CourseBookingRequestRepositoryInterface;
 
 /**
  * Repository for CourseBookingRequest entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<CourseBookingRequest>
  */
-final class CourseBookingRequestRepository extends Repository
+final class CourseBookingRequestRepository extends Repository implements CourseBookingRequestRepositoryInterface
 {
     /**
      * Finds all booking requests for the given instructor.
