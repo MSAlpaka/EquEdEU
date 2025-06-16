@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\FeedbackRepositoryInterface;
 
 /**
  * Repository for CourseFeedback entities.
@@ -16,7 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<Feedback>
  */
-final class FeedbackRepository extends Repository
+final class FeedbackRepository extends Repository implements FeedbackRepositoryInterface
 {
     /**
      * Finds all feedback entries for a specific frontend user.

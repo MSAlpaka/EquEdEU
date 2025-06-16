@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\InstructorFeedback;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\InstructorFeedbackRepositoryInterface;
 
 /**
  * Repository for InstructorFeedback entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<InstructorFeedback>
  */
-final class InstructorFeedbackRepository extends Repository
+final class InstructorFeedbackRepository extends Repository implements InstructorFeedbackRepositoryInterface
 {
     /**
      * Finds all feedback entries for a specific instructor.

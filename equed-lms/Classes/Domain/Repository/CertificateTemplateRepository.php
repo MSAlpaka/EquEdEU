@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use Equed\EquedLms\Domain\Model\CertificateTemplate;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\CertificateTemplateRepositoryInterface;
 
 /**
  * Repository for CertificateTemplate entities.
@@ -13,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<CertificateTemplate>
  */
-final class CertificateTemplateRepository extends Repository
+final class CertificateTemplateRepository extends Repository implements CertificateTemplateRepositoryInterface
 {
     /**
      * Finds all certificate templates matching a badge level.

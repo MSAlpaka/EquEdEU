@@ -9,13 +9,14 @@ use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Enum\QmsCaseStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\QmsCaseRepositoryInterface;
 
 /**
  * Repository for QMS cases.
  *
  * @extends Repository<QmsCase>
  */
-final class QmsCaseRepository extends Repository
+final class QmsCaseRepository extends Repository implements QmsCaseRepositoryInterface
 {
     protected array $defaultOrderings = [
         'createdAt' => QueryInterface::ORDER_DESCENDING,

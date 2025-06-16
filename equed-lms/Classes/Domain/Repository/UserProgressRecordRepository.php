@@ -8,13 +8,14 @@ use Equed\EquedLms\Domain\Model\UserProgressRecord;
 use Equed\EquedLms\Enum\ProgressRecordStatus;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\UserProgressRecordRepositoryInterface;
 
 /**
  * Repository for UserProgressRecord entities.
  *
  * @extends Repository<UserProgressRecord>
  */
-final class UserProgressRecordRepository extends Repository
+final class UserProgressRecordRepository extends Repository implements UserProgressRecordRepositoryInterface
 {
     /**
      * Default ordering: oldest progress first.

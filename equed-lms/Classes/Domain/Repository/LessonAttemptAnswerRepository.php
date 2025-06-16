@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\LessonAttempt;
 use Equed\EquedLms\Domain\Model\LessonAttemptAnswer;
 use Equed\EquedLms\Domain\Model\LessonQuestion;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\LessonAttemptAnswerRepositoryInterface;
 
 /**
  * Repository for LessonAttemptAnswer entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<LessonAttemptAnswer>
  */
-final class LessonAttemptAnswerRepository extends Repository
+final class LessonAttemptAnswerRepository extends Repository implements LessonAttemptAnswerRepositoryInterface
 {
     /**
      * Finds all answers for a specific lesson attempt.

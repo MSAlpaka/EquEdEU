@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Domain\Model\EventSchedule;
+use Equed\EquedLms\Domain\Repository\EventScheduleRepositoryInterface;
 
 /**
  * Repository for {@link EventSchedule} entities.
@@ -17,6 +18,6 @@ use Equed\EquedLms\Domain\Model\EventSchedule;
  *
  * @extends Repository<EventSchedule>
  */
-final class EventScheduleRepository extends Repository
+final class EventScheduleRepository extends Repository implements EventScheduleRepositoryInterface
 {
 }

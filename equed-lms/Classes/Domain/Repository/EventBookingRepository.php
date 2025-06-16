@@ -6,6 +6,7 @@ namespace Equed\EquedLms\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Domain\Model\EventBooking;
+use Equed\EquedLms\Domain\Repository\EventBookingRepositoryInterface;
 
 /**
  * Repository for {@link EventBooking} entities.
@@ -18,6 +19,6 @@ use Equed\EquedLms\Domain\Model\EventBooking;
  *
  * @extends Repository<EventBooking>
  */
-final class EventBookingRepository extends Repository
+final class EventBookingRepository extends Repository implements EventBookingRepositoryInterface
 {
 }

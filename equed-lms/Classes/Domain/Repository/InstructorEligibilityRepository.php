@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Model\InstructorEligibility;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\InstructorEligibilityRepositoryInterface;
 
 /**
  * Repository for InstructorEligibility entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<InstructorEligibility>
  */
-final class InstructorEligibilityRepository extends Repository
+final class InstructorEligibilityRepository extends Repository implements InstructorEligibilityRepositoryInterface
 {
     /**
      * Finds all eligibility entries for a given instructor.

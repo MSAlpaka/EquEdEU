@@ -7,6 +7,7 @@ namespace Equed\EquedLms\Domain\Repository;
 use Equed\EquedLms\Domain\Model\PracticeQuestion;
 use Equed\EquedLms\Domain\Model\PracticeTest;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\PracticeQuestionRepositoryInterface;
 
 /**
  * Repository for PracticeQuestion entities.
@@ -14,7 +15,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<PracticeQuestion>
  */
-final class PracticeQuestionRepository extends Repository
+final class PracticeQuestionRepository extends Repository implements PracticeQuestionRepositoryInterface
 {
     /**
      * Finds all active practice questions (not marked deleted).

@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\TrainingCenter;
 use Equed\EquedLms\Domain\Model\TrainingCenterFeedback;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\TrainingCenterFeedbackRepositoryInterface;
 
 /**
  * Repository for TrainingCenterFeedback entities.
@@ -16,7 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<TrainingCenterFeedback>
  */
-final class TrainingCenterFeedbackRepository extends Repository
+final class TrainingCenterFeedbackRepository extends Repository implements TrainingCenterFeedbackRepositoryInterface
 {
     /**
      * Default ordering: newest first.

@@ -8,6 +8,7 @@ use Equed\EquedLms\Domain\Model\ExamAttempt;
 use Equed\EquedLms\Domain\Model\ExamTemplate;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use Equed\EquedLms\Domain\Repository\ExamAttemptRepositoryInterface;
 
 /**
  * Repository for ExamAttempt entities.
@@ -15,7 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  *
  * @extends Repository<ExamAttempt>
  */
-final class ExamAttemptRepository extends Repository
+final class ExamAttemptRepository extends Repository implements ExamAttemptRepositoryInterface
 {
     /**
      * Find all attempts by a specific user for the provided exam template.
