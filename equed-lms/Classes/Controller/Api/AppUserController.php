@@ -53,15 +53,7 @@ final class AppUserController extends BaseApiController
             return $this->jsonError('api.userProfile.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        $roles = array_filter(array_map('intval', explode(',', (string)($profile['usergroup'] ?? ''))));
-
-        return $this->jsonSuccess([
-            'userId'           => (int)$profile['uid'],
-            'name'             => (string)($profile['name'] ?? ''),
-            'email'            => (string)($profile['email'] ?? ''),
-            'roles'            => $roles,
-            'profileCompleted' => trim((string)($profile['name'] ?? '')) !== '',
-        ]);
+        return $this->jsonSuccess($profile->jsonSerialize());
     }
 }
 // End of file

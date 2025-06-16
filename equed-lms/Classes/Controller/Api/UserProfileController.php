@@ -10,6 +10,7 @@ use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\UserAccountServiceInterface;
+use Equed\EquedLms\Dto\ProfileUpdateRequest;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 
 /**
@@ -47,7 +48,7 @@ final class UserProfileController extends BaseApiController
             return $this->jsonError('api.userProfile.notFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        return $this->jsonSuccess(['profile' => $profile]);
+        return $this->jsonSuccess(['profile' => $profile->jsonSerialize()]);
     }
 
     /**
@@ -64,20 +65,13 @@ final class UserProfileController extends BaseApiController
             return $this->jsonError('api.userProfile.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $body   = (array) $request->getParsedBody();
-        $fields = [];
-        $allowed = ['name', 'email'];
-        foreach ($allowed as $field) {
-            if (isset($body[$field]) && is_string($body[$field])) {
-                $fields[$field] = trim($body[$field]);
-            }
-        }
-
-        if ($fields === []) {
+        try {
+            $updateRequest = ProfileUpdateRequest::fromRequest($request);
+        } catch (\InvalidArgumentException) {
             return $this->jsonError('api.userProfile.noFields', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->accountService->updateProfile($userId, $fields);
+        $this->accountService->updateProfile($userId, $updateRequest);
 
         return $this->jsonSuccess([], 'api.userProfile.updated');
     }
