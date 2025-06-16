@@ -14,6 +14,7 @@ use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Service\LessonProgressServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
 use Equed\EquedLms\Event\Progress\LessonProgressUpdatedEvent;
+use Equed\EquedLms\Event\Progress\LessonProgressCompletedEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -69,6 +70,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
 
         $this->progressRepository->updateOrAdd($progress);
         $this->eventDispatcher->dispatch(new LessonProgressUpdatedEvent($progress));
+        $this->eventDispatcher->dispatch(new LessonProgressCompletedEvent($progress));
 
         return $progress;
     }
@@ -100,6 +102,9 @@ final class LessonProgressService implements LessonProgressServiceInterface
 
         $this->progressRepository->updateOrAdd($progress);
         $this->eventDispatcher->dispatch(new LessonProgressUpdatedEvent($progress));
+        if ($completed) {
+            $this->eventDispatcher->dispatch(new LessonProgressCompletedEvent($progress));
+        }
 
         return $progress;
     }

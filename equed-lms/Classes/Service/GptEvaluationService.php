@@ -13,6 +13,8 @@ use Equed\EquedCore\Service\GptClientInterface;
 use Equed\EquedLms\Domain\Model\Submission;
 use Equed\EquedLms\Domain\Repository\SubmissionRepositoryInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Event\Submission\SubmissionAnalyzedEvent;
 
 /**
  * Service to perform GPT-based evaluation of user submissions.
@@ -30,7 +32,8 @@ final class GptEvaluationService
         private readonly string $openAiApiKey,
         private readonly bool $evaluationEnabled,
         private readonly string $openAiApiUrl,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         $this->injectTranslatedLogger($translationService, $logService);
     }
@@ -116,6 +119,7 @@ final class GptEvaluationService
                 ->setAnalyzedAt($this->clock->now());
 
             $this->submissionRepository->update($submission);
+            $this->eventDispatcher->dispatch(new SubmissionAnalyzedEvent($submission));
 
             return $analysis;
         } catch (ClientExceptionInterface | JsonException $e) {
