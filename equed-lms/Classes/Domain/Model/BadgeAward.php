@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
-use Equed\EquedLms\Enum\LanguageCode;
 
+use Equed\EquedLms\Enum\LanguageCode;
 use DateTimeImmutable;
 use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
@@ -13,8 +13,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\BadgeLevel;
 
 /**
- * BadgeAward
- *
  * Represents an award (badge) granted to a frontend user for a course,
  * specialty, recognition, documentation, or custom criteria.
  */

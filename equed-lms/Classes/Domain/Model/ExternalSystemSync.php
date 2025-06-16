@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
-use Equed\EquedLms\Enum\LanguageCode;
 
+use Equed\EquedLms\Enum\LanguageCode;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\ExternalSyncStatus;
 
 /**
- * ExternalSystemSync
+ * Represents a synchronization task with an external system.
  *
  * @package Equed\EquedLms\Domain\Model
  */
@@ -128,6 +128,11 @@ final class ExternalSystemSync extends AbstractEntity
         return $this->status;
     }
 
+    /**
+     * Set the synchronization status.
+     *
+     * @param ExternalSyncStatus|string $status New status value or its string representation
+     */
     public function setStatus(ExternalSyncStatus|string $status): void
     {
         if (is_string($status)) {
