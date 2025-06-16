@@ -440,4 +440,46 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
             ['uid' => $submissionId]
         );
     }
+
+    /**
+     * Fetch submissions for a frontend user as associative arrays.
+     *
+     * @param int $feUserId
+     * @return array<int, array<string, mixed>>
+     */
+    public function fetchAllByFeUser(int $feUserId): array
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->select('uid', 'usercourserecord', 'type', 'note', 'file', 'status', 'submitted_at', 'evaluated_at', 'evaluation_note')
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('fe_user', $qb->createNamedParameter($feUserId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('deleted', 0)
+            )
+            ->orderBy('submitted_at', 'DESC');
+
+        return $qb->executeQuery()->fetchAllAssociative();
+    }
+
+    /**
+     * Fetch submissions for a user course record as associative arrays.
+     *
+     * @param int $recordId
+     * @return array<int, array<string, mixed>>
+     */
+    public function fetchAllByRecord(int $recordId): array
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->select('*')
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('usercourserecord', $qb->createNamedParameter($recordId, \PDO::PARAM_INT)),
+                $qb->expr()->eq('deleted', 0)
+            )
+            ->orderBy('submitted_at', 'DESC');
+
+        return $qb->executeQuery()->fetchAllAssociative();
+    }
 }

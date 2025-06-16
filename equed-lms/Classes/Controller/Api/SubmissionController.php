@@ -6,13 +6,13 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Helper\AccessHelper;
+use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\SubmissionService;
 
 /**
@@ -24,7 +24,7 @@ final class SubmissionController extends BaseApiController
 {
 
     public function __construct(
-        private readonly ConnectionPool $connectionPool,
+        private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly SubmissionService $submissionService,
         ConfigurationServiceInterface $configurationService,
         ApiResponseServiceInterface $apiResponseService,
@@ -83,16 +83,7 @@ final class SubmissionController extends BaseApiController
             return $this->jsonError('api.submission.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_usersubmission');
-        $qb->select('uid', 'usercourserecord', 'type', 'note', 'file', 'status', 'submitted_at', 'evaluated_at', 'evaluation_note')
-            ->from('tx_equedlms_domain_model_usersubmission')
-            ->where(
-                $qb->expr()->eq('fe_user', $qb->createNamedParameter($user['uid'], \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            )
-            ->orderBy('submitted_at', 'DESC');
-
-        $submissions = $qb->executeQuery()->fetchAllAssociative();
+        $submissions = $this->submissionRepository->fetchAllByFeUser($user['uid']);
 
         return $this->jsonSuccess(['submissions' => $submissions]);
     }
@@ -114,18 +105,9 @@ final class SubmissionController extends BaseApiController
             return $this->jsonError('api.submission.invalidParameters', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_usersubmission');
-        $qb->select('*')
-            ->from('tx_equedlms_domain_model_usersubmission')
-            ->where(
-                $qb->expr()->eq('usercourserecord', $qb->createNamedParameter($recordId, \PDO::PARAM_INT)),
-                $qb->expr()->eq('deleted', 0)
-            )
-            ->orderBy('submitted_at', 'DESC');
+        $submissions = $this->submissionRepository->fetchAllByRecord($recordId);
 
-        $results = $qb->executeQuery()->fetchAllAssociative();
-
-        return $this->jsonSuccess(['submissions' => $results]);
+        return $this->jsonSuccess(['submissions' => $submissions]);
     }
 
     /**
