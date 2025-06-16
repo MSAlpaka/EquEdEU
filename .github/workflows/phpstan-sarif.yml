@@ -44,7 +44,11 @@ jobs:
             echo "PHPStan completed successfully"
           else
             echo "⚠️ PHPStan completed with issues"
-            # ensure the SARIF file exists and is valid JSON to avoid upload failures
+            echo '{"version":"2.1.0","runs":[]}' > build/reports/phpstan.sarif
+          fi
+          # Validate generated SARIF and fallback to minimal file if corrupted
+          if ! jq empty build/reports/phpstan.sarif >/dev/null 2>&1; then
+            echo "⚠️ Invalid SARIF detected – generating minimal report"
             echo '{"version":"2.1.0","runs":[]}' > build/reports/phpstan.sarif
           fi
 
