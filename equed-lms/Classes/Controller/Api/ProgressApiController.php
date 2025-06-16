@@ -7,9 +7,10 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ProgressServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for retrieving user progress data.
@@ -18,14 +19,15 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <progress_api> feature toggle.
  */
-final class ProgressApiController extends ActionController
+final class ProgressApiController extends BaseApiController
 {
     public function __construct(
-        private readonly ProgressServiceInterface          $progressService,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface    $translationService,
+        private readonly ProgressServiceInterface       $progressService,
+        ConfigurationServiceInterface                  $configurationService,
+        ApiResponseServiceInterface                    $apiResponseService,
+        GptTranslationServiceInterface                 $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -37,20 +39,13 @@ final class ProgressApiController extends ActionController
      */
     public function showAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('progress_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.progress.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('progress_api')) !== null) {
+            return $check;
         }
 
-        $currentUser = $request->getAttribute('user');
-        $currentUserId = is_array($currentUser) && isset($currentUser['uid']) ? (int)$currentUser['uid'] : null;
+        $currentUserId = $this->getCurrentUserId($request);
         if ($currentUserId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.progress.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.progress.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $params = $request->getQueryParams();
@@ -58,14 +53,12 @@ final class ProgressApiController extends ActionController
 
         // only admins may view others' progress
         if ($userId !== $currentUserId && ! $this->progressService->isAdmin($currentUserId)) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.progress.forbidden')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+            return $this->jsonError('api.progress.forbidden', JsonResponse::HTTP_FORBIDDEN);
         }
 
         $data = $this->progressService->getProgressDataForUser($userId);
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
+
+        return $this->jsonSuccess($data);
     }
 }
 // End of file
