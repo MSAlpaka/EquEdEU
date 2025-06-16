@@ -70,7 +70,7 @@ final class TrainingRecord extends AbstractEntity
     public function initializeObject(): void
     {
         $this->initializePersistenceTrait();
-        $now = $this->clock->now();
+        $now = new DateTimeImmutable();
         if (!isset($this->date)) {
             $this->date = $now;
         }

@@ -97,7 +97,7 @@ final class BadgeAward extends AbstractEntity
     {
         $this->initializePersistenceTrait();
         if (!isset($this->awardedAt)) {
-            $this->awardedAt = $this->clock->now();
+            $this->awardedAt = new DateTimeImmutable();
         }
     }
 
