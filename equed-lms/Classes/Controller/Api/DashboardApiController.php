@@ -7,10 +7,11 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserRepositoryInterface;
 use Equed\EquedLms\Domain\Service\DashboardServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for retrieving dashboard data for the authenticated user.
@@ -19,15 +20,16 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <dashboard_api> feature toggle.
  */
-final class DashboardApiController extends ActionController
+final class DashboardApiController extends BaseApiController
 {
     public function __construct(
-        private readonly DashboardServiceInterface         $dashboardService,
-        private readonly UserRepositoryInterface           $userRepository,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface    $translationService,
+        private readonly DashboardServiceInterface      $dashboardService,
+        private readonly UserRepositoryInterface        $userRepository,
+        ConfigurationServiceInterface                   $configurationService,
+        ApiResponseServiceInterface                     $apiResponseService,
+        GptTranslationServiceInterface                  $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -39,38 +41,25 @@ final class DashboardApiController extends ActionController
      */
     public function showAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('dashboard_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.dashboard.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('dashboard_api')) !== null) {
+            return $check;
         }
 
-        $userContext = $request->getAttribute('user');
-        $userId = is_array($userContext) && isset($userContext['uid'])
-            ? (int)$userContext['uid']
-            : null;
+        $userId = $this->getCurrentUserId($request);
 
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.dashboard.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.dashboard.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $user = $this->userRepository->findByUid($userId);
         if ($user === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.dashboard.userNotFound')],
-                JsonResponse::HTTP_NOT_FOUND
-            );
+            return $this->jsonError('api.dashboard.userNotFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
         $data = $this->dashboardService->getDashboardDataForUser($user);
 
-        return new JsonResponse([
-            'status' => 'success',
-            'data'   => $data,
+        return $this->jsonSuccess([
+            'data' => $data,
         ]);
     }
 }
