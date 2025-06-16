@@ -1035,45 +1035,6 @@ parameters:
 			count: 1
 			path: Classes/Controller/Api/AppMaterialController.php
 
-		-
-			message: "#^Access to undefined constant TYPO3\\\\CMS\\\\Core\\\\Http\\\\JsonResponse\\:\\:HTTP_BAD_REQUEST\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Access to undefined constant TYPO3\\\\CMS\\\\Core\\\\Http\\\\JsonResponse\\:\\:HTTP_FORBIDDEN\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Call to method getMaterialsByType\\(\\) on an unknown class Equed\\\\EquedLms\\\\Domain\\\\Service\\\\MaterialServiceInterface\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Call to method isFeatureEnabled\\(\\) on an unknown class Equed\\\\Core\\\\Service\\\\ConfigurationServiceInterface\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Parameter \\$configurationService of method Equed\\\\EquedLms\\\\Controller\\\\Api\\\\AppMaterialFilterController\\:\\:__construct\\(\\) has invalid type Equed\\\\Core\\\\Service\\\\ConfigurationServiceInterface\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Parameter \\$materialService of method Equed\\\\EquedLms\\\\Controller\\\\Api\\\\AppMaterialFilterController\\:\\:__construct\\(\\) has invalid type Equed\\\\EquedLms\\\\Domain\\\\Service\\\\MaterialServiceInterface\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Property Equed\\\\EquedLms\\\\Controller\\\\Api\\\\AppMaterialFilterController\\:\\:\\$configurationService has unknown class Equed\\\\Core\\\\Service\\\\ConfigurationServiceInterface as its type\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
-
-		-
-			message: "#^Property Equed\\\\EquedLms\\\\Controller\\\\Api\\\\AppMaterialFilterController\\:\\:\\$materialService has unknown class Equed\\\\EquedLms\\\\Domain\\\\Service\\\\MaterialServiceInterface as its type\\.$#"
-			count: 1
-			path: Classes/Controller/Api/AppMaterialFilterController.php
 
 		-
 			message: "#^Access to undefined constant TYPO3\\\\CMS\\\\Core\\\\Http\\\\JsonResponse\\:\\:HTTP_BAD_REQUEST\\.$#"
