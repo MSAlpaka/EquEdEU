@@ -16,6 +16,7 @@ final class LessonDto implements \JsonSerializable
     public function __construct(
         private readonly int $id,
         private readonly string $title,
+        private readonly ?string $titleKey,
         private readonly ?string $updatedAt,
         private readonly ?int $courseId,
         private readonly array $assets,
@@ -31,6 +32,11 @@ final class LessonDto implements \JsonSerializable
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function getTitleKey(): ?string
+    {
+        return $this->titleKey;
     }
 
     public function getUpdatedAt(): ?string
@@ -60,6 +66,7 @@ final class LessonDto implements \JsonSerializable
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'titleKey' => $this->titleKey,
             'updatedAt' => $this->updatedAt,
             'courseId' => $this->courseId,
             'assets' => $this->assets,

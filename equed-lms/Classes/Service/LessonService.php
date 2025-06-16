@@ -48,6 +48,7 @@ final class LessonService implements LessonServiceInterface
         $data = [
             'id' => $lesson->getUid(),
             'title' => $lesson->getTitle(),
+            'titleKey' => $lesson->getTitleKey(),
             'updatedAt' => $lesson->getLastModified()?->format('c'),
             'courseId' => $lesson->getCourse()?->getUid(),
             'assets' => array_map(
@@ -61,6 +62,7 @@ final class LessonService implements LessonServiceInterface
                 fn (Page $page): array => [
                     'type' => $page->getType(),
                     'value' => $page->getContent(),
+                    'titleKey' => $page->getTitleKey(),
                 ],
                 $lesson->getPages()->toArray()
             ),

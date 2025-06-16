@@ -12,7 +12,9 @@ final class CourseDto implements \JsonSerializable
     public function __construct(
         private readonly int $id,
         private readonly string $title,
+        private readonly ?string $titleKey,
         private readonly ?string $description,
+        private readonly ?string $descriptionKey,
         private readonly ?string $startDate,
         private readonly string $location
     ) {
@@ -28,9 +30,19 @@ final class CourseDto implements \JsonSerializable
         return $this->title;
     }
 
+    public function getTitleKey(): ?string
+    {
+        return $this->titleKey;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    public function getDescriptionKey(): ?string
+    {
+        return $this->descriptionKey;
     }
 
     public function getStartDate(): ?string
@@ -48,7 +60,9 @@ final class CourseDto implements \JsonSerializable
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'titleKey' => $this->titleKey,
             'description' => $this->description,
+            'descriptionKey' => $this->descriptionKey,
             'startDate' => $this->startDate,
             'location' => $this->location,
         ];

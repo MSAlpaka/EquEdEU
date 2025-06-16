@@ -23,7 +23,11 @@ final class Course extends AbstractEntity
 
     protected string $title = '';
 
+    protected ?string $titleKey = null;
+
     protected string $description = '';
+
+    protected ?string $descriptionKey = null;
 
     #[Extbase\ORM\ManyToOne]
     #[Extbase\ORM\Lazy]
@@ -53,6 +57,16 @@ final class Course extends AbstractEntity
         $this->title = $title;
     }
 
+    public function getTitleKey(): ?string
+    {
+        return $this->titleKey;
+    }
+
+    public function setTitleKey(?string $titleKey): void
+    {
+        $this->titleKey = $titleKey;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
@@ -61,6 +75,16 @@ final class Course extends AbstractEntity
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getDescriptionKey(): ?string
+    {
+        return $this->descriptionKey;
+    }
+
+    public function setDescriptionKey(?string $descriptionKey): void
+    {
+        $this->descriptionKey = $descriptionKey;
     }
 
     public function getCourseProgram(): ?CourseProgram
