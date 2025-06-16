@@ -4,7 +4,7 @@
   <p><f:translate key="course.level" />: {course.level}</p>
   <p><f:translate key="course.description" /></p>
 
-  <f:render partial="User/ProgressBar" arguments="{percent: course.progress}" />
+  <f:render partial="User/ProgressBar" arguments="{percent: progress}" />
   <f:link.action action="start" controller="Lesson" arguments="{course: course}" class="btn btn-primary">
     <f:translate key="course.action.start" />
   </f:link.action>

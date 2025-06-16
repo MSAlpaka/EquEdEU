@@ -32,18 +32,21 @@ final class CourseController extends ActionController
         $userAttr = $request->getAttribute('user');
         $userId   = is_array($userAttr) && isset($userAttr['uid']) ? (int)$userAttr['uid'] : 0;
 
-        $data = $this->courseProgressService->getCourseViewModel($courseUid, $userId);
+        $viewModel = $this->courseProgressService->getCourseViewModel($courseUid, $userId);
 
-        if (isset($data['error'])) {
+        if ($viewModel->hasError()) {
             $this->addFlashMessage(
-                $data['error'],
+                $viewModel->getError() ?? '',
                 '',
                 \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
             );
             return $this->redirect('list');
         }
 
-        $this->view->assignMultiple($data);
+        $this->view->assignMultiple([
+            'course'   => $viewModel->getCourse(),
+            'progress' => $viewModel->getProgress(),
+        ]);
 
         return $this->htmlResponse();
     }
