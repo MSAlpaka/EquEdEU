@@ -24,7 +24,6 @@ use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
  */
 final class SubmissionController extends BaseApiController
 {
-
     public function __construct(
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly SubmissionService $submissionService,
@@ -33,7 +32,6 @@ final class SubmissionController extends BaseApiController
         GptTranslationServiceInterface $translationService,
         private readonly AccessHelper $accessHelper,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -134,4 +132,3 @@ final class SubmissionController extends BaseApiController
         return $this->jsonSuccess([], 'api.submission.evaluated');
     }
 }
-// EOF

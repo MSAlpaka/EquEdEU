@@ -30,7 +30,6 @@ final class AppCertificateController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -71,4 +70,3 @@ final class AppCertificateController extends BaseApiController
         return $this->jsonSuccess(['file_path' => $filePath]);
     }
 }
-// End of file

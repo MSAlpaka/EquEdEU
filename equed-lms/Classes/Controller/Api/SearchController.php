@@ -24,7 +24,6 @@ final class SearchController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     public function searchAction(ServerRequestInterface $request): JsonResponse

@@ -19,14 +19,12 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
  */
 final class UserProgressController extends BaseApiController
 {
-
     public function __construct(
         private readonly ProgressServiceInterface $progressService,
         ConfigurationServiceInterface $configurationService,
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -70,4 +68,3 @@ final class UserProgressController extends BaseApiController
         return $this->jsonSuccess(['progress' => $data]);
     }
 }
-// EOF

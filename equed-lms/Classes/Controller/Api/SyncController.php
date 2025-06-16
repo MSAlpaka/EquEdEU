@@ -23,7 +23,6 @@ final class SyncController extends BaseApiController
         GptTranslationServiceInterface $translationService,
         private readonly AccessHelper $accessHelper,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     public function pushAction(ServerRequestInterface $request): JsonResponse

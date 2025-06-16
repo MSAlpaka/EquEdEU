@@ -20,7 +20,6 @@ final class SubmissionRestController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     public function exportAction(ServerRequestInterface $request): JsonResponse

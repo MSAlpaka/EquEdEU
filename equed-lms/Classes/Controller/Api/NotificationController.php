@@ -27,7 +27,6 @@ final class NotificationController extends BaseApiController
         ApiResponseServiceInterface     $apiResponseService,
         GptTranslationServiceInterface  $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -76,4 +75,3 @@ final class NotificationController extends BaseApiController
         return $this->jsonSuccess([], 'api.notifications.markedAsRead');
     }
 }
-// End of file

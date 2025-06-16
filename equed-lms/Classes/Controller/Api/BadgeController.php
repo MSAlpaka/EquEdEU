@@ -20,9 +20,7 @@ final class BadgeController extends ActionController
     public function __construct(
         private readonly BadgeAwardRepositoryInterface  $awardRepository,
         private readonly GptTranslationServiceInterface $translationService,
-
     ) {
-        parent::__construct();
     }
 
     /**
@@ -47,4 +45,3 @@ final class BadgeController extends ActionController
         return $this->htmlResponse();
     }
 }
-// End of file

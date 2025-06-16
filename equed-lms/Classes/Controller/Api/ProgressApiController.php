@@ -27,7 +27,6 @@ final class ProgressApiController extends BaseApiController
         ApiResponseServiceInterface                    $apiResponseService,
         GptTranslationServiceInterface                 $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -61,4 +60,3 @@ final class ProgressApiController extends BaseApiController
         return $this->jsonSuccess($data);
     }
 }
-// End of file

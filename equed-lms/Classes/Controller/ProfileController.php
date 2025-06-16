@@ -23,7 +23,6 @@ final class ProfileController extends ActionController
         private readonly ProfileService                 $profileService,
         private readonly GptTranslationServiceInterface $translationService
     ) {
-        parent::__construct();
     }
 
     /**
@@ -60,4 +59,3 @@ final class ProfileController extends ActionController
         return $this->htmlResponse();
     }
 }
-// EOF

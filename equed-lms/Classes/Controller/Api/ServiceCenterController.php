@@ -26,7 +26,6 @@ final class ServiceCenterController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     public function listQmsCasesAction(ServerRequestInterface $request): JsonResponse

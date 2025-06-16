@@ -27,7 +27,6 @@ final class AppUserController extends BaseApiController
         ApiResponseServiceInterface                      $apiResponseService,
         GptTranslationServiceInterface                   $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -56,4 +55,3 @@ final class AppUserController extends BaseApiController
         return $this->jsonSuccess($profile->jsonSerialize());
     }
 }
-// End of file

@@ -30,7 +30,6 @@ final class QmsController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -112,4 +111,3 @@ final class QmsController extends BaseApiController
         return $this->jsonSuccess([], 'api.qms.closed');
     }
 }
-// EOF

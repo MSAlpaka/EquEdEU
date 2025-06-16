@@ -27,7 +27,6 @@ final class CourseGoalController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -77,4 +76,3 @@ final class CourseGoalController extends BaseApiController
         ]);
     }
 }
-// EOF

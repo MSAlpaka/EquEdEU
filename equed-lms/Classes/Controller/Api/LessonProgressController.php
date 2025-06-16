@@ -28,7 +28,6 @@ final class LessonProgressController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -91,4 +90,3 @@ final class LessonProgressController extends BaseApiController
         ]);
     }
 }
-// End of file

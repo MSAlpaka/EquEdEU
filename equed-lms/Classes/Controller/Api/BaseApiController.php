@@ -21,7 +21,6 @@ abstract class BaseApiController extends ActionController
         protected readonly ApiResponseServiceInterface $apiResponseService,
         protected readonly GptTranslationServiceInterface $translationService
     ) {
-        parent::__construct();
     }
 
     /**
@@ -72,5 +71,3 @@ abstract class BaseApiController extends ActionController
         return new JsonResponse($payload, $status);
     }
 }
-
-// EOF

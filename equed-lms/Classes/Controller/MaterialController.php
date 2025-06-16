@@ -20,7 +20,6 @@ final class MaterialController extends ActionController
     public function __construct(
         private readonly MaterialListServiceInterface $listService,
     ) {
-        parent::__construct();
     }
 
     /**
@@ -41,4 +40,3 @@ final class MaterialController extends ActionController
         return $this->htmlResponse();
     }
 }
-// End of file

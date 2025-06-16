@@ -28,7 +28,6 @@ final class AuthController extends BaseApiController
         ApiResponseServiceInterface                    $apiResponseService,
         GptTranslationServiceInterface                 $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -120,4 +119,3 @@ final class AuthController extends BaseApiController
         ]);
     }
 }
-// End of file

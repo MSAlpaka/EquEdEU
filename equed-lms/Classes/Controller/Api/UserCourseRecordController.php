@@ -26,7 +26,6 @@ final class UserCourseRecordController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -104,4 +103,3 @@ final class UserCourseRecordController extends BaseApiController
         return $this->jsonSuccess([], 'api.userCourseRecord.deleted');
     }
 }
-// End of file

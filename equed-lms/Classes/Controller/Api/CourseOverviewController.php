@@ -28,7 +28,6 @@ final class CourseOverviewController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -54,4 +53,3 @@ final class CourseOverviewController extends BaseApiController
         return $this->jsonSuccess($overview);
     }
 }
-// End of file
