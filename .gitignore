@@ -17,3 +17,6 @@ node_modules/
 .php-cs-fixer.cache
 infection.log
 coverage/
+
+# Build artifacts
+equed-lms/build/
