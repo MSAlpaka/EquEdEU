@@ -27,6 +27,8 @@ final class Lesson extends AbstractEntity
 
     protected ?string $introduction = null;
 
+    protected ?string $introductionKey = null;
+
     protected int $expectedDuration = 0;
 
     protected string $category = '';
@@ -103,6 +105,16 @@ final class Lesson extends AbstractEntity
     public function setIntroduction(?string $introduction): void
     {
         $this->introduction = $introduction;
+    }
+
+    public function getIntroductionKey(): ?string
+    {
+        return $this->introductionKey;
+    }
+
+    public function setIntroductionKey(?string $introductionKey): void
+    {
+        $this->introductionKey = $introductionKey;
     }
 
     public function getExpectedDuration(): int

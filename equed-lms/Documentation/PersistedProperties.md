@@ -388,6 +388,7 @@
 - title
 - titleKey
 - introduction
+- introductionKey
 - expectedDuration
 - category
 - pages
@@ -427,6 +428,7 @@
 - uuid
 - lesson
 - title
+- titleKey
 - content
 - sorting
 - media

@@ -25,6 +25,7 @@ final class LessonDtoAssembler
             static fn (LessonContentPage $p): array => [
                 'type' => $p->getPageType(),
                 'value' => $p->getContent(),
+                'titleKey' => $p->getTitleKey(),
             ],
             $lesson->getPages()->toArray()
         );
@@ -32,6 +33,7 @@ final class LessonDtoAssembler
         return new LessonDto(
             (int)$lesson->getUid(),
             $lesson->getTitle(),
+            $lesson->getTitleKey(),
             $lesson->getUpdatedAt()?->format(DATE_ATOM),
             $lesson->getModule()?->getCourseProgram()?->getUid(),
             $assets,

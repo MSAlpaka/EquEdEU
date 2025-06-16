@@ -24,6 +24,8 @@ final class LessonContentPage extends AbstractEntity
 
     protected string $title = '';
 
+    protected ?string $titleKey = null;
+
     protected string $content = '';
 
     protected int $sorting = 0;
@@ -84,6 +86,16 @@ final class LessonContentPage extends AbstractEntity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getTitleKey(): ?string
+    {
+        return $this->titleKey;
+    }
+
+    public function setTitleKey(?string $titleKey): void
+    {
+        $this->titleKey = $titleKey;
     }
 
     /**

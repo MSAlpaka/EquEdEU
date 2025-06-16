@@ -14,7 +14,9 @@ final class CourseDtoAssembler
         return new CourseDto(
             (int)$course->getUid(),
             $course->getTitle(),
+            $course->getTitleKey(),
             $course->getDescription(),
+            $course->getDescriptionKey(),
             $course->getStartDate()?->format(DATE_ATOM),
             $course->getLocation()
         );
