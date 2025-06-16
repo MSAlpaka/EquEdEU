@@ -23,6 +23,7 @@ final class ExamService implements ExamServiceInterface
         private readonly ExamAttemptRepositoryInterface $examAttemptRepository,
         private readonly ExamAttemptFactoryInterface $examAttemptFactory,
         private readonly ClockInterface $clock,
+        private readonly string $templateBasePath,
         ?FileReaderInterface $fileReader = null
     ) {
         $this->fileReader = $fileReader ?? new LocalFileReader();
@@ -92,7 +93,7 @@ final class ExamService implements ExamServiceInterface
 
     public function loadTemplate(int $templateId): ?array
     {
-        $path = dirname(__DIR__, 2) . '/Resources/Private/ExamTemplates/' . $templateId . '.json';
+        $path = rtrim($this->templateBasePath, '/') . '/' . $templateId . '.json';
         if (!is_file($path)) {
             return null;
         }

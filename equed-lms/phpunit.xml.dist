@@ -41,6 +41,7 @@
         <file>./Tests/Unit/Service/LessonContentServiceTest.php</file>
         <file>./Tests/Unit/Service/CourseStatusUpdaterServiceTest.php</file>
         <file>./Tests/Unit/Service/ExamNotificationServiceTest.php</file>
+        <file>./Tests/Unit/Service/ExamServiceTest.php</file>
         <file>./Tests/Unit/Service/TrainingRecordGeneratorServiceTest.php</file>
         <file>./Tests/Unit/Service/TabsBuilderTest.php</file>
         <file>./Tests/Unit/Service/FilterMetadataProviderTest.php</file>
