@@ -11,6 +11,7 @@ use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\UserCourseRecordCrudServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Dto\UserCourseRecordUpdateRequest;
 
 /**
  * UserCourseRecordController
@@ -72,21 +73,17 @@ final class UserCourseRecordController extends BaseApiController
     public function updateAction(ServerRequestInterface $request): JsonResponse
     {
         $userId = $this->getCurrentUserId($request);
-        $body = $request->getParsedBody();
-        $id = (int)($body['uid'] ?? 0);
-        $status = trim((string)($body['status'] ?? ''));
-        $progress = isset($body['progress']) ? (int)$body['progress'] : null;
-
-        if ($userId === null || $id <= 0 || $status === '') {
+        if ($userId === null) {
             return $this->jsonError('api.userCourseRecord.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $data = ['status' => $status];
-        if ($progress !== null) {
-            $data['progress'] = $progress;
+        $dto = UserCourseRecordUpdateRequest::fromRequest($request);
+
+        if ($dto->getUid() <= 0 || $dto->getStatus() === '') {
+            return $this->jsonError('api.userCourseRecord.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $this->recordService->updateRecord($userId, $id, $data);
+        $this->recordService->updateRecord($userId, $dto);
 
         return $this->jsonSuccess([], 'api.userCourseRecord.updated');
     }

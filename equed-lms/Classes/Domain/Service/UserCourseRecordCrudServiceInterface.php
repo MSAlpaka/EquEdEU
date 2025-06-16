@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Service;
 
+use Equed\EquedLms\Dto\UserCourseRecordUpdateRequest;
+
 /**
  * Provides CRUD operations for user course record API endpoints.
  */
@@ -24,11 +26,9 @@ interface UserCourseRecordCrudServiceInterface
     public function getForUser(int $userId, int $recordId): ?array;
 
     /**
-     * Update a record with the given field values.
-     *
-     * @param array<string, mixed> $fields
+     * Update a record with the given values from request DTO.
      */
-    public function updateRecord(int $userId, int $recordId, array $fields): void;
+    public function updateRecord(int $userId, UserCourseRecordUpdateRequest $request): void;
 
     /**
      * Soft delete a record for the user.
