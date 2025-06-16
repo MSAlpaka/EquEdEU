@@ -6,49 +6,50 @@ namespace Equed\EquedLms\Controller\Api;
 
 use Equed\EquedLms\Service\ServiceCenterDashboardService;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for Service Center dashboard.
  *
  * Feature flag: <service_center_dashboard_api>
  */
-final class ServiceCenterDashboardApiController extends ActionController
+final class ServiceCenterDashboardApiController extends BaseApiController
 {
     public function __construct(
         private readonly ServiceCenterDashboardService $dashboardService,
-        private readonly ConfigurationServiceInterface $configurationService,
-        private readonly GptTranslationServiceInterface $translationService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
-    public function showAction(ServerRequestInterface $request): ResponseInterface
+    public function showAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('service_center_dashboard_api')) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.serviceCenter.dashboardDisabled')
-            ], 403);
+        if (($check = $this->requireFeature('service_center_dashboard_api')) !== null) {
+            return $check;
         }
 
         $user = $request->getAttribute('user');
         $userGroups = is_array($user) ? ($user['usergroup'] ?? []) : [];
 
-        if (!is_array($userGroups) || !in_array('service_center', $userGroups)) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.serviceCenter.unauthorized')
-            ], 401);
+        if (! is_array($userGroups) || ! in_array('service_center', $userGroups, true)) {
+            return $this->jsonError('api.serviceCenter.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $data = $this->dashboardService->getDashboardData();
+        $centerId = $this->getCurrentUserId($request);
+        if ($centerId === null) {
+            return $this->jsonError('api.serviceCenter.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
+        }
 
-        return new JsonResponse([
-            'status' => 'success',
-            'data'   => $data,
+        $data = $this->dashboardService->getDashboardDataForServiceCenter($centerId);
+
+        return $this->jsonSuccess([
+            'data' => $data,
         ]);
     }
 }
