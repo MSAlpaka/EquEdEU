@@ -181,21 +181,25 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     {
         $qb = $this->createQuery()->getQueryBuilder();
         $qb
-            ->select('ucr.uid')
+            ->select('ucr.*')
             ->from('tx_equedlms_domain_model_usercourserecord', 'ucr')
+            ->leftJoin(
+                'ucr',
+                'tx_equedlms_domain_model_badgeaward',
+                'ba',
+                'ba.user_course_record = ucr.uid'
+            )
             ->where(
                 $qb->expr()->isNotNull('ucr.completed_at'),
-                $qb->expr()->eq('ucr.badge_level', $qb->createNamedParameter(BadgeLevel::None->value))
+                $qb->expr()->isNull('ba.uid')
             );
 
-        $uids = $qb->executeQuery()->fetchFirstColumn();
-
-        if ($uids === []) {
-            return [];
-        }
-
         $query = $this->createQuery();
-        $query->matching($query->in('uid', array_map('intval', $uids)));
+        $query->statement(
+            $qb->getSQL(),
+            $qb->getParameters(),
+            $qb->getParameterTypes()
+        );
 
         return $query->execute()->toArray();
     }

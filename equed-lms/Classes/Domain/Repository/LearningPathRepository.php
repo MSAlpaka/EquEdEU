@@ -35,7 +35,7 @@ final class LearningPathRepository extends Repository implements LearningPathRep
     {
         $qb = $this->createQuery()->getQueryBuilder();
         $qb
-            ->select('DISTINCT lp.uid')
+            ->select('DISTINCT lp.*')
             ->from('tx_equedlms_domain_model_learningpath', 'lp')
             ->join('lp', 'tx_equedlms_domain_model_course', 'c', 'c.learning_path = lp.uid')
             ->join('c', 'tx_equedlms_domain_model_courseinstance', 'ci', 'ci.courseprogram = c.courseprogram')
@@ -48,14 +48,12 @@ final class LearningPathRepository extends Repository implements LearningPathRep
             )
             ->where($qb->expr()->isNull('ba.uid'));
 
-        $pathUids = $qb->executeQuery()->fetchFirstColumn();
-
-        if ($pathUids === []) {
-            return [];
-        }
-
         $query = $this->createQuery();
-        $query->matching($query->in('uid', array_map('intval', $pathUids)));
+        $query->statement(
+            $qb->getSQL(),
+            $qb->getParameters(),
+            $qb->getParameterTypes()
+        );
 
         return $query->execute()->toArray();
     }
