@@ -187,6 +187,24 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
     }
 
     /**
+     * Count all submissions with status "submitted".
+     */
+    public function countSubmitted(): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usersubmission')
+            ->where(
+                $qb->expr()->eq('status', $qb->createNamedParameter('submitted'))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
      * Count pending submissions for a specific course instance.
      *
      * @param int $courseInstanceId

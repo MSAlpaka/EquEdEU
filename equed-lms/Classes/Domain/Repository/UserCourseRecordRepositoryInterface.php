@@ -35,4 +35,12 @@ interface UserCourseRecordRepositoryInterface
     public function findCompletedWithoutBadge(): array;
 
     public function findOneByUserAndCourse(int $userId, int $courseUid): ?UserCourseRecord;
+
+    /**
+     * Find active course records for a user.
+     *
+     * @param \Equed\EquedLms\Domain\Model\FrontendUser $user
+     * @return UserCourseRecord[]
+     */
+    public function findActiveByUser(\Equed\EquedLms\Domain\Model\FrontendUser $user): array;
 }
