@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\LessonProgressSyncService;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
@@ -17,43 +17,37 @@ use Equed\EquedLms\Service\GptTranslationServiceInterface;
  *
  * Protected by <lesson_sync_api> feature toggle.
  */
-final class LessonController extends ActionController
+final class LessonController extends BaseApiController
 {
     public function __construct(
         private readonly LessonProgressSyncService $progressService,
-        private readonly ConfigurationServiceInterface $configurationService,
-        private readonly GptTranslationServiceInterface $translationService,
+        ConfigurationServiceInterface $configurationService,
+        ApiResponseServiceInterface $apiResponseService,
+        GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
-    public function exportAction(ServerRequestInterface $request): ResponseInterface
+    public function exportAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('lesson_sync_api')) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.lessonSync.disabled'),
-            ], 403);
+        if (($check = $this->requireFeature('lesson_sync_api')) !== null) {
+            return $check;
         }
 
-        $userContext = $request->getAttribute('user');
-        $userId = is_array($userContext) && isset($userContext['uid']) ? (int)$userContext['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
 
         if ($userId === null) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.lessonSync.unauthorized'),
-            ], 401);
+            return $this->jsonError('api.lessonSync.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         try {
             $progress = $this->progressService->exportForApp($userId);
-            return new JsonResponse([
-                'status' => 'success',
+
+            return $this->jsonSuccess([
                 'progress' => $progress,
             ]);
         } catch (\Throwable $e) {
-            return new JsonResponse([
-                'error' => $this->translationService->translate('api.lessonSync.failed'),
-            ], 500);
+            return $this->jsonError('api.lessonSync.failed', JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
