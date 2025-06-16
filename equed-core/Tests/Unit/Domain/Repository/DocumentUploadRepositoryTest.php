@@ -56,6 +56,6 @@ class DocumentUploadRepositoryTest extends UnitTestCase
     }
 }
 
-/*
+/**
  * Mocked Services: AuthorizationService
  */

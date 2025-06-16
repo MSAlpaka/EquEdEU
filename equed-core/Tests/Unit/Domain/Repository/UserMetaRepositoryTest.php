@@ -33,6 +33,6 @@ class UserMetaRepositoryTest extends UnitTestCase
     }
 }
 
-/*
+/**
  * Mocked Services: AuthorizationService
  */

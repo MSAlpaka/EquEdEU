@@ -33,6 +33,6 @@ class ExternalCertificateRepositoryTest extends UnitTestCase
     }
 }
 
-/*
+/**
  * Mocked Services: AuthorizationService
  */
