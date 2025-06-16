@@ -90,6 +90,8 @@ services:
 
   Equed\EquedLms\Domain\Service\ClockInterface:
     class: Equed\EquedLms\Service\SystemClock
+  Equed\EquedLms\Domain\Service\FileReaderInterface:
+    class: Equed\EquedLms\Service\LocalFileReader
   Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\CourseInstanceRepository
 
