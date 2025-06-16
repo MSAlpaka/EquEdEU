@@ -6,14 +6,17 @@ namespace Equed\EquedLms\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 /**
  * Simple DB-driven operations for QMS API endpoints.
  */
 final class QmsApiService
 {
-    public function __construct(private readonly ConnectionPool $connectionPool)
-    {
+    public function __construct(
+        private readonly ConnectionPool $connectionPool,
+        private readonly ClockInterface $clock
+    ) {
     }
 
     /**
@@ -37,7 +40,7 @@ final class QmsApiService
 
     public function submitCase(int $userId, int $recordId, string $message, string $type = 'general'): void
     {
-        $now = time();
+        $now = $this->clock->now()->getTimestamp();
         $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
             ->insert(
                 'tx_equedlms_domain_model_qms',
@@ -56,7 +59,7 @@ final class QmsApiService
 
     public function respondToCase(int $userId, int $caseId, string $response, string $role = 'certifier'): void
     {
-        $now = time();
+        $now = $this->clock->now()->getTimestamp();
         $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
             ->update(
                 'tx_equedlms_domain_model_qms',
@@ -74,7 +77,7 @@ final class QmsApiService
 
     public function closeCase(int $userId, int $caseId): void
     {
-        $now = time();
+        $now = $this->clock->now()->getTimestamp();
         $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_qms')
             ->update(
                 'tx_equedlms_domain_model_qms',

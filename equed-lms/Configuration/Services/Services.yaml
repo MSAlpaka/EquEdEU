@@ -177,6 +177,22 @@ services:
   Equed\EquedLms\Domain\Service\UserCourseRecordCrudServiceInterface:
     class: Equed\EquedLms\Service\UserCourseRecordCrudService
 
+  Equed\EquedLms\Service\SubmissionService:
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
+
+  Equed\EquedLms\Service\QmsApiService:
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
+
+  Equed\EquedLms\Service\UserAccountService:
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
+
+  Equed\EquedLms\Service\UserCourseRecordCrudService:
+    arguments:
+      $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
+
   Equed\EquedLms\Service\MailServiceInterface:
     class: Equed\EquedLms\Service\Email\MailService
 

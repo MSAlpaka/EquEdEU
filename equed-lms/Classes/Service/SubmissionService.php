@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
+use Equed\EquedLms\Domain\Service\ClockInterface;
 
 /**
  * Service for managing user submissions.
@@ -20,6 +21,7 @@ final class SubmissionService
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly ConnectionPool $connectionPool,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ClockInterface $clock,
     ) {
     }
 
@@ -58,7 +60,7 @@ final class SubmissionService
 
     public function createSubmission(int $userId, int $recordId, string $note, string $file, string $type): void
     {
-        $now = time();
+        $now = $this->clock->now()->getTimestamp();
         $this->getConnection()->insert(
             'tx_equedlms_domain_model_usersubmission',
             [
@@ -77,7 +79,7 @@ final class SubmissionService
 
     public function evaluateSubmission(int $submissionId, string $evaluationNote, string $evaluationFile, string $comment, int $evaluatorId): void
     {
-        $now = time();
+        $now = $this->clock->now()->getTimestamp();
         $this->getConnection()->update(
             'tx_equedlms_domain_model_usersubmission',
             [
