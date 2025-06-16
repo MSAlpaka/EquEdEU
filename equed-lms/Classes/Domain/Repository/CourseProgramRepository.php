@@ -126,6 +126,8 @@ final class CourseProgramRepository extends Repository implements CourseProgramR
      * Count all active programs.
      *
      * Active programs are visible, not archived and available now.
+     *
+     * @return int
      */
     public function countActivePrograms(): int
     {

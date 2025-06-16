@@ -365,6 +365,7 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
      * Count records by status.
      *
      * @param UserCourseStatus|string $status
+     * @return int
      */
     public function countByStatus(UserCourseStatus|string $status): int
     {
@@ -387,6 +388,8 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
 
     /**
      * Count records for a frontend user.
+     *
+     * @return int
      */
     public function countByUserId(int $userId): int
     {
@@ -407,6 +410,7 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
      * Count records for a user filtered by status.
      *
      * @param UserCourseStatus|string $status
+     * @return int
      */
     public function countByUserIdAndStatus(int $userId, UserCourseStatus|string $status): int
     {
@@ -432,6 +436,7 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
      * Count records for a user and course instance with status filter.
      *
      * @param UserCourseStatus|string $status
+     * @return int
      */
     public function countByUserAndInstanceAndStatus(int $userId, int $courseInstanceId, UserCourseStatus|string $status): int
     {
@@ -456,6 +461,8 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
 
     /**
      * Count records for a user within a course program.
+     *
+     * @return int
      */
     public function countByUserIdAndCourseProgram(int $userId, int $courseProgramId): int
     {

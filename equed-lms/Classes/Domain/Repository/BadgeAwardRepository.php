@@ -34,6 +34,11 @@ final class BadgeAwardRepository extends Repository implements BadgeAwardReposit
 
     /**
      * Add a course completion award.
+     *
+     * @param int    $userId   Frontend user UID
+     * @param int    $courseId Course identifier
+     * @param string $label    Description label
+     * @return void
      */
     public function addForCourse(int $userId, int $courseId, string $label): void
     {
@@ -51,6 +56,11 @@ final class BadgeAwardRepository extends Repository implements BadgeAwardReposit
 
     /**
      * Add a learning path completion award.
+     *
+     * @param int    $userId Frontend user UID
+     * @param int    $pathId Learning path identifier
+     * @param string $label  Description label
+     * @return void
      */
     public function addForLearningPath(int $userId, int $pathId, string $label): void
     {

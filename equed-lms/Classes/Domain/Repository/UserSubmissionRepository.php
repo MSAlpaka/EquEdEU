@@ -124,6 +124,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Count submissions for a specific lesson.
+     *
+     * @param Lesson $lesson
+     * @return int
      */
     public function countByLesson(Lesson $lesson): int
     {
@@ -142,6 +145,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Count submissions for a specific practice test.
+     *
+     * @param PracticeTest $practiceTest
+     * @return int
      */
     public function countByPracticeTest(PracticeTest $practiceTest): int
     {
@@ -160,6 +166,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Count submissions with status "submitted" for the given lesson.
+     *
+     * @param Lesson $lesson
+     * @return int
      */
     public function countSubmittedByLesson(Lesson $lesson): int
     {
@@ -179,6 +188,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Count pending submissions for a specific course instance.
+     *
+     * @param int $courseInstanceId
+     * @return int
      */
     public function countPendingByCourseInstance(int $courseInstanceId): int
     {
@@ -198,6 +210,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Count submissions by status.
+     *
+     * @param SubmissionStatus|string $status
+     * @return int
      */
     public function countByStatus(SubmissionStatus|string $status): int
     {
@@ -287,6 +302,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Count submissions for a specific course instance.
+     *
+     * @param int $courseInstanceId
+     * @return int
      */
     public function countByCourseInstance(int $courseInstanceId): int
     {
@@ -335,6 +353,9 @@ final class UserSubmissionRepository extends Repository implements UserSubmissio
 
     /**
      * Find a submission by UID.
+     *
+     * @param int $uid
+     * @return UserSubmission|null
      */
     public function findByUid(int $uid): ?UserSubmission
     {
