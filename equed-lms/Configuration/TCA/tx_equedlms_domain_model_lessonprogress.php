@@ -31,7 +31,6 @@ return [
             'l10n_diffsource',
             'hidden',
             'lesson',
-            'fe_user',
             'user_course_record',
             'progress',
             'status',
@@ -112,17 +111,6 @@ return [
                 'maxitems'      => 1,
             ],
         ],
-        'fe_user' => [
-            'exclude' => false,
-            'label'   => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_lessonprogress.fe_user',
-            'config'  => [
-                'type'          => 'select',
-                'renderType'    => 'selectSingle',
-                'foreign_table' => 'fe_users',
-                'minitems'      => 1,
-                'maxitems'      => 1,
-            ],
-        ],
         'user_course_record' => [
             'exclude' => true,
             'label'   => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_lessonprogress.user_course_record',
@@ -184,7 +172,7 @@ return [
         '1' => [
             'showitem' => '
                 sys_language_uid, l10n_parent, l10n_diffsource,
-                hidden, lesson, fe_user, user_course_record, progress, status, uuid, created_at, updated_at, completed,
+                hidden, lesson, user_course_record, progress, status, uuid, created_at, updated_at, completed,
                 --div--;LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:tabs.access,
                   starttime, endtime
             ',

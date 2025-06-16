@@ -76,7 +76,6 @@ final class LessonProgressSyncService
             $localUpdated = $entry->getUpdatedAt();
 
             if (!$localUpdated || $remoteUpdated > $localUpdated) {
-                $entry->setFeUser($userId);
                 $entry->setLesson($lesson);
                 $entry->setProgress((int) $item['progress']);
                 $statusValue = $item['status'] ?? 'notStarted';

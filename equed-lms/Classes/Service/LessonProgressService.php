@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Model\Lesson;
 use Equed\EquedLms\Domain\Model\LessonProgress;
 use Equed\EquedLms\Domain\Repository\LessonProgressRepositoryInterface;
 use Equed\EquedLms\Domain\Repository\LessonRepositoryInterface;
+use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Service\LessonProgressServiceInterface;
 use Equed\EquedLms\Enum\ProgressStatus;
@@ -23,6 +24,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
     public function __construct(
         private readonly LessonProgressRepositoryInterface $progressRepository,
         private readonly LessonRepositoryInterface $lessonRepository,
+        private readonly UserCourseRecordRepositoryInterface $courseRecordRepository,
         private readonly ClockInterface $clock,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
@@ -56,7 +58,8 @@ final class LessonProgressService implements LessonProgressServiceInterface
 
         if ($progress === null) {
             $progress = new LessonProgress();
-            $progress->setFeUser((int) $user->getUid());
+            $records = $this->courseRecordRepository->findByUserId((int) $user->getUid());
+            $progress->setUserCourseRecord($records[0] ?? null);
             $progress->setLesson($lesson);
         }
 
@@ -82,7 +85,8 @@ final class LessonProgressService implements LessonProgressServiceInterface
         if ($progress === null) {
             $lesson = $this->lessonRepository->findByUid($lessonId);
             $progress = new LessonProgress();
-            $progress->setFeUser($userId);
+            $records = $this->courseRecordRepository->findByUserId($userId);
+            $progress->setUserCourseRecord($records[0] ?? null);
             if ($lesson instanceof Lesson) {
                 $progress->setLesson($lesson);
             }
