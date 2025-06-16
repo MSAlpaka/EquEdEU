@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Annotation\Inject;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\ProgressRecordStatus;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -34,7 +35,7 @@ final class UserProgressRecord extends AbstractEntity
     #[Lazy]
     protected ?Lesson $lesson = null;
 
-    protected string $status = 'incomplete';
+    protected ProgressRecordStatus $status = ProgressRecordStatus::Incomplete;
     protected ?string $statusKey = null;
 
     protected string $lessonPage = '';
@@ -122,18 +123,20 @@ final class UserProgressRecord extends AbstractEntity
     /**
      * Gets the progress status.
      */
-    public function getStatus(): string
+    public function getStatus(): ProgressRecordStatus
     {
         return $this->status;
     }
 
     /**
      * Sets the progress status.
-     *
-     * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(ProgressRecordStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = ProgressRecordStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

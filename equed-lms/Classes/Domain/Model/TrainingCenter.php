@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\TrainingCenterStatus;
 
 use DateTimeImmutable;
 use Equed\Core\Service\ClockInterface;
@@ -54,7 +55,7 @@ final class TrainingCenter extends AbstractEntity
 
     protected ?DateTimeImmutable $certifiedUntil = null;
 
-    protected string $status = 'active';
+    protected TrainingCenterStatus $status = TrainingCenterStatus::Active;
 
     protected string $country = '';
 
@@ -286,13 +287,17 @@ final class TrainingCenter extends AbstractEntity
         $this->certifiedUntil = $certifiedUntil;
     }
 
-    public function getStatus(): string
+    public function getStatus(): TrainingCenterStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(TrainingCenterStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = TrainingCenterStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

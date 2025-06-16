@@ -95,8 +95,13 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_userprofile.profile_status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
+                'type' => 'select',
+                'items' => [
+                    ['Active', 'active'],
+                    ['Paused', 'paused'],
+                    ['Under Review', 'review'],
+                ],
+                'default' => 'active',
             ]
         ],
         'profile_status_key' => [

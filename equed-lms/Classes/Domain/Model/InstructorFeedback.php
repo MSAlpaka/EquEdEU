@@ -12,6 +12,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\FeedbackStatus;
 
 /**
  * InstructorFeedback
@@ -38,7 +39,7 @@ final class InstructorFeedback extends AbstractEntity
 
     protected int $rating = 0;
 
-    protected string $status = 'submitted';
+    protected FeedbackStatus $status = FeedbackStatus::Submitted;
 
     protected bool $visibleToParticipant = false;
 
@@ -121,13 +122,17 @@ final class InstructorFeedback extends AbstractEntity
         $this->rating = $rating;
     }
 
-    public function getStatus(): string
+    public function getStatus(): FeedbackStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(FeedbackStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = FeedbackStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

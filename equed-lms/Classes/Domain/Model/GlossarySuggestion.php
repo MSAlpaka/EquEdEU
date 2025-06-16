@@ -10,6 +10,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\GlossarySuggestionStatus;
 
 /**
  * GlossarySuggestion
@@ -67,10 +68,8 @@ final class GlossarySuggestion extends AbstractEntity
 
     /**
      * Current review status (pending | approved | rejected)
-     *
-     * @var string
      */
-    protected string $status = 'pending'; // pending | approved | rejected
+    protected GlossarySuggestionStatus $status = GlossarySuggestionStatus::Pending;
 
     /**
      * Optional admin review comment
@@ -173,13 +172,17 @@ final class GlossarySuggestion extends AbstractEntity
         $this->language = $language;
     }
 
-    public function getStatus(): string
+    public function getStatus(): GlossarySuggestionStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(GlossarySuggestionStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = GlossarySuggestionStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

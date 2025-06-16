@@ -12,6 +12,7 @@ use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\FeedbackStatus;
 
 /**
  * Domain model for training center feedback.
@@ -44,7 +45,7 @@ final class TrainingCenterFeedback extends AbstractEntity
 
     protected ?string $comment = null;
 
-    protected string $status = 'submitted';
+    protected FeedbackStatus $status = FeedbackStatus::Submitted;
 
     protected bool $visibleToCenter = true;
 
@@ -188,7 +189,7 @@ final class TrainingCenterFeedback extends AbstractEntity
     /**
      * Gets the feedback status.
      */
-    public function getStatus(): string
+    public function getStatus(): FeedbackStatus
     {
         return $this->status;
     }
@@ -196,8 +197,12 @@ final class TrainingCenterFeedback extends AbstractEntity
     /**
      * Sets the feedback status.
      */
-    public function setStatus(string $status): void
+    public function setStatus(FeedbackStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = FeedbackStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

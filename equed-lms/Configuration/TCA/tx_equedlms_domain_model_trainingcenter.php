@@ -93,8 +93,13 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_trainingcenter.status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
+                'type' => 'select',
+                'items' => [
+                    ['Aktiv', 'active'],
+                    ['Inaktiv', 'inactive'],
+                    ['Gesperrt', 'suspended'],
+                ],
+                'default' => 'active',
             ]
         ],
         'allowed_programs' => [

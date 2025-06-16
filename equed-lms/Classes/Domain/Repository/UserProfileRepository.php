@@ -10,6 +10,7 @@ use Equed\EquedLms\Enum\BadgeLevel;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
+use Equed\EquedLms\Enum\UserProfileStatus;
 
 /**
  * Repository for UserProfile entities.
@@ -104,13 +105,17 @@ final class UserProfileRepository extends Repository implements UserProfileRepos
      * @param string $status Enum: active, paused, review
      * @return UserProfile[]
      */
-    public function findByStatus(string $status): array
+    public function findByStatus(UserProfileStatus|string $status): array
     {
+        if (is_string($status)) {
+            $status = UserProfileStatus::from($status);
+        }
+
         $query = $this->createQuery();
 
         return $query
             ->matching(
-                $query->equals('profileStatus', $status)
+                $query->equals('profileStatus', $status->value)
             )
             ->execute()
             ->toArray();

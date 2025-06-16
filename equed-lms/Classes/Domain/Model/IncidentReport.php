@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Enum\IncidentReportStatus;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -48,7 +49,7 @@ final class IncidentReport extends AbstractEntity
     protected string $severityKey = '';
 
     /** Current processing status */
-    protected string $status = 'open';
+    protected IncidentReportStatus $status = IncidentReportStatus::Open;
 
     /** Optional comment by instructor */
     protected ?string $commentInstructor = null;
@@ -167,13 +168,17 @@ final class IncidentReport extends AbstractEntity
         $this->severityKey = $key;
     }
 
-    public function getStatus(): string
+    public function getStatus(): IncidentReportStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(IncidentReportStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = IncidentReportStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

@@ -13,6 +13,7 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use Equed\EquedLms\Enum\LanguageCode;
+use Equed\EquedLms\Enum\FeedbackStatus;
 
 final class CourseFeedback extends AbstractEntity
 {
@@ -60,7 +61,7 @@ final class CourseFeedback extends AbstractEntity
     protected ?string $comment = null;
 
     /** Submission status */
-    protected string $status = 'submitted';
+    protected FeedbackStatus $status = FeedbackStatus::Submitted;
 
     /** Creation timestamp */
     protected DateTimeImmutable $createdAt;
@@ -201,13 +202,17 @@ final class CourseFeedback extends AbstractEntity
         $this->comment = $comment;
     }
 
-    public function getStatus(): string
+    public function getStatus(): FeedbackStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(FeedbackStatus|string $status): void
     {
+        if (is_string($status)) {
+            $status = FeedbackStatus::from($status);
+        }
+
         $this->status = $status;
     }
 

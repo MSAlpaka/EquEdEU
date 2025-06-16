@@ -115,8 +115,12 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:equed_lms/Resources/Private/Language/locallang_db.xlf:tx_equedlms_domain_model_trainingcenterfeedback.status',
             'config' => [
-                'type' => 'input',
-                'eval' => 'trim'
+                'type' => 'select',
+                'items' => [
+                    ['Submitted', 'submitted'],
+                    ['Reviewed', 'reviewed'],
+                ],
+                'default' => 'submitted',
             ]
         ],
         'is_internal' => [
