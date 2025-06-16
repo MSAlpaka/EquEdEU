@@ -6,15 +6,15 @@ namespace Equed\EquedLms\Service;
 
 use DateTimeImmutable;
 use Equed\EquedLms\Domain\Service\ClockInterface;
-use Psr\Cache\CacheItemPoolInterface;
+use Equed\EquedLms\Service\Dashboard\CacheManager;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Domain\Repository\CertificateDispatchRepositoryInterface;
-use Equed\EquedLms\Domain\Repository\NotificationRepositoryInterface;
 use Equed\EquedLms\Service\ProgressServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\DashboardServiceInterface;
 use Equed\EquedLms\Service\Dashboard\TabsBuilder;
 use Equed\EquedLms\Service\Dashboard\FilterMetadataProvider;
+use Equed\EquedLms\Service\Dashboard\NotificationAggregator;
 use Equed\EquedLms\Dto\DashboardData;
 
 /**
@@ -24,18 +24,17 @@ use Equed\EquedLms\Dto\DashboardData;
  */
 final class DashboardService implements DashboardServiceInterface
 {
-    private const CACHE_TTL_SECONDS = 600;
 
     public function __construct(
         private readonly CertificateDispatchRepositoryInterface $certificateRepo,
-        private readonly NotificationRepositoryInterface        $notificationRepo,
         private readonly ProgressServiceInterface               $progressService,
         private readonly GptTranslationServiceInterface         $translationService,
-        private readonly CacheItemPoolInterface                 $cachePool,
         private readonly bool                                   $gptAnalysisEnabled,
         private readonly ClockInterface                         $clock,
         private readonly TabsBuilder                            $tabsBuilder,
         private readonly FilterMetadataProvider                 $filterProvider,
+        private readonly NotificationAggregator                 $notificationAggregator,
+        private readonly CacheManager                           $cacheManager,
     ) {
     }
 
@@ -46,16 +45,14 @@ final class DashboardService implements DashboardServiceInterface
      */
     public function getDashboardDataForUser(FrontendUser $user): DashboardData
     {
-        $userId    = $user->getUid();
-        $cacheKey  = 'dashboard_user_' . $userId;
-        $cacheItem = $this->cachePool->getItem($cacheKey);
+        $userId = $user->getUid();
+        $cached = $this->cacheManager->fetch($userId);
 
-        if ($cacheItem->isHit()) {
-            return $cacheItem->get();
+        if ($cached !== null) {
+            return $cached;
         }
 
-        $certificateList   = $this->certificateRepo->findByFeUser($user);
-        $notificationList  = $this->notificationRepo->findLatestByUser($user);
+        $certificateList = $this->certificateRepo->findByFeUser($user);
 
         // Batch latest certificate per course instance
         $latestCertificates = [];
@@ -76,9 +73,9 @@ final class DashboardService implements DashboardServiceInterface
             $this->tabsBuilder->build($user, $latestCertificates),
             $this->filterProvider->getMetadata(),
             $this->progressService->getProgressDataForUser($user),
-            $this->buildNotificationsData($notificationList),
+            $this->notificationAggregator->aggregate($user),
             [
-                'ttl'       => self::CACHE_TTL_SECONDS,
+                'ttl'       => CacheManager::CACHE_TTL_SECONDS,
                 'fetchedAt' => $this->clock->now()->format(DateTimeImmutable::ATOM),
             ],
             [
@@ -86,8 +83,7 @@ final class DashboardService implements DashboardServiceInterface
             ],
         );
 
-        $cacheItem->set($data)->expiresAfter(self::CACHE_TTL_SECONDS);
-        $this->cachePool->save($cacheItem);
+        $this->cacheManager->save($userId, $data);
 
         return $data;
     }
@@ -110,19 +106,5 @@ final class DashboardService implements DashboardServiceInterface
             'roles' => $roles,
         ];
     }
-
-
-    private function buildNotificationsData(array $notifications): array
-    {
-        $result = [];
-        foreach ($notifications as $note) {
-            $result[] = [
-                'type'          => $note->getType(),
-                'titleKey'      => $note->getTitleKey(),
-                'customMessage' => $note->getCustomMessage(),
-                'date'          => $note->getCreatedAt()?->format('Y-m-d H:i') ?? '',
-            ];
-        }
-        return $result;
-    }
 }
+
