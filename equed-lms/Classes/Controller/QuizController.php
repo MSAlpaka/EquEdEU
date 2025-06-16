@@ -23,7 +23,6 @@ final class QuizController extends ActionController
     public function __construct(
         private readonly QuizManagerInterface $quizManager
     ) {
-        parent::__construct();
     }
 
     /**
@@ -104,4 +103,3 @@ final class QuizController extends ActionController
         return $this->htmlResponse();
     }
 }
-// EOF

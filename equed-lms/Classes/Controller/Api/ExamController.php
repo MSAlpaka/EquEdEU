@@ -27,7 +27,6 @@ final class ExamController extends BaseApiController
         ApiResponseServiceInterface                    $apiResponseService,
         GptTranslationServiceInterface                 $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -85,4 +84,3 @@ final class ExamController extends BaseApiController
         return $this->jsonSuccess($result);
     }
 }
-// EOF

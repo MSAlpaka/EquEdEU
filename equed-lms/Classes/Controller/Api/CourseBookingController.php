@@ -26,7 +26,6 @@ final class CourseBookingController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -60,4 +59,3 @@ final class CourseBookingController extends BaseApiController
         return $this->jsonSuccess([], 'api.courseBooking.success');
     }
 }
-// End of file

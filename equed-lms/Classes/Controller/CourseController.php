@@ -20,7 +20,6 @@ final class CourseController extends ActionController
     public function __construct(
         private readonly CourseProgressServiceInterface $courseProgressService
     ) {
-        parent::__construct();
     }
 
     /**
@@ -51,4 +50,3 @@ final class CourseController extends ActionController
         return $this->htmlResponse();
     }
 }
-// End of file

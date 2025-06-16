@@ -19,7 +19,6 @@ final class GlossaryController extends ActionController
     public function __construct(
         private readonly GlossaryServiceInterface $glossaryService
     ) {
-        parent::__construct();
     }
 
     public function listAction(ServerRequestInterface $request): ResponseInterface
@@ -35,5 +34,5 @@ final class GlossaryController extends ActionController
         ]);
     }
 
-    
+
 }

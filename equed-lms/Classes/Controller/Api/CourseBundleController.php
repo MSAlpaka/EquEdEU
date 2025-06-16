@@ -27,7 +27,6 @@ final class CourseBundleController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -52,4 +51,3 @@ final class CourseBundleController extends BaseApiController
         return $this->jsonSuccess(['bundles' => $bundles]);
     }
 }
-// End of file

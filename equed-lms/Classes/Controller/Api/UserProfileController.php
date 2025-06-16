@@ -26,7 +26,6 @@ final class UserProfileController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -76,4 +75,3 @@ final class UserProfileController extends BaseApiController
         return $this->jsonSuccess([], 'api.userProfile.updated');
     }
 }
-// End of file

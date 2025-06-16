@@ -25,7 +25,6 @@ final class ServiceCenterDashboardApiController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     public function showAction(ServerRequestInterface $request): JsonResponse

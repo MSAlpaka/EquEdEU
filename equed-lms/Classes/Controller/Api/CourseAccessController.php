@@ -30,7 +30,6 @@ final class CourseAccessController extends BaseApiController
         GptTranslationServiceInterface $translationService,
         private readonly Context $context,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -63,4 +62,3 @@ final class CourseAccessController extends BaseApiController
         ]);
     }
 }
-// End of file

@@ -27,7 +27,6 @@ final class InstructorActionController extends BaseApiController
         ApiResponseServiceInterface             $apiResponseService,
         GptTranslationServiceInterface          $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -95,4 +94,3 @@ final class InstructorActionController extends BaseApiController
         return $this->jsonSuccess([], 'api.instructor.evaluationUploaded');
     }
 }
-// EOF

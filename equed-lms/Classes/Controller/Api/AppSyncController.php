@@ -27,7 +27,6 @@ final class AppSyncController extends BaseApiController
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
     ) {
-        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -86,4 +85,3 @@ final class AppSyncController extends BaseApiController
         ]);
     }
 }
-// EOF

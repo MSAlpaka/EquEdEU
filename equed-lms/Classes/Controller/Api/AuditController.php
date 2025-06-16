@@ -22,7 +22,6 @@ final class AuditController extends ActionController
         private readonly AuditLogRepositoryInterface     $auditLogRepository,
         private readonly GptTranslationServiceInterface  $translationService,
     ) {
-        parent::__construct();
     }
 
     /**
@@ -45,4 +44,3 @@ final class AuditController extends ActionController
         return $this->htmlResponse();
     }
 }
-// EOF
