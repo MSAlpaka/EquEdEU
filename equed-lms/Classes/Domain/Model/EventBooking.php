@@ -1,12 +1,11 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Equed\EquedLms\Domain\Model;
-use DateTimeImmutable;
-use Ramsey\Uuid\Uuid;
-use Equed\EquedLms\Enum\LanguageCode;
-use Equed\EquedLms\Enum\EventBookingStatus;
+
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * EventBooking
  *
@@ -15,71 +14,134 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 final class EventBooking extends AbstractEntity
 {
     protected int $user = 0;
+
     protected int $eventSchedule = 0;
-    protected EventBookingStatus $bookingStatus = EventBookingStatus::Pending;
+
+    protected int $bookingStatus = 0;
+
     protected string $comment = '';
+
     protected bool $confirmedByInstructor = false;
-    protected ?DateTimeImmutable $confirmationDatetime = null;
+
+    protected string $confirmationDatetime = '';
+
     protected string $cancelledReason = '';
-    protected LanguageCode $language = LanguageCode::EN;
+
+    protected string $language = '';
+
     protected string $uuid = '';
-    protected DateTimeImmutable $createdAt;
-    protected DateTimeImmutable $updatedAt;
-    public function initializeObject(): void
-    {
-        if ($this->uuid === '') {
-            $this->uuid = Uuid::uuid4()->toString();
-        }
-        $now = new DateTimeImmutable();
-        if (!isset($this->createdAt)) {
-            $this->createdAt = $now;
-        if (!isset($this->updatedAt)) {
-            $this->updatedAt = $now;
-    }
+
+    protected string $createdAt = '';
+
+    protected string $updatedAt = '';
+
     public function getUser(): int
+    {
         return $this->user;
+    }
+
     public function setUser(int $user): void
+    {
         $this->user = $user;
+    }
+
     public function getEventSchedule(): int
+    {
         return $this->eventSchedule;
+    }
+
     public function setEventSchedule(int $eventSchedule): void
+    {
         $this->eventSchedule = $eventSchedule;
-    public function getBookingStatus(): EventBookingStatus
+    }
+
+    public function getBookingStatus(): int
+    {
         return $this->bookingStatus;
-    public function setBookingStatus(EventBookingStatus|string $bookingStatus): void
-        if (is_string($bookingStatus)) {
-            $bookingStatus = EventBookingStatus::from($bookingStatus);
+    }
+
+    public function setBookingStatus(int $bookingStatus): void
+    {
         $this->bookingStatus = $bookingStatus;
+    }
+
     public function getComment(): string
+    {
         return $this->comment;
+    }
+
     public function setComment(string $comment): void
+    {
         $this->comment = $comment;
+    }
+
     public function isConfirmedByInstructor(): bool
+    {
         return $this->confirmedByInstructor;
+    }
+
     public function setConfirmedByInstructor(bool $confirmedByInstructor): void
+    {
         $this->confirmedByInstructor = $confirmedByInstructor;
-    public function getConfirmationDatetime(): ?DateTimeImmutable
+    }
+
+    public function getConfirmationDatetime(): string
+    {
         return $this->confirmationDatetime;
-    public function setConfirmationDatetime(?DateTimeImmutable $confirmationDatetime): void
+    }
+
+    public function setConfirmationDatetime(string $confirmationDatetime): void
+    {
         $this->confirmationDatetime = $confirmationDatetime;
+    }
+
     public function getCancelledReason(): string
+    {
         return $this->cancelledReason;
+    }
+
     public function setCancelledReason(string $cancelledReason): void
+    {
         $this->cancelledReason = $cancelledReason;
-    public function getLanguage(): LanguageCode
+    }
+
+    public function getLanguage(): string
+    {
         return $this->language;
-    public function setLanguage(LanguageCode $language): void
+    }
+
+    public function setLanguage(string $language): void
+    {
         $this->language = $language;
+    }
+
     public function getUuid(): string
+    {
         return $this->uuid;
+    }
+
     public function setUuid(string $uuid): void
+    {
         $this->uuid = $uuid;
-    public function getCreatedAt(): DateTimeImmutable
+    }
+
+    public function getCreatedAt(): string
+    {
         return $this->createdAt;
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    }
+
+    public function setCreatedAt(string $createdAt): void
+    {
         $this->createdAt = $createdAt;
-    public function getUpdatedAt(): DateTimeImmutable
+    }
+
+    public function getUpdatedAt(): string
+    {
         return $this->updatedAt;
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
+    }
+
+    public function setUpdatedAt(string $updatedAt): void
+    {
         $this->updatedAt = $updatedAt;
+    }
 }
