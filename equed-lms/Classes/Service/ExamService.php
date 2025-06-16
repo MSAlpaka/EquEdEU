@@ -83,4 +83,32 @@ final class ExamService implements ExamServiceInterface
 
         return false;
     }
+
+    public function loadTemplate(int $templateId): ?array
+    {
+        $path = dirname(__DIR__, 2) . '/Resources/Private/ExamTemplates/' . $templateId . '.json';
+        if (!is_file($path)) {
+            return null;
+        }
+
+        $content = file_get_contents($path);
+        if ($content === false) {
+            return null;
+        }
+
+        return json_decode($content, true) ?: null;
+    }
+
+    public function submitAttempt(int $feUserId, int $templateId, array $answers): array
+    {
+        $attempt = $this->createAttempt($feUserId, $templateId);
+
+        $score = count($answers);
+        $this->markAttemptAsScored($attempt, $score);
+
+        return [
+            'attemptId' => $attempt->getUid(),
+            'score'     => $score,
+        ];
+    }
 }

@@ -42,4 +42,22 @@ interface ExamServiceInterface
      * @return bool           True if a scored attempt exists, false otherwise
      */
     public function hasCompletedAttempt(int $feUserId, int $templateId): bool;
+
+    /**
+     * Load an exam template with questions.
+     *
+     * @param int $templateId Template UID
+     * @return array|null     Template data or null if not found
+     */
+    public function loadTemplate(int $templateId): ?array;
+
+    /**
+     * Submit answers for an exam template and return the result.
+     *
+     * @param int          $feUserId   Frontend user UID
+     * @param int          $templateId Exam template UID
+     * @param array<mixed> $answers    Submitted answers
+     * @return array<string,mixed>     Result data
+     */
+    public function submitAttempt(int $feUserId, int $templateId, array $answers): array;
 }

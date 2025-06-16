@@ -7,9 +7,10 @@ namespace Equed\EquedLms\Controller\Api;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
+use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ExamServiceInterface;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
  * API controller for loading exam templates and submitting attempts.
@@ -18,14 +19,15 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * with fallback chain (EN → DE → FR → ES → SW → EASY).
  * Execution is guarded by the <exam_api> feature toggle.
  */
-final class ExamController extends ActionController
+final class ExamController extends BaseApiController
 {
     public function __construct(
-        private readonly ExamServiceInterface              $examService,
-        private readonly ConfigurationServiceInterface     $configurationService,
-        private readonly GptTranslationServiceInterface    $translationService,
+        private readonly ExamServiceInterface           $examService,
+        ConfigurationServiceInterface                  $configurationService,
+        ApiResponseServiceInterface                    $apiResponseService,
+        GptTranslationServiceInterface                 $translationService,
     ) {
-        parent::__construct();
+        parent::__construct($configurationService, $apiResponseService, $translationService);
     }
 
     /**
@@ -36,34 +38,22 @@ final class ExamController extends ActionController
      */
     public function loadTemplateAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('exam_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.exam.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('exam_api')) !== null) {
+            return $check;
         }
 
         $params     = $request->getQueryParams();
         $templateId = isset($params['templateId']) ? (int)$params['templateId'] : 0;
         if ($templateId <= 0) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.exam.missingTemplateId')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.exam.missingTemplateId', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $template = $this->examService->loadTemplate($templateId);
         if ($template === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.exam.templateNotFound')],
-                JsonResponse::HTTP_NOT_FOUND
-            );
+            return $this->jsonError('api.exam.templateNotFound', JsonResponse::HTTP_NOT_FOUND);
         }
 
-        return new JsonResponse([
-            'status'   => 'success',
-            'template' => $template,
-        ]);
+        return $this->jsonSuccess(['template' => $template]);
     }
 
     /**
@@ -74,35 +64,25 @@ final class ExamController extends ActionController
      */
     public function submitAttemptAction(ServerRequestInterface $request): JsonResponse
     {
-        if (! $this->configurationService->isFeatureEnabled('exam_api')) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.exam.disabled')],
-                JsonResponse::HTTP_FORBIDDEN
-            );
+        if (($check = $this->requireFeature('exam_api')) !== null) {
+            return $check;
         }
 
-        $userContext = $request->getAttribute('user');
-        $userId      = is_array($userContext) && isset($userContext['uid']) ? (int)$userContext['uid'] : null;
+        $userId = $this->getCurrentUserId($request);
         if ($userId === null) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.exam.unauthorized')],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->jsonError('api.exam.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $body       = (array)$request->getParsedBody();
         $templateId = isset($body['templateId']) ? (int)$body['templateId'] : 0;
         $answers    = $body['answers'] ?? [];
         if ($templateId <= 0 || !is_array($answers) || empty($answers)) {
-            return new JsonResponse(
-                ['error' => $this->translationService->translate('api.exam.invalidInput')],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->jsonError('api.exam.invalidInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $result = $this->examService->submitAttempt($userId, $templateId, $answers);
 
-        return new JsonResponse(array_merge(['status' => 'success'], $result));
+        return $this->jsonSuccess($result);
     }
 }
 // EOF
