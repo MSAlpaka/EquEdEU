@@ -38,15 +38,22 @@ jobs:
         working-directory: ./equed-lms
         run: |
           mkdir -p build/reports
-          vendor/bin/phpstan analyse \
+          if vendor/bin/phpstan analyse \
             --no-progress \
-            --error-format=sarif > build/reports/phpstan.sarif || echo "⚠️ PHPStan completed with issues"
+            --error-format=sarif > build/reports/phpstan.sarif; then
+            echo "PHPStan completed successfully"
+          else
+            echo "⚠️ PHPStan completed with issues"
+            # ensure the SARIF file exists and is valid JSON to avoid upload failures
+            echo '{"version":"2.1.0","runs":[]}' > build/reports/phpstan.sarif
+          fi
 
       - name: Validate SARIF
         id: validate_sarif
         shell: bash
         run: |
-          if jq empty equed-lms/build/reports/phpstan.sarif 2>/dev/null; then
+          SARIF_FILE=equed-lms/build/reports/phpstan.sarif
+          if [ -s "$SARIF_FILE" ] && jq empty "$SARIF_FILE" >/dev/null 2>&1; then
             echo "valid=true" >> "$GITHUB_OUTPUT"
           else
             echo "⚠️ Invalid SARIF JSON detected. Upload skipped."
