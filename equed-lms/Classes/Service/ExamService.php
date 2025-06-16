@@ -6,6 +6,8 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Domain\Service\ExamServiceInterface;
+use Equed\EquedLms\Domain\Service\FileReaderInterface;
+use Equed\EquedLms\Service\LocalFileReader;
 use Equed\EquedLms\Domain\Model\ExamAttempt;
 use Equed\EquedLms\Domain\Repository\ExamAttemptRepositoryInterface;
 use Equed\EquedLms\Factory\ExamAttemptFactoryInterface;
@@ -15,11 +17,15 @@ use Equed\EquedLms\Factory\ExamAttemptFactoryInterface;
  */
 final class ExamService implements ExamServiceInterface
 {
+    private readonly FileReaderInterface $fileReader;
+
     public function __construct(
-        private readonly ExamAttemptRepositoryInterface  $examAttemptRepository,
-        private readonly ExamAttemptFactoryInterface     $examAttemptFactory,
-        private readonly ClockInterface                  $clock
+        private readonly ExamAttemptRepositoryInterface $examAttemptRepository,
+        private readonly ExamAttemptFactoryInterface $examAttemptFactory,
+        private readonly ClockInterface $clock,
+        ?FileReaderInterface $fileReader = null
     ) {
+        $this->fileReader = $fileReader ?? new LocalFileReader();
     }
 
     /**
@@ -91,7 +97,7 @@ final class ExamService implements ExamServiceInterface
             return null;
         }
 
-        $content = file_get_contents($path);
+        $content = $this->fileReader->read($path);
         if ($content === false) {
             return null;
         }
