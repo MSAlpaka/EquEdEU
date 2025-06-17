@@ -93,7 +93,14 @@ final class SubmissionSyncService
             $submission->setUuid(Uuid::uuid4()->toString());
         }
 
-        $remoteUpdated = new \DateTimeImmutable($data['updatedAt'] ?? 'now');
+        if (isset($data['updatedAt'])) {
+            $remoteUpdated = \DateTimeImmutable::createFromFormat(DATE_ATOM, $data['updatedAt']);
+            if ($remoteUpdated === false) {
+                $remoteUpdated = new \DateTimeImmutable();
+            }
+        } else {
+            $remoteUpdated = new \DateTimeImmutable();
+        }
         $localUpdated = $submission->getUpdatedAt();
 
         if (!$localUpdated || $remoteUpdated > $localUpdated) {

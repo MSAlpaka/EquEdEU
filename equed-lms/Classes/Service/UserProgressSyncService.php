@@ -57,9 +57,8 @@ final class UserProgressSyncService
                 continue;
             }
 
-            try {
-                $remoteTime = new \DateTimeImmutable($data['updatedAt']);
-            } catch (\Exception $e) {
+            $remoteTime = \DateTimeImmutable::createFromFormat(DATE_ATOM, $data['updatedAt']);
+            if ($remoteTime === false) {
                 $this->logService->logWarning(
                     'Invalid timestamp for progress sync',
                     ['value' => $data['updatedAt'], 'recordId' => $data['recordId']]
