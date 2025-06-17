@@ -169,6 +169,13 @@ services:
   Equed\EquedLms\Service\TrainingRecordGeneratorService:
     arguments:
       $outputDirectory: '%equed_lms.training_record_output_path%'
+      $filesystem: '@Symfony\Component\Filesystem\Filesystem'
+      $pdfFactory: '@Equed\EquedLms\Factory\TcpdfFactory'
+      $zipFactory: '@Equed\EquedLms\Factory\ZipArchiveFactory'
+
+  Equed\EquedLms\Factory\TcpdfFactory: ~
+
+  Equed\EquedLms\Factory\ZipArchiveFactory: ~
 
   Equed\EquedLms\Domain\Service\ExamNotificationServiceInterface:
     class: Equed\EquedLms\Service\ExamNotificationService

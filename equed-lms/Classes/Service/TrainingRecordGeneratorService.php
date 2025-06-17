@@ -30,9 +30,9 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
     private readonly \Closure $zipFactory;
 
     /**
-     * @param string                $outputDirectory Absolute path for storing generated files
-     * @param callable(): TCPDF|null       $pdfFactory   Factory for TCPDF instances
-     * @param callable(): ZipArchive|null  $zipFactory   Factory for ZipArchive instances
+     * @param string               $outputDirectory Absolute path for storing generated files
+     * @param callable(): TCPDF    $pdfFactory      Factory for TCPDF instances
+     * @param callable(): ZipArchive $zipFactory     Factory for ZipArchive instances
      *
      * @throws RuntimeException If the output directory cannot be created
      */
@@ -40,18 +40,14 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         string $outputDirectory,
         LanguageServiceInterface $translationService,
         LogService $logService,
-        ?Filesystem $filesystem = null,
-        ?callable $pdfFactory = null,
-        ?callable $zipFactory = null
+        Filesystem $filesystem,
+        callable $pdfFactory,
+        callable $zipFactory
     ) {
         $this->outputDirectory = rtrim($outputDirectory, '/');
-        $this->filesystem = $filesystem ?? new Filesystem();
-        $this->pdfFactory = $pdfFactory !== null
-            ? Closure::fromCallable($pdfFactory)
-            : static fn (): TCPDF => new TCPDF();
-        $this->zipFactory = $zipFactory !== null
-            ? Closure::fromCallable($zipFactory)
-            : static fn (): ZipArchive => new ZipArchive();
+        $this->filesystem = $filesystem;
+        $this->pdfFactory = Closure::fromCallable($pdfFactory);
+        $this->zipFactory = Closure::fromCallable($zipFactory);
         $this->injectTranslatedLogger($translationService, $logService);
     }
 
