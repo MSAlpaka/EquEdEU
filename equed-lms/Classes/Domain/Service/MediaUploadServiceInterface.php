@@ -23,5 +23,5 @@ interface MediaUploadServiceInterface
     /**
      * Handle a PSR-7 upload request.
      */
-    public function upload(UploadFileRequest $request): UploadFileResult;
+    public function upload(UploadFileRequest $request, FrontendUser $user): UploadFileResult;
 }
