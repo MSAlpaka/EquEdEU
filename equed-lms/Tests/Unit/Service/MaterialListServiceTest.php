@@ -47,9 +47,10 @@ final class MaterialListServiceTest extends TestCase
         $materials = ['m1'];
 
         $this->repository->findByTypeAndCategory('pdf', 'general')->willReturn($materials);
-        $this->translator->translate('material.list.heading', 'en')->willReturn('h');
-        $this->translator->translate('material.filter.type', 'en')->willReturn('t');
-        $this->translator->translate('material.filter.category', 'en')->willReturn('c');
+        $args = ['_language' => 'en'];
+        $this->translator->translate('material.list.heading', $args)->willReturn('h');
+        $this->translator->translate('material.filter.type', $args)->willReturn('t');
+        $this->translator->translate('material.filter.category', $args)->willReturn('c');
 
         $result = $this->subject->getListData('pdf', 'general');
 
