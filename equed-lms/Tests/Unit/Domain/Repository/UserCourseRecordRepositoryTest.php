@@ -7,6 +7,8 @@ namespace Equed\EquedLms\Tests\Unit\Domain\Repository;
 use PHPUnit\Framework\TestCase;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepository;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -20,17 +22,21 @@ class UserCourseRecordRepositoryTest extends TestCase
     private UserCourseRecordRepository $subject;
     private $query;
     private $persistenceManager;
+    private $connectionPool;
 
     protected function setUp(): void
     {
         $this->query = $this->prophesize(Query::class);
         $this->persistenceManager = $this->prophesize(PersistenceManager::class);
+        $this->connectionPool = $this->prophesize(ConnectionPool::class);
+        $this->connectionPool->getConnectionForTable('tx_equedlms_domain_model_usercourserecord')
+            ->willReturn($this->prophesize(Connection::class)->reveal());
 
         $this->persistenceManager
             ->createQueryForType(UserCourseRecord::class)
             ->willReturn($this->query);
 
-        $this->subject = new UserCourseRecordRepository();
+        $this->subject = new UserCourseRecordRepository($this->connectionPool->reveal());
         $this->subject->injectPersistenceManager($this->persistenceManager->reveal());
     }
 

@@ -12,7 +12,10 @@ use Equed\EquedLms\Enum\BadgeLevel;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use InvalidArgumentException;
+use DateTimeImmutable;
 
 /**
  * Repository for UserCourseRecord entities.
@@ -36,6 +39,16 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     protected array $defaultOrderings = [
         'createdAt' => QueryInterface::ORDER_DESCENDING,
     ];
+
+    private Connection $connection;
+
+    public function __construct(ConnectionPool $connectionPool)
+    {
+        parent::__construct();
+        $this->connection = $connectionPool->getConnectionForTable(
+            'tx_equedlms_domain_model_usercourserecord'
+        );
+    }
 
     /**
      * Find all course records for a given frontend user.
@@ -532,5 +545,17 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
             ->fetchFirstColumn();
 
         return array_values(array_filter($rows, static fn ($v) => $v !== null && $v !== ''));
+    }
+
+    public function deleteAbandonedInProgress(DateTimeImmutable $before): void
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->delete('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->lt('last_activity', $qb->createNamedParameter($before->format('Y-m-d H:i:s'))),
+                $qb->expr()->eq('status', $qb->createNamedParameter(UserCourseStatus::InProgress->value))
+            )
+            ->executeStatement();
     }
 }

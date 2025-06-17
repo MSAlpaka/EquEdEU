@@ -13,9 +13,6 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Model\CourseInstance;
 use Equed\EquedLms\Domain\Model\CourseProgram;
 use Equed\EquedLms\Enum\UserCourseStatus;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
@@ -27,20 +24,17 @@ final class ProgressServiceTest extends TestCase
     private ProgressService $subject;
     private $repo;
     private $language;
-    private $pool;
     private $clock;
 
     protected function setUp(): void
     {
         $this->repo = $this->prophesize(UserCourseRecordRepositoryInterface::class);
         $this->language = $this->prophesize(LanguageServiceInterface::class);
-        $this->pool = $this->prophesize(ConnectionPool::class);
         $this->clock = $this->prophesize(ClockInterface::class);
 
         $this->subject = new ProgressService(
             $this->repo->reveal(),
             $this->language->reveal(),
-            $this->pool->reveal(),
             $this->clock->reveal(),
         );
     }
@@ -80,31 +74,14 @@ final class ProgressServiceTest extends TestCase
         $this->assertSame('n/a', $result['courses'][0]['status']);
     }
 
-    public function testCleanupAbandonedCourseProgressExecutesQuery(): void
+    public function testCleanupAbandonedCourseProgressUsesRepository(): void
     {
-        $qb = $this->prophesize(QueryBuilder::class);
-        $expr = new class {
-            public function lt(string $field, $value) { return ['lt',$field,$value]; }
-            public function eq(string $field, $value) { return ['eq',$field,$value]; }
-        };
-
-        $connection = $this->prophesize(Connection::class);
-        $this->pool->getConnectionForTable('tx_equedlms_domain_model_usercourserecord')
-            ->willReturn($connection->reveal());
-        $connection->createQueryBuilder()->willReturn($qb->reveal());
-
-        $qb->expr()->willReturn($expr);
-        $qb->delete('tx_equedlms_domain_model_usercourserecord')->willReturn($qb->reveal())->shouldBeCalled();
-        $cutoff = '2024-05-21 00:00:00';
         $this->clock->now()->willReturn(new DateTimeImmutable('2024-06-01 00:00:00'));
-        $qb->createNamedParameter($cutoff)->willReturn($cutoff)->shouldBeCalled();
-        $qb->createNamedParameter(UserCourseStatus::InProgress->value)
-            ->willReturn(UserCourseStatus::InProgress->value)
+        $expected = new DateTimeImmutable('2024-05-21 00:00:00');
+
+        $this->repo
+            ->deleteAbandonedInProgress($expected)
             ->shouldBeCalled();
-        $qb->where(['lt','last_activity',$cutoff], ['eq','status',UserCourseStatus::InProgress->value])
-            ->willReturn($qb->reveal())
-            ->shouldBeCalled();
-        $qb->executeStatement()->shouldBeCalled();
 
         $this->subject->cleanupAbandonedCourseProgress(11);
     }

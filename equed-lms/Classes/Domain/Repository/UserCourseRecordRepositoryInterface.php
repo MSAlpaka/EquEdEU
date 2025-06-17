@@ -52,4 +52,9 @@ interface UserCourseRecordRepositoryInterface
      * @return int
      */
     public function countByCourseInstance(int $instanceId): int;
+
+    /**
+     * Delete abandoned course records older than the given date.
+     */
+    public function deleteAbandonedInProgress(\DateTimeImmutable $before): void;
 }
