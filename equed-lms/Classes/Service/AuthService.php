@@ -10,6 +10,13 @@ use Equed\EquedLms\Enum\UserRole;
 
 final class AuthService implements AuthServiceInterface
 {
+    /**
+     * Cache of resolved user roles indexed by frontend user ID.
+     *
+     * @var array<int, UserRole>
+     */
+    private array $roleCache = [];
+
     public function __construct(
         private readonly UserProfileRepositoryInterface $userProfileRepository
     ) {
@@ -22,19 +29,23 @@ final class AuthService implements AuthServiceInterface
      */
     public function getUserRole(int $frontendUserId): UserRole
     {
+        if (isset($this->roleCache[$frontendUserId])) {
+            return $this->roleCache[$frontendUserId];
+        }
+
         $profile = $this->userProfileRepository->findByFeUser($frontendUserId);
 
         if ($profile instanceof UserProfile) {
             if ($profile->isCertifier()) {
-                return UserRole::Certifier;
+                return $this->roleCache[$frontendUserId] = UserRole::Certifier;
             }
 
             if ($profile->isInstructor()) {
-                return UserRole::Instructor;
+                return $this->roleCache[$frontendUserId] = UserRole::Instructor;
             }
         }
 
-        return UserRole::Learner;
+        return $this->roleCache[$frontendUserId] = UserRole::Learner;
     }
 
     /**
