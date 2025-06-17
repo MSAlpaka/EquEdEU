@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
+use DateTimeImmutable;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
+use Equed\EquedLms\Domain\Model\FrontendUser;
+use Equed\EquedLms\Domain\Model\EventSchedule;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 
 /**
  * EventBooking
@@ -13,9 +19,15 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class EventBooking extends AbstractEntity
 {
-    protected int $user = 0;
+    use PersistenceTrait;
 
-    protected int $eventSchedule = 0;
+    #[ManyToOne]
+    #[Lazy]
+    protected ?FrontendUser $user = null;
+
+    #[ManyToOne]
+    #[Lazy]
+    protected ?EventSchedule $eventSchedule = null;
 
     protected int $bookingStatus = 0;
 
@@ -23,34 +35,33 @@ final class EventBooking extends AbstractEntity
 
     protected bool $confirmedByInstructor = false;
 
-    protected string $confirmationDatetime = '';
+    protected ?DateTimeImmutable $confirmationDatetime = null;
 
     protected string $cancelledReason = '';
 
     protected string $language = '';
 
-    protected string $uuid = '';
+    public function initializeObject(): void
+    {
+        $this->initializePersistenceTrait();
+    }
 
-    protected string $createdAt = '';
-
-    protected string $updatedAt = '';
-
-    public function getUser(): int
+    public function getUser(): ?FrontendUser
     {
         return $this->user;
     }
 
-    public function setUser(int $user): void
+    public function setUser(?FrontendUser $user): void
     {
         $this->user = $user;
     }
 
-    public function getEventSchedule(): int
+    public function getEventSchedule(): ?EventSchedule
     {
         return $this->eventSchedule;
     }
 
-    public function setEventSchedule(int $eventSchedule): void
+    public function setEventSchedule(?EventSchedule $eventSchedule): void
     {
         $this->eventSchedule = $eventSchedule;
     }
@@ -85,12 +96,12 @@ final class EventBooking extends AbstractEntity
         $this->confirmedByInstructor = $confirmedByInstructor;
     }
 
-    public function getConfirmationDatetime(): string
+    public function getConfirmationDatetime(): ?DateTimeImmutable
     {
         return $this->confirmationDatetime;
     }
 
-    public function setConfirmationDatetime(string $confirmationDatetime): void
+    public function setConfirmationDatetime(?DateTimeImmutable $confirmationDatetime): void
     {
         $this->confirmationDatetime = $confirmationDatetime;
     }
@@ -125,22 +136,22 @@ final class EventBooking extends AbstractEntity
         $this->uuid = $uuid;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(string $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(string $updatedAt): void
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
