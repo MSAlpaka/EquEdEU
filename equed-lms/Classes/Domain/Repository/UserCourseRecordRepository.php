@@ -491,6 +491,27 @@ final class UserCourseRecordRepository extends Repository implements UserCourseR
     }
 
     /**
+     * Count records for a course instance.
+     *
+     * @param int $instanceId Course instance UID
+     * @return int
+     */
+    public function countByCourseInstance(int $instanceId): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_usercourserecord')
+            ->where(
+                $qb->expr()->eq('course_instance', $qb->createNamedParameter($instanceId, \PDO::PARAM_INT))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
      * Return a list of distinct values for a given field.
      *
      * @param string $field Database field name

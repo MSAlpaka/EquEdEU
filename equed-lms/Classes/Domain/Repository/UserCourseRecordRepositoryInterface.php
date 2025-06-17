@@ -22,6 +22,7 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
  * @method int countByUserIdAndStatus(int $userId, \Equed\EquedLms\Enum\UserCourseStatus|string $status)
  * @method int countByUserAndInstanceAndStatus(int $userId, int $courseInstanceId, \Equed\EquedLms\Enum\UserCourseStatus|string $status)
  * @method int countByUserIdAndCourseProgram(int $userId, int $courseProgramId)
+ * @method int countByCourseInstance(int $instanceId)
  * @method void add(UserCourseRecord $record)
  * @method void update(UserCourseRecord $record)
  */
@@ -43,4 +44,12 @@ interface UserCourseRecordRepositoryInterface
      * @return UserCourseRecord[]
      */
     public function findActiveByUser(\Equed\EquedLms\Domain\Model\FrontendUser $user): array;
+
+    /**
+     * Count course records for a course instance.
+     *
+     * @param int $instanceId Course instance UID
+     * @return int
+     */
+    public function countByCourseInstance(int $instanceId): int;
 }
