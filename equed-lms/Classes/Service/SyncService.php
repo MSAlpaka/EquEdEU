@@ -77,9 +77,8 @@ final class SyncService
 
         // Conflict resolution via updatedAt timestamp
         if (isset($data['updatedAt'])) {
-            try {
-                $remoteUpdated = new \DateTimeImmutable($data['updatedAt']);
-            } catch (\Exception $e) {
+            $remoteUpdated = \DateTimeImmutable::createFromFormat(DATE_ATOM, $data['updatedAt']);
+            if ($remoteUpdated === false) {
                 $this->logService->logWarning(
                     'Invalid timestamp for profile sync',
                     ['value' => $data['updatedAt'], 'userId' => $userId]

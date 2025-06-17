@@ -93,7 +93,7 @@ class SubmissionSyncServiceTest extends TestCase
             'userId' => 1,
             'course' => 2,
             'status' => 'approved',
-            'updatedAt' => '2024-01-01',
+            'updatedAt' => '2024-01-01T00:00:00+00:00',
         ]);
     }
 
@@ -123,7 +123,7 @@ class SubmissionSyncServiceTest extends TestCase
             'status' => 'submitted',
             'score' => 2.0,
             'gptFeedback' => 'fb',
-            'updatedAt' => '2024-01-02',
+            'updatedAt' => '2024-01-02T00:00:00+00:00',
         ]);
     }
 }

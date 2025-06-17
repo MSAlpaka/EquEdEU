@@ -64,9 +64,10 @@ final class LessonProgressSyncService
             }
 
             $entry = $this->progressRepository->findByUserAndLesson($userId, $lesson->getUid()) ?? new LessonProgress();
-            try {
-                $remoteUpdated = new \DateTimeImmutable($item['updatedAt'] ?? 'now');
-            } catch (\Exception $e) {
+            $remoteUpdated = isset($item['updatedAt'])
+                ? \DateTimeImmutable::createFromFormat(DATE_ATOM, $item['updatedAt'])
+                : new \DateTimeImmutable();
+            if ($remoteUpdated === false) {
                 $this->logService->logWarning(
                     'Invalid timestamp for progress sync',
                     ['value' => $item['updatedAt'] ?? null, 'lessonId' => $item['lessonId'] ?? null]

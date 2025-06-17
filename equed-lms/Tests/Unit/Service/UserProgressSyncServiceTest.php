@@ -67,7 +67,7 @@ class UserProgressSyncServiceTest extends TestCase
             [
                 'recordId' => 8,
                 'status' => 'passed',
-                'updatedAt' => '2024-01-02 00:00:00',
+                'updatedAt' => '2024-01-02T00:00:00+00:00',
             ],
         ]);
 
