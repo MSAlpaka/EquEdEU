@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TCPDF { if (!class_exists(\TCPDF::class)) { class TCPDF { public function AddPage(){} public function SetFont($a,$b,$c){} public function Write($a,$b){} public function Ln(){} public function Output($d,$t){ return 'pdf'; } } } }
 namespace ZipArchiveNS { if (!class_exists(\ZipArchive::class)) { class ZipArchive { public $files=[]; public function open($file,$flags){ $this->path=$file; return true; } public function addFile($file,$name){ $this->files[]=$name; } public function close(){} } } }
 
-namespace Symfony\Component\Filesystem { if (!class_exists(Filesystem::class)) { class Filesystem { public array $dumped=[]; public array $mkdir=[]; public array $removed=[]; public function exists($p){return false;} public function mkdir($p,$m=0777){$this->mkdir[]=$p;} public function dumpFile($p,$c){$this->dumped[$p]=$c;} public function remove($p){$this->removed[]=$p;} } class Exception { interface IOExceptionInterface {} } }
+namespace Equed\EquedLms\Service { if (!interface_exists(FilesystemInterface::class)) { interface FilesystemInterface { public function exists(string $p): bool; public function mkdir(string|array $p, int $m=0777): void; public function dumpFile(string $p, string $c): void; public function remove(string|array $p): void; } } if (!class_exists(DummyFilesystem::class)) { class DummyFilesystem implements FilesystemInterface { public array $dumped=[]; public array $mkdir=[]; public array $removed=[]; public function exists(string $p): bool { return false; } public function mkdir(string|array $p, int $m=0777): void { $this->mkdir[]=$p; } public function dumpFile(string $p, string $c): void { $this->dumped[$p]=$c; } public function remove(string|array $p): void { $this->removed[]=$p; } } } }
 namespace Psr\Log { if (!interface_exists(LoggerInterface::class)) { interface LoggerInterface { public function emergency($m,array $c=[]); public function alert($m,array $c=[]); public function critical($m,array $c=[]); public function error($m,array $c=[]); public function warning($m,array $c=[]); public function notice($m,array $c=[]); public function info($m,array $c=[]); public function debug($m,array $c=[]); } } }
 
 namespace Equed\EquedLms\Tests\Unit\Service;
@@ -15,7 +15,7 @@ use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Filesystem\Filesystem;
+use Equed\EquedLms\Service\DummyFilesystem as Filesystem;
 use TCPDF;
 use ZipArchive;
 use DateTimeImmutable;

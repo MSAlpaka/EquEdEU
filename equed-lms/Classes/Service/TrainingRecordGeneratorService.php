@@ -8,8 +8,8 @@ use Closure;
 use TCPDF;
 use ZipArchive;
 use RuntimeException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Equed\EquedLms\Domain\Service\FilesystemInterface;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\TranslatedLoggerTrait;
@@ -23,7 +23,7 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
 {
     use TranslatedLoggerTrait;
     private readonly string $outputDirectory;
-    private readonly Filesystem $filesystem;
+    private readonly FilesystemInterface $filesystem;
     /** @var callable(): TCPDF */
     private readonly \Closure $pdfFactory;
     /** @var callable(): ZipArchive */
@@ -40,7 +40,7 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         string $outputDirectory,
         LanguageServiceInterface $translationService,
         LogService $logService,
-        Filesystem $filesystem,
+        FilesystemInterface $filesystem,
         callable $pdfFactory,
         callable $zipFactory
     ) {
