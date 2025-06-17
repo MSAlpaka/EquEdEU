@@ -16,6 +16,7 @@ use Equed\EquedLms\Enum\ProgressStatus;
 use Equed\EquedLms\Event\Progress\LessonProgressUpdatedEvent;
 use Equed\EquedLms\Event\Progress\LessonProgressCompletedEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Equed\EquedLms\Domain\Factory\LessonProgressFactoryInterface;
 
 /**
  * Service to manage lesson progress for users.
@@ -28,6 +29,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
         private readonly UserCourseRecordRepositoryInterface $courseRecordRepository,
         private readonly ClockInterface $clock,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LessonProgressFactoryInterface $progressFactory,
     ) {
     }
 
@@ -58,7 +60,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
         $progress = $this->getProgressEntity($user, $lesson);
 
         if ($progress === null) {
-            $progress = new LessonProgress();
+            $progress = $this->progressFactory->create();
             $records = $this->courseRecordRepository->findByUserId((int) $user->getUid());
             $progress->setUserCourseRecord($records[0] ?? null);
             $progress->setLesson($lesson);
@@ -86,7 +88,7 @@ final class LessonProgressService implements LessonProgressServiceInterface
 
         if ($progress === null) {
             $lesson = $this->lessonRepository->findByUid($lessonId);
-            $progress = new LessonProgress();
+            $progress = $this->progressFactory->create();
             $records = $this->courseRecordRepository->findByUserId($userId);
             $progress->setUserCourseRecord($records[0] ?? null);
             if ($lesson instanceof Lesson) {

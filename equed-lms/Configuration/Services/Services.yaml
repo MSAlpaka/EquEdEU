@@ -146,6 +146,9 @@ services:
   Equed\EquedLms\Factory\UserCourseRecordFactoryInterface:
     class: Equed\EquedLms\Factory\DefaultUserCourseRecordFactory
 
+  Equed\EquedLms\Domain\Factory\LessonProgressFactoryInterface:
+    class: Equed\EquedLms\Factory\DefaultLessonProgressFactory
+
   Equed\EquedLms\Domain\Service\UserAccountServiceInterface:
     class: Equed\EquedLms\Service\UserAccountService
 
