@@ -246,8 +246,13 @@ services:
   Equed\EquedLms\Service\ProfileServiceInterface:
     class: Equed\EquedLms\Service\ProfileService
 
+  Equed\EquedLms\Domain\Repository\SearchRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\SearchRepository
+
   Equed\EquedLms\Service\SearchServiceInterface:
     class: Equed\EquedLms\Service\SearchService
+    arguments:
+      $searchRepository: '@Equed\EquedLms\Domain\Repository\SearchRepositoryInterface'
 
   Equed\EquedLms\Service\TokenServiceInterface:
     class: Equed\EquedLms\Service\TokenService
