@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Domain\Model;
 
+use DateTimeImmutable;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\ManyToOne;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use Equed\EquedLms\Domain\Model\Traits\PersistenceTrait;
 
 /**
  * CourseGoal
@@ -13,13 +17,18 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 final class CourseGoal extends AbstractEntity
 {
+    use PersistenceTrait;
     protected string $title = '';
 
     protected string $description = '';
 
-    protected int $courseProgram = 0;
+    #[ManyToOne]
+    #[Lazy]
+    protected ?CourseProgram $courseProgram = null;
 
-    protected int $lesson = 0;
+    #[ManyToOne]
+    #[Lazy]
+    protected ?Lesson $lesson = null;
 
     protected bool $isCoreGoal = false;
 
@@ -45,11 +54,10 @@ final class CourseGoal extends AbstractEntity
 
     protected string $language = '';
 
-    protected string $uuid = '';
-
-    protected string $createdAt = '';
-
-    protected string $updatedAt = '';
+    public function initializeObject(): void
+    {
+        $this->initializePersistenceTrait();
+    }
 
     public function getTitle(): string
     {
@@ -71,22 +79,22 @@ final class CourseGoal extends AbstractEntity
         $this->description = $description;
     }
 
-    public function getCourseProgram(): int
+    public function getCourseProgram(): ?CourseProgram
     {
         return $this->courseProgram;
     }
 
-    public function setCourseProgram(int $courseProgram): void
+    public function setCourseProgram(?CourseProgram $courseProgram): void
     {
         $this->courseProgram = $courseProgram;
     }
 
-    public function getLesson(): int
+    public function getLesson(): ?Lesson
     {
         return $this->lesson;
     }
 
-    public function setLesson(int $lesson): void
+    public function setLesson(?Lesson $lesson): void
     {
         $this->lesson = $lesson;
     }
@@ -221,22 +229,22 @@ final class CourseGoal extends AbstractEntity
         $this->uuid = $uuid;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(string $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(string $updatedAt): void
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
