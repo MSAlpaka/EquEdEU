@@ -10,6 +10,9 @@ use ZipArchive;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Service\TranslatedLoggerTrait;
 use Equed\EquedLms\Domain\Service\TrainingRecordGeneratorInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 
@@ -18,6 +21,7 @@ use Equed\EquedLms\Domain\Model\UserCourseRecord;
  */
 final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInterface
 {
+    use TranslatedLoggerTrait;
     private readonly string $outputDirectory;
     private readonly Filesystem $filesystem;
     /** @var callable(): TCPDF */
@@ -34,6 +38,8 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
      */
     public function __construct(
         string $outputDirectory,
+        LanguageServiceInterface $translationService,
+        LogService $logService,
         ?Filesystem $filesystem = null,
         ?callable $pdfFactory = null,
         ?callable $zipFactory = null
@@ -46,6 +52,7 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         $this->zipFactory = $zipFactory !== null
             ? Closure::fromCallable($zipFactory)
             : static fn (): ZipArchive => new ZipArchive();
+        $this->injectTranslatedLogger($translationService, $logService);
     }
 
     /**
@@ -62,6 +69,7 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         try {
             $this->filesystem->mkdir($this->outputDirectory, 0775);
         } catch (IOExceptionInterface $e) {
+            $this->logTranslatedError('trainingRecord.dir.createFailed', ['dir' => $this->outputDirectory]);
             throw new RuntimeException(
                 sprintf('Unable to create output directory "%s".', $this->outputDirectory),
                 0,
@@ -117,6 +125,7 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         try {
             $this->filesystem->dumpFile($filePath, $content);
         } catch (IOExceptionInterface $e) {
+            $this->logTranslatedError('trainingRecord.pdf.writeFailed', ['file' => $filePath]);
             throw new RuntimeException(
                 sprintf('Unable to write PDF file "%s".', $filePath),
                 0,
@@ -143,6 +152,7 @@ final class TrainingRecordGeneratorService implements TrainingRecordGeneratorInt
         $zipFilePath = $this->outputDirectory . '/' . $fileKey . '.zip';
 
         if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            $this->logTranslatedError('trainingRecord.zip.createFailed', ['file' => $zipFilePath]);
             throw new RuntimeException(
                 sprintf('Unable to create ZIP file "%s".', $zipFilePath)
             );

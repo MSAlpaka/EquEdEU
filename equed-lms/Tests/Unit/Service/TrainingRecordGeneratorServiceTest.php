@@ -6,10 +6,14 @@ namespace TCPDF { if (!class_exists(\TCPDF::class)) { class TCPDF { public funct
 namespace ZipArchiveNS { if (!class_exists(\ZipArchive::class)) { class ZipArchive { public $files=[]; public function open($file,$flags){ $this->path=$file; return true; } public function addFile($file,$name){ $this->files[]=$name; } public function close(){} } } }
 
 namespace Symfony\Component\Filesystem { if (!class_exists(Filesystem::class)) { class Filesystem { public array $dumped=[]; public array $mkdir=[]; public array $removed=[]; public function exists($p){return false;} public function mkdir($p,$m=0777){$this->mkdir[]=$p;} public function dumpFile($p,$c){$this->dumped[$p]=$c;} public function remove($p){$this->removed[]=$p;} } class Exception { interface IOExceptionInterface {} } }
+namespace Psr\Log { if (!interface_exists(LoggerInterface::class)) { interface LoggerInterface { public function emergency($m,array $c=[]); public function alert($m,array $c=[]); public function critical($m,array $c=[]); public function error($m,array $c=[]); public function warning($m,array $c=[]); public function notice($m,array $c=[]); public function info($m,array $c=[]); public function debug($m,array $c=[]); } } }
 
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Service\TrainingRecordGeneratorService;
+use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Tests\Traits\ProphecyTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use TCPDF;
@@ -18,10 +22,14 @@ use DateTimeImmutable;
 
 class TrainingRecordGeneratorServiceTest extends TestCase
 {
+    use ProphecyTrait;
     public function testGeneratePdfWritesFile(): void
     {
         $fs = new Filesystem();
-        $service = new TrainingRecordGeneratorService('/tmp', $fs, fn() => new TCPDF(), fn() => new ZipArchive());
+        $logger = $this->prophesize(\Psr\Log\LoggerInterface::class);
+        $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
+        $service = new TrainingRecordGeneratorService('/tmp', $language->reveal(), $logService, $fs, fn() => new TCPDF(), fn() => new ZipArchive());
         $path = $service->generatePdf(['course'=>'c','cert_number'=>'n1','issued_on'=>'2024']);
         $this->assertArrayHasKey($path, $fs->dumped);
     }
@@ -29,7 +37,10 @@ class TrainingRecordGeneratorServiceTest extends TestCase
     public function testGenerateZipReturnsPath(): void
     {
         $fs = new Filesystem();
-        $service = new TrainingRecordGeneratorService('/tmp', $fs, fn() => new TCPDF(), fn() => new ZipArchive());
+        $logger = $this->prophesize(\Psr\Log\LoggerInterface::class);
+        $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
+        $service = new TrainingRecordGeneratorService('/tmp', $language->reveal(), $logService, $fs, fn() => new TCPDF(), fn() => new ZipArchive());
         $path = $service->generateZip(['course'=>'c','cert_number'=>'n2','issued_on'=>'2024']);
         $this->assertStringEndsWith('.zip', $path);
         $this->assertContains('/tmp/n2.pdf', $fs->removed);
@@ -40,8 +51,13 @@ class TrainingRecordGeneratorServiceTest extends TestCase
         $fs = new Filesystem();
         $pdfCalled = false;
         $zipCalled = false;
+        $logger = $this->prophesize(\Psr\Log\LoggerInterface::class);
+        $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
         $service = new TrainingRecordGeneratorService(
             '/tmp',
+            $language->reveal(),
+            $logService,
             $fs,
             function () use (&$pdfCalled) { $pdfCalled = true; return new TCPDF(); },
             function () use (&$zipCalled) { $zipCalled = true; return new ZipArchive(); }
@@ -73,7 +89,10 @@ class TrainingRecordGeneratorServiceTest extends TestCase
             }
         };
 
-        $service = new TrainingRecordGeneratorService('/tmp', new Filesystem(), fn() => new TCPDF(), fn() => new ZipArchive());
+        $logger = $this->prophesize(\Psr\Log\LoggerInterface::class);
+        $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
+        $service = new TrainingRecordGeneratorService('/tmp', $language->reveal(), $logService, new Filesystem(), fn() => new TCPDF(), fn() => new ZipArchive());
         $data = $service->createCertificateData($record);
 
         $this->assertSame([

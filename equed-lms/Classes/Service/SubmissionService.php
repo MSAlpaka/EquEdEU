@@ -13,18 +13,26 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Dto\SubmissionCreateRequest;
 use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
 use InvalidArgumentException;
+use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Service\TranslatedLoggerTrait;
 
 /**
  * Service for managing user submissions.
  */
 final class SubmissionService
 {
+    use TranslatedLoggerTrait;
+
     public function __construct(
         private readonly UserSubmissionRepositoryInterface $submissionRepository,
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ClockInterface $clock,
+        LanguageServiceInterface $translationService,
+        LogService $logService,
     ) {
+        $this->injectTranslatedLogger($translationService, $logService);
     }
 
     /**
@@ -63,6 +71,7 @@ final class SubmissionService
     public function createSubmission(SubmissionCreateRequest $request): void
     {
         if ($request->getRecordId() <= 0 || $request->getFile() === '') {
+            $this->logTranslatedError('submission.create.invalid');
             throw new InvalidArgumentException('Missing required fields');
         }
 
@@ -81,6 +90,7 @@ final class SubmissionService
     public function evaluateSubmission(SubmissionEvaluateRequest $request): void
     {
         if ($request->getSubmissionId() <= 0 || $request->getEvaluationNote() === '') {
+            $this->logTranslatedError('submission.evaluate.invalid');
             throw new InvalidArgumentException('Missing required fields');
         }
 
