@@ -14,6 +14,12 @@ final class SearchRepository implements SearchRepositoryInterface
     ) {
     }
 
+    /**
+     * Search courses by title or description.
+     *
+     * @param string $term Search term
+     * @return CourseSearchResult[]
+     */
     public function searchCourses(string $term): array
     {
         $qb   = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_course');
@@ -42,6 +48,12 @@ final class SearchRepository implements SearchRepositoryInterface
         return $results;
     }
 
+    /**
+     * Search glossary terms and definitions.
+     *
+     * @param string $term Search term
+     * @return GlossarySearchResult[]
+     */
     public function searchGlossary(string $term): array
     {
         $qb   = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_glossaryentry');
