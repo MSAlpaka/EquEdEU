@@ -98,6 +98,8 @@ services:
     class: Equed\EquedLms\Service\SystemClock
   Equed\EquedLms\Domain\Service\FileReaderInterface:
     class: Equed\EquedLms\Service\LocalFileReader
+  Equed\EquedLms\Domain\Service\FilesystemInterface:
+    class: Equed\EquedLms\Service\SymfonyFilesystem
   Equed\EquedLms\Domain\Repository\CourseInstanceRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\CourseInstanceRepository
 
@@ -172,7 +174,7 @@ services:
   Equed\EquedLms\Service\TrainingRecordGeneratorService:
     arguments:
       $outputDirectory: '%equed_lms.training_record_output_path%'
-      $filesystem: '@Symfony\Component\Filesystem\Filesystem'
+      $filesystem: '@Equed\EquedLms\Domain\Service\FilesystemInterface'
       $pdfFactory: '@Equed\EquedLms\Factory\TcpdfFactory'
       $zipFactory: '@Equed\EquedLms\Factory\ZipArchiveFactory'
 
