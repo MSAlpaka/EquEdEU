@@ -12,7 +12,7 @@ use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
 use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Dto\SubmissionCreateRequest;
 use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
-use InvalidArgumentException;
+use Equed\EquedLms\Dto\SubmissionError;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use Equed\EquedLms\Service\TranslatedLoggerTrait;
@@ -68,11 +68,11 @@ final class SubmissionService
         return $this->submissionRepository->findByFeUser($feUser);
     }
 
-    public function createSubmission(SubmissionCreateRequest $request): void
+    public function createSubmission(SubmissionCreateRequest $request): ?SubmissionError
     {
         if ($request->getRecordId() <= 0 || $request->getFile() === '') {
             $this->logTranslatedError('submission.create.invalid');
-            throw new InvalidArgumentException('Missing required fields');
+            return new SubmissionError('Missing required fields');
         }
 
         $now = $this->clock->now()->getTimestamp();
@@ -85,13 +85,15 @@ final class SubmissionService
             $now
         );
         $this->persistenceManager->persistAll();
+
+        return null;
     }
 
-    public function evaluateSubmission(SubmissionEvaluateRequest $request): void
+    public function evaluateSubmission(SubmissionEvaluateRequest $request): ?SubmissionError
     {
         if ($request->getSubmissionId() <= 0 || $request->getEvaluationNote() === '') {
             $this->logTranslatedError('submission.evaluate.invalid');
-            throw new InvalidArgumentException('Missing required fields');
+            return new SubmissionError('Missing required fields');
         }
 
         $now = $this->clock->now()->getTimestamp();
@@ -109,6 +111,8 @@ final class SubmissionService
         if ($submission instanceof UserSubmission) {
             $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission));
         }
+
+        return null;
     }
 
 }

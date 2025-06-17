@@ -16,6 +16,7 @@ use Equed\EquedLms\Domain\Repository\UserSubmissionRepositoryInterface;
 use Equed\EquedLms\Service\SubmissionService;
 use Equed\EquedLms\Dto\SubmissionCreateRequest;
 use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
+use Equed\EquedLms\Dto\SubmissionError;
 
 /**
  * SubmissionController
@@ -55,9 +56,8 @@ final class SubmissionController extends BaseApiController
 
         $dto = SubmissionCreateRequest::fromRequest($request);
 
-        try {
-            $this->submissionService->createSubmission($dto);
-        } catch (\InvalidArgumentException $e) {
+        $error = $this->submissionService->createSubmission($dto);
+        if ($error instanceof SubmissionError) {
             return $this->jsonError('api.submission.missingFields', JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -123,9 +123,8 @@ final class SubmissionController extends BaseApiController
 
         $dto = SubmissionEvaluateRequest::fromRequest($request);
 
-        try {
-            $this->submissionService->evaluateSubmission($dto);
-        } catch (\InvalidArgumentException $e) {
+        $error = $this->submissionService->evaluateSubmission($dto);
+        if ($error instanceof SubmissionError) {
             return $this->jsonError('api.submission.missingInput', JsonResponse::HTTP_BAD_REQUEST);
         }
 
