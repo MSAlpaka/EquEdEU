@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser as ExtbaseFrontendUser;
+use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
+use TYPO3\CMS\Extbase\Annotation\ORM\OneToOne;
 use Equed\EquedLms\Domain\Model\TitleAwareGroupInterface;
+use Equed\EquedLms\Domain\Model\UserProfile;
 
 final class FrontendUser extends ExtbaseFrontendUser
 {
@@ -27,6 +30,10 @@ final class FrontendUser extends ExtbaseFrontendUser
      * @var string|null
      */
     protected ?string $apiToken = null;
+
+    #[OneToOne(mappedBy: 'user')]
+    #[Lazy]
+    protected ?UserProfile $userProfile = null;
 
     public function getApiToken(): ?string
     {
@@ -62,5 +69,15 @@ final class FrontendUser extends ExtbaseFrontendUser
     public function setUsergroup(array $usergroup): void
     {
         $this->usergroup = $usergroup;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
+    }
+
+    public function setUserProfile(?UserProfile $userProfile): void
+    {
+        $this->userProfile = $userProfile;
     }
 }
