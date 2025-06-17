@@ -28,6 +28,7 @@ final class MaterialListService implements MaterialListServiceInterface
     {
         $language = (string)($this->context->getAspect('frontend.user')->get('language') ?? 'en');
         $mode     = $language === 'easy' ? 'simple' : 'expert';
+        $args     = ['_language' => $language];
 
         $materials = $this->materialRepository->findByTypeAndCategory($type, $category);
 
@@ -37,9 +38,9 @@ final class MaterialListService implements MaterialListServiceInterface
             'category'  => $category,
             'mode'      => $mode,
             'labels'    => [
-                'heading'        => $this->translationService->translate('material.list.heading', $language),
-                'filterType'     => $this->translationService->translate('material.filter.type', $language),
-                'filterCategory' => $this->translationService->translate('material.filter.category', $language),
+                'heading'        => $this->translationService->translate('material.list.heading', $args),
+                'filterType'     => $this->translationService->translate('material.filter.type', $args),
+                'filterCategory' => $this->translationService->translate('material.filter.category', $args),
             ],
         ];
     }
