@@ -52,4 +52,23 @@ class AuthServiceTest extends TestCase
 
         $this->assertSame(UserRole::Learner, $this->subject->getUserRole(9));
     }
+
+    public function testUserRoleIsCachedBetweenCalls(): void
+    {
+        $profile = $this->prophesize(UserProfile::class);
+        $profile->isCertifier()->willReturn(false);
+        $profile->isInstructor()->willReturn(true);
+        $this->repository->findByFeUser(11)->willReturn($profile->reveal())->shouldBeCalledTimes(1);
+
+        $this->assertSame(UserRole::Instructor, $this->subject->getUserRole(11));
+        $this->assertTrue($this->subject->isInstructor(11));
+    }
+
+    public function testLearnerRoleIsCached(): void
+    {
+        $this->repository->findByFeUser(13)->willReturn(null)->shouldBeCalledTimes(1);
+
+        $this->assertTrue($this->subject->isLearner(13));
+        $this->assertTrue($this->subject->isLearner(13));
+    }
 }
