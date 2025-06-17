@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
+use Equed\EquedLms\Service\TranslatedLoggerTrait;
 use Equed\EquedLms\Domain\Service\MediaUploadServiceInterface;
 use TYPO3\CMS\Core\Resource\Exception\FileOperationErrorException;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
@@ -21,6 +23,8 @@ use Equed\EquedLms\Dto\UploadFileResult;
  */
 final class MediaUploadService implements MediaUploadServiceInterface
 {
+    use TranslatedLoggerTrait;
+
     private const ALLOWED_MIME_TYPES = [
         'image/jpeg',
         'image/png',
@@ -30,10 +34,12 @@ final class MediaUploadService implements MediaUploadServiceInterface
 
     public function __construct(
         private readonly StorageRepository $storageRepository,
-        private readonly LogService $logService,
+        LanguageServiceInterface $translationService,
+        LogService $logService,
         private readonly ResourceFactory $resourceFactory,
         private readonly int $maxFileSize = 5242880
     ) {
+        $this->injectTranslatedLogger($translationService, $logService);
     }
 
     /**
@@ -46,24 +52,32 @@ final class MediaUploadService implements MediaUploadServiceInterface
     public function handleUpload(array $uploadedFile, FrontendUser $user): ?FileReference
     {
         if (!isset($uploadedFile['tmp_name'], $uploadedFile['name'], $uploadedFile['type'])) {
-            $this->logService->logWarning('Incomplete upload structure.');
+            $this->logService->logWarning(
+                $this->translationService->translate('media.upload.incomplete')
+            );
             return null;
         }
 
         if (!in_array($uploadedFile['type'], self::ALLOWED_MIME_TYPES, true)) {
-            $this->logService->logWarning('Upload rejected due to MIME type', ['type' => $uploadedFile['type']]);
+            $this->logService->logWarning(
+                $this->translationService->translate('media.upload.invalidMime'),
+                ['type' => $uploadedFile['type']]
+            );
             return null;
         }
 
         $size = @filesize($uploadedFile['tmp_name']);
         if ($size === false || $size > $this->maxFileSize) {
-            $this->logService->logWarning('Upload rejected due to file size', ['size' => $size]);
+            $this->logService->logWarning(
+                $this->translationService->translate('media.upload.invalidSize'),
+                ['size' => $size]
+            );
             return null;
         }
 
         $storage = $this->storageRepository->findDefaultStorage();
         if (!$storage instanceof ResourceStorage) {
-            $this->logService->logError('No valid storage available.');
+            $this->logTranslatedError('media.upload.noStorage');
             return null;
         }
 
@@ -87,7 +101,7 @@ final class MediaUploadService implements MediaUploadServiceInterface
 
             return $fileRef;
         } catch (FileOperationErrorException $e) {
-            $this->logService->logError('Upload failed', ['exception' => $e]);
+            $this->logTranslatedError('media.upload.failed', ['error' => $e->getMessage()]);
             return null;
         }
     }
@@ -97,6 +111,9 @@ final class MediaUploadService implements MediaUploadServiceInterface
         $file = $request->getFile();
         $tmpPath = $file->getStream()->getMetadata('uri');
         if (!is_string($tmpPath)) {
+            $this->logService->logWarning(
+                $this->translationService->translate('media.upload.invalidFile')
+            );
             return new UploadFileResult(null, 'invalid_file');
         }
 

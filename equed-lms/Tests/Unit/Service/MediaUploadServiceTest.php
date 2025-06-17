@@ -27,6 +27,7 @@ namespace Equed\EquedLms\Tests\Unit\Service;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Service\LogService;
 use Equed\EquedLms\Service\MediaUploadService;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
@@ -46,8 +47,9 @@ class MediaUploadServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->warning('Upload rejected due to MIME type', Argument::type('array'))->shouldBeCalled();
         $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory, 1024);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, 1024);
 
         $result = $service->handleUpload(['tmp_name'=>'t','name'=>'f','type'=>'text/plain'], new FrontendUser());
         $this->assertNull($result);
@@ -60,8 +62,9 @@ class MediaUploadServiceTest extends TestCase
         $factory = new ResourceFactory();
         $logger = $this->prophesize(LoggerInterface::class);
         $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory, 1024);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, 1024);
 
         $file = ['tmp_name'=>'tmp','name'=>'file.jpg','type'=>'image/jpeg'];
         $ref = $service->handleUpload($file, new FrontendUser());
@@ -75,8 +78,9 @@ class MediaUploadServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->warning('Upload rejected due to file size', Argument::type('array'))->shouldBeCalled();
         $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory, 1);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, 1);
 
         $tmp = tempnam(sys_get_temp_dir(), 'u');
         file_put_contents($tmp, str_repeat('x', 2));
@@ -92,8 +96,9 @@ class MediaUploadServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->warning('Incomplete upload structure.')->shouldBeCalled();
         $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory);
         $this->assertNull($service->handleUpload(['name' => 'file.jpg'], new FrontendUser()));
     }
 
@@ -104,8 +109,9 @@ class MediaUploadServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->error('No valid storage available.')->shouldBeCalled();
         $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory);
         $file = ['tmp_name' => 't', 'name' => 'file.jpg', 'type' => 'image/jpeg'];
         $this->assertNull($service->handleUpload($file, new FrontendUser()));
     }
@@ -121,8 +127,9 @@ class MediaUploadServiceTest extends TestCase
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->error('Upload failed', Argument::type('array'))->shouldBeCalled();
         $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory);
         $file = ['tmp_name' => 't', 'name' => 'file.jpg', 'type' => 'image/jpeg'];
         $this->assertNull($service->handleUpload($file, new FrontendUser()));
     }

@@ -9,6 +9,8 @@ use Equed\EquedLms\Service\SubmissionService;
 use Equed\EquedLms\Dto\SubmissionCreateRequest;
 use Equed\EquedLms\Dto\SubmissionEvaluateRequest;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use Equed\EquedLms\Service\LogService;
+use Equed\EquedLms\Domain\Service\LanguageServiceInterface;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Equed\EquedLms\Event\Submission\SubmissionReviewedEvent;
@@ -24,6 +26,8 @@ class SubmissionServiceTest extends TestCase
     private $persistence;
     private $eventDispatcher;
     private $clock;
+    private $lang;
+    private $logService;
 
     protected function setUp(): void
     {
@@ -31,12 +35,17 @@ class SubmissionServiceTest extends TestCase
         $this->persistence     = $this->prophesize(PersistenceManagerInterface::class);
         $this->eventDispatcher = $this->prophesize(EventDispatcherInterface::class);
         $this->clock           = $this->prophesize(ClockInterface::class);
+        $this->lang            = $this->prophesize(LanguageServiceInterface::class);
+        $logger                = $this->prophesize(\Psr\Log\LoggerInterface::class);
+        $this->logService      = new LogService($logger->reveal());
 
         $this->subject = new SubmissionService(
             $this->repository->reveal(),
             $this->persistence->reveal(),
             $this->eventDispatcher->reveal(),
-            $this->clock->reveal()
+            $this->clock->reveal(),
+            $this->lang->reveal(),
+            $this->logService
         );
     }
 
