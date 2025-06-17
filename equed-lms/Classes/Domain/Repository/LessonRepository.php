@@ -97,4 +97,49 @@ final class LessonRepository extends Repository implements LessonRepositoryInter
 
         return $query->execute()->getFirst();
     }
+
+    /**
+     * Count lessons for a specific module.
+     */
+    public function countByModule(Module $module): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->count('*'))
+            ->from('tx_equedlms_domain_model_lesson')
+            ->where(
+                $qb->expr()->eq('module', $qb->createNamedParameter($module->getUid(), \PDO::PARAM_INT))
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
+
+    /**
+     * Count lessons that contain quiz questions.
+     */
+    public function countWithQuiz(): int
+    {
+        $qb = $this->createQuery()->getQueryBuilder();
+        $qb
+            ->select($qb->expr()->countDistinct('l.uid'))
+            ->from('tx_equedlms_domain_model_lesson', 'l')
+            ->join(
+                'l',
+                'tx_equedlms_domain_model_lessonquiz',
+                'qz',
+                'qz.lesson = l.uid'
+            )
+            ->join(
+                'qz',
+                'tx_equedlms_domain_model_lessonquestion',
+                'qq',
+                'qq.lesson_quiz = qz.uid'
+            );
+
+        $result = $qb->executeQuery()->fetchOne();
+
+        return $result === false ? 0 : (int) $result;
+    }
 }

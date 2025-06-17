@@ -33,4 +33,14 @@ interface LessonRepositoryInterface
     public function findByModule(Module $module): array;
 
     public function findByUuid(string $uuid): ?Lesson;
+
+    /**
+     * Count lessons for a module.
+     */
+    public function countByModule(Module $module): int;
+
+    /**
+     * Count lessons that contain quiz questions.
+     */
+    public function countWithQuiz(): int;
 }
