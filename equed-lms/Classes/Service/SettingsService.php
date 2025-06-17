@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Service;
 
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use Equed\EquedLms\Domain\Service\SettingsServiceInterface;
 
 /**
  * Service to retrieve extension settings.
  */
-final class SettingsService
+final class SettingsService implements SettingsServiceInterface
 {
     private readonly array $settings;
     private readonly string $extensionKey;
