@@ -33,12 +33,13 @@ class CacheManagerTest extends TestCase
         $item = $this->prophesize(CacheItemInterface::class);
         $data = new DashboardData([], [], [], [], [], [], []);
 
+        $ttl = 123;
         $pool->getItem('dashboard_user_7')->willReturn($item->reveal());
         $item->set($data)->willReturn($item->reveal())->shouldBeCalled();
-        $item->expiresAfter(CacheManager::CACHE_TTL_SECONDS)->willReturn($item->reveal())->shouldBeCalled();
+        $item->expiresAfter($ttl)->willReturn($item->reveal())->shouldBeCalled();
         $pool->save($item->reveal())->shouldBeCalled();
 
-        $manager = new CacheManager($pool->reveal());
+        $manager = new CacheManager($pool->reveal(), $ttl);
         $manager->save(7, $data);
     }
 }

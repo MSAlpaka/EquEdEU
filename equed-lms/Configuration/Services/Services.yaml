@@ -1,6 +1,8 @@
 parameters:
   equed_lms.training_record_output_path: '%kernel.project_dir%/var/training_records'
   equed_lms.max_upload_size: 5242880
+  equed_lms.dashboard_cache_ttl: 600
+  equed_lms.recognition_cache_ttl: 3600
 
 services:
   _defaults:
@@ -269,3 +271,11 @@ services:
 
   Equed\EquedLms\Service\TokenServiceInterface:
     class: Equed\EquedLms\Service\TokenService
+
+  Equed\EquedLms\Service\Dashboard\CacheManager:
+    arguments:
+      $cacheTtlSeconds: '%equed_lms.dashboard_cache_ttl%'
+
+  Equed\EquedLms\Service\RecognitionAwardService:
+    arguments:
+      $cacheTtlSeconds: '%equed_lms.recognition_cache_ttl%'

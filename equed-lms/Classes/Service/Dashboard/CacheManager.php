@@ -14,8 +14,10 @@ final class CacheManager
 {
     public const CACHE_TTL_SECONDS = 600;
 
-    public function __construct(private readonly CacheItemPoolInterface $cachePool)
-    {
+    public function __construct(
+        private readonly CacheItemPoolInterface $cachePool,
+        private int $cacheTtlSeconds = self::CACHE_TTL_SECONDS,
+    ) {
     }
 
     public function fetch(int $userId): ?DashboardData
@@ -34,7 +36,7 @@ final class CacheManager
     {
         $item = $this->cachePool->getItem($this->key($userId));
         $item->set($data);
-        $item->expiresAfter(self::CACHE_TTL_SECONDS);
+        $item->expiresAfter($this->cacheTtlSeconds);
         $this->cachePool->save($item);
     }
 
