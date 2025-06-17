@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Service\SearchService;
+use Equed\EquedLms\Service\SearchServiceInterface;
 use Equed\EquedLms\Controller\Api\BaseApiController;
 
 /**
@@ -19,7 +19,7 @@ use Equed\EquedLms\Controller\Api\BaseApiController;
 final class SearchController extends BaseApiController
 {
     public function __construct(
-        private readonly SearchService $searchService,
+        private readonly SearchServiceInterface $searchService,
         ConfigurationServiceInterface $configurationService,
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,

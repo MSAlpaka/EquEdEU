@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Middleware;
 
-use Equed\EquedLms\Service\TokenService;
+use Equed\EquedLms\Service\TokenServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,7 +17,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class TokenUserMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly TokenService $tokenService)
+    public function __construct(private readonly TokenServiceInterface $tokenService)
     {
     }
 

@@ -236,3 +236,18 @@ services:
     class: Equed\EquedLms\Service\CourseOverviewService
     arguments:
       $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
+
+  Equed\EquedLms\Service\AuthServiceInterface:
+    class: Equed\EquedLms\Service\AuthService
+
+  Equed\EquedLms\Service\IncidentServiceInterface:
+    class: Equed\EquedLms\Service\IncidentService
+
+  Equed\EquedLms\Service\ProfileServiceInterface:
+    class: Equed\EquedLms\Service\ProfileService
+
+  Equed\EquedLms\Service\SearchServiceInterface:
+    class: Equed\EquedLms\Service\SearchService
+
+  Equed\EquedLms\Service\TokenServiceInterface:
+    class: Equed\EquedLms\Service\TokenService

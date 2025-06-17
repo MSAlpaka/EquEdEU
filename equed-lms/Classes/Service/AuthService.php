@@ -8,7 +8,7 @@ use Equed\EquedLms\Domain\Model\UserProfile;
 use Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface;
 use Equed\EquedLms\Enum\UserRole;
 
-final class AuthService
+final class AuthService implements AuthServiceInterface
 {
     public function __construct(
         private readonly UserProfileRepositoryInterface $userProfileRepository
