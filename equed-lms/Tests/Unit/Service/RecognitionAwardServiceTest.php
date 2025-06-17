@@ -39,7 +39,8 @@ class RecognitionAwardServiceTest extends TestCase
             $this->persistence->reveal(),
             $this->cache->reveal(),
             $this->language->reveal(),
-            $this->clock->reveal()
+            $this->clock->reveal(),
+            1800
         );
     }
 
@@ -59,7 +60,7 @@ class RecognitionAwardServiceTest extends TestCase
         $item = $this->prophesize(CacheItemInterface::class);
         $item->isHit()->willReturn(false);
         $item->set(true)->willReturn($item->reveal())->shouldBeCalled();
-        $item->expiresAfter(RecognitionAwardService::CACHE_TTL_SECONDS)->shouldBeCalled();
+        $item->expiresAfter(1800)->shouldBeCalled();
         $this->cache->getItem('qualifyAdvanced_3')->willReturn($item->reveal());
         $this->repo->countValidBadges(3)->willReturn(5);
         $this->cache->save($item->reveal())->shouldBeCalled();

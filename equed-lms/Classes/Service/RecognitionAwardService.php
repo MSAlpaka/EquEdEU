@@ -23,7 +23,8 @@ final class RecognitionAwardService
         private readonly PersistenceManagerInterface $persistenceManager,
         private readonly CacheItemPoolInterface $cachePool,
         private readonly LanguageServiceInterface $languageService,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private int $cacheTtlSeconds = self::CACHE_TTL_SECONDS,
     ) {
     }
 
@@ -44,7 +45,7 @@ final class RecognitionAwardService
         $count = $this->userBadgeRepository->countValidBadges($userId);
         $qualifies = $count >= 4;
 
-        $cacheItem->set($qualifies)->expiresAfter(self::CACHE_TTL_SECONDS);
+        $cacheItem->set($qualifies)->expiresAfter($this->cacheTtlSeconds);
         $this->cachePool->save($cacheItem);
 
         return $qualifies;
