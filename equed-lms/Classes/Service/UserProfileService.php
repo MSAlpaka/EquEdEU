@@ -38,6 +38,6 @@ final class UserProfileService
     public function hasCompletedOnboarding(int $userId): bool
     {
         $profile = $this->userProfileRepository->findByUserId($userId);
-        return $profile?->getOnboardingComplete() ?? false;
+        return $profile?->isOnboardingComplete() ?? false;
     }
 }

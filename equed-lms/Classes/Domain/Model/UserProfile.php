@@ -312,22 +312,12 @@ final class UserProfile extends AbstractEntity
         return $this->isInstructor;
     }
 
-    public function getIsInstructor(): bool
-    {
-        return $this->isInstructor();
-    }
-
     public function setIsInstructor(bool $isInstructor): void
     {
         $this->isInstructor = $isInstructor;
     }
 
     public function isOnboardingComplete(): bool
-    {
-        return $this->onboardingComplete;
-    }
-
-    public function getOnboardingComplete(): bool
     {
         return $this->onboardingComplete;
     }

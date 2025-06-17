@@ -6386,16 +6386,6 @@ parameters:
 			path: Classes/Service/UserCourseService.php
 
 		-
-			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Domain\\\\Model\\\\UserProfile\\:\\:getIsInstructor\\(\\)\\.$#"
-			count: 1
-			path: Classes/Service/UserProfileService.php
-
-		-
-			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Domain\\\\Model\\\\UserProfile\\:\\:getOnboardingComplete\\(\\)\\.$#"
-			count: 1
-			path: Classes/Service/UserProfileService.php
-
-		-
 			message: "#^Call to an undefined method Equed\\\\EquedLms\\\\Domain\\\\Model\\\\UserCourseRecord\\:\\:getQuizScorePercent\\(\\)\\.$#"
 			count: 1
 			path: Classes/Service/UserProgressService.php
