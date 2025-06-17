@@ -12,7 +12,7 @@ use Equed\EquedLms\Service\TokenGeneratorInterface;
 /**
  * Service for generating, validating, and invalidating API tokens for frontend users.
  */
-final class TokenService
+final class TokenService implements TokenServiceInterface
 {
     public function __construct(
         private readonly FrontendUserRepositoryInterface $frontendUserRepository,

@@ -11,7 +11,7 @@ use Equed\EquedLms\Factory\IncidentReportFactoryInterface;
 /**
  * Service to manage QMS incident reports.
  */
-final class IncidentService
+final class IncidentService implements IncidentServiceInterface
 {
     public function __construct(
         private readonly IncidentReportRepositoryInterface  $incidentReportRepository,

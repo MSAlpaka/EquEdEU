@@ -11,7 +11,7 @@ use Equed\EquedLms\Dto\SearchResults;
 /**
  * Provides search capabilities across multiple entities.
  */
-final class SearchService
+final class SearchService implements SearchServiceInterface
 {
     public function __construct(
         private readonly ConnectionPool $connectionPool

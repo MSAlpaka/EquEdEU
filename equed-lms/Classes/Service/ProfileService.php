@@ -10,7 +10,7 @@ use Equed\EquedLms\Domain\Repository\BadgeRepositoryInterface;
 /**
  * Service for retrieving profile related data such as certificates and badges.
  */
-final class ProfileService
+final class ProfileService implements ProfileServiceInterface
 {
     public function __construct(
         private readonly CertificateRepositoryInterface $certificateRepository,

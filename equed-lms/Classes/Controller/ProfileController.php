@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Controller;
 
 use Equed\Core\Service\GptTranslationServiceInterface;
-use Equed\EquedLms\Service\ProfileService;
+use Equed\EquedLms\Service\ProfileServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -20,7 +20,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 final class ProfileController extends ActionController
 {
     public function __construct(
-        private readonly ProfileService                 $profileService,
+        private readonly ProfileServiceInterface        $profileService,
         private readonly GptTranslationServiceInterface $translationService
     ) {
     }
