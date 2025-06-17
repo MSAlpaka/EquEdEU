@@ -52,6 +52,9 @@ services:
   Equed\EquedLms\Domain\Repository\FrontendUserRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\FrontendUserRepository
 
+  Equed\EquedLms\Domain\Repository\FrontendUserAccountRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\FrontendUserAccountRepository
+
   Equed\EquedLms\Domain\Repository\UserProfileRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\UserProfileRepository
 
