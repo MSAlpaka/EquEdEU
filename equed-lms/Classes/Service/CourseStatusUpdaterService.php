@@ -10,6 +10,7 @@ use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Enum\CourseStatus;
 use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 /**
  * Service to finalize a user course record: mark validated, persist changes,
@@ -21,6 +22,7 @@ final class CourseStatusUpdaterService
         private readonly CertificateServiceInterface    $certificateService,
         private readonly NotificationServiceInterface   $notificationService,
         private readonly UserCourseRecordRepositoryInterface $userCourseRecordRepository,
+        private readonly PersistenceManagerInterface    $persistenceManager,
         private readonly ClockInterface        $clock
     ) {
     }
@@ -37,6 +39,7 @@ final class CourseStatusUpdaterService
         $record->setCompletionDate($this->clock->now());
 
         $this->userCourseRecordRepository->update($record);
+        $this->persistenceManager->persistAll();
 
         $certificate = $this->certificateService->issueCertificate($record);
 
