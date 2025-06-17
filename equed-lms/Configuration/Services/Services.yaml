@@ -80,6 +80,7 @@ services:
   Equed\EquedLms\Domain\Service\MediaUploadServiceInterface:
     class: Equed\EquedLms\Service\MediaUploadService
     arguments:
+      $filesystem: '@Equed\EquedLms\Domain\Service\FilesystemInterface'
       $maxFileSize: '%equed_lms.max_upload_size%'
 
   Equed\EquedLms\Domain\Service\DocumentServiceInterface:

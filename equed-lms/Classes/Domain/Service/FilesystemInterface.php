@@ -33,4 +33,11 @@ interface FilesystemInterface
      * @param string|array<int,string> $paths Paths to remove
      */
     public function remove(string|array $paths): void;
+
+    /**
+     * Get the size of a file in bytes.
+     *
+     * @throws \RuntimeException When the size cannot be determined
+     */
+    public function fileSize(string $path): int;
 }

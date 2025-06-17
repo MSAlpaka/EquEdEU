@@ -17,6 +17,8 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 use Equed\EquedLms\Domain\Model\FrontendUser;
 use Equed\EquedLms\Dto\UploadFileRequest;
 use Equed\EquedLms\Dto\UploadFileResult;
+use Equed\EquedLms\Domain\Service\FilesystemInterface;
+use RuntimeException;
 
 /**
  * Service to securely handle media file uploads.
@@ -37,6 +39,7 @@ final class MediaUploadService implements MediaUploadServiceInterface
         LanguageServiceInterface $translationService,
         LogService $logService,
         private readonly ResourceFactory $resourceFactory,
+        private readonly FilesystemInterface $filesystem,
         private readonly int $maxFileSize = 5242880
     ) {
         $this->injectTranslatedLogger($translationService, $logService);
@@ -66,8 +69,17 @@ final class MediaUploadService implements MediaUploadServiceInterface
             return null;
         }
 
-        $size = @filesize($uploadedFile['tmp_name']);
-        if ($size === false || $size > $this->maxFileSize) {
+        try {
+            $size = $this->filesystem->fileSize($uploadedFile['tmp_name']);
+        } catch (RuntimeException $e) {
+            $this->logService->logWarning(
+                $this->translationService->translate('media.upload.invalidSize'),
+                ['size' => null]
+            );
+            return null;
+        }
+
+        if ($size > $this->maxFileSize) {
             $this->logService->logWarning(
                 $this->translationService->translate('media.upload.invalidSize'),
                 ['size' => $size]

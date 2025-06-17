@@ -22,6 +22,8 @@ namespace TYPO3\CMS\Extbase\Domain\Model { if (!class_exists(FileReference::clas
 
 namespace Psr\Log { if (!interface_exists(LoggerInterface::class)) { interface LoggerInterface { public function emergency($m,array$c=[]); public function alert($m,array$c=[]); public function critical($m,array$c=[]); public function error($m,array$c=[]); public function warning($m,array$c=[]); public function notice($m,array$c=[]); public function info($m,array$c=[]); public function debug($m,array$c=[]); } } }
 
+namespace Equed\EquedLms\Service { if (!interface_exists(FilesystemInterface::class)) { interface FilesystemInterface { public function exists(string $p): bool; public function mkdir(string|array $p, int $m=0777): void; public function dumpFile(string $p, string $c): void; public function remove(string|array $p): void; public function fileSize(string $p): int; } } if (!class_exists(DummyFilesystem::class)) { class DummyFilesystem implements FilesystemInterface { public function exists(string $p): bool { return false; } public function mkdir(string|array $p, int $m=0777): void {} public function dumpFile(string $p, string $c): void {} public function remove(string|array $p): void {} public function fileSize(string $p): int { return 0; } } } }
+
 namespace Equed\EquedLms\Tests\Unit\Service;
 
 use Equed\EquedLms\Domain\Model\FrontendUser;
@@ -49,7 +51,7 @@ class MediaUploadServiceTest extends TestCase
         $logService = new LogService($logger->reveal());
         $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, 1024);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, new \Equed\EquedLms\Service\DummyFilesystem(), 1024);
 
         $result = $service->handleUpload(['tmp_name'=>'t','name'=>'f','type'=>'text/plain'], new FrontendUser());
         $this->assertNull($result);
@@ -64,7 +66,7 @@ class MediaUploadServiceTest extends TestCase
         $logService = new LogService($logger->reveal());
         $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, 1024);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, new \Equed\EquedLms\Service\DummyFilesystem(), 1024);
 
         $file = ['tmp_name'=>'tmp','name'=>'file.jpg','type'=>'image/jpeg'];
         $ref = $service->handleUpload($file, new FrontendUser());
@@ -80,13 +82,36 @@ class MediaUploadServiceTest extends TestCase
         $logService = new LogService($logger->reveal());
         $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, 1);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, new \Equed\EquedLms\Service\DummyFilesystem(), 1);
 
         $tmp = tempnam(sys_get_temp_dir(), 'u');
         file_put_contents($tmp, str_repeat('x', 2));
         $result = $service->handleUpload(['tmp_name'=>$tmp,'name'=>'file.jpg','type'=>'image/jpeg'], new FrontendUser());
         unlink($tmp);
         $this->assertNull($result);
+    }
+
+    public function testHandleUploadLogsWarningWhenSizeFails(): void
+    {
+        $storageRepo = new StorageRepository(new ResourceStorage());
+        $factory = new ResourceFactory();
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->warning('Upload rejected due to file size', Argument::type('array'))->shouldBeCalled();
+        $logService = new LogService($logger->reveal());
+        $language = $this->prophesize(LanguageServiceInterface::class);
+
+        $fs = new class implements \Equed\EquedLms\Service\FilesystemInterface {
+            public function exists(string $p): bool { return true; }
+            public function mkdir(string|array $p, int $m=0777): void {}
+            public function dumpFile(string $p, string $c): void {}
+            public function remove(string|array $p): void {}
+            public function fileSize(string $p): int { throw new \RuntimeException('fail'); }
+        };
+
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, $fs, 1024);
+
+        $file = ['tmp_name'=>'missing','name'=>'file.jpg','type'=>'image/jpeg'];
+        $this->assertNull($service->handleUpload($file, new FrontendUser()));
     }
 
     public function testHandleUploadLogsWarningForIncompleteStructure(): void
@@ -98,7 +123,7 @@ class MediaUploadServiceTest extends TestCase
         $logService = new LogService($logger->reveal());
         $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, new \Equed\EquedLms\Service\DummyFilesystem());
         $this->assertNull($service->handleUpload(['name' => 'file.jpg'], new FrontendUser()));
     }
 
@@ -111,7 +136,7 @@ class MediaUploadServiceTest extends TestCase
         $logService = new LogService($logger->reveal());
         $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, new \Equed\EquedLms\Service\DummyFilesystem());
         $file = ['tmp_name' => 't', 'name' => 'file.jpg', 'type' => 'image/jpeg'];
         $this->assertNull($service->handleUpload($file, new FrontendUser()));
     }
@@ -129,7 +154,7 @@ class MediaUploadServiceTest extends TestCase
         $logService = new LogService($logger->reveal());
         $language = $this->prophesize(LanguageServiceInterface::class);
 
-        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory);
+        $service = new MediaUploadService($storageRepo, $language->reveal(), $logService, $factory, new \Equed\EquedLms\Service\DummyFilesystem());
         $file = ['tmp_name' => 't', 'name' => 'file.jpg', 'type' => 'image/jpeg'];
         $this->assertNull($service->handleUpload($file, new FrontendUser()));
     }
