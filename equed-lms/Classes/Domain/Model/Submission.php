@@ -123,45 +123,38 @@ final class Submission extends AbstractEntity
         return $this->textContent;
     }
 
-    public function setTextContent(?string $textContent): static
+    public function setTextContent(?string $textContent): void
     {
         $this->textContent = $textContent;
-        return $this;
     }
 
-    public function setGptAnalysisStatus(string $status): static
+    public function setGptAnalysisStatus(string $status): void
     {
         $this->gptAnalysisStatus = $status;
-        return $this;
     }
 
-    public function setGptScore(?float $score): static
+    public function setGptScore(?float $score): void
     {
         $this->gptScore = $score;
-        return $this;
     }
 
-    public function setGptSummary(?string $summary): static
+    public function setGptSummary(?string $summary): void
     {
         $this->gptSummary = $summary;
-        return $this;
     }
 
-    public function setGptSuggestion(?string $suggestion): static
+    public function setGptSuggestion(?string $suggestion): void
     {
         $this->gptSuggestion = $suggestion;
-        return $this;
     }
 
-    public function setGptAnalysisData(?string $data): static
+    public function setGptAnalysisData(?string $data): void
     {
         $this->gptAnalysisData = $data;
-        return $this;
     }
 
-    public function setAnalyzedAt(?DateTimeImmutable $analyzedAt): static
+    public function setAnalyzedAt(?DateTimeImmutable $analyzedAt): void
     {
         $this->analyzedAt = $analyzedAt;
-        return $this;
     }
 }
