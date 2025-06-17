@@ -31,6 +31,23 @@ Zentrales Monorepo für alle Extensions des digitalen Hufpflege-Ausbildungssyste
 - Internationale Ausrichtung: EN, DE, FR, ES, SW, EASY
 - Zukünftige Erweiterbarkeit für SSO, Recognition, Partnerportale
 
+## 🔄 Übersetzungen synchronisieren
+
+Zum Abgleich der XLF-Sprachdateien mit dem Translation-Server wird der TYPO3
+CLI-Befehl `translation:sync` eingesetzt.
+
+### Voraussetzungen
+
+- PHP 8.2 oder neuer mit den Erweiterungen `xml` und `gd`
+- [Composer](https://getcomposer.org/)
+
+### Lokaler Aufruf
+
+```bash
+composer install
+vendor/bin/typo3 translation:sync
+```
+
 ---
 
 © 2025 [Equine Education Europe Ltd.](https://equed.eu) – alle Rechte vorbehalten.
