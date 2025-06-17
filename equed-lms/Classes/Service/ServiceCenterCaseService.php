@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Equed\EquedLms\Service;
 
-use TYPO3\CMS\Core\Database\ConnectionPool;
+use Equed\EquedLms\Domain\Repository\QmsCaseRecordRepositoryInterface;
 
 /**
  * Service to retrieve QMS cases for Service Center API operations.
  */
 final class ServiceCenterCaseService
 {
-    public function __construct(private readonly ConnectionPool $connectionPool)
+    public function __construct(private readonly QmsCaseRecordRepositoryInterface $repository)
     {
     }
 
@@ -22,15 +22,7 @@ final class ServiceCenterCaseService
      */
     public function getQmsCases(): array
     {
-        $qb = $this->connectionPool->getQueryBuilderForTable('tx_equedlms_domain_model_qms');
-
-        return $qb
-            ->select('*')
-            ->from('tx_equedlms_domain_model_qms')
-            ->where($qb->expr()->eq('deleted', 0))
-            ->orderBy('submitted_at', 'DESC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+        return $this->repository->findAll();
     }
 }
 
