@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Service\CertificateServiceInterface;
 use Equed\EquedLms\Domain\Service\NotificationServiceInterface;
 use Equed\EquedLms\Domain\Repository\UserCourseRecordRepositoryInterface;
 use Equed\EquedLms\Domain\Service\ClockInterface;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use Equed\EquedLms\Domain\Model\UserCourseRecord;
 use Equed\EquedLms\Domain\Model\CertificateDispatch;
 use Equed\EquedLms\Domain\Model\FrontendUser;
@@ -26,19 +27,22 @@ class CourseStatusUpdaterServiceTest extends TestCase
     private $certificateService;
     private $notificationService;
     private $repository;
+    private $persistence;
     private $clock;
 
     protected function setUp(): void
     {
         $this->certificateService = $this->prophesize(CertificateServiceInterface::class);
         $this->notificationService = $this->prophesize(NotificationServiceInterface::class);
-        $this->repository = $this->prophesize(UserCourseRecordRepositoryInterface::class);
-        $this->clock = $this->prophesize(ClockInterface::class);
+        $this->repository  = $this->prophesize(UserCourseRecordRepositoryInterface::class);
+        $this->persistence = $this->prophesize(PersistenceManagerInterface::class);
+        $this->clock       = $this->prophesize(ClockInterface::class);
 
         $this->subject = new CourseStatusUpdaterService(
             $this->certificateService->reveal(),
             $this->notificationService->reveal(),
             $this->repository->reveal(),
+            $this->persistence->reveal(),
             $this->clock->reveal()
         );
     }
@@ -55,6 +59,7 @@ class CourseStatusUpdaterServiceTest extends TestCase
         $this->clock->now()->willReturn($now);
         $record->setCompletionDate($now)->shouldBeCalled();
         $this->repository->update($record->reveal())->shouldBeCalled();
+        $this->persistence->persistAll()->shouldBeCalled();
 
         $this->certificateService->issueCertificate($record->reveal())->willReturn($certificate->reveal())->shouldBeCalled();
         $certificate->getQrCodeUrl()->willReturn('qr');
