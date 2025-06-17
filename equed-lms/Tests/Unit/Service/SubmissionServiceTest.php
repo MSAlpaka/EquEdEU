@@ -82,7 +82,8 @@ class SubmissionServiceTest extends TestCase
         $this->persistence->persistAll()->shouldBeCalled();
 
         $dto = new SubmissionCreateRequest(1, 2, 'n', 'f', 't');
-        $this->subject->createSubmission($dto);
+        $result = $this->subject->createSubmission($dto);
+        $this->assertNull($result);
     }
 
     public function testEvaluateSubmissionUpdatesAndDispatches(): void
@@ -98,6 +99,7 @@ class SubmissionServiceTest extends TestCase
         $this->eventDispatcher->dispatch(new SubmissionReviewedEvent($submission))->shouldBeCalled();
 
         $dto = new SubmissionEvaluateRequest(5, 9, 'e', 'f', 'c');
-        $this->subject->evaluateSubmission($dto);
+        $result = $this->subject->evaluateSubmission($dto);
+        $this->assertNull($result);
     }
 }
