@@ -9,6 +9,7 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Dto\QmsSubmitRequest;
 use Equed\EquedLms\Dto\QmsRespondRequest;
 use Equed\EquedLms\Dto\QmsCloseRequest;
+use Equed\EquedLms\Dto\QmsCaseData;
 
 /**
  * Simple DB-driven operations for QMS API endpoints.
@@ -24,11 +25,25 @@ final class QmsApiService
     /**
      * Fetch QMS cases submitted by the given user.
      *
-     * @return array<int, array<string, mixed>>
+     * @return array<int, QmsCaseData>
      */
     public function getCasesForUser(int $userId): array
     {
-        return $this->repository->findByUserId($userId);
+        $rows = $this->repository->findByUserId($userId);
+
+        return array_map(
+            fn (array $row): QmsCaseData => new QmsCaseData(
+                (int)$row['uid'],
+                (int)$row['usercourserecord'],
+                (string)$row['type'],
+                (string)$row['message'],
+                (string)$row['status'],
+                (int)$row['submitted_at'],
+                isset($row['responded_at']) ? (int)$row['responded_at'] : null,
+                isset($row['closed_at']) ? (int)$row['closed_at'] : null,
+            ),
+            $rows
+        );
     }
 
     public function submitCase(QmsSubmitRequest $dto): void
