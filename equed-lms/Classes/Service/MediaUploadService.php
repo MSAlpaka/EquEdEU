@@ -106,7 +106,7 @@ final class MediaUploadService implements MediaUploadServiceInterface
         }
     }
 
-    public function upload(UploadFileRequest $request): UploadFileResult
+    public function upload(UploadFileRequest $request, FrontendUser $user): UploadFileResult
     {
         $file = $request->getFile();
         $tmpPath = $file->getStream()->getMetadata('uri');
@@ -122,11 +122,6 @@ final class MediaUploadService implements MediaUploadServiceInterface
             'name' => $file->getClientFilename() ?? 'upload',
             'type' => $file->getClientMediaType() ?? ''
         ];
-
-        $user = new FrontendUser();
-        if (method_exists($user, 'setUid')) {
-            $user->setUid($request->getUserId());
-        }
 
         $result = $this->handleUpload($payload, $user);
 

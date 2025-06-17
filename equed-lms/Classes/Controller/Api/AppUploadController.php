@@ -8,6 +8,7 @@ use Equed\Core\Service\ConfigurationServiceInterface;
 use Equed\EquedLms\Service\GptTranslationServiceInterface;
 use Equed\EquedLms\Domain\Service\ApiResponseServiceInterface;
 use Equed\EquedLms\Domain\Service\MediaUploadServiceInterface;
+use Equed\EquedLms\Factory\FrontendUserFactoryInterface;
 use Equed\EquedLms\Dto\UploadFileRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
@@ -24,6 +25,7 @@ final class AppUploadController extends BaseApiController
 {
     public function __construct(
         private readonly MediaUploadServiceInterface $mediaUploadService,
+        private readonly FrontendUserFactoryInterface $frontendUserFactory,
         ConfigurationServiceInterface $configurationService,
         ApiResponseServiceInterface $apiResponseService,
         GptTranslationServiceInterface $translationService,
@@ -53,7 +55,8 @@ final class AppUploadController extends BaseApiController
             return $this->jsonError('api.upload.unauthorized', JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $result = $this->mediaUploadService->upload($dto);
+        $user = $this->frontendUserFactory->createWithUid($dto->getUserId());
+        $result = $this->mediaUploadService->upload($dto, $user);
 
         if ($result->hasError()) {
             return $this->jsonError('api.upload.invalidFile', JsonResponse::HTTP_BAD_REQUEST);
