@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedLms\Domain\Model;
 
 use TYPO3\CMS\Extbase\Domain\Model\FrontendUser as ExtbaseFrontendUser;
+use Equed\EquedLms\Domain\Model\TitleAwareGroupInterface;
 
 final class FrontendUser extends ExtbaseFrontendUser
 {
@@ -16,7 +17,7 @@ final class FrontendUser extends ExtbaseFrontendUser
     /**
      * List of user groups.
      *
-     * @var array<int, object>
+     * @var array<int, TitleAwareGroupInterface>
      */
     protected array $usergroup = [];
 
@@ -47,13 +48,16 @@ final class FrontendUser extends ExtbaseFrontendUser
         $this->name = $name;
     }
 
+    /**
+     * @return array<int, TitleAwareGroupInterface>
+     */
     public function getUsergroup(): array
     {
         return $this->usergroup;
     }
 
     /**
-     * @param array<int, object> $usergroup
+     * @param array<int, TitleAwareGroupInterface> $usergroup
      */
     public function setUsergroup(array $usergroup): void
     {

@@ -92,9 +92,7 @@ final class DashboardService implements DashboardServiceInterface
     {
         $roles = [];
         foreach ($user->getUsergroup() as $group) {
-            if (is_object($group) && method_exists($group, 'getTitle')) {
-                $roles[] = $group->getTitle();
-            }
+            $roles[] = $group->getTitle();
         }
 
         return [
