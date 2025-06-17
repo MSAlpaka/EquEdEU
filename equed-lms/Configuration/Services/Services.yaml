@@ -137,6 +137,9 @@ services:
   Equed\EquedLms\Domain\Repository\MaterialRepositoryInterface:
     class: Equed\EquedLms\Domain\Repository\MaterialRepository
 
+  Equed\EquedLms\Domain\Repository\QmsCaseRecordRepositoryInterface:
+    class: Equed\EquedLms\Domain\Repository\QmsCaseRecordRepository
+
   Equed\EquedLms\Factory\FrontendUserFactoryInterface:
     class: Equed\EquedLms\Factory\DefaultFrontendUserFactory
 
@@ -196,6 +199,11 @@ services:
   Equed\EquedLms\Service\QmsApiService:
     arguments:
       $clock: '@Equed\EquedLms\Domain\Service\ClockInterface'
+      $repository: '@Equed\EquedLms\Domain\Repository\QmsCaseRecordRepositoryInterface'
+
+  Equed\EquedLms\Service\ServiceCenterCaseService:
+    arguments:
+      $repository: '@Equed\EquedLms\Domain\Repository\QmsCaseRecordRepositoryInterface'
 
   Equed\EquedLms\Service\UserAccountService:
     arguments:
