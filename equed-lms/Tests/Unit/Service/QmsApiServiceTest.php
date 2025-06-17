@@ -10,6 +10,7 @@ use Equed\EquedLms\Domain\Service\ClockInterface;
 use Equed\EquedLms\Dto\QmsCloseRequest;
 use Equed\EquedLms\Dto\QmsRespondRequest;
 use Equed\EquedLms\Dto\QmsSubmitRequest;
+use Equed\EquedLms\Dto\QmsCaseData;
 use PHPUnit\Framework\TestCase;
 use DateTimeImmutable;
 use Equed\EquedLms\Tests\Traits\ProphecyTrait;
@@ -31,8 +32,24 @@ final class QmsApiServiceTest extends TestCase
 
     public function testGetCasesForUserDelegatesToRepository(): void
     {
-        $this->repo->findByUserId(5)->willReturn([['uid' => 1]])->shouldBeCalled();
-        $this->assertSame([['uid' => 1]], $this->subject->getCasesForUser(5));
+        $this->repo->findByUserId(5)->willReturn([
+            [
+                'uid'            => 1,
+                'usercourserecord' => 2,
+                'type'           => 'general',
+                'message'        => 'm',
+                'status'         => 'open',
+                'submitted_at'   => 100,
+                'responded_at'   => null,
+                'closed_at'      => null,
+            ],
+        ])->shouldBeCalled();
+
+        $cases = $this->subject->getCasesForUser(5);
+
+        $this->assertCount(1, $cases);
+        $this->assertInstanceOf(QmsCaseData::class, $cases[0]);
+        $this->assertSame(1, $cases[0]->getId());
     }
 
     public function testSubmitCaseUsesRepository(): void
