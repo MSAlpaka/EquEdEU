@@ -6,7 +6,7 @@ namespace Equed\EquedLms\Service;
 
 use Equed\EquedLms\Exception\InvalidFileTypeException;
 use Equed\EquedLms\Domain\Service\DocumentServiceInterface;
-use Equed\EquedLms\Service\SettingsService;
+use Equed\EquedLms\Domain\Service\SettingsServiceInterface;
 
 /**
  * Service to generate secure download and template URIs for documents.
@@ -18,7 +18,7 @@ final class DocumentService implements DocumentServiceInterface
     public function __construct(
         private readonly string $documentsBaseUri,
         private readonly string $templatesBaseUri,
-        private readonly ?SettingsService $settingsService = null,
+        private readonly ?SettingsServiceInterface $settingsService = null,
         private readonly array $allowedExtensions = self::ALLOWED_EXTENSIONS
     ) {
     }
