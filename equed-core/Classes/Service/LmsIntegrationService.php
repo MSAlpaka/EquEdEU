@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Equed\EquedCore\Service;
 
+use Equed\EquedCore\Domain\Service\LmsIntegrationServiceInterface;
+
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Lightweight client for forwarding data to an external LMS.
  */
-class LmsIntegrationService
+class LmsIntegrationService implements LmsIntegrationServiceInterface
 {
     private const DEFAULT_API_URL = 'https://equed-lms.local/api';
     /**

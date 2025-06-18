@@ -4,19 +4,19 @@ namespace Equed\EquedCore\Tests\Unit\Hooks;
 
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Equed\EquedCore\Hooks\CertificationHook;
-use Equed\EquedCore\Service\LmsIntegrationService;
+use Equed\EquedCore\Domain\Service\LmsIntegrationServiceInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CertificationHookTest extends UnitTestCase
 {
     public function testSyncInstructorLevelTriggeredForFeUsers(): void
     {
-        $service = $this->createMock(LmsIntegrationService::class);
+        $service = $this->createMock(LmsIntegrationServiceInterface::class);
         $service->expects($this->once())
             ->method('syncInstructorLevel')
             ->with(42, 'basic');
 
-        GeneralUtility::addInstance(LmsIntegrationService::class, $service);
+        GeneralUtility::addInstance(LmsIntegrationServiceInterface::class, $service);
 
         $hook = new CertificationHook();
         $hook->processDatamap_postProcessFieldArray(

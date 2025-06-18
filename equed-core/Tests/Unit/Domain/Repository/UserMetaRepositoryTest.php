@@ -7,6 +7,7 @@ use Equed\EquedCore\Domain\Repository\UserMetaRepository;
 use Equed\EquedCore\Domain\Model\UserMeta;
 use Equed\EquedCore\Cache\ArrayCache;
 use Equed\EquedCore\Service\AuthorizationService;
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
 
 class UserMetaRepositoryTest extends UnitTestCase
 {
@@ -16,7 +17,7 @@ class UserMetaRepositoryTest extends UnitTestCase
     {
         parent::setUp();
         $cache = new ArrayCache();
-        $auth = $this->createMock(AuthorizationService::class);
+        $auth = $this->createMock(AuthorizationServiceInterface::class);
         $this->repository = $this->getMockBuilder(UserMetaRepository::class)
             ->setConstructorArgs([$cache, $auth])
             ->onlyMethods(['findByIdentifier'])
@@ -34,5 +35,5 @@ class UserMetaRepositoryTest extends UnitTestCase
 }
 
 /**
- * Mocked Services: AuthorizationService
+ * Mocked Services: AuthorizationServiceInterface
  */
