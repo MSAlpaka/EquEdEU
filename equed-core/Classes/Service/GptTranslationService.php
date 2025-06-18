@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Equed\EquedCore\Service;
 
+use Equed\EquedCore\Domain\Service\GptTranslationServiceInterface;
+
 use Equed\EquedCore\Service\GptClientInterface;
 
 /**
  * Basic GPT-based translation helper.
  */
-class GptTranslationService
+class GptTranslationService implements GptTranslationServiceInterface
 {
     /** @internal */
     public const ENV_API_KEY = 'GPT_TRANSLATION_API_KEY';

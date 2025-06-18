@@ -7,6 +7,7 @@ use Equed\EquedCore\Domain\Repository\AuditLogRepository;
 use Equed\EquedCore\Domain\Model\AuditLog;
 use Equed\EquedCore\Cache\ArrayCache;
 use Equed\EquedCore\Service\AuthorizationService;
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
 use TYPO3\CMS\Core\Exception\AccessDeniedException;
 
 class AuditLogRepositoryTest extends UnitTestCase
@@ -17,7 +18,7 @@ class AuditLogRepositoryTest extends UnitTestCase
     {
         parent::setUp();
         $cache = new ArrayCache();
-        $auth = $this->createMock(AuthorizationService::class);
+        $auth = $this->createMock(AuthorizationServiceInterface::class);
         $this->repository = $this->getMockBuilder(AuditLogRepository::class)
             ->setConstructorArgs([$cache, $auth])
             ->onlyMethods(['findByIdentifier'])
@@ -45,5 +46,5 @@ class AuditLogRepositoryTest extends UnitTestCase
 }
 
 /**
- * Mocked Services: AuthorizationService
+ * Mocked Services: AuthorizationServiceInterface
  */

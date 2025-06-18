@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Equed\EquedCore\Service;
 
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
+
 /**
  * Basic authorization service using simple role arrays.
  *
  * Roles can either be passed in the constructor or provided through the
  * global `$_SESSION['roles']` array. The checks are case insensitive.
  */
-class AuthorizationService
+class AuthorizationService implements AuthorizationServiceInterface
 {
     /**
      * @var string[]

@@ -9,3 +9,12 @@ services:
 
   Psr\SimpleCache\CacheInterface:
     class: Equed\EquedCore\Cache\ArrayCache
+
+  Equed\EquedCore\Domain\Service\AuthorizationServiceInterface:
+    class: Equed\EquedCore\Service\AuthorizationService
+
+  Equed\EquedCore\Domain\Service\GptTranslationServiceInterface:
+    class: Equed\EquedCore\Service\GptTranslationService
+
+  Equed\EquedCore\Domain\Service\LmsIntegrationServiceInterface:
+    class: Equed\EquedCore\Service\LmsIntegrationService

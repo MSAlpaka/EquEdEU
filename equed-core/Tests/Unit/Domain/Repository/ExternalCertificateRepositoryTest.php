@@ -7,6 +7,7 @@ use Equed\EquedCore\Domain\Repository\ExternalCertificateRepository;
 use Equed\EquedCore\Domain\Model\ExternalCertificate;
 use Equed\EquedCore\Cache\ArrayCache;
 use Equed\EquedCore\Service\AuthorizationService;
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
 
 class ExternalCertificateRepositoryTest extends UnitTestCase
 {
@@ -16,7 +17,7 @@ class ExternalCertificateRepositoryTest extends UnitTestCase
     {
         parent::setUp();
         $cache = new ArrayCache();
-        $auth = $this->createMock(AuthorizationService::class);
+        $auth = $this->createMock(AuthorizationServiceInterface::class);
         $this->repository = $this->getMockBuilder(ExternalCertificateRepository::class)
             ->setConstructorArgs([$cache, $auth])
             ->onlyMethods(['findByIdentifier'])
@@ -34,5 +35,5 @@ class ExternalCertificateRepositoryTest extends UnitTestCase
 }
 
 /**
- * Mocked Services: AuthorizationService
+ * Mocked Services: AuthorizationServiceInterface
  */

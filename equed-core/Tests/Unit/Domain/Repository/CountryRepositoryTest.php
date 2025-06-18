@@ -7,6 +7,7 @@ use Equed\EquedCore\Domain\Repository\CountryRepository;
 use Equed\EquedCore\Domain\Model\Country;
 use Equed\EquedCore\Cache\ArrayCache;
 use Equed\EquedCore\Service\AuthorizationService;
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
 
 class CountryRepositoryTest extends UnitTestCase
 {
@@ -16,7 +17,7 @@ class CountryRepositoryTest extends UnitTestCase
     {
         parent::setUp();
         $cache = new ArrayCache();
-        $auth = $this->createMock(AuthorizationService::class);
+        $auth = $this->createMock(AuthorizationServiceInterface::class);
         $this->repository = $this->getMockBuilder(CountryRepository::class)
             ->setConstructorArgs([$cache, $auth])
             ->onlyMethods(['findByIdentifier'])
@@ -34,5 +35,5 @@ class CountryRepositoryTest extends UnitTestCase
 }
 
 /**
- * Mocked Services: AuthorizationService
+ * Mocked Services: AuthorizationServiceInterface
  */

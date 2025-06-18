@@ -7,7 +7,7 @@ namespace Equed\EquedCore\Domain\Repository;
 use Equed\EquedCore\Domain\Model\DocumentUpload;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use Psr\SimpleCache\CacheInterface;
-use Equed\EquedCore\Service\AuthorizationService;
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
 use TYPO3\CMS\Core\Exception\AccessDeniedException;
 
 /**
@@ -23,11 +23,11 @@ final class DocumentUploadRepository extends Repository
 {
     protected CacheInterface $cache;
 
-    protected AuthorizationService $authorizationService;
+    protected AuthorizationServiceInterface $authorizationService;
 
     public function __construct(
         CacheInterface $cache,
-        AuthorizationService $authorizationService
+        AuthorizationServiceInterface $authorizationService
     ) {
         parent::__construct();
         $this->cache = $cache;

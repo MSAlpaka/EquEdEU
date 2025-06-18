@@ -8,6 +8,7 @@ use Equed\EquedCore\Domain\Model\DocumentUpload;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use Equed\EquedCore\Cache\ArrayCache;
 use Equed\EquedCore\Service\AuthorizationService;
+use Equed\EquedCore\Domain\Service\AuthorizationServiceInterface;
 use TYPO3\CMS\Core\Exception\AccessDeniedException;
 
 class DocumentUploadRepositoryTest extends UnitTestCase
@@ -18,7 +19,7 @@ class DocumentUploadRepositoryTest extends UnitTestCase
     {
         parent::setUp();
         $cache = new ArrayCache();
-        $auth = $this->createMock(AuthorizationService::class);
+        $auth = $this->createMock(AuthorizationServiceInterface::class);
         $this->repository = $this->getMockBuilder(DocumentUploadRepository::class)
             ->setConstructorArgs([$cache, $auth])
             ->onlyMethods(['findByIdentifier'])
@@ -57,5 +58,5 @@ class DocumentUploadRepositoryTest extends UnitTestCase
 }
 
 /**
- * Mocked Services: AuthorizationService
+ * Mocked Services: AuthorizationServiceInterface
  */

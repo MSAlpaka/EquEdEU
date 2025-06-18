@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Equed\EquedCore\Hooks;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Equed\EquedCore\Service\LmsIntegrationService;
+use Equed\EquedCore\Domain\Service\LmsIntegrationServiceInterface;
 
 class CertificationHook
 {
@@ -22,7 +22,7 @@ class CertificationHook
     ): void {
         // Sync instructor level to LMS if fe_users record was updated
         if ($table === 'fe_users' && array_key_exists('instructor_level', $incomingFieldArray)) {
-            $service = GeneralUtility::makeInstance(LmsIntegrationService::class);
+            $service = GeneralUtility::makeInstance(LmsIntegrationServiceInterface::class);
             $service->syncInstructorLevel($id, (string)$incomingFieldArray['instructor_level']);
         }
     }
